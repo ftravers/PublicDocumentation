@@ -1,0 +1,566 @@
+"home":../../index.html > "training":../index.html > Persistence
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Reference Material
+
+"Persistence Tutorial":http://www.vogella.de/articles/JavaPersistenceAPI/article.html
+
+h1. Basic JPA
+
+The following is the most basic JPA use case.  You have an application that needs to interact with the database.  You are building your application from scratch.  The basic steps are to setup basic JPA, build your POJO, then begin using it.
+
+h2. Maven 2 pom.xml
+
+Setup your pom to work with java persistence, using eclipselink as your JPA provider.
+
+<filelocation> project/pom.xml
+
+bc. 
+<repository>
+	<id>EclipseLink Repo</id>
+	<url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
+</repository>
+<dependency>
+	<groupId>org.eclipse.persistence</groupId>
+	<artifactId>eclipselink</artifactId>
+	<version>2.0.0</version>
+</dependency>
+<dependency>
+	<groupId>org.eclipse.persistence</groupId>
+	<artifactId>javax.persistence</artifactId>
+	<version>2.0.0</version>
+</dependency>
+
+You will need a dependency setup for your database too.  I use MySQL and the dependency for that is: 
+
+bc. 
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>5.1.9</version>
+</dependency>
+
+h3. Rebuild your eclipse configuration files 
+
+bc. mvn eclipse:eclipse
+
+!images/ee6_7.png!
+
+h2. Setup your database
+
+When starting from scratch you'll need to setup a database for your application to use.  Refer to "this webpage":../database/mysql.html and do the following steps:
+
+* Create a database
+* Create a user
+* Give the user access to the database
+
+In my case I created a database called @tailor_db@, a user called @tailor_user@.
+
+h2. Setup the JPA infrastructure
+
+The next step is to add a @persistence.xml@ file.  This is the file that specifies where your database is and how to log into it.  Here is a sample:
+
+<filelocation> project/src/main/resources/META-INF/persistence.xml
+
+bc. 
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+	<persistence-unit name="tailor_pu">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>com.spicevan.tailor.model.User</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/tailor" />
+			<property name="javax.persistence.jdbc.user" value="tailor_user" />
+			<property name="javax.persistence.jdbc.password" value="tailor_user" />
+			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+		</properties>
+	</persistence-unit>
+</persistence>
+
+h2. Create a POJO
+
+Lets create a @User.java@ Plain Old Java Object(POJO).  All POJO's that will interact with the database need to have an @id@ field.  Here is a sample:
+
+<filelocation> project/src/main/java/com/spicevan/tailor/model
+
+bc. 
+package com.spicevan.tailor.model;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+@Entity
+public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int id;
+	private String firstName;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+}
+
+You need to have public getters/setters for the fields that need persisting.  The line with: @GeneratedValue(strategy = GenerationType.TABLE)@ means how will the @id@ field values be generated?  Answer = by the table
+
+h2. Test It!
+
+Okay lets write a small junit test that tests this out!  Add in your junit dependency into maven:
+
+bc. 
+<dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.8.1</version>
+</dependency>
+
+rebuild your project with: @mvn eclipse:eclipse@
+
+<filelocation> project/src/test/java/com/spicevan/tailor/model/UserTest.java
+
+bc. 
+package com.spicevan.tailor.model;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import org.junit.Assert;
+import org.junit.Test;
+public class UserTest {
+	@Test
+	public void testSetFirstName() {
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("tailor_pu");
+		EntityManager em = factory.createEntityManager();
+		// Begin a new local transaction so that we can persist a new entity
+		em.getTransaction().begin();
+		User user1 = new User();
+		user1.setFirstName("Fenton");
+		em.persist(user1);
+		em.getTransaction().commit();
+		int id = user1.getId();
+		Query query = em.createQuery("select u from User u where u.id = :id");
+		query.setParameter("id", id);		
+		User sameUser = (User)query.getSingleResult();
+		Assert.assertEquals(sameUser, user1);
+	}
+}
+
+
+h1. Table -> Class (bottom up)
+
+h2. JPA Nature
+
+Ensure your project has the JPA nature.  Right click project > Configure > Convert to JPA Project.
+
+h2. Generate Entity from Table
+
+Right click project > JPA Tools > Generate Entities from Tables
+
+h1. Class -> Table (top down)
+
+h2. Build your POJO
+
+
+
+h2. Access existing DB
+
+Sometimes it's easiest to build your pojo and map it to an existing database table.  This is more of an integration scenario since we won't ever drop or create the underlying table or affect it's structure in anyway.  We will simply read and write to the table.
+
+h3. Build your POJO
+
+In this step just build your pojo with the fields you are interested in.  It needs to be a bean so have getters/setters for each of your private fields.  Here is a quick sample...
+
+bc. 
+...
+@Entity
+public class HrPeople implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@Id
+	private String dID;
+	private String firstName;
+...
+
+You need to have the @id@ field with annotation and annotate the class with @Entity@.  Also you need to implement @Serializable@ which requires the @serialVersionUID@.
+
+h3. Setup your persistence.xml
+
+The next step is to setup your persistence.xml, "here is a sample":#persistence.xml.sample.  
+
+h3. Modify POJO
+
+Now sometimes the underlying table has a name you don't want to use as your class name so you can control this mapping with the @Table@ annotation like so:
+
+bc. 
+@Entity
+@Table(name="MISSECURE.HR_PEOPLE_L1_L2_DATA_V")
+public class HrPeople implements Serializable {
+
+Likewise sometime the field name aren't what you want in your pojo either.  These can be controlled with the @Column@ annotation:
+
+bc. 
+@Column(name="FIRST_NAME")
+private String firstName;
+
+Also update your @id@ field to use a sequence like so:
+
+bc. 
+@Id
+@Column(name="PERSON_ID")
+@GeneratedValue(strategy=GenerationType.TABLE)
+private String id;
+ 
+h3. Modify your pom.xml
+
+In the profiles section of your pom.xml update the properties for your different databases.  In "Database specific driver & URL references":#driversAndUrls section you'll find samples for you to use for different database products.
+
+h3. Entity Manager
+
+In order to interact with the database we need an @javax.persistence.EntityManager@ object.  We will issue queries against this object to retrieve the entities we are interested in.
+
+At this point I like to create a class I call @DatabaseEntityLoader@ whose primary function is to create the @EntityManager@ and make it available to the rest of the program.  Here it is:
+
+bc. 
+public class DatabaseEntityLoader {
+	private static EntityManager em;
+	public static EntityManager getEntityManager() {
+		if ( null == em ) {
+			init();
+		}
+		return em;
+	}
+	private static void init() {
+		if ( null == DatabaseEntityLoader.em ) {
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("hrmsPersistUnit");
+			DatabaseEntityLoader.em = factory.createEntityManager();			
+		}
+	}
+}
+
+h3.  Sync Entity Manager and Persistence Unit
+
+Make sure the Entity Manager and Persistence Unit statements align up:
+
+p(filelocation). <project>/src/main/resources/META-INF/persistence.xml
+
+bc. <persistence-unit name="hrmsPersistUnit">
+	
+p(filelocation). <project>/src/main/java/../package/../DatabaseEntityLoader.java
+
+bc. EntityManagerFactory factory = Persistence.createEntityManagerFactory("hrmsPersistUnit");
+	
+h3. Update Pojo
+
+I like to add methods to my pojos that help me load up instances of the pojo from the database.  Here is a sample:
+
+bc. 
+	public Person loadPerson(String id) {
+		Object dm = DatabaseEntityLoader.getEntityManager().createQuery("SELECT p FROM Person p WHERE p.id LIKE :id").setParameter("id", id).getSingleResult();
+		return (Person) dm;
+	}
+
+h3. Setup your unit test
+
+At this point it would be useful to write a JUnit TestCase to exercise your pojo.  Here is a sample:
+
+bc. 
+@Test
+public void testLoadUser() {
+	EntityManager em = DatabaseEntityLoader.getEntityManager();
+	em.getTransaction().begin();
+	Person p = new Person();
+	p.setFirstName("Fenton");
+	p.persist();
+	String id = p.getId();
+	Person p2 = Person.loadPerson(id);
+	Assert.assertEquals( "", p2.getFirstName(), "Fenton");
+	em.getTransaction().commit();
+	em.close();
+}
+
+h3. Setup other infrastructure
+
+You'll want to make sure you have a local MySQL database ( or equivalent ) upon which to test.  See "this page":../database/mysql.html
+
+h3. Create a development database
+
+Sometimes you are tasked to integrate to an existing product database.  You don't have that database in your development system, but would like to create a test one for your use.  You can make use of what we've already done to accomplish that.
+
+bc. 
+mysql> create database missecure;
+
+You can simply put the following line into your persistence.xml to achieve this.  But take it out afterwards as you wouldn't want this to get run against production!  Put it in the @<properties>@ section.
+
+bc. <property name="toplink.ddl-generation" value="drop-and-create-tables"/> 
+
+h3. Create user and give permissions to database
+
+The following commands can also be found on the "MySQL":../database/mysql.html page.
+
+bc. 
+mysql> grant usage on *.* to user1@localhost identified by 'welcome1';
+mysql> grant all privileges on missecure.* to user1@localhost;
+
+h3. Run Test
+
+So lets run the JUnit TestCase and see if everything works out okay.  Don't forget to ensure that maven will compile to the "correct JVM level":../maven.html#jvm_compile_version.
+
+h2. Mapping
+
+Lets add another class, @HrAddress@.  Each @Person@ has an @HrAddress@ but many people can have the same @HrAddress@.  This is a 
+
+@ManyToOne
+
+relationship.  Update the @Person@ pojo with a private @HrAddress@ data member.
+
+In the database @HrAddress@ has a foreign key to the @Person@ table.  In the pojo we put the mapping on the getter.  See below.
+
+bc. 
+...
+public class Person implements Serializable {
+	...
+  private HrAddress address;
+  @ManyToOne(cascade=CascadeType.PERSIST)
+  private String getAddress() {
+  
+The Cascade clause helps in that if you create a person and create an address then assign the address to the person and persist the person...the address will also get persisted.
+  
+* Add an entry in the persistence.xml so a database table gets created.
+
+
+
+
+
+
+
+
+
+
+
+h2. Table Creation
+
+I couldn't get this working so best to just do it by hand, as outlined in the rest of this page.
+
+bc. @Entity
+public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	private int id;
+	private String firstname;
+	private String lastname;@Entity
+public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	private int id;
+	private String firstname;
+	private String lastname;
+
+* A persistable class must be annotated with @javax.persistence.Entity@ 
+
+* Entity classes (annotated with _@Entity_) will become a table in a relational database. 
+** The instances of the class will be a row in the table. 
+** The Java Persistence API implementation will create a table for the entity in your relational database. 
+** By default, the table name corresponds to the class name.
+
+h2. Keys
+
+* All entities must have a primary key (annotated with @Id). Keys can be a single field or a combination of fields.
+* JPA allows also to auto generate the primary key in the database (annotated with @GeneratedValue)
+
+h2. Columns/Fields
+
+* By default each field is mapped to a column with the name of the field
+* All fields that should not be persisted must be explicitly marked with @Transient
+		
+Create your pojo and annotate like the following:
+
+bc. @Entity
+public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	private int id;
+
+	
+h1. Mapped By
+
+In a bi-directional relationship (both sides have a reference to each other) you must declare an arbitrary owner.  You do this with the 'mappedBy' setting.  For example, in the relationship between a team and a player, we declare the owner to be the team by putting the 'mappedBy' setting into the player class below.  The value of the mappedBy setting is the name of the field in the owning class that refers to the owned class.
+
+So in the team class we have a List of players like:
+
+bc. public class Team() {
+	private List<Player> players;
+	@OneToMany
+	public List<Player> getPlayers() {}
+}
+
+and the Player class has a link to the team he plays on
+
+bc. public class Player() {
+	private Team team;
+	@ManyToOne(mappedBy = "players")
+	public Team getTeam() {}
+}
+
+h1. JPA Query
+
+bc. public List findWithName(String name) {
+return em.createQuery(
+    "SELECT c FROM Customer c WHERE c.name LIKE :custName")
+    .setParameter("custName", name)
+    .setMaxResults(10)
+    .getResultList();
+}
+
+h1. Using JPA
+
+
+bc. 
+EntityManagerFactory factory;
+factory = Persistence.createEntityManagerFactory("jpa-eclipse-test");
+EntityManager em = factory.createEntityManager();
+// Begin a new local transaction so that we can persist a new entity
+em.getTransaction().begin();
+Revision r = new Revision();
+r.setDID("1");
+em.persist(r);
+// Commit the transaction, which will cause the entity to be stored in the database
+em.getTransaction().commit();
+// It is always good practice to close the EntityManager so that resources are conserved.
+em.close();
+
+The line in your code like: @factory = Persistence.createEntityManagerFactory("jpa-eclipse-test");@ should like up with @<persistence-unit name="jpa-eclipse-test">@ from: @<srcdir>/META-INF/persistence.xml@.
+
+h1. persistence.xml
+
+Here is a good reference: "Hibernate persistence.xml settings and Maven dependencies.":http://docs.codehaus.org/display/TRAILS/DatabaseConfigurations
+
+h2(#persistence.xml.sample). Sample
+
+file location: @<project>/src/main/resources/META-INF/persistence.xml@
+
+bc. 
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence	
+	xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+	<persistence-unit name="hrmsPersistUnit">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>com.oracle.ngsp.hrms.database.Person</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="${jdbc.driver}" />
+			<property name="javax.persistence.jdbc.url" value="${jdbc.url}" />
+			<property name="javax.persistence.jdbc.user" value="${jdbc.username}" />
+			<property name="javax.persistence.jdbc.password" value="${jdbc.password}" />
+			<property name="javax.persistence.ddl-generation" value="drop-and-create-tables" />
+			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+		</properties>
+	</persistence-unit>
+</persistence>
+
+As you will have notices the passwords, etc... are all parameterized.  This is specified like this because rarely these are the same across development, testing and production.  So this is a best practice.  See the maven section on "Profiles":../maven.html#profiles to see how to set this up so you'll get the correct username/passwords when you build the project.
+
+Update the persistence.xml to contain references to your classes.
+
+h1. Use Cases
+
+h2. Secondary table no PK
+
+This scenario is when the database tables already exist and there are two tables, lets call them People and Address.  In this scenario Address has a Foreign Key @PERSON_ID@ into the People table but it doesn't have a primary key.  You can create a single class to model both of these tables.  In the POJO:
+
+bc. 
+@Entity
+@Table(name="PEOPLE")
+@SecondaryTable(name="ADDRESS")
+public class Person implements Serializable {
+	@JoinColumn(name="PERSON_ID")
+	@Column(table="ADDRESS")
+	private String country;
+
+Notice how the field @country@ specifies the table @ADDRESS@ where it is defined.
+
+h1. Reference
+
+h2. Annotations
+
+h3. Date / Temporal
+
+If you are using an object type of java.util.Date, use the following construct:
+
+bc. 
+import static javax.persistence.TemporalType.*;
+	@Temporal(DATE)
+	private Date uploadDate;
+	
+"Reference":http://www.oracle.com/technology/products/ias/toplink/jpa/resources/toplink-jpa-annotations.html
+
+h1(#driversAndUrls). Database specific driver & URL references
+
+h2. Oracle
+
+This Oracle example uses service names versus SID names.
+
+bc. 
+<jdbc.driver>oracle.jdbc.driver.OracleDriver</jdbc.driver>
+<jdbc.url>jdbc:oracle:thin:username/password@//gts283.us.oracle.com:1521/fapad.us.oracle.com</jdbc.url>
+
+h2. Derby
+
+bc. 
+<property name="eclipselink.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
+<property name="eclipselink.jdbc.url" value="jdbc:derby:C:/DerbyDatabases/hellojpa-database8;create=true" />
+<!-- I work in this example without user / password.-->
+<property name="eclipselink.jdbc.user" value="" />
+<property name="eclipselink.jdbc.password" value="" />
+
+bc. 
+<dependency>	
+	<groupId>org.apache.derby</groupId>
+	<artifactId>derby</artifactId>
+	<version>10.5.3.0_1</version>
+	<scope>runtime</scope>
+</dependency>
+
+h2. MySQL
+
+bc. 
+<property name="eclipselink.jdbc.password" value="welcome1" />
+<property name="eclipselink.jdbc.user" value="stellent1user" />
+<property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver" />
+<property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/stellent1" />
+
+h2. Microsoft SQL Server
+
+bc. 
+<property name="eclipselink.jdbc.driver" value="net.sourceforge.jtds.jdbc.Driver" />
+<property name="eclipselink.jdbc.url" value="jdbc:jtds:sqlserver://localhost:1433/trails" />
+<property name="eclipselink.jdbc.user" value="ftravers" />
+<property name="eclipselink.jdbc.password" value="welcome1"/>
+
+h1. Maven
+
+bc. 
+	<dependency>
+    <groupId>org.eclipse.persistence</groupId>
+    <artifactId>eclipselink</artifactId>
+    <version>2.0.0</version>
+    <scope>compile</scope>
+  </dependency>
+
+h1. Glossary
+
+{glossary}

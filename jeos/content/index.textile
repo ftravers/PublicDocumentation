@@ -1,0 +1,12 @@
+"home":../../index.html > "jeos":../index.html > content
+
+p(toc). Navigation
+
+!(icon)/images/file.gif! "UCM(Universal Content Management)":ucm.html
+!(icon)/images/file.gif! "IBR(In Bound Refinery)":ibr.html
+!(icon)/images/file.gif! "DAM(Digital Asset Manager)":dam.html
+!(icon)/images/file.gif! "FSP(File Store Provider)":fsp.html
+
+h1. Glossary
+
+{glossary}

@@ -1,0 +1,271 @@
+"training":../index.html > JavaFX
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Language
+
+"Tutorial":http://java.sun.com/javafx/1/tutorials/core/writingScripts/
+"Language Reference":http://openjfx.java.sun.com/current-build/doc/reference/JavaFXReference.html
+"API":http://java.sun.com/javafx/1.3/docs/api/
+
+h2. var Vs. def
+
+The difference between the two is that var variables may be assigned new values throughout the life of the script, whereas def1 variables remain constant at their first assigned value. 
+
+h2. functions
+
+bc. 
+function add(argOne: Integer, argTwo: Integer) : Integer {
+     result = argOne + argTwo;
+     println("{argOne} + {argTwo} = {result}");
+     return result;
+
+}
+
+h2. command line arguments
+
+bc. 
+function run(args : String[]) {
+     // Convert Strings to Integers
+     def numOne = java.lang.Integer.parseInt(args[0]);
+
+
+h2. objects
+
+an object is created with an object literal:
+
+bc. 
+var myAddress = Address {
+     street: "1 Main Street";
+     city: "Santa Clara";
+     state: "CA";
+     zip: "95050";
+}
+
+Or nest one object inside another:
+
+bc. 
+var customer = Customer {
+     firstName: "John";
+     lastName: "Doe";
+     phoneNum: "(408) 555-1212";
+     address: Address {
+          street: "1 Main Street";
+          city: "Santa Clara";
+          state: "CA";
+          zip: "95050";
+     }
+}
+
+h2. Data Types
+
+h3. String
+
+You can also embed expressions inside a string using curly braces "{}":
+
+bc. 
+def name = 'Joe';
+var s = "Hello {name}"; // s = 'Hello Joe'
+
+h3. Number and Integer
+
+h3. Boolean
+
+h3. Duration
+
+The Duration type represents a fixed unit of time (millisecond, second, minute, or hour.)
+
+bc. 
+5ms; // 5 milliseconds
+10s; // 10 seconds
+30m; // 30 minutes
+1h;  // 1 hour
+
+h3. Void
+
+Void is used to indicate that a function does not return any value:
+
+h3. Null
+
+Null is a special value used to indicate a missing normal value. Null is not the same as zero or an empty string, so comparing for null is not the same as comparing for zero or an empty string.
+
+h3. Function Type
+
+A function type represents the set of function definitions with a given signature -- that is, the functions that have the given parameter types and return type.
+
+For example, the variable myFunc is declared as being of a function type:
+
+bc. 
+var myFunc : function(:Object,:Integer):String;
+ 
+The variable myFunc can hold function definitions which take an Object and an Integer as parameters and returns a String.
+
+Function types have null as their default value. So, myFunc is initially null, but you can give it a value by assignment or initialization. For example, the following would be a valid assignment to myFunc:
+
+bc. 
+myFunc = function(obj : Object, k : Integer) { "Here is the Object: {obj}, and the Integer: {k}" }
+ 
+The function definition currently held in myFunc can be invoked like any other function:
+
+bc. 
+println( myFunc(4s, 777) );
+println( myFunc(null, 1234) );
+ 
+Which would print:
+
+Here is the Object: 4000.0ms, and the Integer: 777
+Here is the Object: null, and the Integer: 1234
+ 
+The variable can be reassigned to any function with those parameters and return type:
+
+bc. 
+myFunc = function(obj : Object, k : Integer) { "So!" }
+ 
+h2(#sequence). Sequences
+
+In addition to the basic data types, the JavaFX Script programming language also provides special data structures called sequences. Sequences represent ordered lists of objects (although sequences themselves are not objects). The objects within a sequence are called items. Sequences are declared with square brackets "[]", and each item is separated by a comma. This lesson covers all the basics of creating and using sequences. It also discusses how to work with sequence slices (portions of sequences).
+
+h3. Create a Sequence
+
+One way to create a sequence is to explicitly list its items. Each item is separated by a comma and the list is enclosed in square brackets "[" and "]". For example, the following code:
+
+bc. 
+def weekDays = ["Mon","Tue","Wed","Thu","Fri"];
+
+h3. Predicates
+
+You can use a boolean expression, (also called a predicate), to declare a new sequence that is a subset of an existing sequence. For example, consider the following:
+
+bc. 
+def nums = [1,2,3,4,5];
+
+To create a second sequence (based on items found in this first sequence) but containing only numbers greater than 2, use the following:
+
+bc. 
+def numsGreaterThanTwo = nums[n | n > 2];
+ 
+You could express the previous line of code in English like this: "select all items from the num sequence where the value of an item is greater than 2 and assign those items to a new sequence called numsGreaterThanTwo."
+
+h3. sizeof
+
+Also, you can determine the size of a sequence using the sizeof operator followed by the name of the sequence:
+
+bc. 
+sizeof days
+
+h3. insert into, before, after, delete from
+
+bc. 
+var days = ["Mon"];
+ 
+At this point, the sequence contains only one item, "Mon".
+
+We can insert "Tue" into the end of this sequence using the insert and into keywords:
+
+bc. 
+insert "Tue" into days;
+insert "Thu" before days[2];
+insert "wed" after days[1];
+delete "Sun" from days;
+
+h3. reverse
+
+bc. 
+var nums = [1..5];
+nums = reverse nums; // returns [5, 4, 3, 2, 1]
+
+h3. slice
+
+bc. 
+def days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+def weekend = days[5..6];
+
+h2. Transformations
+
+h3. Rotations
+
+You can change the default location by applying a rotation transformation. The rotation is specified by an anchor point and an angle. The node will be rotated clockwise around the anchor point by the specified angle.
+
+bc. 
+Text {
+	transforms: Transform.rotate(33, 10, 100)
+	content: "Duke"
+}
+
+h1. Import image from Inkscape
+
+h2. ID image in Inkscape
+
+Set size of page to be size of graphic
+
+* Ctrl-Shift-D
+
+!images/jfx_inkscape_0.png!
+
+h3. Create an identity for the image
+
+* Right click object > Object Properties
+* Prefix the image id with @JFX:@
+
+!images/jfx_inkscape_1.png!
+
+h2. Save
+In Inkscape choose File > Save As... > JavaFX
+
+!images/jfx_inkscape_2.png!
+
+h1. Run application in browser
+
+Right click project > Properties > Run > Application Execution Model
+
+!images/jfx_run_browser.png!
+
+h1. Walk Through
+
+In the JavaFX Script programming language, an object is created with an object literal:
+
+bc. 
+Address {
+     street: "1 Main Street";
+     city: "Santa Clara";
+     state: "CA";
+     zip: "95050";
+}
+
+This creates one Address object, for use in a hypothetical address book application. It is initialized with specific values for its street, city, state, and zip.
+
+bc. 
+import javafx.stage.Stage;
+Stage {
+    title: "Nodes"
+    scene: Scene {
+        fill: Color.LIGHTBLUE
+        width: 220
+        height: 170
+    }  
+}
+
+So here we create a Stage object, set the field title to a simple String, and set the scene field, to a new Object literal value.  Interesting that we aren't saving the Stage to any variable?
+
+You add a node to the scene by declaring this node as an element of the content of the scene. The content variable of the scene, which is a "sequence":#sequence of nodes, defines the graphical content of your application.
+
+bc. 
+Stage {
+    title: "Application title"
+    scene: Scene {
+        width: 250
+        height: 80
+        content: [
+            Text {
+                font : Font {
+                    size : 16
+                }
+                x: 10
+                y: 30
+                content: "Application content"
+            }
+        ]
+    }
+}

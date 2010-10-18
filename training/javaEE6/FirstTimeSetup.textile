@@ -1,0 +1,78 @@
+"home":../../index.html > "Trainging":../index.html > "Java EE 6":index.html > First Time Setup
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Introduction
+
+This document will explain how to setup your system for developing modern dynamic web sites.
+
+h1. Required Software
+
+h2. Eclipse
+
+Eclipse will be your primary development environment.  Download the Java EE Edition from @http://www.eclipse.org@.  For full setup instructions go "here":../machineSetup/eclipse.html
+
+h2. Code Repository
+
+You will be sharing code with other people in a Subversion code repository.  You need to install the SubClipse add-on to eclipse to enable this functionality.  Download eclipse from @http://tigris.org@.  For full setup instructions go "here":../machineSetup/eclipse.html#subclipse
+
+h2. Maven: Dependency Management
+
+For your coding you will be depending on third party libraries.  Managing these can be a head-ache without an automated system.  Maven is the system we will use for this.  Download and install maven from @http://www.codehaus.org@.  See "this page":../machineSetup/maven.html for detailed documentation.
+
+* You will tell eclipse once where your maven repository is with the following command: (ensure that Eclipse is not running)
+
+bc. mvn -Declipse.workspace=/home/ft/workspaces/wksp1/ eclipse:add-maven-repo
+
+I have found on windows this is easiest to do by cd'ing to your workspace folder then doing:
+
+bc. mvn -Declipse.workspace=. eclipse:add-maven-repo
+
+* Install the m2eclipse maven pluggin.
+
+h2. Cygwin
+
+If you are a windows user you'll need to install @cygwin@ as well, otherwise if you are a linux or mac user you can skip this step.  *** put in some instructions on how to install cygwin here. ***
+
+h1. Setup Project
+
+* In eclipse right click in the project explorer and choose: @Dynamic Web Project@.  Name it.  We'll call ours @tailor@ for demonstration purposes.
+
+* press 'Next' and make Java Source Directory = @/src/main/java@
+
+* press 'Next' and make Web Source Directory = @/src/main/webapp@
+
+* click 'Finish'
+
+* Right-click the @tailor@ project and choose: m2 Maven > Enable Dependency Management
+
+* Supply the required info: group id, artifact id, packaging = war.
+
+* Add folders:
+** @/src/test/java@
+** @/src/main/resources@
+** @/src/test/resources@
+
+* Add a new run configuration to copy the required libraries to WEB-INF/lib
+
+bc. Run > Run Configurations...
+
+* Base directory: @${workspace_loc:/t5}@
+
+* Goals: @dependency:copy-dependencies -DoutputDirectory=src/main/webapp/WEB-INF/lib@
+
+!images/mvn_wtp_setup.png!
+
+* Open the _Servers_ view and select @Add and Remove...@, shuttle your new @tailor@ project from the left pane to the right pane.
+
+h2. Add required tag libraries
+
+See: "Required Tag Libraries":TagLibraries.html for the required tag libraries to add to your pom.xml.
+
+h1. Conclusion
+
+That's it your finished and now ready to begin developing your website and learning new technologies.  Suggested next step:
+
+* "Tutorial 1":tutorial1.html

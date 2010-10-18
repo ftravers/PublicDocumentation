@@ -1,0 +1,24 @@
+"home":../../index.html > "training":../index.html > Ant
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Samples
+
+bc. 
+<project default="deploy" name="Documentation">
+	<property name="deployDir" value="/users/fentontravers/bin" />
+	<target name="deploy">
+		<delete>
+			<fileset dir="." includes="**/*.html" />
+		</delete>
+		<copy todir="website">
+			<fileset dir="${deployDir}">
+				<exclude name="code/**" />
+				<exclude name="website/**" />
+				<include name="**/*.html" />
+			</fileset>
+		</copy>		
+	</target>
+</project>

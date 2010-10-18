@@ -1,0 +1,22 @@
+Intro:
+Two portal pages, list and detail.  On the list page there is a list of links.  When you click on a link you go to the details page for that link.
+
+
+Assets:
+* Create two site studio assets one for the list and one for the detail page.
+
+* Create two jsp's one for the list and one for the details page.
+
+
+Flow:
+* User requests the list portal page
+* Loading the list portal page the list jsp is loaded, it contains a link in it to load the list site studio page that looks like:
+
+* This first html gets returned to the client and any assets such as <img> links get fixed up to look like:
+
+---------------
+
+1. create a SS page (contain the dynamic list and the content of the item)
+2. in the SS page, the link of the announcement title(or whatever list it is) should point to the 2nd page that will show the content of the announcement
+3. in the portlet at the 1st page, the datafile and placeholder of the SS will be put in the parameter
+4. the jsp file will accept the parameter, then 

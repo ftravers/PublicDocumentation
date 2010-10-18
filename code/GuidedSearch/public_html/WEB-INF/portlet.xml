@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<portlet-app version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+    <portlet id="1268105132796">
+        <portlet-name>GuidedSearch</portlet-name>
+        <display-name xml:lang="en">GuidedSearch</display-name>
+        <portlet-class>guidedsearch.GuidedSearchPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>edit</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <resource-bundle>guidedsearch.resource.GuidedSearchBundle</resource-bundle>
+        <portlet-preferences>
+            <preference>
+                <name>portletTitle</name>
+                <value>Search</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+    <custom-portlet-mode>
+        <portlet-mode>about</portlet-mode>
+    </custom-portlet-mode>
+    <custom-portlet-mode>
+        <portlet-mode>config</portlet-mode>
+    </custom-portlet-mode>
+    <custom-portlet-mode>
+        <portlet-mode>edit_defaults</portlet-mode>
+    </custom-portlet-mode>
+    <custom-portlet-mode>
+        <portlet-mode>preview</portlet-mode>
+    </custom-portlet-mode>
+    <custom-portlet-mode>
+        <portlet-mode>print</portlet-mode>
+    </custom-portlet-mode>
+</portlet-app>
+

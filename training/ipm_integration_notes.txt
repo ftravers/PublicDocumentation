@@ -1,0 +1,48 @@
+singapore/hongkong
+
+flexcube: lots of responses 
+
+crm, corporate, private,
+---------------------------------------------------------------
+from: sancho pinto, may 2008
+I/PM provides a number of tools to reduce the need for users to login to I/PM:
+ - public URL tools so users can access searches and images without authenticating
+ - Single Sign On via Windows Integrated Security
+ 
+We are working on integrating I/PM with Oracle Access Manager and expect the integration to be available in the next few months.
+---------------------------------------------------------------
+es.  We did a POC integration between I/PM and Siebel for a customer a few weeks ago.  it is straightforward to integrate I/PM using the URL tools which allow you to easily embed a search results e.g. all documents associated with a case, in any application e.g. CRM.
+------------------------------------------------------------------
+randy weekly, june 2008
+Hi Deepali,
+The vast majority of customers will capture images in a group 4 TIFF (black and white) format. As Vince mentioned in his response other raster formats can be used such as JPEG, group 6 TIFF (color TIFF), and JPEG2000.
+ 
+IPM does not have what most people consider "electronic forms". The IPM workflow product does provide point&click wizards to create human workflow forms in HTML and ASP.Net. We have several customers that have created integrations with Adobe forms and InfoPath as well - custom code.
+ 
+IPM does not provide a web portal capability. We have a robust web client and web SDK for integrating with other web portals.
+ 
+Thanks,
+-RW
+--------------------------------------------------------------------
+jan 2009
+Ismail, 
+I don't know of any specific cases of integrating IPM with Agresso but it really depends on the extensibility of Agresso. For steps 1 & 2, IPM provides the tools to image-enable Agresso so you could use basic capture from either ODC or Kofax to get the images into IPM. When you get to step 3 and want to start doing OCR and intelligent extraction, you can use ODC with Brainware IDC-distiller or you can use Kofax Transformation Modules (KTM). Both ODC and Kofax Capture have been used with IPM for years. KTM is a relatively new product for Kofax and does not have a field track record with IPM whereas Brainware does and we have some POCs and demos of ODC with Brainware on Fusion Factory (http://ff.us.oracle.com/pls/htmldb/f?p=105:31:0::NO::P31_DETAILS_ID:895:). 
+
+Regards, 
+Wes
+----------------------------------------------------------------------
+*  Platforms
+      o Existing versions (through 10gR3) run on MS Windows
+      o Future versions (11g +) will run on Oracle Application Server
+      o Supported RDBMS include Oracle DB and MS SQLServer 
+* Language Support
+      o .Net, C++, VB 
+* Integration Points
+      o .Net APIs, COM APIs
+      o Exposes Web Services
+      o URL tools (can be used for finding and viewing images) 
+* Clients
+      o Windows
+      o Web
+      o Web Express 
+

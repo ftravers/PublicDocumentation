@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>OpenWcm</display-name>
+  <servlet>
+		<description></description>
+		<display-name>WcmHelperServlet</display-name>
+		<servlet-name>WcmHelperServlet</servlet-name>
+		<servlet-class>openwcm.OpenWcmHelper</servlet-class>
+
+		<init-param>
+			<param-name>siteId</param-name>
+			<param-value>dewa</param-value>
+		</init-param>
+
+		<!--
+			If set to false you need to modify the servlet to extract the username from wherever it resides for your portal. You
+			would modify the code in the method getContext(). Feel free to modify the parameters this method takes as it is only
+			used inside this class (it's private!). Also if you set to false then 'testing_user' parameter is also not used. When
+			set to true, the username in 'testing_user' will be used to fetch images (and whatnot) embedded in the HTML returned.
+			This is good for testing in the context of a simple container/setup like tomcat.
+		-->
+		<init-param>
+			<param-name>testing</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>testing_user</param-name>
+			<param-value>sysadmin</param-value>
+		</init-param>
+		<init-param>
+			<param-name>conent_server_host</param-name>
+			<param-value>192.168.9.174</param-value>
+		</init-param>
+		<init-param>
+			<param-name>conent_server_port</param-name>
+			<param-value>4444</param-value>
+		</init-param>
+
+		<!--  This value must be greater than 1.  It should load AFTER the core_ucm servlet which
+		is set to a value of 1 and hence will load before any number higher than 1 -->
+		<load-on-startup>2</load-on-startup>
+		
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WcmHelperServlet</servlet-name>
+		<url-pattern>/WcmHelperServlet</url-pattern>
+	</servlet-mapping>
+
+
+</web-app>

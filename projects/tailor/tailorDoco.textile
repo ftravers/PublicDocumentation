@@ -1,0 +1,17 @@
+"<< Home":../../index.html
+
+h1. Table of Contents
+
+{toc}
+
+h1. Testing links
+
+h2. Home Page
+
+"http://localhost:8080/simpleWeb6/pages/home.jsf":http://localhost:8080/simpleWeb6/pages/home.jsf
+
+h1. Technologies Used
+
+h2. Facelets
+
+* "Facelets":../../training/javaEE6/Facelets.html

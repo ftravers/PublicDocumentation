@@ -1,0 +1,70 @@
+"home":../../index.html > "training":../index.html > "Java EE 6":index.html > Dependency Injection
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Spring Dependency Injection - Overview
+
+User depends on Used.  User -> Used.
+
+We have a scenario where we have two different environments, say production and development.  Something your program depends on say a file or a database are located in different location in production from development.  So we can use Spring to inject the dependency into your program at runtime.
+
+First create an interface, then implement the interface in two classes, one for prod, one for dev.  In our simple example we'll have a file that is located in two different locations, depending if you are in prod or dev.  Now there will be a class that uses the interface.  In this class, the _user_ class.
+
+h2. Using class
+
+(1) Annotate class with _@Service_
+(2) Have a private variable that will contain the used interface
+(3) Create a setter for that variable (making the class conform to the bean standard)
+(4) Annotate the setter with _@Autowired_
+	
+bc. 
+package user;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import IConfig;
+@Service // (2)
+public class MySpringBeanWithDependency {
+	private IConfig config;  // (1)
+	@Autowired // (4)
+	public void setConfig(IConfig config) { this.config = config } // (3)
+   
+h2. Used class 
+
+(5) Annotate the class with _@Service_
+
+bc. 
+package used;
+import org.springframework.stereotype.Service;
+@Service
+public class DevelopmentConfig implements IConfig {
+ 
+h2. Wire them together
+
+You create the following file and simply put the package names into it.  It will scan all the classes in the package looking for _@Service_ annotation.
+
+p(filelocation). (srcdir)/META-INF/applicationContext.xml
+
+bc. 
+ <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+   <context:component-scan base-package="user" />
+   <context:component-scan base-package="used" />
+ </beans>
+
+These are the only two lines that are specific for your application:
+
+bc. 
+   <context:component-scan base-package="user" />
+   <context:component-scan base-package="used" />
+   
+ 

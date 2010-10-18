@@ -1,0 +1,210 @@
+"home":../index.html > "jeos":index.html > DNS Server Setup
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Reference
+
+https://www.redhat.com/docs/en-US/Red_Hat_Enterprise_Linux/5.2/html/Deployment_Guide/s2-bind-useful-websites.html
+http://www.redhat.com/mirrors/LDP/HOWTO/DNS-HOWTO.html
+http://tldp.org/HOWTO/DNS-HOWTO.html
+
+h1. Intro
+
+This document shows how to setup a basic DNS server for your own private lab.  This is _very_ important for anyone running a lab and especially important for any one running a 'private cloud', as you will be creating many hosts and keeping track of them requires you use DNS.
+
+h1. Steps
+
+bc. yum -y install bind* caching-nameserver
+
+two files: named.conf and <zone files>.  
+
+/var/named/chroot/etc/named.conf file sample:
+
+bc.. 
+acl good-hosts {
+        192.168.8.0/24;
+};
+
+options {
+   directory "/var/named";
+   dump-file "/var/named/data/cache_dump.db";
+   statistics-file "/var/named/data/named_stats.txt";
+   listen-on port 53 { 127.0.0.1; any; };
+        allow-query { good-hosts; };
+        allow-recursion { good-hosts; };
+};
+
+//
+// a caching only nameserver config
+//
+controls {
+   inet 127.0.0.1 allow { localhost; } keys { rndckey; };
+};
+
+zone "." IN {
+   type hint;
+   file "named.ca";
+};
+
+include "/etc/rndc.key";
+
+zone "ftravers.com" {
+        type master;
+        allow-query { 192.168.8.0/24; };
+        allow-update { none; };
+        file "ftravers.com.zone";
+};
+
+zone "8.168.192.in-addr.arpa" IN {
+        type master;
+        file "ftravers.com.rev.zone";
+        allow-update { none; };
+        allow-query { 192.168.8.0/24; };
+};
+
+p. Zone file example: /var/named/chroot/var/named/ftravers.com.zone
+
+bc.. 
+; Zone File for ftravers.com
+$TTL 14400
+@               IN      SOA     dns.ftravers.com. hostmast.ftravers.com. (
+                                2006102400 ; serial, todays date + todays serial #
+                                14400 ; refresh, seconds
+                                7200 ; retry, seconds
+                                3600000 ; expire, seconds
+                                86400 ; minimum, seconds
+                                )
+;
+
+ftravers.com.   14400   IN      NS      dns
+;
+xp              14400   IN      A       192.168.8.119
+man             14400   IN      A       192.168.8.120
+ucm3            14400   IN      A       192.168.8.122
+wls             14400   IN      A       192.168.8.125
+wls1032         14400   IN      A       192.168.8.126
+bpel            14400   IN      A       192.168.8.127
+proddb          14400   IN      A       192.168.8.129
+db112           14400   IN      A       192.168.8.130
+oas             14400   IN      A       192.168.8.132
+dns             14400   IN      A       192.168.8.133
+wlsdev          14400   IN      A       192.168.8.136
+x61             14400   IN      A       192.168.8.99
+hp2             14400   IN      A       192.168.8.98
+hp4             14400   IN      A       192.168.8.104
+nas             14400   IN      A       192.168.8.200
+ftp             14400   IN      CNAME   nas.ftravers.com.
+
+p. Zone file example: /var/named/chroot/var/named/ftravers.com.rev.zone
+
+bc. 
+; Reverse Zone File for ftravers.com - 8.168.192.in-addr.arpa.
+$TTL 14400
+@               14440   IN      SOA     dns.ftravers.com. hostmaster.ftravers.com. ( 2006102400
+                                        14400
+                                        7200
+                                        3600000
+                                        86400
+                                        )
+;
+                IN      NS      dns.ftravers.com.
+119             IN      PTR     xp.ftravers.com.
+120             IN      PTR     man.ftravers.com.
+122             IN      PTR     ucm3.ftravers.com.
+129             IN      PTR     proddb.ftravers.com.
+130             IN      PTR     db112.ftravers.com.
+132             IN      PTR     oas.ftravers.com.
+133             IN      PTR     dns.ftravers.com.
+99              IN      PTR     x61.ftravers.com.
+98              IN      PTR     hp2.ftravers.com.
+104             IN      PTR     hp4.ftravers.com.
+200             IN      PTR     nas.ftravers.com.
+
+Since the server1 and server2 names do not end in a trailing period (.), the $ORIGIN domain is placed after them, expanding them to server1.example.com and server2.example.com.
+
+
+h1. Restart Servers
+
+bc. service named restart
+
+h1. Old Stuff
+
+[root@dns ~]# cat lab
+; Zone File for lab.com
+$TTL 14400
+@               IN      SOA     dns.lab.com. hostmast.lab.com. (
+                                2006102400 ; serial, todays date + todays serial #
+                                14400 ; refresh, seconds
+                                7200 ; retry, seconds
+                                3600000 ; expire, seconds
+                                86400 ; minimum, seconds
+                                )
+;
+
+lab.com.	14400   IN      NS      dns
+;
+op5             14400   IN      A       192.168.9.100
+xp2		14400	IN	A	192.168.9.101
+ucmel		14400	IN	A	192.168.9.102
+
+dbel		14400	IN	A	192.168.9.103
+lab.com.	14400	IN	MX	10	dbel.lab.com.
+opel		14400	IN	A	192.168.9.104
+dns		14400	IN	A	192.168.9.133
+ovsoracle	14400	IN	A	192.168.9.56
+vms		14400	IN	CNAME	ovsoracle.lab.com.
+nas		14400	IN	A	192.168.9.105
+kerapu.mohe.gov.my	14400	IN	A	192.168.9.31
+opelstg		14400	IN	A	192.168.9.107
+cvs		14400	IN	A	192.168.9.20
+dbrh64          14400   IN      A       192.168.9.131
+amran           14400   IN      A       192.168.9.188
+db10            14400   IN      A       192.168.9.116
+database        14400   IN      A       192.168.9.113
+bala            14400   IN      A       192.168.9.171
+anil		14400   IN      A       192.168.9.172
+fenton		14400   IN      A       192.168.9.173
+oracleucm	14400   IN      A       192.168.9.176
+oracleportal    14400   IN      A       192.168.9.177
+baizura		14400   IN      A       192.168.9.179
+oracledb	14400   IN      A       192.168.9.187
+oidrh		14400   IN      A       192.168.9.134
+ucmel2		14400   IN      A       192.168.9.174
+vms2		14400	IN	A	192.168.9.57
+[root@dns ~]# 
+[root@dns ~]# cat revlab 
+; Reverse Zone File for lab.com - 9.168.192.in-addr.arpa.
+$TTL 14400
+@               14440   IN      SOA     dns.lab.com. hostmaster.lab.com. ( 2006102400
+                                        14400
+                                        7200
+                                        3600000
+                                        86400
+                                        )
+;
+                IN      NS      dns.lab.com.
+20		IN	PTR	cvs.lab.com.
+31		IN	PTR	kerapu.mohe.gov.my.
+101             IN      PTR     xp2.lab.com.
+100             IN      PTR     op5.lab.com.
+102		IN	PTR	ucmel.lab.com.
+103		IN	PTR	dbel.lab.com.
+104		IN	PTR	opel.lab.com.
+105		IN	PTR	nas.lab.com.
+133		IN	PTR	dns.lab.com.
+107		IN	PTR	opelstg.lab.com.
+131             IN      PTR     dbrh64.lab.com.
+188             IN      PTR     amran.lab.com.
+116             IN      PTR     db10.lab.com.
+113		IN      PTR     database.lab.com.
+171		IN      PTR     bala.lab.com.
+172		IN      PTR     anil.lab.com.
+173		IN      PTR     fenton.lab.com.
+176		IN      PTR     oracleucm.lab.com.
+177		IN      PTR     baizura.lab.com.
+187		IN      PTR     oracledb.lab.com.
+134		IN      PTR     oidrh.lab.com.
+174		IN      PTR     ucmel2.lab.com.
+[root@dns ~]# 

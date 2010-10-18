@@ -1,0 +1,38 @@
+h1. Reference
+
+"Textile Reference":http://blog.thought-mesh.net/static/docs/mtmanual_textile2.html
+
+h1. Links
+
+bc.
+"URL Display Text":URL
+
+example:
+
+bc. 
+"Textile Reference":http://blog.thought-mesh.net/static/docs/mtmanual_textile2.html
+
+h1. Tables
+
+bc. 
+|_. Markup Example |_. Effect/Meaning |
+| "Displayed":www.yahoo.com | Links |
+| h1(#subclipse). | turn h1 into an anchor |
+| "Link to anchor"#subclipse | links to anchor on same page |
+
+h1. Codes
+
+h2. Verbatim
+
+bc. 
+bc.
+
+h2. Bullets
+
+bc. 
+*
+
+h2. headings
+
+bc.
+h1., h2., h3., etc...

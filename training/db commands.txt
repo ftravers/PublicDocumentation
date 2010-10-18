@@ -1,0 +1,184 @@
+setup start/stop scripts here: 
+http://download.oracle.com/docs/cd/B28359_01/server.111/b32009/strt_stp.htm#CEGHJACG
+
+==> stop / start Database
+	STOP:
+	To identify the SID and Oracle home directory for the instance that you want to shut down...
+		$ cat /etc/oratab
+		$ . /usr/local/bin/oraenv; sqlplus "/ as sysdba"
+		SQL> SHUTDOWN NORMAL;
+	START:
+		$ sqlplus "/ as sysdba"
+		SQL> STARTUP;
+
+==> stop / start Enterprise Manager Database Control
+	STOP:
+		$ . /usr/local/bin/oraenv; $ORACLE_HOME/bin/emctl stop dbconsole
+	START:
+		$ $ORACLE_HOME/bin/emctl start dbconsole
+
+==> stop and start listener:
+	STOP:
+		$ $ORACLE_HOME/bin/lsnrctl stop
+	START:
+		$ $ORACLE_HOME/bin/lsnrctl start
+	
+	Long winded form...	
+	ensure ORACLE_HOME environment variable is set
+	
+	determine if your listener is not the default LISTENER listner
+		$ ps -ef | grep tnslsnr
+		94248 ?? I 0:00.18 oracle_home2/bin/tnslsnr listenername -inherit
+	In this sample output, listenername is the name of the listener.
+	
+		$ $ORACLE_HOME/bin/lsnrctl stop listnername
+	
+	- OR - if listenername = LISTENER
+
+		$ $ORACLE_HOME/bin/lsnrctl stop
+		
+	Ensure listener specifies correct hostname in listener.ora file
+		
+		$ vi $ORACLE_HOME/network/admin/listener.ora
+	
+	Start listener:
+	
+		$ $ORACLE_HOME/bin/lsnrctl start
+
+
+==> Show all DB users:
+	SQL> select * from all_users;
+
+==> Show all your tables:
+	SQL> SELECT TABLE_NAME FROM TABS;
+
+	lsnrctl services
+
+==> Allow more processes to connect to database:
+	[root@db4 ~]# su - oracle
+	-bash-3.2$ sqlplus
+
+	SQL*Plus: Release 10.2.0.1.0 - Production on Thu Sep 10 00:20:44 2009
+
+	Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+	Enter user-name: system
+	Enter password: 
+
+	Connected to:
+	Oracle Database 10g Express Edition Release 10.2.0.1.0 - Production
+
+	SQL> ALTER SYSTEM SET PROCESSES=150 SCOPE=SPFILE;
+
+	System altered.
+
+	SQL> quit
+
+==> Database Shutdown:
+		[root@db4 ~]# su - oracle
+		-bash-3.2$ sqlplus "/ as sysdba"
+
+	Shutdown Database:
+		SQL> shutdown immediate;             
+		Database closed.
+		Database dismounted.
+		ORACLE instance shut down.
+
+==> Only mount the database:
+		SQL> startup mount;
+		ORACLE instance started.
+		
+		Total System Global Area  146800640 bytes
+		Fixed Size		    1257668 bytes
+		Variable Size		   58724156 bytes
+		Database Buffers	   83886080 bytes
+		Redo Buffers		    2932736 bytes
+		Database mounted.
+
+==> Startup Database
+		SQL> startup;
+
+==> Prepare to backup your database with Datapump.
+	SETUP VARIABLES:
+	Setup a directory datapump can write to.
+		[root@db4 u01]# mkdir /u01/datapump
+		[root@db4 u01]# chmod 777 /u01/datapump
+		[root@db4 u01]# su - oracle
+		-bash-3.2$ sqlplus
+		Enter user-name: system
+		Enter password:
+		SQL> create or replace directory datapumpdir as '/u01/datapump';
+		Directory created.
+		SQL> grant read, write on directory datapumpdir to idc_user;
+		Grant succeeded.
+		SQL> quit
+	
+==> BACKUP THE DATABASE:
+	Export a dump
+		-bash-3.2$ expdp idc_user/idc_user@127.0.0.1 schemas=idc_user directory=datapumpdir dumpfile=ucm.dmp logfile=log.dmp
+
+==> RESTORE THE DATABASE:
+	Become the Oracle User.
+		# su - oracle
+	
+	Drop all the table spaces and user.
+		drop tablespace idc_temp including contents and datafiles;
+		drop tablespace idc_sys including contents and datafiles;
+		drop user idc_user cascade;
+
+	Create datapumpdir in database (see 'setup a directory datapump can write to' above)
+	
+	Create table spaces and user
+		create temporary tablespace idc_temp tempfile '/usr/lib/oracle/xe/oradata/ucm1/idc_temp.dbf' SIZE 100M REUSE AUTOEXTEND ON NEXT 5120K MAXSIZE UNLIMITED;
+		create tablespace idc_sys datafile '/usr/lib/oracle/xe/oradata/ucm1/idc_sys.dbf' size 100M reuse autoextend on next 5120k maxsize unlimited;
+		create USER idc_user IDENTIFIED by idc_user temporary tablespace idc_temp default tablespace idc_sys quota unlimited on idc_sys;
+		grant connect, resource to idc_user;
+	
+	put the dump file ucm.dmp and the log file log.dmp in: /u01/datapump
+	
+	Import in the dump
+		-bash-3.2$ impdp idc_user/idc_user@127.0.0.1 schemas=idc_user directory=datapumpdir dumpfile=ucm.dmp logfile=log.dmp
+
+
+==> Remove Tablespace & User:
+	drop tablespace idc_temp including contents and datafiles;
+	drop tablespace idc_sys including contents and datafiles;
+	drop user idc_user;
+	
+==> Determine users default tablespace:	
+	SQL> SELECT DEFAULT_TABLESPACE FROM DBA_USERS WHERE USERNAME='ARJU';
+
+==> Increase the number of connections allowed to your DB.
+	[root@db4 ~]# su - oracle
+	-bash-3.2$ sqlplus
+	
+	SQL*Plus: Release 10.2.0.1.0 - Production on Thu Sep 10 00:20:44 2009
+	
+	Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+	
+	Enter user-name: system
+	Enter password: 
+	
+	Connected to:
+	Oracle Database 10g Express Edition Release 10.2.0.1.0 - Production
+	
+	SQL> ALTER SYSTEM SET PROCESSES=150 SCOPE=SPFILE;
+	
+	System altered.
+	
+	SQL> quit
+
+
+
+==> The are instructions for changing the IP address of the DB instance.
+
+	[root@ucm2 etc]# vi /etc/sysconfig/network-scripts/ifcfg-eth0
+	
+	Update the line like:
+	
+	IPADDR=192.168.8.118
+	
+	to have the IP address you want.
+	
+	Restart the server.
+	[root@db4 network-scripts]# shutdown -r now

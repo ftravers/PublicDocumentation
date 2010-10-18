@@ -1,0 +1,11 @@
+"home":../../index.html > "Training":../index.html >  Platform: Mac
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Set Environment Variable
+
+edit @~/.bash_profile@ 
+
+export PATH=$PATH:/usr/local/bin

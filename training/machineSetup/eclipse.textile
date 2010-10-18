@@ -1,0 +1,129 @@
+"home":../../index.html > "Training":../index.html > "Machine Setup":index.html > Eclipse
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Intro
+
+You will install Eclipse and Sub-Clipse ( the subversion plugin ) for eclipse.
+
+h1. Download
+
+* Google: _eclipse download_ or goto: "Eclipse: download":http://www.eclipse.org/downloads/
+
+!images/01_eclipse_download.png!
+
+p(rightsidebox). !(img_rightsidebox)/images/mac.jpeg! For mac users select _Mac Cocoa 32 bit_.
+
+* Select the _Eclipse IDE for Java EE Developer_ to download.
+
+!images/02_eclipse_download2.png!
+
+h1(#subclipse). Setup SubClipse
+
+* Choose _Install New Software_ from the _Help_ menu.
+
+!images/03_eclipse_installNewSoftware.png!
+
+* Click _Add..._ button to add the subclipse site, then add the values shown in the picture.
+
+Name: @svn@
+Location: @http://subclipse.tigris.org/update_1.6.x@
+
+!images/04_adding_svn_site.png!
+
+* Select _Subclipse_ and press next, accepting all the rest of the options on through _Finish_.  
+
+!images/05.1_select_subclipse.png!
+
+<boldAndFlash>NOTE!!! THERE ARE SEVERAL SCREENS AFTER THIS WHERE YOU HAVE TO MAKE YOUR OWN JUDGEMENT ABOUT WHAT THE DEFAULTS ARE...ACCEPTING THE LICENSE, ETC...  I HAVEN'T INCLUDED A PAGE-BY-PAGE SCREEN SHOT!!!
+
+* Sometimes you need to go back to the page where you can select _Subclipse_ before _Finish_ gets highlighted.
+
+h2. Register a Subversion Repository
+
+"Here is a video":http://www.youtube.com/watch?v=tasK_Iq2C64 that will help out with the following steps.
+
+Enter the @URL@, @username@, and @password@ to access the subversion repository you've been setup on.  
+
+<boldAndFlash>NOTE: YOU MUST GET THESE FROM THE SUBVERSION ADMINISTRATOR!!!
+
+!images/05.2_open_perspective.gif!
+
+!images/05.3_open_svn_perspective.gif!
+
+!images/06_new_repo_location.gif!
+
+!images/07_addSvnRepository.gif!
+
+h2. Checkout your project
+
+Find the project you want to work on and check it out to your local computer.
+
+!images/08_checkout.gif!
+
+!images/09_switch_perspectives.gif!
+
+h2. Edit, CheckIn Changes
+
+Once you have checked out the project you can begin editing it and commit your changes back to the server so other people can access your updates.
+
+!images/10_CommitUpdates.gif!
+
+!images/11_Commit2.gif!
+
+h1(#tomcat). Setup Tomcat
+
+First you need to let eclipse know about your tomcat installation. ( For how to install Tomcat click "this link":tomcat.html)
+
+Go to the servers tab and add a new server.
+
+!images/12_1_tomcat.png!
+
+Choose Tomcat 6
+
+!images/12_2_tomcat.png!
+
+Select the browse button to select the directory to where you extracted your tomcat instance.  Then hit finish.
+
+!images/12_3_tomcat.png!
+
+h1(#maven). Maven
+
+h2. Install Maven Plugin
+
+To see how to install Maven see "this link":maven.html
+
+You can have a look at the video on "this page":http://m2eclipse.sonatype.org/installing-m2eclipse.html, to see how to setup Maven2Eclipse.  The following are some images that will help you too.
+
+* Put in the m2e installation URL: @http://m2eclipse.sonatype.org/sites/m2e@
+
+!images/m2e_1.png!
+
+* Choose Next on the following screen.
+
+!images/m2e_2.png!
+
+* Accept the license agreement and choose finish.
+
+!images/m2e_3.png!
+
+* Don't worry about it being unlicensed
+
+!images/m2e_4.png!
+
+* Reboot eclipse.
+
+!images/m2e_5.png!
+
+Recommend watching some of the videos to see how to use the pluggin.
+
+h2. Get m2e full text indexing
+
+To get Maven working so that it will lookup the dependencies for class names, do:
+
+open the "Maven Repositories" view
+right click on "Global Repositories" / "central (http://repo1..." node
+click on "Full Index Enabled" (and wait for a long time while eclipse stops responding)
+then the "Search class in Maven repositories" and "Select Goal" dialogs start working

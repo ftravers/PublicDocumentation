@@ -1,0 +1,283 @@
+"home":../../index.html > "Training":../index.html > Tutorial One
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Intro
+
+You are reading this because someone who works with Java EE 6 technologies wants to work with you.  Now you have to decide what level of co-worker you are going to be.  There are basically two levels.  
+
+* Web Designer
+
+Level one is the person who is concerned with layout and look and feel.  We often call this person the Web Designer.
+
+* Programmer
+
+The second level is the level of the programmer.  This person should know how to program in Java, and be familiar with database programming as well.
+
+These tutorial will start with the Web Designer in mind and them move to the Programmer.  Web Designers will be thankful to know that they actually don't need to know very much.  Really everything you need to know is covered in the "Templating: Facelets":Facelets.html
+
+The sturcture of this tutorial is that it will send you to sections of other pages, that once you complete, you should resume this document from where you left off.
+You are reading this because someone who works with Java EE 6 technologies wants to work with you.  Now you have to decide what level of co-worker you are going to be.  There are basically two levels.  
+
+* Web Designer
+
+Level one is the person who is concerned with layout and look and feel.  We often call this person the Web Designer.
+
+* Programmer
+
+The second level is the level of the programmer.  This person should know how to program in Java, and be familiar with database programming as well.
+
+These tutorial will start with the Web Designer in mind and them move to the Programmer.  Web Designers will be thankful to know that they actually don't need to know very much.  Really everything you need to know is covered in the "Templating: Facelets":Facelets.html
+
+The sturcture of this tutorial is that it will send you to sections of other pages, that once you complete, you should resume this document from where you left off.
+You are reading this because someone who works with Java EE 6 technologies wants to work with you.  Now you have to decide what level of co-worker you are going to be.  There are basically two levels.  
+
+* Web Designer
+
+Level one is the person who is concerned with layout and look and feel.  We often call this person the Web Designer.
+
+* Programmer
+
+The second level is the level of the programmer.  This person should know how to program in Java, and be familiar with database programming as well.
+
+These tutorial will start with the Web Designer in mind and them move to the Programmer.  Web Designers will be thankful to know that they actually don't need to know very much.  Really everything you need to know is covered in the "Templating: Facelets":Facelets.html
+
+The sturcture of this tutorial is that it will send you to sections of other pages, that once you complete, you should resume this document from where you left off.
+
+h1. Steps
+
+h2. Machine Setup
+
+You have to setup your machine to develop in Java EE 6.  Tutorials will be supplied for the following environments: Windows, Mac and Linux.  These are the components you'll need (click on each one to learn how to set it up):
+
+* "Eclipse":
+* "Maven":
+* "Sub-Clipse":
+* "m2eclipse":
+* "MySQL":
+* "Tomcat":
+
+h2. Templating
+
+<Audience> Web Designer, Programmer
+
+The first thing you want to learn to do is Templating.  Go to this page to learn how: "Templating: Facelets":Facelets.html
+
+h2. Navigation
+
+<Audience> Programmer
+
+The second tutorial to follow is the Navigation tutorial.  The will show you the basics of how to perform navigation using JSF.  Go to the section: "Basic Navigation":Navigation.html#basicnav
+
+h2. Managed Beans
+
+ Please go read the section: "Creating a Managed Bean":ManagedBeans.html#createbean now.
+
+h2. Combining Navigation with Managed Beans
+
+This tutorial will show you how to combine what you learned about Navigation with what you learned about Managed Beans.  Remember in navigation
+
+bc. <h:commandButton action="pagetwo" value="forward"/>
+
+The key thing to noice is the @action@ flag.  @.xhtml@ gets appended to whatever is inside the quotes, and in this case that equates to the @pagetwo.xhtml@.
+
+Also remember that we can call bean methods and get return values from those methods.  What about creating a bean method that returns the name of a page?  Shouldn't that then forward you to the name of that page?  Okay lets modify the pages that we created before to look like the following:
+
+<filelocation>/src/main/webapp/pageone.xhtml
+
+bc. 
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	<body>
+		This is page one!
+		<f:view>
+			<h:form>
+				<h:commandButton action="#{welcome.pageTwo}" value="forward"/>
+			</h:form>
+		</f:view>
+	</body>
+</html>
+
+<filelocation>/src/main/java/Welcome.java 
+
+bc. 
+import javax.faces.bean.ManagedBean;
+@ManagedBean
+public class Welcome {
+    public String getPageTwo() {
+        return "pagetwo";
+    }
+}
+
+Test with: @http://localhost:8080/simpleWeb6/pageone.jsf@
+
+h2. Conditional Navigation
+
+Now lets get really fancy.  Lets create an input text box where a person types the name of the page they want to go to.  Then when they press the button, they go to that page!
+
+First lets create a third html page as an optional target.  Should be identical to page two, but add some text so you can tell them apart!
+
+<filelocation>/src/main/webapp/pagethree.xhtml
+
+bc. 
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	<body>
+		This is page three.<br/>
+		<f:view>
+			<h:form>
+				<h:commandButton action="pageone" value="back"/>
+			</h:form>
+		</f:view>			
+	</body>
+</html>
+
+Now lets add the input button to the first page:
+
+<filelocation>/src/main/webapp/pageone.xhtml
+
+bc. 
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	<body>
+		This is page one.<br/>
+		<f:view>
+			<h:form>
+				<h:inputText value="#{welcome.target}"/>
+				<h:commandButton action="#{welcome.getTarget}" value="forward"/>
+			</h:form>
+		</f:view>
+	</body>
+</html>
+
+And finally we need to update the bean.
+
+<filelocation>/src/main/java/Welcome.java 
+
+bc. 
+import javax.faces.bean.ManagedBean;
+@ManagedBean
+public class Welcome {
+	private String target;
+	public String getTarget() { return target; }
+	public void setTarget(String target) { this.target = target; }
+}
+
+Test with: @http://localhost:8080/simpleWeb6/pageone.jsf@
+
+Now there are a couple of curious points here that are a bit subtle.  For example why in pageone.xhtml did we use: @welcome.target@ for the inputText while we used: @welcome.getTarget@ for the command button?  I'll leave this question for now until I show one more thing.  Please go to the "Managed Beans: Scoping":ManagedBeans#scoping page now to learn how to scope a managed bean.
+
+h2. Session Scoped Bean
+
+Okay now lets update our @Welcome.java@ bean to be Session Scoped.
+
+<filelocation>/src/main/java/Welcome.java 
+
+bc. 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+@ManagedBean
+@SessionScoped
+public class Welcome {
+	private String target;
+	public String getTarget() { return target; }
+	public void setTarget(String target) { this.target = target; }
+}
+
+Now try out the application and notice the small but subtle difference.  When you click back, the target page input box is filled out.  So the key here is that:
+
+bc. <h:inputText value="#{welcome.target}"/>
+
+Acts like a read/write (access/set) variable, where as:
+
+bc. <h:commandButton action="#{welcome.getTarget}" value="forward"/>
+
+only acts like a read (access), there is no _setting_ like setTarget().  So @welcome.target@ is like a shortcut for @getTarget()@ and @setTarget()@.
+
+h2. Login: Username and Password
+
+Lets make the example a little more useful by making it into a login functionality.  Lets change the page names to reflect what we are doing too.  Create the following files. (In this example I'm using: @com/spicevan/tailor@ however you would use whatever you specified to maven in the "Maven: Create Project":../machineSetup/maven.html#createproject section for @groupId@ parameter.
+
+<filelocation>/src/main/java/com/spicevan/tailor/model/User.java 
+
+bc. 
+package com.spicevan.tailor.model;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+@ManagedBean
+@SessionScoped
+public class SecurityGuard {
+	private String password;
+	public String login() {
+		if (password.equalsIgnoreCase("secret")) {
+			return "secure";
+		} 
+		return "denied";
+	}
+	public String getPassword() {return password;}
+	public void setPassword(String password) {this.password = password;}
+}
+
+<filelocation>/src/main/webapp/pages/login.xhtml
+
+bc. 
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	<body>
+		Enter Password<br/>
+		<f:view>
+			<h:form>
+				<h:inputText value="#{securityGuard.password}"/>
+				<h:commandButton action="#{welcome.getTarget}" value="forward"/>
+			</h:form>
+		</f:view>
+	</body>
+</html>
+
+<filelocation>/src/main/webapp/pages/secure.xhtml
+
+bc. 
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	<body>
+		You have been granted access to the secure page!<br/>
+		<f:view>
+			<h:form>
+				<h:commandButton action="login" value="back"/>
+			</h:form>
+		</f:view>			
+	</body>
+</html>
+
+<filelocation>/src/main/webapp/pages/denied.xhtml
+
+bc. 
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	<body>
+		You have been denied access.  Click back and try again.<br/>
+		<f:view>
+			<h:form>
+				<h:commandButton action="login" value="back"/>
+			</h:form>
+		</f:view>			
+	</body>
+</html>
+
+Test with: @http://localhost:8080/simpleWeb6/pages/login.jsf@
+
+Try putting in the wrong password and then cutting and pasting the following URL into the browser and hitting enter: @http://localhost:8080/simpleWeb6/pages/secure.jsf@.  Notice how you got there anyway?  Not real security is it!  Okay lets add some real security now.

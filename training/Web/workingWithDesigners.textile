@@ -1,0 +1,45 @@
+"home":../../index.html > "Training":../index.html > Working with Designers
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Introduction
+
+When Web Designers and Web Programmers are collaborating, a good, tight relationship with useful tools to support them are ideal to get established.  One of the key aspects of collaborating will be the 'sharing' of files.  Sharing files by sending email attachments, or working on the published web-site, are less than ideal techniques.  This document will discuss some more advanced ways of sharing documents between developers and designers.
+
+h2. The Repository
+
+Central to the concept of sharing files between team members is having a central shared repository.  In our case we will use Subversion as our shared repository.  The way it works is that the central repository has a shared copy of the files that team members check their changes into, and pull other peoples updates from.
+
+h2. The Server
+
+Typical websites make use of PHP to deliver dynamic, database backed websites.  The key server side component is the Apache Web Server ( or the Microsoft IIS Web Server ).  In our collaboration projects we will be using the Java programming language to do our web site development.  The server in our case will initially be the Tomcat Servlet engine.  So as part of the setup the designer will need to install Tomcat to be able to 'see' the website on their local computer.
+
+h2. Dependency Management
+
+Often we will build websites that will make use of 3rd party libraries.  This may be a library to convert a web page to a PDF file, send specially formatted email, or any other type of useful function.  We will use a product called Maven, to assist us with this aspect of the project.
+
+h2. Development Environment
+
+Finally, we use what is called an Integrated Development Environment (IDE) to pull all these things together and will be the 'console' from which we'll check our code in and out of the repository, run the server, and use Maven from.  The product we'll use for this is called Eclipse.
+
+h1. Installation
+
+Okay lets get started with the installs that are required.  
+
+h2. Java
+
+It is expected that you have at least version 1.5 of the java development environment.  Please find out from the web how to make sure you have at least version 1.5 and if not how to install 1.5 or 1.6.  You can open a dos prompt in windows or a terminal in mac and type: @javac -version@.  When I do this I see: @javac 1.5.0_22@ so I'm okay.  If this fails for you or you get 1.4 or lower, you'll need to upgrade your Java Development Kit (JDK).  Goto @java.com@ to upgrade.  Make sure you select the Java Development Kit (JDK) not the Java Runtime Environment (JRE).
+
+h2. Eclipse
+
+Once java is installed go do the "Eclipse install":../machineSetup/eclipse.html.
+
+h2. Tomcat
+
+Next "setup and install Tomcat":../machineSetup/tomcat.html.
+
+h2. Maven
+
+Finally "setup Maven":../machineSetup/maven.html.

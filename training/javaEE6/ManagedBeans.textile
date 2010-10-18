@@ -1,0 +1,173 @@
+"home":../../index.html > "Training":../index.html > Managed Beans
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Intro
+
+Managed beans are a way of getting what happens on a web page into the java context easily.  When we want to capture values from a web page (form) we will store those values into a bean.  When we want to display information on a web page that is dynamic, we can pull those values from a managed bean.
+
+h1. Prerequisites
+
+The following are the recommended prerequisites:
+
+* "First Time Setup":FirstTimeSetup.html
+* "Eclipse & Subversion Setup":../machineSetup/eclipse.html
+* "Maven Setup":../machineSetup/maven.html
+
+h1. Steps
+
+The basics first.  Have a look at the code below
+
+h2(#createbean). Create a Managed Bean
+
+<filelocation>/src/main/java/Welcome.java 
+
+bc. 
+import javax.faces.bean.ManagedBean;
+@ManagedBean
+public class Welcome {
+	private String message;
+	public String getMessage() { return "I'm alive!"; }
+}
+
+Now in our HTML code we can access this bean like so: 
+
+<filelocation>/src/main/webapp/test.xhtml
+
+bc. 
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <body>
+    #{welcome.message}
+  </body>
+</html>
+
+Notice the Managed Bean name in the HTML has the first letter lower-cased.  Second notice how accessing the method getMessage() we drop the _get_ and ().
+
+h2. Forms, Navigation, & Managed Bean
+
+Lets show how entering a value in a form on one page can be accessed by a second page.
+
+<filelocation> project/web/pageone.xhtml
+
+bc. 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:body>
+        <f:view>
+            <h:form>
+                Enter your name: <h:inputText value="#{nameHandler.name}"/>
+                <h:commandButton action="pagetwo" value="Next"/>
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+
+<filelocation> project/web/pagetwo.xhtml
+
+bc. 
+<html xmlns="http://www.w3.org/1999/xhtml" >
+	Hello, #{nameHandler.name}, nice to meet you.
+</html>
+
+<filelocation> project/src/java/tmp/NameHandler.java
+
+bc. 
+package tmp;
+import javax.faces.bean.ManagedBean;
+@ManagedBean
+public class NameHandler {
+    private String name;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+h2(scoping). Scoping
+
+Scoping refers to how long a java object will last for.  That is the time from creation to deletion.  There are three traditional scopes that I'll explain.
+
+h3. Overview 
+
+h4. Request Scope
+
+Request scope lasts for a single request/response transaction.  That is when a user types a URL in their browser and hits enter and a web page comes up.  During that time a RequestScoped bean will have been created and destroyed.
+
+h4. Session Scope
+
+This is a very common scoping and corresponds to when a user first comes to your website in their current browser and while they continue to navigate on your website, any SessionScoped beans will get create when the user first gets to your website and will only be destroyed when they close their browser.  (This is an approximation of what happens but good enough for understanding the basics)
+
+h4. Application Scope
+
+This gets create when the website is first turned on, on the server.  All users see and share the same application scoped beans.  Akin to global variables in programming.
+
+h3. Steps
+
+So lets create a session scoped bean.
+
+bc. 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+@ManagedBean
+@SessionScoped
+public class Welcome {
+}
+
+Thats it!
+
+
+
+
+For a website you will often want to have a java POJO(Plain Old Java Object) that represents the current user.  So to start off lets create this user object.
+
+<filelocation>/src/main/java/com/spicevan/tailor/model/User.java
+
+bc. 
+@ManagedBean
+public class User {
+	private String name;
+	private String email;
+	private String password;
+	// Accessors
+	public String getName() { return name; }
+	public void setName(String name) { this.name = name; }
+	...
+}
+
+So now we would like to use this in our HTML code in the following way.  Image we have two pages, the first where you enter in your name, email, and password and a second page where we display your name and password.  Create the following two html pages:
+
+<filelocation>/src/main/webapp/register.xhtml
+
+bc. 
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <body>
+    #{welcome.message}
+  </body>
+</html>
+
+<filelocation>/src/main/webapp/display.xhtml
+
+All JSF tag must be always be enclosed in a @<f:view>@ tag.
+
+h1. Reference
+
+h2. Scopes
+
+All scope annoations in JSF 2: @NoneScoped, @RequestScoped, @ViewScoped, @SessionScoped, @ApplicationScoped, and @CustomScope. @ViewScoped and @CustomScoped are new scopes in JSF 2
+
+h2. Web Sites
+
+* "Managed Beans: ViewScoped example":http://www.jsfsummit.com/blog/max_katz/2009/08/learning_jsf2_managed_beans
+This site also shows how to inject one java (bean/class) into another.
+
+* "Show user, username, password, logging in, etc...":http://download.oracle.com/docs/cd/E15051_01/wlw/docs103/guide/webapplications/jsf/jsf-app-tutorial/2.ManagedBeans.html
+
+
+h1. Glossary
+
+{glossary}

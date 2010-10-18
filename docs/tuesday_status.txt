@@ -1,0 +1,94 @@
+-------------------------
+
+Today we got the Red Hat 4.6 Oracle Virtual Machine installed, we then made 4
+copies to lay the foundation for Dev-UCM, Dev-DB, Dev-OP/OID, and DNS
+(facilitates not having to remember ip addresses)
+
+These are deployed on the HTP server.
+
+We prepped having an install disc so setting up new instances is streamlined.
+
+Attended a MoHE meeting. They will send two people to join us full time, they
+will participate in the group work.
+
+
+ovm won't start on 'del'.  untaring it on x61 to try it there.  
+
+the local vmware OEL5U3 with OVMM 2.2 is a bit wonky
+the server pool/vm/etc... from being connected to the HTP server is hard to delete...and slow...
+setup up the host originally to have dhcp (maybe should have done static)
+
+try to start up ovm on x61 if so try to install a base RHEL4.6 image for Zainal.
+
+put that image on the HTP server and then Zainal can just copy it, etc...
+
+ft
+
+trying to run the OVM on the X61 when trying to add a server pool get the following error:
+
+OVM-1011 Oracle VM Server 192.168.8.99:welcome1 operation Checking Shared Storage failed: failed:<TypeError: list indices must be integers> .
+
+==> OVM didn't work on either del or x61 so I created the VM on the command line not using oracle vm manager.
+
+-----------------
+
+Wednesday:
+
+> requirements analysis and high level design
+> decide on the infrastructure: dev(VM), stage(vm), prod (one instance)
+> request to get formal documentation of all the servers: prod & dev
+
+Decisions:
+
+1) We will install Oracle VM to the dev server that is currently hosting the BI environment.  Zainal and Rudy are aware and okay with this.
+Motivation:
+Using Oracle VM provides a plethora of benefits and almost no drawbacks.  Primary benefits are the ability to roll back changes, etc..., so the server can be operated on with less fear of corrupting settings etc.  This should speed up development time significantly.
+We also need to have a development environment for several reasons.  We will do development there that should not be done on production.  Also this will provide an environment where we can safely diagnose problems without the fear of disrupting production.
+
+2) Wed AM: Dewa, Seri, Suri, Fazira and Oracle reviewed the Inquiry Portlets and the Workflow work items and it was communicated to the team what information they needed to gather from the customer, etc...
+
+Outstanding:
+
+1) We need to talk with Dewa, Seri, Suri and Fazira to collaborate on the design for the integrated search work item.  They will be responsible for the front end look and feel and it will be the responsibility of Oracle to provide to them the API's that will retrieve the information they need to build their front end.
+
+Wednesday PM:
+
+We reviewed the requirements around the guided search.  With Hamdans team and Oracle we came up with a proposal of what the guided search will look like.  Finally it was agreed that we would have one single page for the user to interact with.  The main body would contain the search results and there would be a left hand pane where the user could drill deeper into the results.  These may be accordian style panes that the user can expand and contract.  Long lists will be scrollable in their area without affecting the whole page, etc...
+
+Environments:
+We continued to build out the new development server using Oracle VM.  We laid down the Oracle VM Server Hypervisor.  We began building the Oracle Virtual Machine Manager (OVMM) VM image.  When OVMM is built it will be used to create the other OVM Images such as the database, portal + oid, and ucm.  We will build a baseline image that is Red Hat Enterprise Linux 4.6, then build each of the images on top of that. 
+
+
+----------------------------------------------------------
+
+Decisions:
+
+Infrastructure:
+
+1 - In the development environment, the machine that is hosting the BI
+instance will be cleaned and Oracle Virtual Machine installed. This machine
+will then become the UCM instance for the future and it will have Red Hat 4.6
+installed into a virtual machine on it with UCM 10gR4.
+
+2 - The split between Contribution and Consumption will not be done in the
+production environment.  The effort associated with standing up another instance is too high.  We will evaluate the impacts of this vis-a-vis the workflow approval process.
+
+3 - All work that requires significant development will first be done in the development environment (search, backend portlets, workflows).  Some OpenWCM functionality, such as Announcements, have already been started on the production environment, however 2 bugs have already been found and need addressing.  This is an urgent need.  We will fix the development environment where it is at the moment and once this is fixed we will debug the problem in development and then promote that to production.
+
+Going forward all work can be done primarily and initially on the development server, and once it works properly can be promoted to production.
+
+3a - The two bugs are:
+	* Can't contribute an item to the announcements from the portal
+	* Clicking a link in the list needs to go to a separate page, not show up in the current portal page.
+
+4 - Two types of workflows are going to exist.  The two types will have one step and two steps respectively.  The one step requires only the department head to approve the content.  The two step is for content that will go on the portal and that will require an additional step of the corporate communications person to also approve it.  There may be content that goes on the portal, but a less important sub-page, that doesn't require corporate communications person to approve it.  The actual delineating of which page will require which approval process will proceed over the next couple of weeks.
+
+5 - Search functionality.  The search will look like the retriever search.  There will be four fields by which a search can be narrowed: Document Type, and Department > Group > Subject.  Subtotals of how many results occur in each category will also be displayed.
+
+Responsibilities:
+* Oracle will be responsible for providing the API's necessary for this functionality.
+* The KMS team under Hamdan will be responsible for doing the UI associated with this functionality.
+
+6 - Backend Portlet requirement finalization will occur tomorrow as Fazira is not available today. 
+
+7 - The staging environment will be upgraded like the current development environment.  We will move onto the Oracle VM infrastructure to facilitate the move.  More discussion is required on this topic.

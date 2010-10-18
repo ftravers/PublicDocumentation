@@ -1,0 +1,38 @@
+"<< UP":index.html
+
+{toc}
+
+h1. Introduction
+
+There are several tag libraries that you will need to be aware of.
+
+bc. 
+xmlns:c="http://java.sun.com/jsp/jstl/core"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:clarity="http://clarity/facelets/debug"
+xmlns:h="http://java.sun.com/jsf/html"
+
+You will also need to download some jars that implement these.  Put these dependencies into your Maven pom.  See "Maven":../machineSetup/maven.html for more information about Maven.
+
+bc. 
+<dependency>
+	<groupId>com.sun.faces</groupId>
+	<artifactId>jsf-api</artifactId>
+	<version>2.0.2</version>
+</dependency>
+<dependency>
+	<groupId>com.sun.faces</groupId>
+	<artifactId>jsf-impl</artifactId>
+	<version>2.0.2</version>
+</dependency>
+<dependency>
+	<groupId>taglibs</groupId>
+	<artifactId>standard</artifactId>
+	<version>1.1.2</version>
+</dependency>
+<dependency>
+	<groupId>javax.servlet</groupId>
+	<artifactId>jstl</artifactId>
+	<version>1.1.2</version>
+</dependency>

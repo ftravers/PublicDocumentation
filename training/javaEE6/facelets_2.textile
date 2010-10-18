@@ -1,0 +1,38 @@
+"(UP): Training":../index.html > Facelets 2
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Inserting Images
+
+To insert an image into a facelets page, put an image at the specified location:
+
+<filelocation>src/main/resources/images/logo.gif
+
+Now create the following file:
+
+<filelocation>src/main/webapp/header.xhtml
+
+bc. 
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html">
+    <ui:composition>
+    	<h:graphicImage value="#{resource['images:logo.gif']}"/>
+    </ui:composition>
+</html>
+
+In general, use the following syntax, replacing imageName.jpg with the name of the graphic you want to use.
+
+bc. <h:graphicImage value="#{resource['images:imageName.jpg']}"/>
+
+h1. Images
+
+* Including Images:
+stick graphics here: src/main/resources/images
+
+@<h:graphicImage value="#{resource['images:Picture 1.png']}"/>@
+
+I believe _resource_ is a hashmap.

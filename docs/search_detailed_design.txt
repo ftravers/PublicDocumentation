@@ -1,0 +1,62 @@
+Search Detailed Design Doc
+--------------------------------------------
+
+We can exectute a GET_SEARCH_RESULTS service call and get back JSON code which is useful in ajax code.
+
+The following is the format of the GET_SEARCH_RESULTS idc service.
+
+http://ucmel/idc/idcplg?
+IdcService=GET_SEARCH_RESULTS&
+SortField=dInDate&
+SortOrder=Desc&
+ResultCount=20&
+QueryText=&
+listTemplateId=&
+ftx=&
+TargetedQuickSearchSelection=&
+SearchQueryFormat=Universal&
+MiniSearchText=&
+go=Quick+Search&
+IsJson=1
+
+We will call this over RIDC and pass through the JSON back to the client.  On the client the ajax will 
+received the results of the ajax call (proxied by the portal) and display the results.
+
+Here is the URL using tally (from customer reference site)
+
+http://olympus.stellent.com/xpedio/idcplg/crm/pxs?
+
+F1Field=dDocType&
+F2Field=xIndustry&
+F2Total=yes&
+F3Field=xReferenceable&
+F3Total=yes&
+F4Field=&
+F4Total=yes&
+F5Field=&
+F5Total=yes&
+IdcService=GET_DOC_PAGE&
+Action=GetTemplatePage&
+Page=TALLY_DISPLAY&
+TallyQuery=dDocTitle+%3Csubstring%3E+%60reference%60+%3COR%3E+dDocName+%3Csubstring%3E+%60reference%60+%3COR%3E+%28%3Cftx%3Ereference%3C%2Fftx%3E%29&
+
+Decoded: dDocTitle <substring> `reference` <OR> dDocName <substring> `reference` <OR> (<ftx>reference</ftx>)& TallySubmit= Tally &
+
+TallySubmit=+Tally+&
+IsJson=1
+
+-------------
+Try to build for our server:
+
+http://ucmel/idc/idcplg?
+F1Field=dDocType&
+F1Total=yes&
+F2Field=xSubject&
+F2Total=yes&
+IdcService=GET_DOC_PAGE&
+Action=GetTemplatePage&
+Page=TALLY_DISPLAY&
+TallyQuery=
+TallySubmit=+Tally+&
+
+http://ucmel/idc/idcplg?F1Field=dDocType&F1Total=yes&F2Field=xSubject&F2Total=yes&IdcService=GET_DOC_PAGE&Action=GetTemplatePage&Page=TALLY_DISPLAY&TallyQuery=TallySubmit=+Tally+

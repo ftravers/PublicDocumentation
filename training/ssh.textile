@@ -1,0 +1,50 @@
+"home":../index.html > "training":index.html > SSH
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Setup automatic login to ssh server
+
+If you already have a private key DON'T create a new one.  The following command will let you know if you already have one.
+
+bc. [root@del ~]# ssh-keygen -t rsa
+
+Copy your public key to the server.    
+
+bc. ssh-copy-id [username]@[host] 
+
+example:
+
+bc. ssh-copy-id ftravers@spicevan.com
+
+Test this works by logging into the server, and ensure it DOESN'T ask you for a password now.
+
+bc. [root@del ~]# ssh ftravers@spicevan.com
+
+h1. have sshd run on another port
+
+Add line like: 
+Port 10122
+to:
+/etc/ssh/sshd_config
+[root@proddb ssh]# service sshd reload
+
+update firewall:
+To add a new port, run the following and
+	[root@ucm3 ~]# /usr/bin/system-config-securitylevel-tui
+Choose Customize,  add a line like: 
+8888:tcp
+to the other ports section, OK, OK.
+	[root@ucm3 ~]# service iptables restart
+	
+==> Automatically log into servers:
+	> If you haven't already generated your key pair with: ssh-keygen -t rsa, do so.
+	> grab the file: id_rsa.pub and get it into the server you want to auto ssh into, put it in
+	the root directory /root.
+	> ssh into the host then do: 
+cd /root/.ssh; cat ../id_rsa.pub >> authorized_keys; chmod 600 authorized_keys; rm -f ../id_rsa.pub
+
+
+
+

@@ -1,0 +1,502 @@
+File needed: oc4j_extended_101330.zip
+
+
+
+=========================================
+Oracle Containers for J2EE 10g (10.1.3.1)
+=========================================
+
+OC4J Zip Distribution ReadMe
+
+Contents
+--------
+
+    * Introduction
+    * Prerequisites
+    * Extracting OC4J
+    * OC4J Command Script
+    * First Time Initialization
+    * Starting and Stopping OC4J
+    * Directly Starting and Stopping OC4J
+    * Testing the OC4J Installation
+    * Using Application Server Control
+    * Using the admin_client.jar Command Line Utility
+    * Example usages of admin_client.jar
+
+Introduction
+------------
+
+The Oracle Containers for J2EE (OC4J) zip distribution provides
+a complete J2EE 1.4 server environment distributed as a simple zip file.
+
+The OC4J zip distribution includes an HTTP/S server, all of the required J2EE
+1.4 APIs and services, a complete EJB 3.0 and JPA implementation,
+Oracle TopLink, extensive Web Services capabilities and the browser-based
+Application Server Control Console management interface to configure the server
+and deploy applications.
+
+
+Prerequisites
+--------------
+
+In order to use the OC4J zip distribution, a Java2 Standard
+Edition (J2SE) SDK version 5.0 (or 1.4.2) must be installed on the host machine.
+
+
+Extracting OC4J
+---------------
+
+Extract the oc4j_extended.zip file using  any archive utility which handles zip
+files, including the jar utility in the J2SE.
+
+<install-dir> is the directory into which the oc4j_extended.zip file was
+extracted.
+
+The following directory structure will be created:
+
+    <install_dir>
+        /ant
+        /bin
+        /diagnostics
+        /j2ee
+        /javacache
+        /javavm
+        /jdbc
+        /jlib
+        /lib
+        /opmn
+        /rdbms
+        /sqlj
+        /toplink
+        /webservices
+        /xqs
+
+
+OC4J Command Script
+-------------------
+
+The OC4J zip distribution provides a script that can be used to start and stop a
+local OC4J instance. The oc4j script is located in the <install-dir>/bin
+directory.
+
+    Usage: oc4j [Options]
+
+The commands supported by the OC4J command script are:
+
+    Usage: oc4j [Options]
+    Options:
+
+    -start                                           : start OC4J
+    -shutdown -port <ORMI port> -password <password> : stop OC4J
+    -version                                         : display the version
+    -help                                            : display this message
+
+Before using the OC4J command script, the following environment variables must
+be set:
+
+    ORACLE_HOME : directory where oc4j_extended.zip was extracted. = <install-dir>
+    JAVA_HOME   : location of the J2SE SDK to be used.
+    
+    
+Set up env. variables in unix:
+
+$JAVA_HOME=/u01/app/java5/jdk1.5.0_22
+$export JAVA_HOME
+$env | grep JAVA_HOME
+
+$ORACLE_HOME=/u01/app/oc4j-10131
+$export ORACLE_HOME
+$env | grep ORACLE_HOME
+
+For example, if oc4j_extended.zip was extracted to /java/oc4j-10131 and the
+J2SDK was installed in /java/j2se15 then JAVA_HOME and ORACLE_HOME would be set
+as:
+
+    JAVA_HOME=/java/j2se15
+    ORACLE_HOME=/java/oc4j-10131
+
+
+First Time Initialization
+-------------------------
+
+There are no specific tasks that need to be performed to ready the new OC4J
+instance for use.  The new OC4J instance can be used immediately after the unzip
+operation has completed.
+
+** Note: on the first use of OC4J, you will be prompted to enter a password for
+the OC4J administrator account. The username for this account defaults to
+"oc4jadmin".
+
+Change to the <install-dir>/bin  directory, and issue the following command:
+
+    > cd <install_dir>/bin
+    > oc4j -start
+
+    Starting OC4J from /java/oc4j-10131/j2ee/home ...
+
+    ... <application deployment messages >
+
+    06/08/23 13:57:17 Set OC4J administrator's password (password text will not
+    be displayed as it is entered)
+    Enter password: ******
+    Confirm password: ********
+    The password for OC4J administrator "oc4jadmin" has been set.
+    06/08/23 13:57:17  The OC4J administrator "oc4jadmin" account is activated.
+    06/08/23 13:57:22 The OC4J administrator "oc4jadmin" account is activated.
+    06/08/23 13:57:31 Oracle Containers for J2EE 10g (10.1.3.1.0) initialized
+
+OC4J is configured with a set of defaults that includes a Web site from which
+deployed applications and the management console can be accessed. These are
+provided so OC4J can be started and used immediately without requiring
+additional configuration tasks to be performed.
+
+
+Starting and Stopping OC4J
+--------------------------
+
+The OC4J command script can be used to start and stop OC4J processes.
+
+Start OC4J using the command script as follows:
+
+    >cd <install_dir>/bin
+    >oc4j -start
+
+    Starting OC4J from /java/oc4j-10131/j2ee/home ...
+    06/08/23 14:00:38 Oracle Containers for J2EE 10g (10.1.3.1.0)  initialized
+
+
+Stop OC4J using the command script as follows:
+
+    >cd <install_dir>/bin
+    >oc4j -shutdown -port 23791 -password welcome
+
+    Shutdown OC4J instance...
+
+    Where :
+
+    -port specifies the ORMI port in use with the local OC4J process.
+
+    -password specifies the administration password entered as
+     described in the "Basic Installation" section of this document.
+
+
+Directly Starting and Stopping OC4J
+-----------------------------------
+
+In addition to the OC4J command script, it possible to directly start OC4J using
+oc4j.jar on the command line.
+
+Directly start OC4J server by changing to the J2EE_HOME directory and issuing
+one of the following commands:
+
+Option 1: Start OC4J using the default configuration files, which are located in
+the j2ee/home/config directory.
+
+    > cd <install_dir>/j2ee/home
+    > java -jar oc4j.jar
+
+Option 2: Start OC4J using a customized server.xml OC4J configuration file
+located in a non-default directory (/mypath).
+
+    > cd <install_dir>/j2ee/home
+    > java -jar oc4j.jar -config /mypath/server.xml
+
+The server outputs an initialization string with the version number when it is
+ready to accept requests. For example:
+
+    Oracle Containers for J2EE 10g (10.1.3.1.0) initialized
+
+Stop OC4J using one of these methods:
+
+- Use the "stop" button from within Application Server Control
+
+- Use the shutdown command in the admin_client.jar command-line utility
+
+- Press ^c (Ctrl+c) in the window where the process was started
+
+- Use the process termination command (for example
+"kill" on Unix/Linux) for the operating system in use.OC4J will indicate on the
+console window that it is shutting down when it receives a shutdown signal.
+
+
+Testing the OC4J Installation
+-----------------------------
+
+Test the installation by starting the OC4J instance and accessing the welcome
+page from a Web browser.
+
+    http://<oc4j_host>:8888
+
+Where <oc4j_host> is the name of the server on which OC4J is running. The OC4J
+welcome page will be displayed.
+
+On the right hand side of the welcome page is a portlet with links to enable the
+testing of the JSP and Servlet environments using standard examples.
+
+If the default port number in the default-web-site.xml file has been changed,
+access the Web server using :
+
+    http://<oc4j_host>:<portnumber>
+
+Where <portnumber> is the value specified in the "port" attribute of the
+<web-site> element in the file.
+
+
+Using Application Server Control Console
+----------------------------------------
+
+The OC4J zip distribution contains the JMX-based Application
+Server Control Console, which enables you to perform server configuration tasks
+as well as deploy and manage applications.
+
+Application Server Control Console provides:
+
+    + JSR-77 management and JSR-88 based deployment support
+    + Extensive deployment support, including a comprehensive deployment
+      plan editor
+    + Configuration and management support for Web Services
+    + An MBean browser for directly accessing OC4J System MBeans as well as
+      application-specific MBeans
+    + A JNDI browser
+
+Application Server Control Console is configured to be auto-deployed when the
+OC4J instance is started for the first time.
+
+Application Server Control Console can be accessed using the URL:
+
+    http://<oc4j_host>:8888/em
+
+To logon to Application Server Control Console use the "oc4jadmin" username and
+the password you set during the first initialization of OC4J.
+
+Using the admin_client.jar Command-Line Utility
+-----------------------------------------------
+
+OC4J provides a command-line utility, admin_client.jar,that can be used to
+perform operations on a running OC4J instance. Among other things, you can use
+admin_client.jar to restart and stop OC4J, deploy applications, and configure
+various resources. The admin_client.jar utility can operate
+against OC4J instances running in a standalone mode or when in an Oracle
+Application Server environment.
+
+Note: the admin_client.jar utility is the replacement utility of the earlier
+admin.jar.  It operates using the OC4J MBeans and the J2EE Deployment API. It
+has a similar usage model to admin.jar but provides more comprehensive support
+for deployment operations.
+
+The admin_client.jar utility uses ORMI to connect to a running OC4J process. This
+means OC4J must be started before using the utility. Note that OC4J can't be
+started using admin_client.jar.
+
+The admin_client.jar utility is exercised using the following command:
+
+    > java -jar admin_client.jar <deployment URI> <admin_user> <admin_pwd>
+      <command>
+
+Usage Notes:
+
+   - The deployment URI specifies the target OC4J on which to perform the
+     specified command.  A deployment URI can be one of three forms
+
+     OC4J Standalone:
+
+         deployer:oc4j:hostname:ormi_port
+
+         deployer:oc4j:localhost:23791
+
+         deployer:oc4j:localhost (defaults to 23791)
+
+     Oracle Application Server - Single Instance:
+
+         deployer:oc4j:opmn://opmn_host:opmn_port/oc4jInstanceName
+
+         deployer:oc4j:opmn://localhost:6003/home
+
+         deployer:oc4j:opmn://localhost/home (defaults to 6003)
+
+     Oracle Application Server - Group:
+
+         deployer:cluster:opmn://opmn_host:opmn_port/groupName
+
+         deployer:cluster:opmn://localhost/Colors
+
+   - The admin_user should be specified as "oc4jadmin" by default.
+
+   - The admin_pwd is the "oc4jadmin" account password you configured
+     during the first time initialization of the OC4J instance.
+
+Use the -help option see all of the available admin_client.jar commands.
+
+    > java -jar admin_client.jar -help
+
+Use the -usage <command> option to see detailed information for a specific
+command.
+
+    > java -jar admin_client.jar -usage <command>
+
+    > java -jar admin_client.jar -usage deploy
+
+
+Example usages of admin_client.jar
+----------------------------------
+
+Note: all these examples are executed from within the <install-dir>/j2ee/home
+directory.
+
+To restart OC4J:
+
+    > java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+      -restart
+
+To shutdown OC4J:
+
+    > java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+      -shutdown
+
+To deploy a WAR:
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -deploy
+     -file <path-to-war-file>
+     -deploymentName <name>
+     -contextRoot </context-root>
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -deploy
+     -file /tmp/archer/archer_web.war
+     -deploymentName archer
+     -contextRoot web_one
+
+To deploy an EAR file:
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -deploy
+     -file <path-to-ear-file>
+     -deploymentName <name>
+     -bindAllWebApps
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -deploy
+     -file /tmp/archer.ear
+     -deploymentName archer_app
+     -bindAllWebApps
+
+To redeploy an application:
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -redeploy
+     -file <path-to-file>
+     -deploymentName <name>
+     -bindAllWebApps
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -redeploy
+     -file /tmp/archer_v2.ear
+     -deploymentName archer
+     -bindAllWebApps
+
+To undeploy an application:
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -undeploy <name>
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -undeploy archer
+
+To stop an application:
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -stop <name>
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -stop archer
+
+To start an application:
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -start <name>
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -start archer
+
+To add a JDBC Connection Pool:
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -addDataSourceConnectionPool
+     -applicationName <name>
+     -name <connection pool name>
+     -factoryClass <factory class>
+     -dbUser <db username>
+     -dbPassword <db password>
+     -url <url>
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -addDataSourceConnectionPool
+     -applicationName default
+     -name ScottCP
+     -factoryClass "oracle.jdbc.pool.OracleDataSource"
+     -dbUser scott
+     -dbPassword tiger
+     -url "jdbc:oracle:thin:@localhost:1521:XE"
+
+To add a JDBC DataSource:
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -addManagedDataSource
+     -applicationName <application name>
+     -name <datasource name>
+     -jndiLocation <location>
+     -connectionPoolName <connection pool to use>
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -addManagedDataSource
+     -applicationName default
+     -name ScottDS
+     -jndiLocation "jdbc/ScottDS"
+     -connectionPoolName ScottCP
+
+To test a ConnectionPool:
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -testDataSourceConnectionPool
+     -name <connection pool name>
+     -sqlStatement <sql statement>
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -testDataSourceConnectionPool -name ScottCP
+     -sqlStatement "select sysdate from dual"
+
+To test a DataSource:
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -testDataSource
+     -datasourceName <datasource name>
+     -sqlStatement <sql statement>
+
+    >java -jar admin_client.jar deployer:oc4j:localhost oc4jadmin <admin_pwd>
+     -testDataSource
+     -datasourceName ScottDS
+     -sqlStatement "select sysdate from dual“
+
+
+
+Create an OC4J Container that supports WSRP. 
+
+	> From: http://www.oracle.com/technology/products/ias/portal/pdk.html get wsrp-install.jar --OR--
+	/Volumes/Volume_2-1/software/oracle/fusion middleware/Oracle Portal/wsrp-install.jar
+		> Download: Oracle Portlet Container 10.1.3.
+		> AS THE USER THAT PORTAL/OAS WAS INSTALLED AS, DO...
+		> paste file into: <install_dir>/j2ee/home
+		example: /u01/app/oc4j-10131/j2ee/home
+		
+		
+		> execute: 
+			cd /u01/app/oc4j-10131/j2ee/home
+			<JAVA_HOME>bin/java -jar wsrp-install.jar
+			ex:
+			/u01/app/java5/jdk1.5.0_22/bin/java -jar wsrp-install.jar
+
+
+Copyright 2006, Oracle. All Rights Reserved.
+
+

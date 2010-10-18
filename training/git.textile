@@ -1,0 +1,192 @@
+p(toc). Table of Contents
+
+{toc}
+
+h1. References
+
+* "Git Reference":http://git.or.cz/course/svn.html
+
+h1. Basics
+
+Go to the dir you want to be managed by git and do:
+
+bc. 
+git init
+git add .
+git commit
+
+h1. Setup 
+
+Reference: "Dreamhost Gitosis Setup":http://wiki.dreamhost.com/Gitosis
+
+bc. 
+[ftravers@local]$ ssh-keygen -t rsa
+[ftravers@local]$ ssh-copy-id ft_git@spicevan.com
+[ftravers@local]$ rcp ~/.ssh/id_rsa.pub ft_git@spicevan.com:~
+[remote]$ mkdir -p $HOME/lib/python2.5/site-packages
+[remote]$ export PYTHONPATH=$HOME/lib/python2.5/site-packages
+[remote]$ mkdir ~/src
+[remote]$ cd ~/src
+[remote]$ wget http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c11-py2.5.egg
+[remote]$ sh setuptools-0.6c11-py2.5.egg --prefix=$HOME
+[remote]$ git clone git://eagain.net/gitosis.git
+[remote]$ cd gitosis/
+[remote]$ export PATH=$HOME/bin:$PATH
+[remote]$ python setup.py install --prefix=$HOME
+[remote]$ cd
+[remote]$ echo "export PYTHONPATH=$HOME/lib/python2.5/site-packages/" >> .bashrc
+[remote]$ echo "export PYTHONPATH=$HOME/lib/python2.5/site-packages/" >> .bash_profile
+[remote]$ echo "export PATH=$HOME/bin:$PATH" >> .bashrc
+[remote]$ echo "export PATH=$HOME/bin:$PATH" >> .bash_profile
+[remote]$ . ~/.bash_profile
+[remote]$ gitosis-init < id_rsa.pub; rm -f id_rsa.pub
+[remote]$ chmod 750 $HOME/repositories/gitosis-admin.git/hooks/post-update
+[ftravers@local]$ mkdir ~/projects; cd ~/projects
+[ftravers@local]$ git clone ft_git@spicevan.com:~/repositories/gitosis-admin.git
+
+h1. Adding a new Repository
+
+h2. Edit config file
+
+Edit config file: @gitosis-admin/gitosis.conf@
+
+The following is the template for understanding the format of this file:
+
+bc. 
+[group groupName]
+writable = repoName
+members = user1 user2
+
+The fields above that need to be filled in with your specific information are:
+* @groupName@ : This is the name of your project group
+* @repoName@ : This is the name of the folder that holds your repository/project
+* @user1@, @user2@ : This is the name of the user who will belong to this group.  This must correspond to the filename located in @gitosis-admin/keydir/user1.pub@.  Note don't include the @.pub@ extension.
+
+Example: 
+
+bc. 
+[ftravers@local]$ cat ~/projects/gitosis-admin/gitosis.conf
+[gitosis]
+[group gitosis-admin]
+writable = gitosis-admin
+members = ftravers@ftravers-laptop
+[group testgroup1]
+writable = testrepo1
+members = ftravers@ftravers-laptop
+[ftravers@local]$ 
+
+where
+* @testgroup1@ : is the name of the group
+* @testrepo1@ : is the name of the new repository
+* @members@ : is a space delimeted list of users who can commit to this project
+
+The @members@ list should be the filenames from @~/projects/gitosis-admin/keydir@ folder without the @.pub@ extension.
+
+h2. Push to server
+
+Push this up to the server:
+
+bc. 
+[ftravers@local]$ git commit -a -m"My comment."; git push
+
+h2. Create local folder/files
+
+Now create the project...
+
+bc. 
+[ftravers@local]$ cd ~/projects; 
+
+* Without Maven
+
+bc. 
+[ftravers@local]$ rm -rf testrepo1; mkdir testrepo1
+
+* - OR - with Maven
+
+bc. 
+[ftravers@local]$ mvn archetype:create -DgroupId=com.mycompany.app -DartifactId=testrepo1
+
+* Add it to git server
+
+bc. 
+[ftravers@local]$ cd testrepo1; git init
+[ftravers@local]$ git remote add origin ft_git@spicevan.com:testrepo1.git
+# do some work, git add and commit files like: @test.txt@
+[ftravers@local]$ git push origin master:refs/heads/master
+
+
+h1. When others want to use repository
+
+h2. Get users public key
+
+Whoever wants to work on the repo must create a public/private key pair and send you the public key.
+
+[testuser@local]$ ssh-keygen -t rsa
+[testuser@local]$ cp .ssh/id_rsa.pub ~
+
+Send the administrator of the repository your @~/.ssh/id_rsa.pub@ file.
+
+As the administrator add the file to the @keydir@ folder:
+
+bc. 
+[ftravers@local]$ cp /home/testuser/id_rsa.pub ~/projects/gitosis-admin/keydir/testuser.pub
+[ftravers@local]$ cd ~/projects/gitosis-admin/keydir
+[ftravers@local]$ git add .
+[ftravers@local]$ cd ..
+
+Now we have their public key we can add them to projects, edit the @~/projects/gitosis-admin/gitosis.conf@ file.
+
+bc. 
+[ftravers@local]$ cat ~/projects/gitosis-admin/gitosis.conf
+[gitosis]
+[group gitosis-admin]
+writable = gitosis-admin
+members = ftravers@ftravers-laptop
+[group testgroup1]
+writable = testrepo1
+members = ftravers@ftravers-laptop testuser
+[ftravers@local]$
+
+Finally push up your changes to the conf file and the added public key to the server:
+
+bc. 
+[ftravers@local]$ git commit -a -m"My Message."
+[ftravers@local]$ git push
+
+h2. As other user check out project
+
+Now the other user @testuser@ can checkout this repository
+
+bc. 
+[testuser@local]$ mkdir ~/projects; cd ~/projects
+[testuser@local]$ git clone ft_git@spicevan.com:testrepo1.git; cd ~/projects/testrepo1
+# make some changes to the file @test.txt@ in the repo and commit and push them back to the server.
+[testuser@local]$ git commit -a -m"My comment.";
+[testuser@local]$ git push
+
+h1. Test merging
+
+In the above section a second user @testuser@ modified a file: @test.txt@ that the user @ftravers@ also has.  So as @ftravers@ we modify our copy of @test.txt@ and show below how to merge this with the different version that exists up on the server.
+
+h2. Verify the updates
+
+As the original @ftravers@ user, verify the updates the @testuser@ made.
+
+bc. 
+[ftravers@local]$ cd ~/projects/testrepo1/
+
+Make some mods to @test.txt@ file.  This means what's on the server will conflict with what you have locally.  So try to pull down the changes that are on the server.
+
+[ftravers@local]$ git pull origin master
+
+Do any merging required if auto-merge fails and push up your changes.
+
+bc. 
+[ftravers@local]$ cd ~/projects/testrepo1/; git push
+
+h2. Verify the changes as testuser
+
+Now you can log back in as test user and pull down the changes.
+
+bc. 
+[testuser@local]$ cd ~/projects/testrepo1; git pull; cat test.txt

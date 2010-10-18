@@ -1,0 +1,9 @@
+Backup VM:
+All stored in vms
+/OVS/running_pool/backp
+
+naming convention:
+dbel_backup.tgz ->fresh
+dbel_beforeinstall.tgz -> before install
+dbel_installed.tgz ->  after insatlled
+dbel_afterucm.tgz -> backup for dependency at some stage

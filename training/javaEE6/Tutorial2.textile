@@ -1,0 +1,9 @@
+"home":../../index.html > "Training":../index.html > "Java EE 6":index.html > Tutorial Two
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Intro
+
+Now we are going to go through internationalizing a web application.  This means it will be available in multiple languages.  First have a read about "String Externailzation":StringExternalization.html.

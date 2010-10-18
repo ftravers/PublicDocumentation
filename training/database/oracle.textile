@@ -1,0 +1,9 @@
+"home":../../index.html > "training":../index.html > MySQL
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Basic Commands
+
+select * from user_objects where object_type = 'TABLE'; 

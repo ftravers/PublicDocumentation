@@ -1,0 +1,15 @@
+h1. Codes
+
+h2. Verbatim
+
+bc. 
+---
+the code u want verbatim
+---
+
+h2. Verbatim with box around
+
+bc. 
++---
+the code u want verbatim
++---

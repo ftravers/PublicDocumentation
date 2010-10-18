@@ -1,0 +1,16 @@
+<project default="build_jar">
+	<target name="compile">
+		<mkdir dir="build2" />
+		<javac srcdir="src" destdir="build2" debug="on">
+			<classpath>
+				<pathelement location="WebContent/WEB-INF/lib/oracle-ridc-client-10g.jar" />
+				<pathelement location="/home/eein/Desktop/tomcat/apache-tomcat-6.0.24/lib/servlet-api.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="build_jar" depends="compile">
+		<delete file="ucmConnector.jar" />
+		<jar destfile="ucmConnector.jar" basedir="build2" />
+	</target>
+</project>

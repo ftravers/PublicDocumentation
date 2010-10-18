@@ -1,0 +1,319 @@
+"home":../../index.html > "training":../index.html > Groovy
+
+p(toc). Table of Contents
+
+{toc}
+h1. Samples
+
+h2. File IO, Regex
+
+bc. 
+input = new File("serviceRequestFieldLengths_input.txt");
+outfile = new File("sr_out.txt");
+// sample line ==>  WorkPhone" maxOccurs="1" minOccurs="0" type="xsdLocal1:string25"/>
+def pattern = /\* ([\w-]*)".*type..\w*:string(\w*)/;
+def clos = { line ->
+	matcher = ( line =~ pattern );
+	if ( matcher.size() > 0 ) {
+		if ( matcher[0].size() > 2 ) 
+			outfile.append (matcher[0][1] + " - " + matcher[0][2] + ", ");
+	} else 
+		outfile.append (line);
+}
+input.eachLine clos;
+
+h1. Installation
+
+h2. Groovy
+
+Download the latest version from Groovy from "Groovy Homepage":http://groovy.codehaus.org/ .
+
+You have then to set the GROOVY_HOME environment variable and add%GROOVY_HOME%/bin to your path.
+
+Tip
+If you are using MS Windows you can use the windows installer. This will set the environment variables automatically.
+
+h2. Eclipse Plugin
+
+Use the Eclipse Update manager to install the Groovy Eclipse plugin. The URL for the update manager is: @http://dist.springsource.org/release/GRECLIPSE/e3.5/@ for Eclipse 3.5. Select the feature "Groovy-Eclipse".
+
+h1. Examples
+
+h2. Getters, Setters, Method Declaration
+
+bc. 
+package test
+public class Person{
+	String firstName
+	String lastName
+	int age
+	def address	
+	static void main(def args) {
+		Person p = new Person()
+		// Use the generated access methods
+		p.setFirstName("Lars")
+		// This will still use the generated access method, it is not a direct access!
+		p.lastName = "Vogel" 
+		p.address = ("Homestreet 3");
+		println(p.firstName + " " + p.lastName);
+		// Use the generated constructor
+		p = new Person(firstName: "Peter", lastName:"Mueller");
+		println(p.firstName + " " + p.lastName);
+	}
+	def myMethod(arg1) {
+		println(arg1) // define my own method
+	}
+}
+
+h2. Optional Parameters
+
+Groovy allows to have optional parameter values. Optional parameter values are indicated by =0.
+
+bc. 
+class Hello {
+static main(args){
+	println sum(1,5)
+	println sum(1,2,5)
+	}
+static sum(a,b,c=0){
+	a+b+c;
+	}
+}
+
+h2. Loops
+
+Groovy supports the standard Java loops but also the the each() method on several objects. In this method you can directly write code which should get executed. You can either directly define the name of the variable which the value of each iteration should get assigned to or using the implicit available variable "it". 
+
+bc. 
+public class PrintLoop{
+	public static void main(def args){
+		def list = ["Lars", "Ben", "Jack"]
+		// using a variable assignment
+		list.each{firstName->
+		  println firstName
+		}
+		// using the it variable
+		list.each{println it}
+	}
+}
+
+h2. Datatypes
+
+All variables in Groovy are reference variables (objects), Groovy does not use primitive variables. Groovy still allows to use the primitives types as a short form but always translates this into the object.
+
+Groovy allow static and dynamic typed variables. If you want to use dynamic typed variables you can use the keyword def.
+
+bc. 
+public class TypesTest{
+	public static void main(args){
+		int i = 1 // Short form for Integer i = new Integer(1)
+		int j = i +3 
+		int k = i.plus(3); // Same as above
+		// Make sure this worked
+		assert(k==4);
+		println i.getClass().getName()
+		println j.getClass().getName()
+		println k.getClass().getName()		
+		// Automatic type assignement
+		def value = 1.0F
+		println value.getClass().getName()
+		def value2 = 1;
+		println value2.getClass().getName()
+		value2 = value2 / 2;
+		println value2
+		println value2.getClass().getName()
+	}	
+}
+
+h2. Lists and maps
+
+Groovy treads lists and maps as first class constructs in the language. You define a list via List list = new List[]. You can also use generics. To access element i in a list you can either use list.get(i) or list[i].
+
+h3. Lists
+
+bc. 
+public class Person{
+	String firstName;
+	String lastName;
+	Person(String firstName, String lastName){
+		this.firstName = firstName
+		this.lastName= lastName
+	}
+}
+public class ListMapTest{
+	public static void main(args){
+		List<Integer> list = [1,2,3,4]
+		println list[0]
+		println list[1]
+		println list[2]
+		List<Person> persons = list[]
+		Person p = new Person("Jim", "Knopf")
+		persons[0] = p
+		println persons.size()
+		println persons[0].firstName
+		println persons.get(0).firstName
+	}
+}
+
+h3. Maps
+
+You can define maps via Map [key1:value1, key2:value2,...]. An empty map can be created via [:]. The values of a mapped value can get accessed via map[key]. Assignment can be done via map[key]=value.
+
+bc. 
+public class MapTest{
+	public static void main(args){
+		Map map = [:]
+		def map2 = ["Jim":"Knopf", "Thomas":"Edison"]
+		println map2["Jim"]
+		map2["Test"] = "Tester"
+		println map2["Test"]
+	}
+}
+
+h2. Closures
+
+Closures are code fragments which can be used without being a method or a class.
+
+A closure is defined via {para1, para2 -> code of the closure}. The values before the -> sign define the parameters of the closure. For the case that only one parameter is used you can use the implicit defined variable it.
+
+The last statement of a closure is returned as return value.
+
+The groovy collections have several methods which accept a closure as parameter, for example the each method.
+
+bc. 
+package test
+public class ClosureTest{
+	public static void main(args){
+		List<Integer> list = [5,6,7,8]
+		list.each({line -> println line})
+		list.each({println it})
+		// another example
+		def clos = { println "hello!" }
+		println "Executing the Closure:"
+		clos()  //prints "hello!"
+	}
+}
+
+
+h2. Meta Object Protocol
+
+The meta object protocol allows to add dynamically at runtime methods and properties.
+
+If a method is called or a property is accessed in a class and this class does not define this method / property then pre-defined methods are called which can be used to handle this call.
+
+* @def methodMissing (String name, args)@ - Called for missing method
+* @void setProperty (String property, Object o )@ - called for non existing setter of a property
+* @Object getProperty (String property)@ - called for non existing getter of a property
+
+bc. 
+public class AnyMethodExecutor{
+	def map
+	Object getProperty (String property){
+		println "Setting this propery"
+		return 5;
+	}
+	void setProperty (String property, Object o ){
+		println "Hallo"
+	}
+	def methodMissing (String name, args){
+		def s = name.toUpperCase();
+		if (s.startsWith("HELLO"))
+		{
+			println "This method stats with Hello. Full name $name" 
+		} else {
+			println "This method is missing"
+		}
+	}
+	public static void main (args){
+		def test = new AnyMethodExecutor ();
+		test.hall();
+		test.helloMethod();
+		test.Hallo();
+		test.test= 5;
+		println test.test; 	
+	}
+}
+
+h2. Files
+
+Processing files with groovy is simple. The following example will first print out every line to the console and then print again every line to the console with a leading line number.
+
+bc. 
+package mypackage
+/*
+ * Writes a files to the console
+ */
+public class MyFile{
+	public static void main(def args){
+		// Write just the content of the file to the console
+		File file = new File("c:/temp/groovy/content.txt")
+		file.eachLine{ line -> println line }
+		// Adds a line number in front of each line to the console
+		def lineNumber = 0;
+		file = new File("c:/temp/groovy/content.txt")
+		file.eachLine{ line -> 
+			lineNumber++
+			println "$lineNumber: $line" 
+		}
+	}
+}
+
+Writing to a file:
+
+bc. 
+File file = new File("c:/temp/groovy/content.txt")
+file.writeLine(line)
+
+h2. XML
+
+Groovy allows to process XML very easily.
+
+bc. 
+package mypackage
+public class XmlTest{
+	static void main(args){
+		def xmldocument = '''
+		<persons> 
+			<person> <firstname age="3">Jim</firstname>  <lastname>Knopf </lastname> 
+			</person>
+			<person> <firstname age="4">Ernie</firstname>  <lastname>Bernd</lastname> 
+			</person>
+		</persons>
+		'''
+		def persons = new XmlParser().parseText(xmldocument);
+		def allRecords = persons.person.size()
+		println("Number of person is: $allRecords")
+		def person = persons.person[0]
+		// name is the name of the XML tag
+		println("Name of the person tag is:" + person.name())
+		// text gets the text of the node firstname
+		println(person.firstname.text())
+		// Lets print out all important information 
+		for (p in persons.person){
+			println "${p.firstname.text()}  ${p.lastname.text()}"
+		} 
+	}
+}
+
+h2. Elvis operator
+
+You can use the elvis operator to check if a value is null.
+
+				
+bc. def firstName = user?.firstName // firstName will be null if user is null
+
+h2. Regex String Matching
+
+* ref: "http://groovy.codehaus.org/Regular+Expressions":http://groovy.codehaus.org/Regular+Expressions
+
+bc. 
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+def pattern = ~/foo/
+
+
+
+			
+
+		
+			

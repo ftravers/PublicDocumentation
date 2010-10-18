@@ -1,0 +1,133 @@
+"home":../../index.html > "training":../index.html > Content Server
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Introduction
+
+h2. Overview
+
+The content server is basically a place to store documents.  It uses a file system to put the files onto and one database table (Revisions) to hold the metadata about the file.  What is metadata?  Metadata is simply information about the file.  Some examples are: author, create date, document type, etc.  What a CMS(Content Management System) allows you to do is to is to create your own metadata fields.  So I might create a field called @Department@ and have possible values of _Marketing_, _Accounting_, _Research and Development_, etc...  Thats basically it.  It really is a system to help you keep your documents organized.
+
+h2. Conversion
+
+Another function of the content server is to convert documents from one format to another.  The normal example is to conver Microsoft Office documents, such as a Word doc, into a PDF document.  The reason we want to do this is that the whole purpose of a CMS system is to share documents with your co-workers and they might not have the same version of MS Word that you do.  PDF is a format everyone can read for free, so thats why we convert it.
+
+Sometimes a CMS system will be handling images.  It is very common to check-in to the CMS a very high-resolution image you took with your nifty 10 Mega Pixel camera, but to use this image on the web we want to convert it from a 10 Megabyte file to a 100 Kilobyte file the CMS can do this for you.  You need to install the DAM(Digital Asset Manager) plugin to the content server to enable this functionality.
+
+h3. DAM
+
+Dam works by connecting to an external image processing engine, normally the open source Image Magick, is selected by customers.  So Image Magick is the actual engine that does the image conversion.
+
+h2. Customizing / Extending the CS
+
+You can modify the behavior of the content server by creating _components_.  Components get installed into the:
+
+@<server_root>/custom@
+
+folder.  A component is a zip file that follows the following layout:
+
+bc. 
++-- manifest.hda
+|
++-- <component_name> + -- <component_name>.hda
+ 
+You can add extra things into a component but thats the basics.  We install a component by using the Component Manager web UI found by going to Administration > Admin Server > (click the button for your server instance ) > Component Manager.  Then you can install and enable the component.  You'll have to restart the content server after that.
+
+Components can employ their own java code.  Keep in mind that you'll be operating in the same JVM with the same classloader as the CS so keep your namespaces unique, i.e. don't name your packages @intradoc.*@.  The content server is written in Java and it is located at:
+
+@<server_root>/shared/classes/server.zip@
+
+so you can grab it and decompile it with _Jad_ to get a better idea of the server.
+
+h2. Remote Debugging
+
+Remote debugging is an absolute must for working with the content server.  Simply:
+
+put this in the <server>/bin/intradoc.cfg file
+
+JAVA_OPTIONS=-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n
+
+NOTE: both the normal server and the admin server look at this file when starting up and use it... So if you try to startup up both the regular server and the admin server, they'll both try to open up port 8000 for debugging...which will lead to port overuse... You therefore would need to comment out this line when starting up the admin server.
+
+Now you can point your IDE to this port and begin remote debugging.
+                     
+h2. The CS UI
+
+The CS UI is built up using a proprietary web scripting language called idoc script.  "See the documentation":http://download.oracle.com/docs/cd/E10316_01/index.htm.  To get some idea of how a page is put together, append @&ScriptDebugTrace=1@ to any CS URL and scroll down.
+
+h3(#dynamichtml). UI Construction
+
+The UI is mostly built with includes.  Basically some html/idoc is defined in a file and surrounded by the following delimeters:
+
+bc. 
+<@dynamichtml some_name@>
+...
+your code goes here
+...
+<@end@>
+
+here is an example of a dynamichtml named @std_page_end@
+
+bc. 
+<@dynamichtml std_page_end@>
+  <$include adhoc_imageconversion_form$>
+  	<$include super.std_page_end$>
+<@end@>
+
+This can then be referenced by using:
+
+bc. 
+<$include std_page_end@>
+
+h1. Basic Commands
+
+h2. Start/Stop
+
+h3. Windows
+
+Often CS will be setup as a service so you can go to the services panel to start and stop.  The following is the list of services you may be interested in:
+
+|_. Service Name|_. Description|
+|IDC Content Service <cs instance name>| This is the core content server|
+|IDC Inbound Refinery Service <ibr instance name>|This is the inbound refinery|
+|IIS Admin Service|Principally used so people can restart the content server from the HTML interface|
+
+h1. Maven
+
+* Put in the following repo and dependency
+
+bc. 
+<repositories>
+	<repository>
+		<id>spicevan</id>
+		<url>http://files.spicevan.com/maven2/</url>
+	</repository>
+</repositories>
+<dependencies>
+	<dependency>
+		<groupId>com.oracle.stellent</groupId>
+		<artifactId>server</artifactId>
+		<version>10.3</version>
+	</dependency>
+</dependencies>
+
+* Clean it up.
+
+bc. mvn eclipse:clean eclipse:eclipse
+
+h1. Server.zip api
+
+h2. Path Builder
+
+intradoc.server.DocCommonHandler.getUrl(boolean dProcessingState, boolean relativeUrl);
+
+
+@intradoc.shared.DocumentPathBuilder.getAbsoluteWebRoot()@
+
+will return something like: @http://servername/idc/@
+
+p(toc). Glossary
+
+{glossary}

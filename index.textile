@@ -1,0 +1,6 @@
+p(toc). Navigation
+
+!(icon)/images/folder.gif! "Training":training/index.html
+!(icon)/images/folder.gif! "jeos / Server Setup":jeos/index.html
+!(icon)/images/folder.gif! "Docs":docs/index.html
+!(icon)/images/folder.gif! "Projects":projects/index.html

@@ -1,0 +1,242 @@
+"<< Home":../../index.html
+
+h1. Table of Contents
+
+{toc}
+
+<hr>
+
+* "Amrans Edits":amrans_edits.html
+
+* "Fentons Edits":fentons_edits.html
+
+<hr>
+
+h1. Open Questions
+
+* Which UCM(Universal Content Management) environment is the 'guided search' going against?
+
+h1. Portal Developer Setup
+
+h2. Migrate Project from Eclipse -> JDeveloper 
+
+!software_to_install.images/eclipse.png! -> !software_to_install.images/jdeveloper.png!
+
+# Check out the project from SVN in Eclipse
+# Open JDeveloper and create a new project
+# Create all required empty java classes with the same class & package names.
+# Copy the code from Eclipse to JDeveloper project one by one [Simply, copy and paste]
+# Goto Jdeveloper Project's WebContent directory and get all the jar files [mostly under lib directory]
+# Steps to add jar files into a Jdeveloper project
+# Right click project > Project Properties > Libraries > Add Jar/Directory
+# Browse to the JAR file path and select them to add it to the project
+# Copy the JSPs, HTMLs, etc files from Eclipse project into Jdeveloper project
+# Copy the contents of the Eclipse source web.xml [leave the header out] and paste into the Eclipse web.xml file
+# Create required portlets in Jdeveloper and modify the source code to include the required JSPs, HTML or whatever you want.
+# Right click the web.xml file in Jdeveloper project and select "Create WAR web application deployment profile"
+# Goto Resources folder and right click and select the .deploy file and select the deploy to EAR file
+# Deploy the EAR file into the OC4JInstance.
+
+
+h2(#connection_to_appserver). Setting up your connection to development Portal
+
+# Choose connections tab > Application Server > New > General > Connections > Application Server Connection > OK
+# Choose any nameConnection Type: @Oracle Application Server 10g 10.1.2 (UNIX)@
+# The next 3 steps depend on which portal instance you are connecting to.  Below we provide sample information for the "OPEL":#opel server, but if you want to connect to another Portal instance please find the information in the "Portal":#portal section of this document.
+# username/password: @ias_admin@ / @welcome1@
+# Enterprise Manager OC4J Host Name: @opel@, port: @1810@, 
+# directory: @/u01/app/oracle/OraHome_2@, instance: @ias_inst2@
+# next > don't need anything for RMI > next > test > finish.
+
+h2. Portlet Deployment
+
+h3. Rapid Process
+
+* see link: "Deploy to portlet container":../../training/portal.html#deployToPortletContainer
+
+h3. Manual Steps
+
+# Go to the Portal EM.  Find the URL for your Portal Enterprise Manager in the "Portal":#portal section.
+# Select the Portal Instance (mid-tier) link.
+# Determine the OC4J container/instance you should deploy to.  Optionally create your own.
+
+h1. Machines 
+
+!software_to_install.images/machines.jpg!
+
+h2(#portal). Portal
+
+h3(#kerapu_portal). Kerapu
+
+Note: don't forget to put the following line into your hosts file for kerapu to be resolved:
+@192.168.9.31			kerapu kerapu.mohe.gov.my@
+
+* Development Portal: @http://kerapu.mohe.gov.my:7778/portal/page/portal/ExtPortal@
+* Admin URL: @http://kerapu.mohe.gov.my:7778/portal/page/portal/TOPLEVELSITE/Welcome@
+* Username: @orcladmin@
+* Password: @pmo123@
+
+h3(#opel). OPEL(Oracle Portal Enterprise Linux)
+
+* Description: This is an Oracle VM(Virtual Machine) instance on Oracle Enterprise Linux 4.
+* Name: @opel.lab.com@
+
+
+h4. Enterprise Manager
+
+* Admin URL: @http://opel.lab.com:1810/@
+* Port: @1810@
+* Enterprise Manager OC4J Host Name:@opel.lab.com@
+* Username: @ias_admin@
+* Password: @welcome1@
+* Oracle Home Directory: @/u01/app/oracle/OraHome_2@
+* Instance: @ias_inst2@
+* Portal Instance(mid-tier): ias_inst2
+* Portal OC4J Instance for general use:
+
+h3(#opelstg). OPELSTG
+
+* Description: This is an Oracle VM instance on Oracle Enterprise Linux 4.
+* Name: @opelstg.lab.com@
+
+
+h4. Enterprise Manager
+
+* Admin URL: @http://opelstg.lab.com:1810/@
+* Port: @1810@
+* Enterprise Manager OC4J Host Name:@opelstg.lab.com@
+* Username: @ias_admin@
+* Password: @welcome1@
+* Oracle Home Directory: @/u01/app/oracle/OraHome_2@
+* Instance: @ias_inst2@
+* Portal Instance(mid-tier): ias_inst2
+* Portal OC4J Instance for general use:
+
+
+h2. Create a new OC4J container in Portal
+
+# Click on Create OC4J Instance
+# Name the instance > Click 'Create' > 'OK'
+# Change the OC4J container to support Java 1.5.  "Follow these instructions":../../jeos/oas_op_setup_instructions.html#oc4j_to_jdk5
+
+h2. UCM
+
+h3. UCMEL
+
+* Description: This is an Oracle VM instance on Oracle Enterprise Linux 5
+* idc homepage URL: @http://ucmel.lab.com/idc/@
+* Username: @system@
+* Password: @welcome1@
+
+h4. Database
+
+* Host: @dbel.lab.com@
+* SID: @orcl@
+* User/Pass: @idc1_user/idc1_user@
+
+h4. Notes
+
+* This one is being used for the Photo Gallery functionality.
+
+h3. UCMEL2
+
+* Description: This is an Oracle VM instance on Oracle Enterprise Linux 5
+* idc homepage URL: @http://ucmel2.lab.com/idc/@
+* Username: @system@
+* Password: @welcome1@
+
+h4. Database
+
+* host:@dbel.lab.com@
+* SID: @orcl@
+* User/Pass: @idc3_user/idc3_user@
+
+
+h4. Notes
+
+* This one is being used for the OpenWCM integration, and has the list-detail website here.
+
+h3. ORACLEUCM
+
+* idc homepage URL: @http://oracleucm.lab.com/idc/@
+* UCM - Username/Password: @system@ / @welcome1@
+* root password: @welcome1@
+* Stellent Unix User: @stellent@
+
+h4. Database
+
+* Host: 192.168.9.34
+* SID: MISSION
+* User/Pass: @idc2_user/idc2_user@
+
+h4. Notes
+
+* OID integrated here.
+* Fulltext searching working here.
+* This one points to the non-VM database: 
+
+h2. Databases
+
+h3. DBEL
+
+* Hostname: @dbel.lab.com@
+* System User/Pass: @system/welcome1@
+
+h3. 192.168.9.34
+
+h2. OC4J Containers
+
+h3(#opelstg_oc4j_container). OPELSTG
+
+* unix root password: @ovsroot@
+* Oracle user/pass: @oracle/oracle@
+
+h3(#kerapu_oc4j_container). Kerapu
+
+* Admin URL(Uniform Resource Locator): @http://kerapu.mohe.gov.my:7781/@
+* Port: @7781@
+* Connection Type: @Oracle Application Server 10g 10.1.3@
+* Username: @oc4jadmin@
+* Password: @p244w0rd@
+* Connect To: @Single Instance@
+* Host Name:@kerapu.mohe.gov.my@
+* OPMN Port: @6006@
+* OC4J Instance Name: @tutorial@
+
+<hr>
+
+h2. UNIX Hosts
+
+h3. Kerapu - Pre-existing Portal, OC4J Container, OID 
+
+* root password: 
+
+h3. OVMS(Oracle Virtual Machine Server) - Oracle VM Server
+
+* root password:
+
+h3. UCMEL - UCM Enterprise Linux (VM)
+
+* root password:
+
+h3. UCMEL2 - UCM Enterprise Linux 2 (VM)
+
+* root password:
+* database connection details:
+
+h3. DBEL - Database Enterprise Linux (VM)
+
+* root password:
+
+h1. Installation Instructions
+
+h2. Create a new OC4J container in Portal
+
+# Click on Create OC4J Instance
+# Name the instance > Click 'Create' > 'OK'
+# Change the OC4J container to support Java 1.5.  "Follow these instructions":../../jeos/oas_op_setup_instructions.html#oc4j_to_jdk5
+
+
+h1. Glossary
+
+{glossary}

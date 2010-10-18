@@ -1,0 +1,4 @@
+you can shutdown contribution on consumption and leave it open on contribution.
+
+contribution is like your (CVS).  you can recreate your portal from the source code repository (CVS).  Just so you can recreate your consumption from your contribution.
+

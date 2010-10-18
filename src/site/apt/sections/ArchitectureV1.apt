@@ -1,0 +1,19 @@
+Architecture Version 1
+
+	We are going to work on several versions of a basic architecture.  In the future
+	we may cluster a given virtual machine, we may add a security layer, we may add 
+	some user interface layers, etc.  But for now try to understand the components 
+	of this basic architecture.
+	
+[../images/BasicArchitecture.png]
+
+	As you can see this is a two Virtual Machine system.  This can live on either one
+	or two physical machines.  The RAM foot print is:
+	
+	* Virtual Machine 1: (OEL5U5, WLS11g & UCM11g) - 1.5 GigaBytes
+	
+	* Virtual Machine 2: (OEL5U5 & ODb11g) - 1 GigaByte
+
+  []
+	
+	We'll supply 10 GB disk space for each of the images.

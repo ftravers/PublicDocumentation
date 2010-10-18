@@ -1,0 +1,97 @@
+<project default="deploy" name="Documentation">
+
+	<property name="server-assist.jar" value="target/server-assist.jar" />
+	<property name="eclipselink.jar" value="target/server-assist.jar" />
+
+	<!-- Fenton's Settings (don't change) -->
+	<property name="fenton_fop_exec" value="~/bin/fop-0.95/fop" />
+	<property name="fenton_wikitext" value="${user.home}/bin" />
+	<property name="fenton_mac_wikitext" value="~/bin" />
+	<property name="fenton_rsync_exec" value="/usr/bin/rsync" />
+
+	<!-- current user settings - CHANGE THESE VALUES -->
+	<property name="wikitext.standalone" value="${fenton_wikitext}/mylyn-wikitext-standalone" />
+	<property name="fop_exec" value="${fenton_fop_exec}" />
+	<property name="rsync_exec" value="${fenton_rsync_exec}" />
+
+	<path id="wikitext.classpath">
+		<fileset dir="${wikitext.standalone}">
+			<include name="org.eclipse.mylyn.wikitext.*core*.jar" />
+		</fileset>
+	</path>
+
+	<target name="copyAptImages">
+		<copy todir="target/generated-site/pdf/images">
+			<fileset dir="src/site/resources/images"/>
+		</copy>
+		<copy todir="target/generated-site/rtf/images">
+			<fileset dir="src/site/resources/images"/>
+		</copy>
+		<copy todir="target/generated-site/xhtml/images">
+			<fileset dir="src/site/resources/images"/>
+		</copy>
+
+			
+	</target>
+
+	<taskdef classpathref="wikitext.classpath" resource="org/eclipse/mylyn/wikitext/core/util/anttask/tasks.properties" />
+	<!-- 
+		A problem is that the wikitext-to-html outputs its content into the same 
+		folder as the source *.textile files, whose folders are under source control
+		so I normally would delete them so they don't get accidently checked in.  Deleting
+		however causes them all to be reproduced each time which then fools rsync into 
+		transfering them to the website each time too.  I couldn't figure out how to prevent
+		*.html, *.fo from being checked into the content server, etc... so a bit of a dilemma
+		about what to do.
+	-->
+	<target name="generate-html" description="Generate HTML from textile source">
+		<wikitext-to-html markupLanguage="Textile">
+			<fileset dir=".">
+				<include name="**/*.textile" />
+			</fileset>
+			<stylesheet url="/styles/main.css" />
+		</wikitext-to-html>
+		<copy todir="website">
+			<fileset dir=".">
+				<exclude name="code/**" />
+				<exclude name="website/**" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.png" />
+				<include name="**/*.jpg" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="deploy" depends="generate-html,rsync">
+	</target>
+
+	<target name="delete_html">
+		<delete>
+			<fileset dir="." includes="**/*.html" />
+		</delete>
+	</target>
+
+	<target name="rsync">
+		<exec executable="${rsync_exec}">
+			<arg line="${rsync_exec} -avP website/ ftravers@spicevan.com:/home/ftravers/mohe.spicevan.com" />
+		</exec>
+		<exec executable="${rsync_exec}">
+			<arg line="${rsync_exec} -avP target/generated-site/xhtml/ ftravers@spicevan.com:/home/ftravers/docs.spicevan.com/" />
+		</exec>
+		<exec executable="${rsync_exec}">
+			<arg line="${rsync_exec} -avP src/site/index.html ftravers@spicevan.com:/home/ftravers/docs.spicevan.com/" />
+		</exec>
+	</target>
+
+	<target name="pdfs" depends="generate-html">
+		<wikitext-to-xslfo markupLanguage="Textile">
+			<fileset dir="." includes="**/*.textile" />
+		</wikitext-to-xslfo>
+		<exec executable="${fop_exec}">
+			<arg line="${fop_exec} -fo docs/Environments/software_to_install.fo -pdf help/software_to_install.pdf" />
+		</exec>
+	</target>
+</project>

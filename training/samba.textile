@@ -1,0 +1,41 @@
+"<< UP":index.html
+
+p(toc). Table of Contents
+
+{toc}
+
+bc. [root@oas ~]# yum -y install samba
+
+bc. [root@oas ~]# chkconfig --level 345 smb on; cd /home; chmod 777 .; cd /etc/samba; mv smb.conf smb.conf.backup; vi smb.conf
+
+bc. 
+[global]
+workgroup = workgroup
+netbios name = smbserver
+security = SHARE
+load printers = No
+default service = global
+path = /home
+available = No
+[files]
+writeable = yes
+guest ok = yes
+guest only = yes
+guest account = ftp
+writeable = yes
+path = /home
+public = yes
+available = yes
+
+bc. 
+[root@localhost home]# service smb start
+[root@localhost home]# /usr/bin/system-config-securitylevel-tui
+Firewall ports:
+UDP/137    - used by nmbd
+UDP/138    - used by nmbd
+TCP/139    - used by smbd
+TCP/445    - used by smbd
+137:udp 138:udp 139:tcp 445:tcp
+[root@ucm3 ~]# service iptables restart
+
+

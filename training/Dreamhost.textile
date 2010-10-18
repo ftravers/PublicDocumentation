@@ -1,0 +1,10 @@
+h1. Security
+
+bc. [elise]$ cat .htaccess 
+AuthUserFile /home/ftravers/.htpasswd
+AuthGroupFile /home/ftravers/AuthGroupFile
+AuthName EnterPassword
+AuthType Basic
+Require group all
+IndexOptions NameWidth=*
+[elise]$ 

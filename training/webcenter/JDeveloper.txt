@@ -1,0 +1,4 @@
+Here is a link about how to work with Maven:
+http://www.oracle.com/technology/products/jdev/howtos/maven/maven11g.html
+
+mvn archetype:create -DgroupId=com.ftravers.openwcm -DartifactId=test1

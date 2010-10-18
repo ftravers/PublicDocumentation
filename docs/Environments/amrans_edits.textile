@@ -1,0 +1,45 @@
+h2. OC4J Containers
+
+h3(#kerapu). KERAPU
+
+* Name: @kerapu.mohe.gov.my@
+
+h4. Enterprise Manager
+
+* Admin URL: @http://kerapu.mohe.gov.my:7781/@
+* Port: @7781@
+* Connection Type: @Oracle Application Server 10g 10.1.3@
+* Username: @oc4jadmin@
+* Password: @p244w0rd@
+* Connect To: @Single Instance@
+* Host Name:@kerapu.mohe.gov.my@
+* OPMN Port: @6006@
+* OC4J Instance Name: @tutorial@
+
+h3. OPELSTG
+
+* Name: @opelstg.lab.com@
+
+h4. Enterprise Manager (stand alone OC4J container)
+
+* Admin URL: @http://opelstg.lab.com:8888/@
+* Port: @8888@
+* Connection Type: @Oracle Application Server 10g 10.1.3@
+* Username: @oc4jadmin@
+* Password: @welcome1@
+* Connect To: @Single Instance@
+* Host Name:@opelstg.lab.com@
+* OPMN Port: 
+* OC4J Instance Name:
+
+h4. Enterprise Manager
+
+* Admin URL: @http://opelstg.lab.com:1810/emd/console/@
+* Port: @1810@
+* Connection Type: @Oracle Application Server 10g 10.1.3@
+* Username: @ias_admin@
+* Password: @welcome1@
+* Connect To: @Single Instance@
+* Host Name:@opelstg.lab.com@
+* OPMN Port: 
+* OC4J Instance Name:

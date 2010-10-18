@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<config>
+	<adapter default="true" name="myadapter">
+		<config>
+			<property name="port">4444</property>
+            <property name="host">192.168.8.115</property>
+			<property name="type">socket</property>
+		</config>
+		<beans template="classpath:/META-INF/resources/adapter/adapter-services-scs.jxml"/>
+	</adapter>
+</config>

@@ -1,0 +1,536 @@
+"home":../../index.html > "training":../index.html > "SOA":index.html > Web Services
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. References
+
+"Creating Web Services in Eclipse (Bottom Up)":http://www.softwareagility.gr/index.php?q=node/21
+
+h1. Installation
+
+h2. Install apache axis2
+
+_IMPORTANT_ Use Axis2 - 1.4.1.  Version 1.5.1. doesn't work with this tutorial.
+
+h3. Download WAR version
+
+* download/extract axis2, put into a target folder.  For example: @/users/fentontravers/bin/inst1@
+* Ensure the following variables are set in the environment:
+
+h1. Eclipse & Axis
+
+Cannot get Eclipse/Axis to work together 
+
+h2. Setup
+
+* Setup your "Eclipse & Tomcat":../machineSetup/eclipse.html#tomcat.
+* Preferences > Web Services > Axis2 > Browse to your axis2 directory
+
+!images/ws_axis_location.png!
+
+h1. Create a Web Service
+
+h2(#java-pojo-to-wsdl). Create WS from Java POJO ( top down )
+
+h3(#axis2-eclipse-setup). Create a Dynamic Web Project
+
+When creating the project click modify in the configuration section.
+
+!images/2_axis.png!
+
+Add in Axis 2 as a facet.
+
+!images/3_axis.png!
+
+h3. Create a POJO
+
+bc. 
+package pkg;
+public class Converter
+{
+  public float celsiusToFarenheit ( float celsius )
+  {
+    return (celsius * 9 / 5) + 32;
+  }
+  public float farenheitToCelsius ( float farenheit )
+  {
+    return (farenheit - 32) * 5 / 9;
+  }
+}
+
+h3. Create Web Service from Java code
+
+* Right click on Converter.java > Web Services > Create Web service
+
+!images/4_axis.png!
+
+* Select @Web service runtime: Apache Axis@ from the Configuration links.
+
+!images/5_axis.png!
+
+* Choose Apache Axis2 from the _Web service runtime_ options.
+
+!images/6_axis.png!
+
+* Click on _Finish_ to complete the web service creation.
+
+h3. Test Axis
+
+* If your tomcat server hasn't been started, start it now.
+
+* Right click on your project and select _Run On Server_.
+
+* Modify the URL to be: @http://localhost:8080/git5/axis2-web/index.jsp@, where git5 is replace by your project name.
+
+!images/7_axis.png!
+
+* Click on _Services_ link.  You should see your service there.  Clicking on the _Converter_ link will give you the wsdl for the Web Service.
+
+* Go to menu Run-> Launch the Web Services Explorer, and select from the icons the WSDL
+
+!images/8_axis_WSIL_Icon.png!
+
+!images/9_axis_wsdl.png!
+
+!images/10_axis_result.png!
+
+With the Web Services Explorer you can put in sample values and see their response(s), to test out your service.
+
+h1. Understanding WSDL format
+
+"Here is a reference that can help":http://www.predic8.com/wsdl-reading.htm
+
+h2. types
+
+The @<wsdl:types>@ section is where the WSDL defines the types of the messages that will be exchanged by your web service.  In our sample it really just shows that floats are going in and out.  Inputs are labelled 'celsius' and 'farenheit' and return values are simply named 'return'.
+
+bc. 
+	<wsdl:types>
+		<xs:schema attributeFormDefault="qualified"
+			elementFormDefault="qualified" targetNamespace="http://pkg">
+			<xs:element name="celsiusToFarenheit">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="celsius" type="xs:float" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="celsiusToFarenheitResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="return" type="xs:float" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="farenheitToCelsius">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="farenheit" type="xs:float" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="farenheitToCelsiusResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="return" type="xs:float" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+
+h2. messages
+
+The @<wsdl:message name="...">@ message section contains the definition of the requests and responses that will be used to communicate with your web service.
+
+The Messages section of the WSDL contains definitions for the request and responses to be used in communicating with the service. You'll notice that there is one message each for the request and response. The request message has the same name as the method invocation because you are doing RPC style here. The response is given the name of the operation appended with 'Response', which is the default according to the JAX-WS specification. Each of these messages has a part child. A message part is similar to a parameter to a method in that it has a name and a type. 
+
+bc. 
+	<wsdl:message name="celsiusToFarenheitRequest">
+		<wsdl:part name="parameters" element="ns:celsiusToFarenheit" />
+	</wsdl:message>
+	<wsdl:message name="celsiusToFarenheitResponse">
+		<wsdl:part name="parameters" element="ns:celsiusToFarenheitResponse" />
+	</wsdl:message>
+	<wsdl:message name="farenheitToCelsiusRequest">
+		<wsdl:part name="parameters" element="ns:farenheitToCelsius" />
+	</wsdl:message>
+	<wsdl:message name="farenheitToCelsiusResponse">
+		<wsdl:part name="parameters" element="ns:farenheitToCelsiusResponse" />
+	</wsdl:message>
+	
+h2. binding
+
+The Bindings section of the WSDL indicates the transport used to send messages to and from a web service. The default is SOAP, and other advanced options include HTTP, JMS, SMTP, and TCP.  The <soap:binding> element features a transport attribute with a value of http://schemas .xmlsoap.org/soap/http. That means that the service will use SOAP 1.1 for the send and receive protocol for your messages. You can also specify SOAP 1.2, but 1.1 is the default, and using SOAP 1.2 is not widely recommended just yet, as the overwhelming majority of implementations currently are for 1.1. 
+
+You can also see that the <soap: binding> element features a style attribute with a value of 'document'.  The operation name matches the method name in that class.
+
+bc. 
+	<wsdl:binding name="ConverterSoap11Binding" type="ns:ConverterPortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<wsdl:operation name="celsiusToFarenheit">
+			<soap:operation soapAction="urn:celsiusToFarenheit"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="farenheitToCelsius">
+			<soap:operation soapAction="urn:farenheitToCelsius"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ConverterSoap12Binding" type="ns:ConverterPortType">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<wsdl:operation name="celsiusToFarenheit">
+			<soap12:operation soapAction="urn:celsiusToFarenheit"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="farenheitToCelsius">
+			<soap12:operation soapAction="urn:farenheitToCelsius"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="ConverterHttpBinding" type="ns:ConverterPortType">
+		<http:binding verb="POST" />
+		<wsdl:operation name="celsiusToFarenheit">
+			<http:operation location="Converter/celsiusToFarenheit" />
+			<wsdl:input>
+				<mime:content type="text/xml" part="celsiusToFarenheit" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content type="text/xml" part="celsiusToFarenheit" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="farenheitToCelsius">
+			<http:operation location="Converter/farenheitToCelsius" />
+			<wsdl:input>
+				<mime:content type="text/xml" part="farenheitToCelsius" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content type="text/xml" part="farenheitToCelsius" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+h2. service
+
+The Service section of the WSDL indicates that the name of the service will be Converter. This is the name of the class that defined your service.  It also indicates that the 'ConverterHttpSoap11Endpoint' port will be bound using SOAP. The important location attribute here indicates where you can invoke the service, and this is what clients will use to invoke it. The next recipe shows you how to invoke this service.
+
+bc. 
+	<wsdl:service name="Converter">
+		<wsdl:port name="ConverterHttpSoap11Endpoint" binding="ns:ConverterSoap11Binding">
+			<soap:address
+				location="http://192.168.250.1:8080/wsexprmnt/services/Converter.ConverterHttpSoap11Endpoint/" />
+		</wsdl:port>
+		<wsdl:port name="ConverterHttpSoap12Endpoint" binding="ns:ConverterSoap12Binding">
+			<soap12:address
+				location="http://192.168.250.1:8080/wsexprmnt/services/Converter.ConverterHttpSoap12Endpoint/" />
+		</wsdl:port>
+		<wsdl:port name="ConverterHttpEndpoint" binding="ns:ConverterHttpBinding">
+			<http:address
+				location="http://192.168.250.1:8080/wsexprmnt/services/Converter.ConverterHttpEndpoint/" />
+		</wsdl:port>
+	</wsdl:service>
+	
+h2. More Complex WS
+
+Lets create a web service that takes as an argument a list of custom user types.
+
+h1. Java WS client (bottom up).  WSDL -> Java client code
+
+The process of creating a web client is starting from a WSDL and from that WSDL creating the java code that wraps up that WSDL so you can interact with the WSDL from a Java context moving forward.  Using the terminology of top-down or bottom-up, typically these terms are used between ORM and Java and Database integration.  Here we replace the database with the web service...so java is on the top and the web service underneath.
+
+Now when we do bottom up development, we start with the WSDL and from that generate the java client code that will operate on the WSDL interface.
+
+h2. Reference
+
+* http://www.eclipse.org/webtools/community/tutorials/BottomUpAxis2WebService/bu_tutorial.html
+
+h2. Steps
+
+h3. Create the Eclipse Project
+
+Create a new project in eclipse "following these steps.":#axis2-eclipse-setup
+
+h3.  Prepare your WSDLs
+
+The Web Services Client wizard can browse for the WSDL(Web Service Definition Language), but the WSDL needs to either be at a location that begins with http:// or end in *.html.  If someone has provided you with a wsdl file, that means it's not loaded up on a web-site that you can point to with http://, in that case it is easier to just add *.html on to the end of the WSDL and drop it into our project directory, this is what we'll do.
+
+Create a folder called _wsdls_ in your project directory and copy your wsdls there adding _.html_ on to the end of them.
+
+h3. Launch the Web Service Client creation wizard
+
+File > New > Other > Web Service > Web Service Client 
+
+choose _Browse..._ for the _Service Definition_ entry.
+
+Choose _Browse..._ again, then navigate out to your wsdl to choose it.  Choose _OK_ to accept the wsdl you navigated out to and selected.
+
+Now click on _Web Service Runtime: Apache Axis_ link...
+
+!images/ws-client-1.png!
+
+...and change it to Apache Axis 2.
+
+!images/ws-client-2.png!
+
+hit _OK_ and then _Finish_, to complete the WS Client creation process.
+
+h3. Work with the generated Java files
+
+This will create two Java files, in my case my web service was called @Converter@ so it created two files called: @ConverterCallbackHandler.java@ and @ConverterStub.java@
+
+Create a test class and in the test class instantiate the service stub, in this case it is @ConverterStub@.
+
+bc. 
+package pkg;
+import org.apache.axis2.AxisFault;
+import org.junit.Test;
+public class ConverterStubTest {
+	@Test
+	public void testConverter() throws AxisFault {
+		ConverterStub cs = new ConverterStub();
+	}
+}
+
+Now for each message in your original WSDL, you should have a corresponding class.  In our case we are going to look at the @CelsiusToFarenheit@ class.  So lets instantiate it. (leaving out everything but the test method.  Also note that the Class name drops the Request part from the WSDL).
+
+bc. 
+...
+	@Test
+	public void testConverter() throws AxisFault {
+		ConverterStub cs = new ConverterStub();
+		CelsiusToFarenheit c2f = new CelsiusToFarenheit();
+	}
+...
+
+Now looking at the WSDL:
+
+bc. 
+	<wsdl:message name="celsiusToFarenheitRequest">
+		<wsdl:part name="parameters" element="ns:celsiusToFarenheit" />
+	</wsdl:message>
+
+we see that the message (or method) takes a parameter defined by @celsiusToFarenheit@, so let look at what this element is in the @<types>@ section.  Here is the relevant section:
+
+bc. 
+<xs:element name="celsiusToFarenheit">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element minOccurs="0" name="celsius" type="xs:float" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+We see that the type is @float@ so lets add that to the client java code.  Here is what I'll do, create a float variable
+
+bc. float celsiusValue = 100;
+
+We can now add this to the message class @CelsiusToFarenheit@ by doing:
+
+bc. c2f.setCelsius(celsiusValue);
+
+Now we can send this request off by passing the message class @CelsiusToFarenheit@ that has our float value set inside it, to the stub class.  There will be a method on the stub class by the same name as the message we are working with.  Here is the code:
+
+bc. CelsiusToFarenheitResponse res = stub.celsiusToFarenheit(c2f);
+
+To understand what the return value will be like we look at the WSDL again:
+
+bc. 
+	<wsdl:message name="celsiusToFarenheitResponse">
+		<wsdl:part name="parameters" element="ns:celsiusToFarenheitResponse" />
+	</wsdl:message>
+	
+notice the type of the response is @celsiusToFarenheitResponse@, so looking at our @<type>@ section we see:
+
+bc. 
+<xs:element name="celsiusToFarenheitResponse">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element minOccurs="0" name="return" type="xs:float" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+The response will be a @float@ which we retrieve by using the @get_return()@ method of the response object:
+
+bc. float farenheitValue = res.get_return();
+
+putting it all together:
+
+bc. 
+package pkg;
+import java.rmi.RemoteException;
+import org.junit.Test;
+import pkg.ConverterStub.CelsiusToFarenheit;
+import pkg.ConverterStub.CelsiusToFarenheitResponse;
+public class ConverterStubTest {
+	@Test
+	public void testConverter() throws RemoteException {
+		ConverterStub cs = new ConverterStub();
+		CelsiusToFarenheit c2f = new CelsiusToFarenheit();
+		float celsiusValue = 100;
+		c2f.setCelsius(celsiusValue);
+		CelsiusToFarenheitResponse res = cs.celsiusToFarenheit(c2f);
+		float farenheitValue = res.get_return();
+	}
+}
+
+h1. Web Services with lists
+
+_The rest below here is not valid as the generator of service and client failed at the point where this doco ends!_
+
+This time we are going to try out a web service that has more complex types than just @float@ in and out.  We'll create a service that takes in an @int@ and returns a @List@ of @Integers@.  This service will be called: get the temperature forcast for the next X days.  Where X is the integer you pass in.  So if I want to know what the temperature will be for the next 5 days, I pass in the number 5.  So since we are more comfortable with Java code lets write up this class first, here it is:
+
+bc. 
+package service;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+public class WeatherForcast {
+	public List<Integer> getForcast(int numberOfDaysInFuture) {
+		Random generator = new Random();
+		List<Integer> forcast = new ArrayList<Integer>();
+		for ( int dayIndex = 0; dayIndex < numberOfDaysInFuture; dayIndex++ ) {
+			int todaysTemperature = generator.nextInt( 50 );
+			forcast.add(new Integer(todaysTemperature));
+		}
+		return forcast;
+	}
+}
+
+now lets generate the WSDL for this in the same manner as "listed here":#java-pojo-to-wsdl
+
+h2. Create the client
+
+Now lets create a test client that uses our newly create java web service client we auto-generated above.
+
+bc. 
+
+
+
+
+h1. Development Tools
+
+h2. TCP_Mon
+
+tcpMon is a tool that allows you to see the SOAP header requests and responses going to your webservices.  It listens on port 8079, then forwards to 8080 where your real web-service is listening for it.
+
+h2. Running It
+
+bc. 
+dhcp-hk-wlan-10-189-29-193:build fentontravers$ chmod 755 tcpmon.sh 
+dhcp-hk-wlan-10-189-29-193:build fentontravers$ ./tcpmon.sh 
+
+
+h1. HttpClient
+
+HttpClient is a java utility that assist with creating java web clients.
+
+h2. POM
+
+bc. 
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+		
+
+
+h1. Old / Extra Info
+
+bc. 
+export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
+export AXIS2_HOME=/users/fentontravers/bin/inst1/axis2-1.4.1
+
+* Update the path:
+export PATH=$PATH:$AXIS2_HOME/bin
+
+
+
+
+
+
+
+
+h1. Creating a WS Client
+
+bc. 
+  -p <pkg1>                Specify a custom package name for the generated code.
+  -d <databinding>         Valid databinding(s) are adb, xmlbeans, jibx and jaxbri (Default: adb).
+  -s                       Generate synchronous style code only (Default: off). Takes precedence over -a.
+
+bc. 
+/home/ftravers/bin/axis2-1.5.1/bin/wsdl2java.sh -uri Contact-1.1.wsdl.html -p pkg -s
+
+The above created a 55MB file which killed my IDE's so next I tried XMLBeans
+
+bc. 
+/home/ftravers/bin/axis2-1.5.1/bin/wsdl2java.sh -uri Converter.wsdl.html -p convert -d xmlbeans -s
+
+bc. 
+/home/ftravers/bin/axis2-1.5.1/bin/wsdl2java.sh -uri PhoneBook.wsdl -p lclpkg -d xmlbeans -s
+
+However, I want to first try to closely follow the existing documentation about Axis 1 version 1.4 so that will be the next attempt.
+
+
+
+
+h1. Soap Sample
+
+In the following sample we'll look at a CRMOD Web Service to do with a Contact.  The first sample is a SOAP request for a users age.  We supply the email address and want to get the age out.  However, we'd like to look at the WSDL to determine what other fields are available to us.
+
+Soap Contact Request:
+
+bc. 
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAPSDK1="urn:crmondemand/ws/contact/10/2004" xmlns:SOAPSDK2="urn:/crmondemand/xml/contact">
+  <SOAP-ENV:Body>
+    <SOAPSDK1:ContactWS_ContactQueryPage_Input>
+      <UseChildAnd>false</UseChildAnd>
+      <PageSize>100</PageSize>
+      <SOAPSDK2:ListOfContact>
+        <Contact>
+          <ContactEmail>='fenton.travers@gmail.com'</ContactEmail>
+          <Age/>
+        </Contact>
+      </SOAPSDK2:ListOfContact>
+      <StartRowNum>0</StartRowNum>
+    </SOAPSDK1:ContactWS_ContactQueryPage_Input>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+
+
+
+h1. Glossary
+
+{glossary}

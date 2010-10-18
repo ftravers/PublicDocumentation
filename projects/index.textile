@@ -1,0 +1,7 @@
+"home":../index.html > Projects
+
+p(toc). Navigation
+
+!(icon)/images/folder.gif! "Tailor Web Site":tailor/index.html
+!(icon)/images/folder.gif! "GIT":git/start.html
+

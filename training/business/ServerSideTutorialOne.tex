@@ -1,0 +1,39 @@
+\subsection{Server Side Programming}
+
+When building a web site, significant portions of the site will be 'server-side' code.  This is because, normally, you have a database on the server side where you store your orders, catalogue information, etc.  So the normal flow is like this:
+
+\begin{enumerate}
+\item A customer goes to your website, putting a URL into their browser.
+\item The request goes from their web browser, over the internet to your web server.
+\item The web server then examines the URL that was requested and passes that request to your back-end system for processing
+\item The backend system then does any processing that is required, including reading from and too the database
+\item Finally the backend system constructs an HTML page to send back to the customers browser.
+\end{enumerate}
+
+The above process repeats for every request from the customer.  So to be able to do the above there are several skills that you need to acquire, and they are listed below.
+
+\subsubsection{A backend (server-side) programming language}
+
+One of the first things you need to do is to determine which back-end language you will use for constructing your web-site.  You have options to choose from.  Some examples are PHP, Ruby on Rails, JSP's/Servlets, etc.  The language that I will be writing about is the latest Java technologies.  The drawback with using Java is that it is slightly more complex to setup initially.  The advantage is that it is easier to debug Java programs than other types of languages.  This starts to pay off as your site gets bigger and bigger.
+
+\subsubsection{Environment Setup}
+
+Since setup is sometimes a pain with Java, you want to find an option that is as simple as possible.  For this I recommend using Eclipse or NetBeans.  As a first option, I'll probably suggest using NetBeans, as it is the most up to date (today) for the latests and greatest Java web technologies.  You'll need to download the latest version of the Java SDK, and the latest version of NetBeans for your platform.  Go ahead and get those two things installed and we'll move on to the next steps.
+
+\subsubsection{Next steps}
+
+The first thing you'll want to do is some basic templating, and server side functionality.  Basically what we are doing is moving from 'static' html pages to 'dynamic' html pages.  That means the content of the web page gets constructed on the fly.  
+
+One simple example of this would be to create a web page that displays the current time.  Everytime this web page is viewed, it would display a different (current) time.  So you see this is very different than a person writing an HTML page by hand and putting the time inside that page...as you can see, that is practically impossible to do.  However, with a computer, this can be achieved trivially.  That is the power of computers!
+
+So your objective here should be to create a single page website that just dynamically displays the current time to the user.
+
+
+
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "OnlineTailorStrategyBook"
+%%% End: 

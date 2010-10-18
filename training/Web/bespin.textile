@@ -1,0 +1,108 @@
+"home":../../index.html > "Training":../index.html > Bespin
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Overview
+
+The larger purpose is to learn how to build webpages and websites.  This part of your training will get you up and running quickly so you can learn Hyper Text Markup Language (HTML) and Cascading Style Sheets(CSS), with minimum "yak shaving":http://en.wiktionary.org/wiki/yak_shaving
+
+h2. Simple Setup
+
+The purpose of using this tool is multi-fold.  First the only software you need to begin using it is a browser.  I recommend Google Chrome or Firefox.  Download the latest versions.  Once you have these you can then begin coding a web page/site. 
+
+h2. Share files with others
+
+The other feature that we will use is the Version Control System(VCS).  This is a server where the code you type up will be put so it can be shared with other people.  In this way we are working together on the same code/files, etc...  This is beneficial for learning and collaborating.
+
+h1. Getting Started
+
+h2. Sign up
+
+Bespin is an online editor, goto: "Bespin":https://bespin.mozillalabs.com and login.  Feel free to watch this video to see how its done.  
+
+<video> "Video":http://www.youtube.com/watch?v=qd9JKy9BX14
+
+h2(#command_window). Command / Editor windows
+
+To move between the editor window and the command line at the bottom, (mac): @Cmd-J@ and other systems(windows/linux) @CTRL-J@.  When in command window you can save your current work using: 
+
+h1. Hooking up to VCS
+
+I will provide you with the repository URL and a username and password.  Today we can use the repository URL @http://svn.spicevan.com/clothes/Projectv/@.  This is a website that Veronica is working on that is a simple brochure like website.
+
+* To connect to this repository, goto "the command line":#command_window at the bottom of the screen and type:
+
+bc. 
+vcs clone
+
+!images/bespin1.png!
+
+and put in the following information:
+
+bc. 
+repo:  http://svn.spicevan.com/clothes/Projectv/
+
+!images/bespin2.png!
+
+of course you'll need to put in your own login credentials, changing @fenton@ to your login name.  If you don't have one just email me for one.
+
+* Now it may ask for a Keychain Password.  Just put in some password that you will remember here.
+
+!images/bespin3.png!
+
+* The result should look like the following image:
+
+!images/bespin4.png!
+
+Have a look at the following two videos that show moving around Bespin and how to open and close files and send your modifications of files back up to the server (commit and push).
+
+* <video> "Video 1/2":http://www.youtube.com/watch?v=HPXXFj1IOb4
+
+* <video> "Video 2/2":http://www.youtube.com/watch?v=nqyv6lC7YeI
+
+h1. AdditionalCommands
+
+h2. Save (saveas)
+
+bc. 
+saveas <project_name>/<file_name>
+
+example
+
+bc. 
+saveas test1/test.html
+
+here the project name is @test1@ and the filename is @test.html@
+
+If you have already @saveas@ a file, then you can just @save@ from there on in to make updates to the file.
+
+h2. Preview
+
+You can preview your work by typing @preview@ in the command window.  This will try to open a web browser to the file you are working on...however I found that sometimes it misses a trailing slash that is needed between @at@ and your project name...so in the above saved example the url should be correct to be: @https://bespin.mozillalabs.com/preview/at/test1/test.html@
+
+h2. Listing Files
+
+You can list the files you have by the following commands:
+
+List the files in the root directory
+
+bc. 
+ls /
+
+List the files in a certain project, say @test1@
+
+bc. 
+ls /test1
+
+When you are working on a file, simply typing @ls@ will list the contents of the directory where you are currently editing a file.
+
+h2. Help
+
+Typing @help@ in the command window will show you a list of commands you can execute in bespin.
+
+h2. Newfile
+
+To begin editing a new file just type @newfile@ in the command window.
+

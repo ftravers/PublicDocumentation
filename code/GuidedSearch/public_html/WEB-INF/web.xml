@@ -1,0 +1,85 @@
+<?xml version = '1.0' encoding = 'windows-1252'?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee">
+
+	<display-name>GuidedSearch</display-name>
+ <context-param>
+  <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+  <param-value>client</param-value>
+ </context-param>
+ <context-param>
+  <param-name>oracle.adf.view.faces.USE_APPLICATION_VIEW_CACHE</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <filter>
+  <filter-name>PCF</filter-name>
+  <filter-class>oracle.webcache.adf.filter.FacesPageCachingFilter</filter-class>
+ </filter>
+ <filter-mapping>
+  <filter-name>PCF</filter-name>
+  <servlet-name>Faces Servlet</servlet-name>
+  <dispatcher>REQUEST</dispatcher>
+  <dispatcher>FORWARD</dispatcher>
+ </filter-mapping>
+ <servlet>
+  <servlet-name>AFCStatsServlet</servlet-name>
+  <servlet-class>oracle.webcache.adf.servlet.AFCStatsServlet</servlet-class>
+  <load-on-startup>1</load-on-startup>
+ </servlet>
+ <welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	<servlet>
+		<description></description>
+		<display-name>OpenWcmServlet</display-name>
+		<servlet-name>OpenWcmServlet</servlet-name>
+		<servlet-class>openwcm.OpenWcmServlet</servlet-class>
+
+		<init-param>
+			<param-name>conent_server_host</param-name>
+			<param-value>192.168.9.176</param-value>
+		</init-param>
+		<init-param>
+			<param-name>conent_server_port</param-name>
+			<param-value>4444</param-value>
+		</init-param>
+                
+                <init-param>
+                    <param-name>portlet_provider_url</param-name>
+                    <param-value>http://kerapu.mohe.gov.my:7778/ServletChain/ServletChain</param-value>
+                </init-param>
+
+                
+		<!--
+			If set to false you need to modify the servlet to extract the username from wherever it resides for your portal. You
+			would modify the code in the method getContext(). Feel free to modify the parameters this method takes as it is only
+			used inside this class (it's private!). Also if you set to false then 'testing_user' parameter is also not used. When
+			set to true, the username in 'testing_user' will be used to fetch images (and whatnot) embedded in the HTML returned.
+			This is good for testing in the context of a simple container/setup like tomcat.
+		-->
+		<init-param>
+			<param-name>testing</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>testing_user</param-name>
+			<param-value>sysadmin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>photoGalleryRootCollectionId</param-name>
+			<param-value>5</param-value>
+		</init-param>
+
+
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OpenWcmServlet</servlet-name>
+		<url-pattern>/OpenWcmServlet</url-pattern>
+	</servlet-mapping>
+</web-app>
