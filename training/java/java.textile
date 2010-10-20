@@ -16,7 +16,10 @@ Often you need to load values from a properties file.  The best way to do this i
 
 bc. 
 ResourceBundle props = ResourceBundle.getBundle ("some.pkg.resource");
-props.
+String host = props.getString("host");
+System.out.println("This is the host: " + host);
+
+in this case you'd have a file called @resource.properties@ located in the @some.pkg@ package.
 
 In the above scenario this would be located at: @some/pkg/resource.properties@.  Then you'd jar up your sources, including the resource.properties file and your code would still work when deployed in different scenarios.
 

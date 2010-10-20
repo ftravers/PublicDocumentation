@@ -89,12 +89,14 @@ Push this up to the server:
 bc. 
 [ftravers@local]$ git commit -a -m"My comment."; git push
 
-h2. Create local folder/files
+h2. Create/Copy local folder/files
 
 Now create the project...
 
 bc. 
 [ftravers@local]$ cd ~/projects; 
+
+You can create a new empty directory, or copy an existing directory/files into this folder
 
 * Without Maven
 
@@ -111,9 +113,16 @@ bc.
 bc. 
 [ftravers@local]$ cd testrepo1; git init
 [ftravers@local]$ git remote add origin ft_git@spicevan.com:testrepo1.git
-# do some work, git add and commit files like: @test.txt@
-[ftravers@local]$ git push origin master:refs/heads/master
 
+Do some work, git add and commit files like: @test.txt@
+
+If you copy some files into here that you want to then manage, after the copy do the following:
+
+bc. 
+[ftravers@local]$ cd testrepo1
+[ftravers@local]$ git add .
+[ftravers@local]$ git commit -m"Initial Commit"
+[ftravers@local]$ git push origin master:refs/heads/master
 
 h1. When others want to use repository
 
@@ -190,3 +199,27 @@ Now you can log back in as test user and pull down the changes.
 
 bc. 
 [testuser@local]$ cd ~/projects/testrepo1; git pull; cat test.txt
+
+h1. Misc Tasks
+
+h2. Unstaging a file
+
+To unstage the file: @src/site/apt/build.apt~@
+
+bc. git reset HEAD src/site/apt/build.apt~
+
+h2. Git Ignore file
+
+Create a file called @.gitignore@ in the project root and put lines like the following in it.
+
+bc. 
+# a comment - this is ignored
+*.a       # no .a files
+!lib.a    # but do track lib.a, even though you're ignoring .a files above
+/TODO     # only ignore the root TODO file, not subdir/TODO
+build/    # ignore all files in the build/ directory
+doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+target/
+*.diff
+*~
+

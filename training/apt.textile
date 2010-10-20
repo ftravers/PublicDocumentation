@@ -1,3 +1,20 @@
+h1. General Format
+
+h2. First Line
+
+First line, no space is title of document.
+
+h2. Sections & Levels
+
+bc. 
+* Level1
+** Level2
+*** Level3
+
+h2. Paragraphs
+
+You must indent paragraphs
+
 h1. Codes
 
 h2. Verbatim

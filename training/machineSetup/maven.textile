@@ -104,6 +104,10 @@ or all together
 bc. 
 mvn release:clean release:prepare release:perform
 
+h2. Cargo
+
+You can use cargo to deploy to your app server...like tomcat.
+
 h2. Excluding unwanted transitive dependencies
 
 When you start using maven you'll begin adding dependencies to your pom.  Recently I wanted to use Axis2 to call a web service.

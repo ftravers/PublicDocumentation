@@ -4,11 +4,21 @@ p(toc). Table of Contents
 
 {toc}
 
+h1. Windows, Linux, OS/X
+
+If you are using a linux or OS/X you probably don't have to do much to make things work here.  
+If you are using windows, you'll need to install cygwin.  Please goto: http://www.cygwin.com/
+Cygwin, gives you the power of Linux on a windows box.  Just go through the default install.
+
 h1. Setup automatic login to ssh server
+
+h2. Generate your public/private key pair
 
 If you already have a private key DON'T create a new one.  The following command will let you know if you already have one.
 
 bc. [root@del ~]# ssh-keygen -t rsa
+
+h2. Copy to server
 
 Copy your public key to the server.    
 
