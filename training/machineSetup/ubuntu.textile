@@ -95,6 +95,14 @@ bc.
 sudo /etc/init.d/apache2 restart
 /etc/apache2/apache2.conf
 
+h3. SSL Web Server
+
+bc. 
+sudo a2enmod ssl
+sudo nano /etc/apache2/sites-available/default-ssl # set DocumentRoot etc
+sudo a2ensite default-ssl
+sudo service apache2 restart
+
 h2. Installing Programs
 
 you can create a *.desktop file like:
