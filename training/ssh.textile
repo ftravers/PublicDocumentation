@@ -10,6 +10,8 @@ If you are using a linux or OS/X you probably don't have to do much to make thin
 If you are using windows, you'll need to install cygwin.  Please goto: http://www.cygwin.com/
 Cygwin, gives you the power of Linux on a windows box.  Just go through the default install.
 
+When you are installing, specifically add: @OpenSSH@ to the items to install.
+
 h1. Setup automatic login to ssh server
 
 h2. Generate your public/private key pair

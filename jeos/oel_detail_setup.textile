@@ -73,7 +73,9 @@ Now you can restart your network services with the following command:
 	
 	[root@db11g ~]# cat >> /etc/resolv.conf
 	nameserver 192.168.8.1
-----------
+
+h1. Attaching External Disk
+
 Sometimes you'll need to create and attach a shared disk to your image.
 I needed this to copy install files onto the image, but after the install
 I don't need or want all that extra disk.  Instructions below indicate

@@ -71,14 +71,20 @@ bc.
 writable = gitosis-admin
 members = ftravers@ftravers-laptop
 [group testgroup1]
-writable = testrepo1
-members = ftravers@ftravers-laptop
-[ftravers@local]$ 
+members = ftravers@ftravers-laptop @anothergroup
+writable = testrepo1 testrepo2 
+readonly = testrepo3
+## You can use groups just to avoid listing users multiple times. Note
+## no writable= or readonly= lines.
+[group anothergroup]
+members = alice bill
 
 where
+* @writable@ : defines who has commit privileges
+* @readonly@ : defines who has read only privileges
 * @testgroup1@ : is the name of the group
 * @testrepo1@ : is the name of the new repository
-* @members@ : is a space delimeted list of users who can commit to this project
+* @members@ : is a space delimeted list of users included in this group
 
 The @members@ list should be the filenames from @~/projects/gitosis-admin/keydir@ folder without the @.pub@ extension.
 

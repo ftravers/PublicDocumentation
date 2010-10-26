@@ -4,6 +4,10 @@ p(toc). Table of Contents
 
 {toc}
 
+h1. References
+
+Here is a good reference site: http://netbeans.org/kb/trails/java-ee.html
+
 h1. Intro
 
 This tutorial is designed to show you how to move from traditional HTML web page creation to creating web pages with JSF(Java Server Faces).  Facelets are the way to do UI in JSF.  Lets look at the difference between an HTML file and a JSF Facelets file.

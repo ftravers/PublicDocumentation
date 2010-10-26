@@ -161,6 +161,8 @@ In your master document put a @\input{filenameNoExtension}@ where you want to in
 
 Your child file should not have any @\begin{document}@ syntax.
 
+The following is a good start for your Master file, so just cut and paste it.  Just modify the @\input{...}@ sections at the end to be the name of your child *.tex files.  Note: you don't need to supply the *.tex extension in your reference to the child docs, just as I haven't.
+
 bc. 
 \documentclass[final,letterpaper,12pt]{article}
 \usepackage{graphicx}
@@ -190,7 +192,21 @@ bc.
 \clearpage
 \end{document}
 
-I usually put 'sections' in the master document and leave subsections for the 'input'ed documents.
+I usually put 'sections' in the master document and leave subsections for the 'input'ed documents.  So in your child you might have some stuff like:
+
+bc. 
+\section{Architecture Version 1}
+We are going to work on several versions of a basic architecture.
+\begin{figure}[h!]
+  \centering
+  \fbox{\includegraphics[width=130mm]{images/BasicArchitecture}}
+  \caption{Basic Architecture}
+\end{figure}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "oraVcsBook"
+%%% End: 
+
 
 h2. Subfiles
 

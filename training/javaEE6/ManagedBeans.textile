@@ -43,7 +43,7 @@ bc.
   </body>
 </html>
 
-Notice the Managed Bean name in the HTML has the first letter lower-cased.  Second notice how accessing the method getMessage() we drop the _get_ and ().
+Notice the Managed Bean name in the HTML has the first letter lower-cased.  Second notice how accessing the method getMessage() we drop the _get_ and ().  #{welcome.message} can also access setMessage() if it appears on the left hand side of an assignment, (and of course if we have it defined in the bean).
 
 h2. Forms, Navigation, & Managed Bean
 
