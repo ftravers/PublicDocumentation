@@ -22,18 +22,44 @@ Reference: "Dreamhost Gitosis Setup":http://wiki.dreamhost.com/Gitosis
 bc. 
 [ftravers@local]$ ssh-keygen -t rsa
 [ftravers@local]$ ssh-copy-id ft_git@spicevan.com
-[ftravers@local]$ rcp ~/.ssh/id_rsa.pub ft_git@spicevan.com:~
+[ftravers@local]$ rsync -avP --stats .ssh/id_rsa.pub ft_git3@spicevan.com:~
+
+Check your version of python with: @python --version@
+
+for 2.5*
+
+bc. 
 [remote]$ mkdir -p $HOME/lib/python2.5/site-packages
 [remote]$ export PYTHONPATH=$HOME/lib/python2.5/site-packages
-[remote]$ mkdir ~/src
-[remote]$ cd ~/src
-[remote]$ wget http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c11-py2.5.egg
+[remote]$ mkdir ~/src; cd ~/src; wget http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c11-py2.5.egg
 [remote]$ sh setuptools-0.6c11-py2.5.egg --prefix=$HOME
+
+for 2.6*
+
+bc. 
+[remote]$ mkdir -p $HOME/lib/python2.6/site-packages
+[remote]$ export PYTHONPATH=$HOME/lib/python2.6/site-packages
+[remote]$ mkdir ~/src; cd ~/src; wget http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c11-py2.6.egg
+[remote]$ sh setuptools-0.6c11-py2.6.egg --prefix=$HOME
+
+The rest is the same for either version.  
+
+bc. 
 [remote]$ git clone git://eagain.net/gitosis.git
+
+If the @git clone git://eagain.net/gitosis.git@ line doesn't work for you
+like it didn't for me once, you can download the tar.gz off the web and 
+untar it in your root folder so @cd; ls@ shows the @gitosis@ directory.
+
+bc. 
+[remote]$ cd; tar xvfz gitosis-somelongHashCode.tar.gz
+
+The rest should go without a hitch
+
+bc. 
 [remote]$ cd gitosis/
 [remote]$ export PATH=$HOME/bin:$PATH
-[remote]$ python setup.py install --prefix=$HOME
-[remote]$ cd
+[remote]$ python setup.py install --prefix=$HOME; cd
 [remote]$ echo "export PYTHONPATH=$HOME/lib/python2.5/site-packages/" >> .bashrc
 [remote]$ echo "export PYTHONPATH=$HOME/lib/python2.5/site-packages/" >> .bash_profile
 [remote]$ echo "export PATH=$HOME/bin:$PATH" >> .bashrc
@@ -42,7 +68,7 @@ bc.
 [remote]$ gitosis-init < id_rsa.pub; rm -f id_rsa.pub
 [remote]$ chmod 750 $HOME/repositories/gitosis-admin.git/hooks/post-update
 [ftravers@local]$ mkdir ~/projects; cd ~/projects
-[ftravers@local]$ git clone ft_git@spicevan.com:~/repositories/gitosis-admin.git
+[ftravers@local]$ git clone ft_git@spicevan.com:gitosis-admin.git
 
 h1. Adding a new Repository
 
