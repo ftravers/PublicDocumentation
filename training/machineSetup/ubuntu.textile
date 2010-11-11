@@ -1,3 +1,9 @@
+"home":../../index.html > "Training":../index.html > "Machine Setup":index.html > Ubuntu
+
+p(toc). Table of Contents
+
+{toc}
+
 h1. Ubunut Setup
 
 h2. Startup, Shutdown, Scripts

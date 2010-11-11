@@ -1,125 +1,58 @@
-{toc}
+"home":/index.html > Virtual Machines
 
+p(toc). Table of Contents
 
-http://iprequest.oraclecorp.com/
+{toc:style=disc|maxLevel=1}
 
+h1. Physical
 
-h1. Physical Machines
+|| Connection Info                   || Specs                                   || Notes ||
+| ssh oracle@vl-vmsrv2.hk.oracle.com | *CPU:* CoreDUO *DISK:* 500GB *RAM:* 8GB  |
+| ssh oracle@jpbox.hk.oracle.com     | *CPU:* CoreDUO *DISK:* 1.5TB *RAM:* 16GB |
+| Man Kiet's machines too            | | 
 
-|| Connection Info \\ || Physical Location / Owner \\ || IP Address \\ || Status ||
-| Host: *vl-vmsrv1.hk.oracle.com*\\
-Win 2003 Server 64 bit \\
-RAM: 8 GB, Quad Core&nbsp; \\
-username/password: Administrator/welcome1 \\
- \\
-\\ | Hong Kong \\
-One Pacific Place \\
-fenton.travers@oracle.com \\ | 10.179.252.28 | operational |
-| Host: *vl-vmsrv2.hk.oracle.com* \\
-Win 2003 Server 64 bit \\
-RAM: 8 GB, Dual Core&nbsp; \\
-username/password: Administrator/welcome1 \\ | Hong Kong \\
-One Pacific Place \\
-fenton.travers@oracle.com \\ | 10.179.252.33 | operational |
-| Host: *vl-vmsrv3.hk.oracle.com* \\ \\ | Hong Kong \\
-One Pacific Place \\
-fenton.travers@oracle.com | 10.179.252.36 | not used \\ |
-When moving servers around, decomissioning, etc...
-* copy all running vm's over
-* copy any seed vm's over
-
-h1. Seed Virtual Machines
-
-These are VM's, that can be copied to build new running virtual machines, or solutions.&nbsp; They are setup with DHCP, so that if you copy and start them up you won't have an IP clash.
-|| Name || Comments \\ || Location \\ ||
-| linux | Based off the Oracle VM Template for Oracle Enterprise Linux 5 Update 2 \\
-root passwd: welcome1 \\
-Location: /OVS/seed_pool/linux \\
-Hosted on vl-vmsrv2 \\ | vl-vmsrv2:/OVS/seed_pool/linux \\
-vl-vmsrv3:/OVS/seed_pool/linux \\ |
-* Change IP Address from DHCP to Static
-
-Once you copy this seed machine you should change it's address from dhcp to a static ip address that you acquired from the link above (usually 2 days turn around).&nbsp; Follow [this link to change to a static IP address|http://wiki.oracle.com/page/static+ip+address+on+OEL].
-* Add a disk for more disk space
-
-Once you've got your machine copied and started up you'll need to add an extra disk.&nbsp; Follow [these instructions for adding a new disk|http://wiki.oracle.com/page/VM+Cheat+Sheet].
-
-h1. Virtual Machines
-
+h1. Virtual
 
 h4. All Hosts
 
 * Network: 10.179.252.0, Netmask: 255.255.255.0, Default Gateway: 10.179.252.1
-* DNS Servers: 10.179.248.12, 146.56.237.50, 140.83.70.155
+* DNS Servers: 10.179.253.14, 146.56.237.50, 140.83.70.155
 * Default Domain: hk.oracle.com
 * Go to [this page|http://iprequest.oraclecorp.com/] to request additional *Static IP* addresses.
 * All running VM's are located in the directory: */OVS/running_pool*
 
-|| Name \\ || Host Name \\ || Status || IP Address \\ || Hosted On \\ || Relies On \\ || Contact Owner \\ || Status / Comments \\ ||
-| ucm1 | vl-ucm1 \\ | running | 10.179.252.30 | vl-vmsrv2 | \\ | Fenton Travers \\ | Hong Kong Government Efficiency Unit POC - ECM Base 7 VM \\ |
-| db1 | vl-db1 \\ | deleted | 10.179.252.29 | vl-vmsrv2 | none | Fenton Travers \\ | Heavily Used Production Style \\ |
-| xps | xps \\ | deleted | 10.179.252.34 | vl-vmsrv2 | vl-db1 | Fenton Travers \\ | Too slow.&nbsp; Intention was to use for production but it is too slow. The network connection is too slow...get throttled internally. \\ |
-| wlp1 | vl-wlp1 \\ | running | 10.179.252.31 | vl-vmsrv1 | none | John Wheeler \\ | Hong Kong Government Efficiency Unit POC - Web Center |
-| linux1 | linux1 | deleted | 10.179.252.32 | vl-vmsrv2 \\ | vl-db1 | Fenton Travers \\ | Should be renamed to ImageMagick \\ |
-| wciwcm1 | vl-wciwcm1 | | 10.179.252.35 | vl-vmsrv2 | vl-db1 | Fenton Travers, James Williams \\ | Not Setup \\ |
-| alm \\ | alm \\ | | 10.179.252.39 | vl-vmsrv2 \\ | \\ | Fenton Travers, Byungwook Cho \\ | Not setup \\ |
-| youtube \\ | | | 10.179.252.38 | vl-vmsrv2 \\ | | Fenton Travers \\ | Not Setup \\ |
-| ipm \\ | | | 10.179.252.41 | | | | Not setup |
-| wcfs \\ | | | 10.179.252.40 | | | | Not setup |
-| urmses | vl-urmses \\ | | 10.179.252.42 | | | | Not setup |
-| autovue \\ | vl-autovue | | 10.179.252.37 | | | | Not setup |
-| | | | | | | | |
+|| Name      || Status || IP Address               || Hosted On  || Notes  || 
+| vl-ucm1    | free    | 10.179.252.30             |
+| vl-db1     | free    | 10.179.252.29             | 
+| xps        | free    | 10.179.252.34             |
+| vl-wlp1    | free    | 10.179.252.31             | 
+| linux1     | assigned| ssh root@10.179.252.32    | vl-vmsrv2   | OVM TB Template|
+| vl-wciwcm1 | free    | 10.179.252.35             | 
+| alm        | assigned| ssh root@10.179.252.39    | vl-vmsrv2   | my OVM TB&Mangr |
+| youtube    | free    | 10.179.252.38             |
+| ipm        | free    | 10.179.252.41             |
+| wcfs       | free    | 10.179.252.40             |
+| vl-urmses  | free    | 10.179.252.42             |
+| vl-autovue | free    | 10.179.252.37             |
 
-h1. Virtual Machine Details
+h1. Details
+
+h2. Physical Machines
+
+h3. vl-vmsrv2
+
+h4. Folders
+
+| Virtual Machines | /OVS/running_pool/ |                |
+| NFS exports      | /OVS/sharedDisk    | 450/500GB Free |
+| NFS mounts       | /mount/jpbox       | 100/917GB Free |
 
 
-h3. VM: RAC1
-
-Please see [this page|virtual lab - rac1] as this has quite a bit of info associated with it.
-
-h3. VM: wlp1
-
-WLP host server has been set up on vl-wlp1.hk.oracle.com under /opt/wlp103. A test domain has been created and may be accessed via the WebLogic Server console at: [http://vl-wlp1.hk.oracle.com:7001/console&nbsp]; (username = weblogic, pwd = weblogic).
-
-Here are the notes to: [Install Oracle WLP|http://wiki.oracle.com/page/Install+Oracle+WLP].
-
-h3. VM: urmses
-
-awaiting ip address assignment. in mean time can copy over seed vm.
-
-h3. VM: ALM
-
-Waiting on IP address from GIT.&nbsp; Once we have that, the machine will be setup and connection information provided here.
-
-h3. VM: WCIWCM1
-
-Currently needs to have UCM + WCM + WCI installed.
-
-h3. VM: UCM1
-
-ucm unix user/password: stellent/welcome1&nbsp;&nbsp;
+h2. Virtual Machines
 
 h3. VM: linux1
 
-ucm unix user/password: stellent/welcome1
-|| Instance || Details || Comments \\ ||
-| idc \\ | dir: /u01/oracle/ucm \\
-[http://linux1.hk.oracle.com/idc/] \\
-Version: [10.1.3.3.3| http://olympus.stellent.com/xpedio/idcplg?IdcService=DOC_INFO&dID=44960&dDocName=OLY_061667] \\ | \\ |
-| ibr \\ | dir: /u01/oracle/ibr \\
-[http://linux1.hk.oracle.com/ibr/] \\ | \\ |
-DAM is installed here, we should move this to a different VM name like ImageMagick, not Linux1, not very descriptive\!&nbsp; Here are the install instructions for DAM: [Digital Asset Manager Install Instructions|http://wiki.oracle.com/page/Digital+Asset+Manager+Install+Instructions]
-
-h3. VM: xps
-
-ucm unix user/password: stellent/welcome1
-|| Instance || Details || Comments \\ ||
-| xps \\ | dir: /u01/oracle/ucm/server \\
-[http://vl-ucm1.hk.oracle.com/idc/] \\
-Version: [10.1.3.3.3| http://olympus.stellent.com/xpedio/idcplg?IdcService=DOC_INFO&dID=44960&dDocName=OLY_061667] \\ | This is a production instance used to host Oracle Consulting Expert Services Offerings \\ |
-| damtest \\ | dir: /u02/oracle/ucm2/server \\
-[http://xps.hk.oracle.com/damtest/] \\
-Version:&nbsp; [10.1.3.3.3| http://olympus.stellent.com/xpedio/idcplg?IdcService=DOC_INFO&dID=44960&dDocName=OLY_061667] \\ | This instance is to try to get the latest version of content server 10.1.3.3.3. to work with IBR. \\ |
+* unix user/password: oracle/welcome1
 
 h3. VM: db1
 
@@ -128,10 +61,10 @@ username/password: root/welcome1
 oracle sid: orcl
 
 db: username/password = system/welcome1
-|| User Name \\ || Used By Virtual Machine \\ || UCM Instance \\ ||
+|| User Name  || Used By Virtual Machine  || UCM Instance  ||
 | idc_dam2_user | linux1 | fox_ucm |
-| ucm3 | ucm1 \\ | idc3 |
-| idc_user | ucm1 \\ | idc |
+| ucm3 | ucm1  | idc3 |
+| idc_user | ucm1  | idc |
 | idc_dam_test_user | xps | damtest |
 | xps_user | xps | idc |
-| idc_cisdi_user | ucm1 | cisdi \\ |
+| idc_cisdi_user | ucm1 | cisdi |

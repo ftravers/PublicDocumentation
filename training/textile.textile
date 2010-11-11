@@ -1,7 +1,17 @@
+"home":/index.html > Textile
+
+p(toc). Table of Contents
+
+{toc}
+
 h1. Reference
 
-"Textile Reference":http://blog.thought-mesh.net/static/docs/mtmanual_textile2.html
-
+* "Comprehensive Reference":https://wiki.usask.ca/renderer/notationhelp.action
+* "Textile Reference":http://blog.thought-mesh.net/static/docs/mtmanual_textile2.html
+* "Reference 2":https://wiki.usask.ca/display/ds/Formatting+Content
+* "Ref 4":http://redcloth.org/hobix.com/textile/
+* "Ref 5":http://redcloth.org/textile/html-integration-and-escapement/
+* "Try out sample textile":http://redcloth.org/try-redcloth/
 h1. Links
 
 bc.
@@ -11,6 +21,18 @@ example:
 
 bc. 
 "Textile Reference":http://blog.thought-mesh.net/static/docs/mtmanual_textile2.html
+
+h2. Anchors
+
+The following code sets up Basic Navigation to be an anchor target:
+
+bc. 
+h1(#basicnav). Basic Navigation
+
+target the above with:
+
+bc. 
+"Basic Navigation":Navigation.html#basicnav
 
 h1. Tables
 
@@ -36,3 +58,25 @@ h2. headings
 
 bc.
 h1., h2., h3., etc...
+
+h2. Table of Contents TOC
+
+bc. 
+{toc:style=disc|maxLevel=1}
+
+h2. CSS
+
+You can format your own code by modifying 
+
+h2. Glossary
+
+The following is a sample you may have in your text:
+
+bc. 
+TLA(Three Letter Ackronym)
+
+then put a 
+
+bc. {glossary}
+
+statement at the end of your document.

@@ -1,4 +1,21 @@
+HOME
+
 p(toc). Navigation
+
+Quick Links:
+
+!(icon)/images/file.gif! "DB 11g":/jeos/db11g/db11g.html
+!(icon)/images/file.gif! "Emacs":training/emacs.html
+!(icon)/images/file.gif! "GIT":training/git.html
+!(icon)/images/file.gif! "Latex":training/latex.html
+!(icon)/images/file.gif! "Linux":training/linux.html
+!(icon)/images/file.gif! "OVM Manager & Template Builder":/jeos/OVM_Manager_TemplateBuilder.html
+!(icon)/images/file.gif! "Setting up an Oracle Virtual Machine Lab":jeos/SettingUpVirtualLab.html
+!(icon)/images/file.gif! "SSH":training/ssh.html
+!(icon)/images/file.gif! "Textile":training/textile.html
+!(icon)/images/file.gif! "Virtual Machines Labs":jeos/virtualMachines.html
+
+Regular Links:
 
 !(icon)/images/folder.gif! "Training":training/index.html
 !(icon)/images/folder.gif! "jeos / Server Setup":jeos/index.html

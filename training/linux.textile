@@ -1,0 +1,326 @@
+"Home":/index.html
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Ubuntu
+
+h2. Clean Install Setup
+
+h3. Packages
+
+bc. sudo apt-get update
+
+Applications > Ubuntu Software Center > Edit > Software Sources... > Other Software > select the other two partner repositories
+
+* Install Chrome: Just google it and go through google's install instructions.
+
+* Compiz
+
+bc. 
+sudo apt-get install compiz compizconfig-settings-manager compiz-fusion-plugins-extra
+ccsm
+
+Add the following:
+
+** (Add) Effects > Wobbly Windows
+** (Remove) Desktop > Viewport Switcher
+** (Edit) Desktop > Expo
+*** Bindings
+**** Expo Button = Ctrl - Button5
+**** Drag&Drop = Ctrl - Button1
+**** Exit Expo = Ctrl - Button4
+*** Appearance
+Viewport Distance = .15
+Hide panels/docs in expo = checked
+Mipmaps = checked
+Brightness = 71
+Saturation = 62
+** (Edit) Desktop > Desktop Wall
+*** Viewport Switch Preview
+Preview Scale = 100
+Background Gradient = All Black
+Others = All white
+*** Bindings
+Move Up/Down/Next/Prev = Ctrl - <direction arrow>
+** (Edit) Window Management > Grid
+Remove Alt from all key bindings
+
+
+* gnome-do
+
+System > Preferences > Keyboard Shortcuts > Window Management > Activate the window Menu = Disabled
+
+bc. 
+sudo apt-get build-dep gnome-do
+sudo apt-get install gnome-do gnome-do-plugins
+
+* GIT
+
+Package Manager = git-core, git-gui, gitosis, gitweb
+
+* Many
+
+Package Manager = emacs, clisp, slime, latexdiff, 
+
+h2. Config
+
+* "Generate your ssh key pair":ssh.html#keypair
+
+h2. Package Management
+
+h3. Package Details
+
+To determine info about a given package do:
+
+bc. 
+dpkg -p <package_name>
+dpkg -p clisp
+
+List files installed to your system from package.
+
+bc. 
+dpkg -L package-Name
+
+
+List contents of a deb package.
+
+bc. 
+dpkg -c filename
+
+h2. Setting up Lisp
+
+h3. Install clisp
+
+bc. sudo apt-get install clisp
+
+h3. slime
+
+"Slime Documentation":http://common-lisp.net/project/slime/doc/html/
+
+installation just requires a few lines in your .emacs:
+
+bc. 
+(setq inferior-lisp-program "/usr/bin/clisp") ; your Lisp system
+(add-to-list 'load-path "~/bin/slime-2010-11-09/")  ; your SLIME directory
+(require 'slime)
+(slime-setup)
+
+Run it in emacs with: @Alt-x slime@
+
+h2. Startup, Shutdown, Scripts
+
+To make it usable, and make possible it's automatic startup on server boot change its permissions and update-rc.d
+
+bc. 
+sudo chmod +x /etc/init.d/git-daemon
+sudo update-rc.d git-daemon defaults
+
+The daemon can be started or stoped by accesing:
+
+bc. 
+sudo /etc/init.d/git-daemon start
+sudo /etc/init.d/git-daemon stop
+
+To remove the file, just replace the word default with remove:
+
+bc. 
+update-rc.d git-daemon remove
+
+h2. Java JDK
+
+Then, to install the JDK, start here to download: http://java.sun.com/javase/downloads/widget/jdk6.jsp
+
+bc. 
+cd /opt; sudo mkdir java; 
+sudo mv /home/ftravers/bin/jdk-6u20-linux-i586.bin /opt/java
+cd /opt/java; sudo chmod +x /opt/java/jdk-6u20-linux-i586.bin; sudo ./jdk-6u20-linux-i586.bin
+
+Set up some symlinks to make java more accessible.  The first one will need to be updated each time you upgrade a minor version of Oracle Java 6.  The update alternatives can be used to select a different JVM (eg OpenJDK or Java 5)  You could add further symlinks for javac etc but I will not need them on this server.
+
+bc. 
+ln -s /opt/java/jdk1.6.0_20 /opt/java/java-6-oracle
+sudo update-alternatives --install "/usr/bin/java" "java" "/opt/java/java-6-oracle/bin/java" 1
+sudo vi /etc/environment 
+
+add in:
+
+bc. 
+JAVA_HOME="/opt/java/java-6-oracle;"
+
+test with:
+
+bc. 
+cd /
+java -version
+
+Should look okay now.  You can now launch Eclipse and it should run okay.
+
+h2. Subversion for Eclipse
+
+bc. 
+sudo apt-get install libsvn-java
+cat >> ~/bin/eclipse/eclipse.ini
+-Djava.library.path=/usr/lib/jni
+
+h2. Cisco VPN
+
+Get the VPN software from here:
+
+http://edelivery.oracle.com/EPD/GetUserInfo/get_form
+
+Then follow this blog:
+
+http://ilapstech.blogspot.com/2009/09/cisco-vpn-client-on-karmic-koala.html
+
+bc. 
+sudo /etc/init.d/vpnclient_init start
+sudo vpnclient connect Australia
+
+h2. AnyConnect Cisco VPN Client
+
+bc. 
+ftravers@ftravers-laptop:/$ ps -ef | grep isco
+root      2177     1  0 11:37 ?        00:00:00 /opt/cisco/vpn/bin/vpnagentd
+ftravers  2193  2177  1 11:37 ?        00:00:04 /opt/cisco/vpn/bin/vpnui -autolaunched
+
+bc. 
+/opt/cisco/vpn/bin/vpnui -autolaunched &
+
+h2. Launcher
+
+GNOME Do 0.8.3.1
+
+synaptic input in search box: "gnome do " note space after do.
+
+h2. Screen Capture
+
+Shutter
+
+h2. Web Server
+
+bc. 
+sudo /etc/init.d/apache2 restart
+/etc/apache2/apache2.conf
+
+h3. SSL Web Server
+
+bc. 
+sudo a2enmod ssl
+sudo nano /etc/apache2/sites-available/default-ssl # set DocumentRoot etc
+sudo a2ensite default-ssl
+sudo service apache2 restart
+
+h2. Installing Programs
+
+you can create a *.desktop file like:
+
+bc. 
+[Desktop Entry]
+Name=Eclipse - Helios
+Comment=Eclipse - Helios, IDE
+Exec=/home/ftravers/bin/eclipse_helios/eclipse/eclipse
+Icon=/home/ftravers/bin/eclipse_helios/eclipse/icon.xpm
+Type=Application
+Categories=Development;IDE;
+Path=/home/ftravers/bin/eclipse_helios/eclipse/
+
+format description can be found here:
+
+bc. http://www.freedesktop.org/wiki/Howto_desktop_files
+
+valid categories can be found here: 
+
+bc. http://standards.freedesktop.org/menu-spec/latest/apa.html
+
+You may want to pass $ @desktop-file-validate foo.desktop@ to check out that your file is OK.
+
+Then, you can install it: @desktop-file-install foo.desktop@
+
+
+h1. General Unix Commands
+
+h2. rsync
+
+h3. Copy source to destination.
+
+bc. rsync -avP --stats [source] [destination]
+
+both @[source]@ and @[destination]@ can be like the following formats:
+
+bc. [user_name]@[host_name]:[host_folder]
+
+The following example copies a local folder @c:\fenton_dir@ to a remote server @spicevan.com@, logging in as the @root@ user.  The files get copied to the directory: @/home/ftravers/backupdir@
+
+bc. rsync -avP --stats c:\fenton_dir root@spicevan.com:/home/ftravers/backupdir
+
+The beauties of rsync are: 
+* it will pick up where it left off.  Good for big files and slow network links.
+* if you change a large file and re-run rsync it will not transfer the whole file only the sections of the file that have changed
+* you can use it on a whole directory structure and it will only send the files that have changed.
+* ... and a whole lot of other more technical details that I won't bother getting into here...
+
+h2. Environment Variables
+
+Edit the file: @~/.bashrc@, set an environment variable like the following:
+
+bc. export [variable_name]=[variable_value]
+
+The example below sets two environment variables: @PATH@ and @JAVA_HOME@.  Notice with the @PATH@ example I reuse the existing value of the @PATH@ variable to extend it.  This way I'm _adding_ to the path not _replacing_ it.
+
+bc. 
+export PATH=$PATH:/home/ft/bin/apache-maven-2.2.1/bin:/home/ft/bin/jdk1.6.0_18/bin
+export JAVA_HOME=/home/ft/bin/jdk1.6.0_18
+
+h2. Aliasing
+
+Oftentimes we want to create shortcuts to commands that are arduous to type over and over.  An alias is your friend in these cases.  Just like Environment Variables, put these in @~/.bashrc@.  The way to do it is:
+
+bc. alias [new_short_name]='[long_painful_to_type_command]'
+
+example below allows me to type _vms_ instead of _ssh root@vms.lab.com_.  Notice the use of single quotes (') around the command.
+
+bc. alias vms='ssh root@vms.lab.com'
+
+h2. Misc Commands
+
+h3. Linking 
+
+Create a soft link:
+
+bc. ln -s <existing_file> <new_link_name>
+
+h3. Date / Time
+
+bc. hwclock --set --date='08/18/07 14:40:40' --localtime
+
+h2(#nfs). NFS
+
+h3. Server
+
+On exporting server, @/etc/exports@, the format of the entry is: 
+
+bc. 
+<share_folder> <authorized_hosts_list> <share_settings>
+
+example:
+
+bc. 
+/OVS/sharedDisk * (rw,sync,all_squash,anonuid=500,anongid=500)
+
+bc. [root@vl-vmsrv2 jeos]# service nfs restart
+
+The following is how to mount another machines NFS exports:
+
+h3. Client
+
+<server>:<serv_dir>
+
+bc. 
+[root@vl-vmsrv2 ~]# cat /etc/fstab
+jpbox:/u01/Shared	/mount/jpbox		nfs	defaults	0 0
+[root@vl-vmsrv2 ~]# mount -a
+
+
+

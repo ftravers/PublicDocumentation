@@ -1,0 +1,124 @@
+"home":/index.html > Virtual Lab
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Overview
+
+This document will describe in broad strokes the steps you need to go through to establish an Oracle Virtual Machine Lab.  It assumes that you have 1 dedicated 'server'.  This should be any old desktop with as much RAM as possible, 4GB is considered a minimum.
+
+h1. Steps
+
+h2. Install OVMS
+
+OVMS(Oracle Virtual Machine Server).  You can download the iso from "eDelivery":http://edelivery.oracle.com/linux
+
+bc. 
+Select a Product Pack: Oracle VM
+Platform: x86 32 bit
+Oracle VM 2.2.1 Media Pack 	2.2.1.0.0 	B58990-04 	OCT-22-2010 	
+
+This is your base system now.  Hopefully you setup a static IP address.  Lets just say it is: @192.168.8.2@.  Lets call the machine @vmsrv.mydomain.com@.
+
+Once you have OVMS laid down.  You need to download the OVMTB(Oracle Virtual Machine Template Builder).  This is also located on "eDelivery":http://edelivery.oracle.com/linux.
+
+bc. 
+Select a Product Pack: Oracle VM
+Platform: x86 32 bit
+Oracle VM Templates for Oracle VM Manager 2.1.5 Media Pack for x86 (32 bit)
+
+h2. Template Builder Template
+
+You will download the template build template.  
+This is a virtual machine that you will untar on your OVMS.  
+Then you will launch it.  Steps:
+
+* Untar to folder: @/OVS/running_pool/OVM_EL5U2_X86_64_TMPLBUILDER_PVM/@
+
+bc. 
+[root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]# ls
+data.img  README  System.img  vm.cfg
+[root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]# cat vm.cfg
+bootloader = '/usr/bin/pygrub'
+disk = ['file:/OVS/running_pool/OVM_EL5U2_X86_64_TMPLBUILDER_PVM/System.img,xvda,w',
+        'file:/OVS/running_pool/OVM_EL5U2_X86_64_TMPLBUILDER_PVM/data.img,xvdb,w']
+memory = '1024'
+name = 'OVM_EL5U2_X86_64_TMPLBUILDER_PVM'
+vcpus = 1
+on_crash = 'restart'
+on_reboot = 'restart'
+vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']
+vif = ['type=netfront']
+[root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]#
+
+Notice the changes I've made from the default vm.cfg.  The location of the file images will need updating.  Launch the vm with:
+
+bc. 
+[root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]# xm create vm.cfg
+
+h3. Configure Template Builder Template
+
+Follow all the steps in the following documentation section:
+
+* "Setup a static IP and ...":/jeos/oel_detail_setup.html#staticIp
+
+h3. TB Web Interface
+
+Now that the network is properly setup, we can SSH into the machine and 
+abandon our VNC client from now on in.  Lets assume that the machine name 
+is: @tb@ and that it's IP Address is: @192.168.8.3@.
+
+Rebooting this machine we can then open a browser on your laptop and put the following URL in:
+
+bc. http://tb/ovmtb
+
+Select the @register@ link, choosing @oracle@ to be the username and @welcome1@ to 
+be the password.
+
+h3. Getting the JeOS Template
+
+Again from: "eDelivery":http://edelivery.oracle.com/linux we can grab the JeOS templates we want.
+
+bc. 
+Select a Product Pack: Oracle Linux
+Platform: x86 32 bit
+JeOS Oracle Linux 5 Update 5 base image x86 (32 Bit) 	V21114-01 	135M
+
+and
+
+bc. 
+Select a Product Pack: Oracle Linux
+Platform: x86 32 bit
+JeOS Base x86 and x86_64
+
+You'll eventually end up with the following files after you've downloaded the above and unzipped them:
+
+bc. 
+[root@vl-vmsrv2 jeos]# ls
+ovm-el5u5-xvm-jeos-1.1.0-1.el5.i386.rpm  ovm-template-config-1.1.0-1.el5.noarch.rpm
+ovm-modify-jeos-1.1.0-2.el5.noarch.rpm
+
+h4. Easy Disk Access
+
+To make your life easier, we'll NFS export a folder on the OVMS and mount it on the OVM Template Builder VM.  In OVMS's @/etc/exports@ add:
+
+bc. /OVS/downloads tb.mydomain.com (rw,sync,all_squash,anonuid=500,anongid=500)
+
+In the @/etc/fstab@ of the @tb@ machine add:
+
+h3. Install JeOS Images
+
+bc. 
+[root@linux1 jeos]# rpm -ivh ovm-modify-jeos-1.1.0-2.el5.noarch.rpm 
+Preparing...                ########################################### [100%]
+	file /usr/bin/modifyjeos from install of ovm-modify-jeos-1.1.0-2.el5 conflicts with file from package ovm-modify-jeos-1.1.0-1.el5
+[root@linux1 jeos]# rpm -ivh ovm-el5u5-xvm-jeos-1.1.0-1.el5.i386.rpm
+Preparing...                ########################################### [100%]
+   1:ovm-el5u5-xvm-jeos     ########################################### [100%]
+[root@linux1 jeos]# 
+
+
+h1. Glossary
+
+{glossary}

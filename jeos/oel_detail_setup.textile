@@ -17,9 +17,8 @@ need to give a password when you ssh in.
 
 bc. [root@oas ~]# mkdir .ssh; chmod 700 .ssh; cd .ssh; cat ../id_rsa.pub > authorized_keys; chmod 0600 authorized_keys
 	
-
 h2. Turn off firewall	
-	
+
 Turn off firewall on startup and shutdown right now too (not sure if ip6tables is required or not)
 
 bc. [root@ucm1 u01]# chkconfig --del iptables; chkconfig --del ip6tables
@@ -28,7 +27,7 @@ Shutdown firewall services
 
 bc. [root@ucm1 u01]# service iptables stop; service ip6tables stop
 	
-h2. Setup Static IP
+h2(#staticIp). Setup Static IP
 
 Static IP: To convert a dhcp OEL to Static IP address edit file:
 
@@ -54,25 +53,31 @@ HOSTNAME=ucm2
 [root@ucm2 network-scripts]# vi /etc/sysconfig/network
 
 Hostname: set for this session with:
-	[root@localhost ~]# hostname
-	localhost.localdomain
-	[root@localhost ~]# hostname ucm
-	[root@localhost ~]# hostname
-	ucm
+
+bc. 
+[root@localhost ~]# hostname
+localhost.localdomain
+[root@localhost ~]# hostname ucm
+[root@localhost ~]# hostname
+ucm
 	
 
 See that hosts is correct too:
-	[root@ucm2 network-scripts]# cat /etc/hosts
-	127.0.0.1 localhost.localdomain localhost
-	::1 localhost6.localdomain6 localhost6
-	192.168.8.118 ucm2
-	[root@ucm2 network-scripts]# vi /etc/hosts
+
+bc. 
+[root@ucm2 network-scripts]# cat /etc/hosts
+127.0.0.1 localhost.localdomain localhost
+::1 localhost6.localdomain6 localhost6
+192.168.8.118 ucm2
+[root@ucm2 network-scripts]# vi /etc/hosts
 
 Now you can restart your network services with the following command:
-	[root@dhcp-onepacificplace-10-179-252-87 network-scripts]# service network restart
+
+bc. [root@dhcp-onepacificplace-10-179-252-87 network-scripts]# service network restart
 	
-	[root@db11g ~]# cat >> /etc/resolv.conf
-	nameserver 192.168.8.1
+bc. 
+[root@db11g ~]# cat >> /etc/resolv.conf
+nameserver 192.168.8.1
 
 h1. Attaching External Disk
 

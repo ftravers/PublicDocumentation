@@ -30,14 +30,16 @@ h2. foreach
 h3. List
 
 bc. 
-void cancelAll(Collection<TimerTask> c) {
-    for (TimerTask t : c)
-        t.cancel();
-}
+List listToLoopOver = new ArrayList<String>();
+listToLoopOver.add("a"); listToLoopOver.add("b");
+for (String currString : listToLoopOver)
+    System.out.println(currString);  
 
 h3. Map
 
 bc. 
+Map<String,String> contactList = new HashMap<String,String>();
+contactList.put("Fenton", "fenton@gmail.com"); contactList.put("joe", "joe@gmail.com"); 
 for(Map.Entry<K, V> e : map.entrySet())
     System.out.println(e.getKey()+": "+e.getValue());
     

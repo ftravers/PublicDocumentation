@@ -1,3 +1,5 @@
+"home":/index.html > GIT
+
 p(toc). Table of Contents
 
 {toc}
@@ -254,4 +256,99 @@ doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
 target/
 *.diff
 *~
+
+h2. Compare Branches
+
+Often you'll be working on a branch, then switch back to the master...and would like to 
+know what is the difference between the two branches.
+
+bc. git diff --name-status master..npe
+
+h2. Compare Two Files
+
+Then you might wonder what is the difference between a file that exists in two different
+branches.
+
+bc. git diff <branchA> <branchB> -- <file>
+
+h2. Bring down remote changes
+
+The following workflow has us list all of our branch (-a includes the remote branches)
+
+bc. 
+ftravers@ftravers-laptop:~/projects2/crmod-ws-wrapper$ git branch -a
+  activity
+* master
+  remotes/origin/master
+ftravers@ftravers-laptop:~/projects2/crmod-ws-wrapper$ git fetch origin
+
+Check which files have changed, and what has changed in the files
+
+bc. 
+ftravers@ftravers-laptop:~/projects2/crmod-ws-wrapper$ git diff --name-status master..remotes/origin/master
+M       src/main/java/com/oracle/ngsp/crmod/ServiceRequest.java
+ftravers@ftravers-laptop:~/projects2/crmod-ws-wrapper$ git diff master..remotes/origin/master src/main/java/com/oracle/ngsp/crmod/ServiceRequest.java
+...a lot of diff info...
+
+Finally we can merge the branch into our master branch
+
+bc. 
+ftravers@ftravers-laptop:~/projects2/crmod-ws-wrapper$ git branch -a
+  activity
+* master
+  remotes/origin/master
+ftravers@ftravers-laptop:~/projects2/crmod-ws-wrapper$ git merge remotes/origin/master
+Updating 2872496..3f88c4a
+Fast-forward
+ .../java/com/oracle/ngsp/crmod/ServiceRequest.java |   47 ++++++++++----------
+ 1 files changed, 24 insertions(+), 23 deletions(-)
+ftravers@ftravers-laptop:~/projects2/crmod-ws-wrapper$ 
+
+Finally, we might just want to make sure if anything got added that we push that back up
+to the remote too.
+
+bc. 
+ftravers@ftravers-laptop:~/projects2/crmod-ws-wrapper$ git push
+Everything up-to-date
+
+h2. Manual Merge
+
+Sometimes the auto-merge will report an inability to auto-merge for you:
+
+bc. 
+CONFLICT (content): Merge conflict in src/main/java/com/oracle/ngsp/crmod/Activity.java
+Automatic merge failed; fix conflicts and then commit the result.
+
+Now type:
+
+bc. 
+git mergetool
+
+h2. Committing
+
+Before you commit, you'll want to checkout what's going on.  The command
+to see what has been modified, added, etc.. is:
+
+bc. git status
+
+To get a feel for which files have been changed and by how much try:
+
+bc. git diff --stat
+
+which gives you a sense of which files have been changed and by how much.  To
+see what has changed in a given file do:
+
+bc. 
+git diff <filename>    # Command Format
+git diff src/test/java/com/oracle/ngsp/crmod/ServiceRequestTest.java     # Command Example
+
+Now you can add the file into the staging area with:
+
+bc. git add src/test/java/com/oracle/ngsp/crmod/ServiceRequestTest.java
+
+Then you can commit it with:
+
+bc. 
+git commit -m"<commit_Message>"   # Command Format
+git commit -m"Removed testGetActivities from ServiceRequestTest"     # Command Example
 

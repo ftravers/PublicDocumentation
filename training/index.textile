@@ -28,9 +28,10 @@ h1. Machine setup
 
 !(icon)/images/file.gif! "Eclipse Setup":machineSetup/eclipse.html
 !(icon)/images/file.gif! "Tomcat":tomcat.html
-!(icon)/images/file.gif! "Fedora":fedora.html
 !(icon)/images/file.gif! "Maven":machineSetup/maven.html
-!(icon)/images/file.gif! "Ubuntu":machineSetup/ubuntu.html
+!(icon)/images/file.gif! "Unix, Ubuntu, Fedora, etc...":linux.html
+!(icon)/images/file.gif! "Mac":mac/mac_general.html
+!(icon)/images/file.gif! "Windows":windows/windows.html
 
 h1. Languages
 
@@ -44,12 +45,6 @@ h1. Databases
 !(icon)/images/file.gif! "SQL":database/sql.html
 !(icon)/images/file.gif! "Oracle":database/oracle.html
 !(icon)/images/file.gif! "MySQL":database/mysql.html
-
-h1. Platforms
-
-!(icon)/images/file.gif! "Mac":mac/mac_general.html
-!(icon)/images/file.gif! "Unix":Unix/unix.html
-!(icon)/images/file.gif! "Windows":windows/windows.html
 
 h1. Web
 
@@ -68,7 +63,6 @@ h1. Misc
 
 !(icon)/images/file.gif! "APT - Almost Plain Text(PDF)":apt_quick_ref.pdf
 !(icon)/images/file.gif! "APT - Almost Plain Text":apt.html
-
 !(icon)/images/file.gif! "Bugzilla":bugzilla.html
 !(icon)/images/file.gif! "Content Server":ContentServer/cs.html
 !(icon)/images/file.gif! "Dreamhost":Dreamhost.html

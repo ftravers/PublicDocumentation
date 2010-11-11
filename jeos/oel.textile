@@ -12,23 +12,45 @@ The following link will help you with getting OVMS(Oracle Virtual Machine Server
 
 h1. Intro
 
-These are _rapid_, _reference_ install instructions.  I refer to these directions each time I setup a new VM.  They are not meant as a tutorial, though as I begin to share these with other people that will probably be necessary and they may change to reflect that.
+These are _rapid_, _reference_ install instructions.  I refer to these directions each time I setup a new VM.  They are not meant as a tutorial, though as I begin to share these with other people that will probably become more necessary and they may change to reflect that.
 
-This document is used after you have create a new VM in OVMM.  After you've created that template there are some basics that all future VM's need and that is what this document is about.  We set the IP address, hostname, gateway, dns, etc..., plus a few other required things.
+This document is used after you have create a new VM in OVMM or OVM Template Builder.  After you've created that template there are some basics that all future VM's need and that is what this document is about.  We set the IP address, hostname, gateway, dns, etc..., plus a few other required things.
 
 It's best that the machine be able to see the internet.
 
 h1. Setup
 
-http://olympus.stellent.com/xpedio/groups/public/documents/executable/oly_081696.tar = oel_conf_files.tar
+h2. Start VM
 
-"http://files.spicevan.com/vm/oel_conf_files2.tar":http://files.spicevan.com/vm/oel_conf_files2.tar
+You'll be extracting your VM to the folder: @/OVS/running_pool/@
 
-* copy file: oel_conf_files.tar to /
+Make sure you have a folder under that folder that contains files like:
 
 bc. 
-[root@localhost ~]# cd /; tar xvf oel_conf_files.tar; rm -rf oel_conf_files.tar 
-	
+system.img
+vm.cfg
+
+Althought @system.img@ could be called anything, and probably @vm.cfg@ could be too but these are the conventions.  Edit @vm.cfg@ and make sure that the references to the disk images have the correct paths.
+
+Ensure you are in the folder with the vm files noted above and start the vm with: @xm create vm.cfg@
+
+Once it is running you'll need to @VNC@ into machine to update it's IP address,
+hostname, etc...
+
+* Ubuntu: Out of the box: Applications > Internet > Remote Desktop Viewer
+* Mac: Chicken of the VNC
+* Windows: Tight VNC
+
+You set the IP address of the VNC Server to be the IP Address of your OVMS.  The port you use depends on the number of VM's you have running.  Start at port 0 (aka 5900) and work your way up until you find the VM you are interested in.
+
+h2. Configure VM
+
+Now that you are VNC'd into the VM.  
+
+* Login with @root/ovsroot@.
+* Determine the IP address with: @ifconfig -a@ you are looking for the entry next to @eth0@ that says @inet addr@.
+* Setup an "SSH trust":/training/ssh.html#sshAutoLogin
+
 * Static IP: To convert a dhcp OEL to Static IP address edit file:
 
 bc. 
@@ -55,11 +77,24 @@ bc.
 
 bc. 
 [root@localhost ~]# service network restart
+
+Your terminal session should die here and you can now setup a new "SSH trust":/training/ssh.html#sshAutoLogin, as trusts are based on IP addresses and you've changed IP Address.
+
+Finally update your name servers, and root passwords
+
+bc. 
 [root@db11g ~]# cat > /etc/resolv.conf
 search ftravers.com
 nameserver 192.168.8.133
+[root@db11g ~]# passwd
+
+h1. NFS Mount
+
+You can NFS mount a folder on your VM Server by following "these instructions":/training/linux.html#nfs
 
 ----------
+
+
 Sometimes you'll need to create and attach a shared disk to your image.
 I needed this to copy install files onto the image, but after the install
 I don't need or want all that extra disk.  Instructions below indicate

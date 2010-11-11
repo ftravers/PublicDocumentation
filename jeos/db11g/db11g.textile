@@ -1,8 +1,21 @@
+h2. Download
+
+Download from: "eDelivery":http://edelivery.oracle.com/
+
+bc. 
+Select a Product Pack: Oracle Database
+Platform: Linux x86
+Oracle® Database 11g Release 2 (11.2.0.1.0) Media Pack for Linux x86
+
+h2. JeOS Template Params
+
 Template setup with the following parameters:
-	OS: OEL5U3_32bit
-	System: 12288 MB (this is quite large, but will contain a few databases, for additional databases can create a new disk)
-	Memory: 1024 MB
-	Swap: 1536 MB
+
+bc. 
+OS: OEL5U3_32bit
+System: 12288 MB
+Memory: 1024 MB
+Swap: 1536 MB
 	
 [root@db11g u01]# /usr/sbin/groupadd oinstall; /usr/sbin/groupadd dba; /usr/sbin/useradd -g oinstall -G dba oracle; mkdir -p /u01/app/; chown -R oracle:oinstall /u01/app/;chmod -R 775 /u01/app/;passwd oracle
 

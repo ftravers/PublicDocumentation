@@ -10,23 +10,25 @@ If you are using a linux or OS/X you probably don't have to do much to make thin
 If you are using windows, you'll need to install cygwin.  Please goto: http://www.cygwin.com/
 Cygwin, gives you the power of Linux on a windows box.  Just go through the default install.
 
-When you are installing, specifically add: @OpenSSH@ to the items to install.
+When you are installing, specifically add: @OpenSSH@ to the items to install.  If you need git specifically search for and add it too.  Several options will come up...just add them all.
 
-h1. Setup automatic login to ssh server
+h1(#sshAutoLogin). Setup automatic login to ssh server
 
-h2. Generate your public/private key pair
+h2(#keypair). Generate your public/private key pair
 
 If you already have a private key DON'T create a new one.  The following command will let you know if you already have one.
 
-bc. [root@del ~]# ssh-keygen -t rsa
+bc. [root@del ~]# ssh-keygen
 
 h2. Copy to server
 
 Copy your public key to the server.    
 
-bc. ssh-copy-id [username]@[host] 
+Command Format: 
 
-example:
+bc. ssh-copy-id [username]@[host]
+
+Example:
 
 bc. ssh-copy-id ftravers@spicevan.com
 

@@ -1,3 +1,9 @@
+"home":/index.html > Emacs
+
+p(toc). Table of Contents
+
+{toc}
+
 h2. Files
 
 |_. Key Stroke |_. Effect |
@@ -10,19 +16,19 @@ h2. Files
 
 h2. Navigation, Search & Replace
 
-|_. Key Stroke             |_. Effect |
-| A->                      | Go to the beginning of the file |
-| A-<                      | Go to the end of the file |
-| A-(L/R) arrows           | Move word forward/backwards |
-| A-f, A-b                 | Move word forward/backwards |
-| C-s                      | Incremental Search Forward |
-| C-A-s                    | Regular Expression incremental search
-| C-r                      | Incremental Search Backwards |
-| A-%                      | Replace |
-| A-x query-replace-regexp | Regex Replace |
-| C-q C-j                  | Keystroke for Carriage Return |
-| C-q <SPC>                | Keystroke for space character |
-| C-x (, C-x ), C-x e      | Start, stop, playback macro   |
+|_. Key Stroke                      | _. Effect |
+| A->                               |  Go to the beginning of the file |
+| A-<                               |  Go to the end of the file |
+| A-(L/R) arrows                    |  Move word forward/backwards |
+| A-f, A-b                          |  Move word forward/backwards |
+| C-s                               |  Incremental Search Forward |
+| C-A-s                             |  Regular Expression incremental search
+| C-r                               |  Incremental Search Backwards |
+| A-%                               |  Replace |
+| A-x query-replace-regexp          |  Regex Replace |
+| C-q C-j                           |  Keystroke for Carriage Return |
+| C-q <SPC>                         |  Keystroke for space character |
+| C-x (, C-x ), C-x e, C-u 25 C-x e | Start, stop, playback macro, replay macro 25 times   |
 
 h2. Buffers, Regions, & Windows
 
@@ -133,6 +139,26 @@ bc.
 
 Invoke with @C-u@ some number @A-x multiply-by-seven@.
 
+h2. Installing *.el files
+
+h3. One time
+
+Ensure you have the following in your ~/.emacs file:
+
+bc. 
+(add-to-list 'load-path "~/projects2/elisp")
+
+h3. For each new *.el file
+
+Ensure you have the following in your ~/.emacs file:
+
+bc. 
+(require 'foo)
+
+where foo means foo.el
+
+h1. Reference
+
 bc.. 
 C-SP     set-mark-command		 C-q      quoted-insert
 C-a      beginning-of-line		 C-r      isearch-backward
@@ -196,39 +222,40 @@ C-x 1    delete-other-windows		 C-x {    shrink-window-horizontally
 C-x 2    split-window-vertically	 C-x }    enlarge-window-horizontally
 C-x 4    ctl-x-4-prefix			 C-x DEL  backward-kill-sentence
 
-ESC C-SP mark-sexp			 ESC =    count-lines-region
-ESC C-a  beginning-of-defun		 ESC >    end-of-buffer
-ESC C-b  backward-sexp			 ESC @    mark-word
-ESC C-c  exit-recursive-edit		 ESC O    ??
-ESC C-d  down-list			 ESC [    backward-paragraph
-ESC C-e  end-of-defun			 ESC \    delete-horizontal-space
-ESC C-f  forward-sexp			 ESC ]    forward-paragraph
-ESC C-h  mark-defun			 ESC ^    delete-indentation
-ESC LFD  indent-new-comment-line	 ESC a    backward-sentence
-ESC C-k  kill-sexp			 ESC b    backward-word
-ESC C-n  forward-list			 ESC c    capitalize-word
-ESC C-o  split-line			 ESC d    kill-word
-ESC C-p  backward-list			 ESC e    forward-sentence
-ESC C-s  isearch-forward-regexp		 ESC f    forward-word
-ESC C-t  transpose-sexps		 ESC g    fill-region
-ESC C-u  backward-up-list		 ESC h    mark-paragraph
-ESC C-v  scroll-other-window		 ESC i    tab-to-tab-stop
-ESC C-w  append-next-kill		 ESC j    indent-new-comment-line
-ESC ESC  ??				 ESC k    kill-sentence
-ESC C-\  indent-region			 ESC l    downcase-word
-ESC SPC  just-one-space			 ESC m    back-to-indentation
-ESC !    shell-command			 ESC q    fill-paragraph
-ESC $    spell-word			 ESC r    move-to-window-line
-ESC %    query-replace			 ESC t    transpose-words
-ESC '    abbrev-prefix-mark		 ESC u    upcase-word
-ESC (    insert-parentheses		 ESC v    scroll-down
-ESC )    move-past-close-and-reindent	 ESC w    copy-region-as-kill
-ESC ,    tags-loop-continue		 ESC x    execute-extended-command
-ESC -    negative-argument		 ESC y    yank-pop
-ESC .    find-tag			 ESC z    zap-to-char
-ESC 0 .. ESC 9  digit-argument		 ESC |    shell-command-on-region
-ESC ;    indent-for-comment		 ESC ~    not-modified
-ESC <    beginning-of-buffer		 ESC DEL  backward-kill-word
+Alt C-SP mark-sexp			 Alt =    count-lines-region
+Alt C-a  beginning-of-defun		 Alt >    end-of-buffer
+Alt C-b  backward-sexp			 Alt @    mark-word
+Alt C-c  exit-recursive-edit		 Alt O    ??
+Alt C-d  down-list			 Alt [    backward-paragraph
+Alt C-e  end-of-defun			 Alt \    delete-horizontal-space
+Alt C-f  forward-sexp			 Alt ]    forward-paragraph
+Alt C-h  mark-defun			 Alt ^    delete-indentation
+Alt LFD  indent-new-comment-line	 Alt a    backward-sentence
+Alt C-k  kill-sexp			 Alt b    backward-word
+Alt C-n  forward-list			 Alt c    capitalize-word
+Alt C-o  split-line			 Alt d    kill-word
+Alt C-p  backward-list			 Alt e    forward-sentence
+Alt C-s  isearch-forward-regexp		 Alt f    forward-word
+Alt C-t  transpose-sexps		 Alt g    fill-region
+Alt C-u  backward-up-list		 Alt h    mark-paragraph
+Alt C-v  scroll-other-window		 Alt i    tab-to-tab-stop
+Alt C-w  append-next-kill		 Alt j    indent-new-comment-line
+Alt Alt  ??				 Alt k    kill-sentence
+Alt C-\  indent-region			 Alt l    downcase-word
+Alt SPC  just-one-space			 Alt m    back-to-indentation
+Alt !    shell-command			 Alt q    fill-paragraph
+Alt $    spell-word			 Alt r    move-to-window-line
+Alt %    query-replace			 Alt t    transpose-words
+Alt '    abbrev-prefix-mark		 Alt u    upcase-word
+Alt (    insert-parentheses		 Alt v    scroll-down
+Alt )    move-past-close-and-reindent	 Alt w    copy-region-as-kill
+Alt ,    tags-loop-continue		 Alt x    execute-extended-command
+Alt -    negative-argument		 Alt y    yank-pop
+Alt .    find-tag			 Alt z    zap-to-char
+Alt 0 .. Alt 9  digit-argument		 Alt |    shell-command-on-region
+Alt ;    indent-for-comment		 Alt ~    not-modified
+Alt <    beginning-of-buffer		 Alt DEL  backward-kill-word
+
 
 C-x 4 C-f       find-file-other-window	 C-x 4 d  dired-other-window
 C-x 4 .  find-tag-other-window		 C-x 4 f  find-file-other-window
