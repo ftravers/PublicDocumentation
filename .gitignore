@@ -2,5 +2,5 @@
 *.aux
 *.dvi
 *.log
-*.pdf
+latex/**/*.pdf
 *~
