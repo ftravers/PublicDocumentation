@@ -1,3 +1,9 @@
+"home":/index.html > Database Commands
+
+p(toc). Table of Contents
+
+{toc}
+
 setup start/stop scripts here: 
 http://download.oracle.com/docs/cd/B28359_01/server.111/b32009/strt_stp.htm#CEGHJACG
 
