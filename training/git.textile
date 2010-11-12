@@ -23,7 +23,7 @@ Reference: "Dreamhost Gitosis Setup":http://wiki.dreamhost.com/Gitosis
 
 bc. 
 [ftravers@local]$ ssh-keygen -t rsa
-[ftravers@local]$ ssh-copy-id ft_git@spicevan.com
+[ftravers@local]$ ssh-copy-id ft_git3@spicevan.com
 [ftravers@local]$ rsync -avP --stats .ssh/id_rsa.pub ft_git3@spicevan.com:~
 
 Check your version of python with: @python --version@
@@ -70,7 +70,7 @@ bc.
 [remote]$ gitosis-init < id_rsa.pub; rm -f id_rsa.pub
 [remote]$ chmod 750 $HOME/repositories/gitosis-admin.git/hooks/post-update
 [ftravers@local]$ mkdir ~/projects; cd ~/projects
-[ftravers@local]$ git clone ft_git@spicevan.com:gitosis-admin.git
+[ftravers@local]$ git clone ft_git3@spicevan.com:gitosis-admin.git
 
 h1. Adding a new Repository
 
@@ -146,7 +146,7 @@ bc.
 
 bc. 
 [ftravers@local]$ cd testrepo1; git init
-[ftravers@local]$ git remote add origin ft_git@spicevan.com:testrepo1.git
+[ftravers@local]$ git remote add origin ft_git3@spicevan.com:testrepo1.git
 
 Do some work, git add and commit files like: @test.txt@
 
@@ -196,16 +196,21 @@ bc.
 [ftravers@local]$ git commit -a -m"My Message."
 [ftravers@local]$ git push
 
-h2. As other user check out project
+h2. Clone Repository
 
 Now the other user @testuser@ can checkout this repository
 
 bc. 
 [testuser@local]$ mkdir ~/projects; cd ~/projects
-[testuser@local]$ git clone ft_git@spicevan.com:testrepo1.git; cd ~/projects/testrepo1
+[testuser@local]$ git clone ft_git3@spicevan.com:testrepo1.git; cd ~/projects/testrepo1
 # make some changes to the file @test.txt@ in the repo and commit and push them back to the server.
 [testuser@local]$ git commit -a -m"My comment.";
 [testuser@local]$ git push
+
+h2. Pull Updates from Remote Repository
+
+bc.
+git pull origin master
 
 h1. Test merging
 
