@@ -76,10 +76,34 @@ bc.
 sudo apt-get build-dep gnome-do
 sudo apt-get install gnome-do gnome-do-plugins
 
-* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, 
+* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, meld
 
 * Web Downloads
 "java":#java, eclipse
+
+h2. Pidgin
+
+* Oracle Account
+
+** Basic
+protocol: xmpp
+username: fenton.travers
+domain: oracle.com
+
+** Advanced
+require ssl/tsl = checked
+force old (port 5223) ssl = checked
+connect port = 5223
+connect server = stbeehive.oracle.com
+file transfer proxies = proxy.eu.jabber.org
+proxy type = use gnome proxy settings
+
+* Gmail Account
+** Basic
+username = fenton.travers
+domain = gmail.com
+** Advanced
+require ssl/tsl = checked
 
 h2. SQLDeveloper
 

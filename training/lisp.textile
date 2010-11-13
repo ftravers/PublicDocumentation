@@ -1,0 +1,21 @@
+"home":/index.html > SLIME
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Getting Started
+
+In emacs execute:
+
+bc. Alt-x slime
+
+h1. Commands
+
+* Printing
+
+bc. (format t "hello, world")
+
+* Define a new function
+
+bc. (defun <function_name> <paren_list> <function>)
