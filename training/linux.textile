@@ -56,13 +56,43 @@ bc.
 sudo apt-get build-dep gnome-do
 sudo apt-get install gnome-do gnome-do-plugins
 
-* GIT
+* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, 
 
-Package Manager = git-core, git-gui, gitosis, gitweb
+* Web Downloads
+"java":#java, eclipse
 
-* Many
+h2. SQLDeveloper
 
-Package Manager = emacs, clisp, slime, latexdiff, 
+you need a *.desktop file for SQLDeveloper too.  Something like:
+
+bc. 
+oracle@oracle-laptop:~/projects/myConfig$ cat SQLDeveloper.desktop 
+[Desktop Entry]
+Name=SQL Developer
+Comment=SQL Developer Program
+Exec=/bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
+Icon=/home/oracle/bin/sqldeveloper/icon.png
+Type=Application
+Categories=Development;Database;
+Path=/home/oracle/bin/sqldeveloper/
+
+Should do the trick.  Run it once by hand to set the JDK path.
+
+h2. Eclipse
+
+Now to get a proper icon for Eclipse in Ubuntu create a file called ~/Eclipse.desktop like:
+
+bc. 
+[Desktop Entry]
+Name=Eclipse - Helios
+Comment=Eclipse - Helios, IDE
+Exec=/home/ftravers/bin/eclipse_3.6.1/eclipse
+Icon=/home/ftravers/bin/eclipse_3.6.1/icon.xpm
+Type=Application
+Categories=Development;IDE;
+Path=/home/ftravers/bin/eclipse_3.6.1/
+
+See "here":#ubuntuInstall for the rest of the details.
 
 h2. Config
 
@@ -128,19 +158,19 @@ To remove the file, just replace the word default with remove:
 bc. 
 update-rc.d git-daemon remove
 
-h2. Java JDK
+h2(#java). Java JDK
 
-Then, to install the JDK, start here to download: http://java.sun.com/javase/downloads/widget/jdk6.jsp
+Then, to install the JDK, start "here to download":http://java.sun.com/javase/downloads/widget/jdk6.jsp
 
 bc. 
 cd /opt; sudo mkdir java; 
-sudo mv /home/ftravers/bin/jdk-6u20-linux-i586.bin /opt/java
+sudo mv jdk-6u20-linux-i586.bin /opt/java
 cd /opt/java; sudo chmod +x /opt/java/jdk-6u20-linux-i586.bin; sudo ./jdk-6u20-linux-i586.bin
 
 Set up some symlinks to make java more accessible.  The first one will need to be updated each time you upgrade a minor version of Oracle Java 6.  The update alternatives can be used to select a different JVM (eg OpenJDK or Java 5)  You could add further symlinks for javac etc but I will not need them on this server.
 
 bc. 
-ln -s /opt/java/jdk1.6.0_20 /opt/java/java-6-oracle
+sudo ln -s /opt/java/jdk1.6.0_20 /opt/java/java-6-oracle
 sudo update-alternatives --install "/usr/bin/java" "java" "/opt/java/java-6-oracle/bin/java" 1
 sudo vi /etc/environment 
 
@@ -155,7 +185,11 @@ bc.
 cd /
 java -version
 
+* Note: in my test the last command didn't show the 1.6.0_20 java version!  Maybe need to update the PATH???
+
 Should look okay now.  You can now launch Eclipse and it should run okay.
+
+
 
 h2. Subversion for Eclipse
 
@@ -212,7 +246,7 @@ sudo nano /etc/apache2/sites-available/default-ssl # set DocumentRoot etc
 sudo a2ensite default-ssl
 sudo service apache2 restart
 
-h2. Installing Programs
+h2(#ubuntuInstall). Installing Programs
 
 you can create a *.desktop file like:
 
@@ -236,8 +270,15 @@ bc. http://standards.freedesktop.org/menu-spec/latest/apa.html
 
 You may want to pass $ @desktop-file-validate foo.desktop@ to check out that your file is OK.
 
-Then, you can install it: @desktop-file-install foo.desktop@
+Then, you can install it: @sudo desktop-file-install foo.desktop@
 
+In the above example we'll now find the Eclipse icon in the folder: Applications > Programming.
+
+You can add it to the menu bar by right-clicking and choosing add to panel.
+
+h3. Uninstall
+
+If you mess up, delete the *.desktop file from @/usr/share/applications@
 
 h1. General Unix Commands
 
