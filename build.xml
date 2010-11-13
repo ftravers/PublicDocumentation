@@ -2,6 +2,7 @@
 
 	<property name="server-assist.jar" value="target/server-assist.jar" />
 	<property name="eclipselink.jar" value="target/server-assist.jar" />
+  <property name="webBuildDir" value="/tmp/websrc" />
 
 	<!-- Fenton's Settings (don't change) -->
 	<property name="fenton_fop_exec" value="~/bin/fop-0.95/fop" />
@@ -43,16 +44,21 @@
 		transfering them to the website each time too.  I couldn't figure out how to prevent
 		*.html, *.fo from being checked into the content server, etc... so a bit of a dilemma
 		about what to do.
+
+     Maybe I'll rsync the files to the /tmp/websrc folder then run the command from there.
 	-->
 	<target name="generate-html" description="Generate HTML from textile source">
+    <exec executable="${rsync_exec}">
+			<arg line="${rsync_exec} -avP . ${webBuildDir}" />
+		</exec>
 		<wikitext-to-html markupLanguage="Textile">
-			<fileset dir=".">
+			<fileset dir="${webBuildDir}">
 				<include name="**/*.textile" />
 			</fileset>
 			<stylesheet url="/styles/main.css" />
 		</wikitext-to-html>
-		<copy todir="website">
-			<fileset dir=".">
+		<copy todir="${webBuildDir}/website">
+			<fileset dir="${webBuildDir}">
 				<exclude name="code/**" />
 				<exclude name="website/**" />
 				<include name="**/*.html" />
@@ -63,6 +69,9 @@
 				<include name="**/*.jpeg" />
 			</fileset>
 		</copy>
+    <exec executable="${rsync_exec}">
+			<arg line="${rsync_exec} -avP ${webBuildDir}/website /home/oracle/bin/"/>
+		</exec>
 	</target>
 
 	<target name="deploy" depends="generate-html,rsync">

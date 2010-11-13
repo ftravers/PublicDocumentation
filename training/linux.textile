@@ -76,7 +76,7 @@ bc.
 sudo apt-get build-dep gnome-do
 sudo apt-get install gnome-do gnome-do-plugins
 
-* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, meld
+* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, meld, apache2, auctex, libtiff-tools
 
 * Web Downloads
 "java":#java, eclipse
@@ -325,6 +325,10 @@ h3. Uninstall
 If you mess up, delete the *.desktop file from @/usr/share/applications@
 
 h1. General Unix Commands
+
+h2. Tiff2Pdf
+
+
 
 h2. rsync
 
