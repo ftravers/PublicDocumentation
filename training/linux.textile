@@ -25,7 +25,9 @@ ccsm
 Add the following:
 
 ** (Add) Effects > Wobbly Windows
+
 ** (Remove) Desktop > Viewport Switcher
+
 ** (Edit) Desktop > Expo
 *** Bindings
 **** Expo Button = Ctrl - Button5
@@ -37,6 +39,7 @@ Hide panels/docs in expo = checked
 Mipmaps = checked
 Brightness = 71
 Saturation = 62
+
 ** (Edit) Desktop > Desktop Wall
 *** Viewport Switch Preview
 Preview Scale = 100
@@ -44,8 +47,25 @@ Background Gradient = All Black
 Others = All white
 *** Bindings
 Move Up/Down/Next/Prev = Ctrl - <direction arrow>
+
 ** (Edit) Window Management > Grid
 Remove Alt from all key bindings
+
+** (Remove) Static Application Switcher
+
+** (Add) Application Switcher
+*** Next Window = Ctrl-Super-KPRight
+*** Prev Window = Ctrl-Super-KPLeft
+
+** (Add) Shift Switcher (resolve conflict by setting dont set terminiate)
+*** Bindings
+**** Next Window = Alt-Tab
+**** Prev Window = Alt-Shift-Tab
+
+** (Edit) Scale
+*** Bindings
+**** Initiate Window Picker = Super-KP5(begin)
+**** Initiate Window Picker for all Windows = Ctrl-Super-KP5(begin)
 
 
 * gnome-do
