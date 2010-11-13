@@ -370,6 +370,12 @@ bc. alias vms='ssh root@vms.lab.com'
 
 h2. Misc Commands
 
+h3. Grep
+
+Remove found files with either the png or the jpg string in them...the trick is the \| part.
+
+bc. find . | grep -v "png\|jpg"
+
 h3. Linking 
 
 Create a soft link:
