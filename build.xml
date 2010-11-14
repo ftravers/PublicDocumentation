@@ -3,6 +3,7 @@
 	<property name="server-assist.jar" value="target/server-assist.jar" />
 	<property name="eclipselink.jar" value="target/server-assist.jar" />
   <property name="webBuildDir" value="/tmp/websrc" />
+  <property name="webFinalDir" value="/home/oracle/bin/website" />
 
 	<!-- Fenton's Settings (don't change) -->
 	<property name="fenton_fop_exec" value="~/bin/fop-0.95/fop" />
@@ -70,7 +71,7 @@
 			</fileset>
 		</copy>
     <exec executable="${rsync_exec}">
-			<arg line="${rsync_exec} -avP ${webBuildDir}/website /home/oracle/bin/"/>
+			<arg line="${rsync_exec} -avP ${webBuildDir}/website/* ${webFinalDir}"/>
 		</exec>
 	</target>
 
@@ -85,14 +86,17 @@
 
 	<target name="rsync">
 		<exec executable="${rsync_exec}">
-			<arg line="${rsync_exec} -avP website/ ftravers@spicevan.com:/home/ftravers/mohe.spicevan.com" />
+			<arg line="${rsync_exec} -avP ${webFinalDir} ftravers@spicevan.com:/home/ftravers/mohe.spicevan.com" />
 		</exec>
+
+<!--
 		<exec executable="${rsync_exec}">
 			<arg line="${rsync_exec} -avP target/generated-site/xhtml/ ftravers@spicevan.com:/home/ftravers/docs.spicevan.com/" />
 		</exec>
 		<exec executable="${rsync_exec}">
 			<arg line="${rsync_exec} -avP src/site/index.html ftravers@spicevan.com:/home/ftravers/docs.spicevan.com/" />
 		</exec>
+-->
 	</target>
 
 	<target name="pdfs" depends="generate-html">

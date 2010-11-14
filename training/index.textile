@@ -37,8 +37,10 @@ h1. Languages
 
 !(icon)/images/file.gif! "Java":java/java.html
 !(icon)/images/file.gif! "Java - Logging":java/logging.html
-!(icon)/images/file.gif! "Groovy":java/groovy.html
 !(icon)/images/file.gif! "JavaFX":java/javafx.html
+!(icon)/images/file.gif! "Groovy":java/groovy.html
+!(icon)/images/file.gif! "Lisp":lisp.html
+
 
 h1. Databases
 

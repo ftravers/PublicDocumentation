@@ -1,3 +1,0 @@
-Creating a named range
-
-A named range is useful because we can then have a pivot table that makes use of the named range and then add more data to the range without worrying about the redoing the pivot table.
