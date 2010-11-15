@@ -1,9 +1,10 @@
-"home":../../index.html > "training":../index.html > Groovy
+"home":../../index.html > "training":../index.html > Groovy & Gradle
 
 p(toc). Table of Contents
 
 {toc}
-h1. Samples
+
+h1. Groovy
 
 h2. File IO, Regex
 
@@ -22,9 +23,9 @@ def clos = { line ->
 }
 input.eachLine clos;
 
-h1. Installation
+h2. Installation
 
-h2. Groovy
+h3. Groovy
 
 Download the latest version from Groovy from "Groovy Homepage":http://groovy.codehaus.org/ .
 
@@ -33,13 +34,13 @@ You have then to set the GROOVY_HOME environment variable and add%GROOVY_HOME%/b
 Tip
 If you are using MS Windows you can use the windows installer. This will set the environment variables automatically.
 
-h2. Eclipse Plugin
+h3. Eclipse Plugin
 
 Use the Eclipse Update manager to install the Groovy Eclipse plugin. The URL for the update manager is: @http://dist.springsource.org/release/GRECLIPSE/e3.5/@ for Eclipse 3.5. Select the feature "Groovy-Eclipse".
 
-h1. Examples
+h2. Groovy Examples
 
-h2. Getters, Setters, Method Declaration
+h3. Getters, Setters, Method Declaration
 
 bc. 
 package test
@@ -65,7 +66,7 @@ public class Person{
 	}
 }
 
-h2. Optional Parameters
+h3. Optional Parameters
 
 Groovy allows to have optional parameter values. Optional parameter values are indicated by =0.
 
@@ -80,7 +81,7 @@ static sum(a,b,c=0){
 	}
 }
 
-h2. Loops
+h3. Loops
 
 Groovy supports the standard Java loops but also the the each() method on several objects. In this method you can directly write code which should get executed. You can either directly define the name of the variable which the value of each iteration should get assigned to or using the implicit available variable "it". 
 
@@ -97,7 +98,7 @@ public class PrintLoop{
 	}
 }
 
-h2. Datatypes
+h3. Datatypes
 
 All variables in Groovy are reference variables (objects), Groovy does not use primitive variables. Groovy still allows to use the primitives types as a short form but always translates this into the object.
 
@@ -125,7 +126,7 @@ public class TypesTest{
 	}	
 }
 
-h2. Lists and maps
+h3. Lists and maps
 
 Groovy treads lists and maps as first class constructs in the language. You define a list via List list = new List[]. You can also use generics. To access element i in a list you can either use list.get(i) or list[i].
 
@@ -155,7 +156,7 @@ public class ListMapTest{
 	}
 }
 
-h3. Maps
+h4. Maps
 
 You can define maps via Map [key1:value1, key2:value2,...]. An empty map can be created via [:]. The values of a mapped value can get accessed via map[key]. Assignment can be done via map[key]=value.
 
@@ -170,7 +171,7 @@ public class MapTest{
 	}
 }
 
-h2. Closures
+h3. Closures
 
 Closures are code fragments which can be used without being a method or a class.
 
@@ -195,7 +196,7 @@ public class ClosureTest{
 }
 
 
-h2. Meta Object Protocol
+h3. Meta Object Protocol
 
 The meta object protocol allows to add dynamically at runtime methods and properties.
 
@@ -234,7 +235,7 @@ public class AnyMethodExecutor{
 	}
 }
 
-h2. Files
+h3. Files
 
 Processing files with groovy is simple. The following example will first print out every line to the console and then print again every line to the console with a leading line number.
 
@@ -264,7 +265,7 @@ bc.
 File file = new File("c:/temp/groovy/content.txt")
 file.writeLine(line)
 
-h2. XML
+h3. XML
 
 Groovy allows to process XML very easily.
 
@@ -295,14 +296,14 @@ public class XmlTest{
 	}
 }
 
-h2. Elvis operator
+h3. Elvis operator
 
 You can use the elvis operator to check if a value is null.
 
 				
 bc. def firstName = user?.firstName // firstName will be null if user is null
 
-h2. Regex String Matching
+h3. Regex String Matching
 
 * ref: "http://groovy.codehaus.org/Regular+Expressions":http://groovy.codehaus.org/Regular+Expressions
 
@@ -311,7 +312,21 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 def pattern = ~/foo/
 
+h1. Gradle
 
+h2. References
+
+* "Why I like Groovy":http://www.kellyrob99.com/blog/2010/11/13/why-do-i-like-gradle/
+* "Hibernate – Gradle why?":http://community.jboss.org/wiki/Gradlewhy
+* "Maven VS Gradle VS Ant":http://jaxenter.com/maven-vs-gradle-vs-ant.1-30682.html
+* "Maven to Gradle"
+** "Part 1":http://www.beeworks.be/maven-to-gradle-part-1/
+** "Part 2":http://www.beeworks.be/maven-to-gradle-part-2/ 
+** "Part 3":http://www.beeworks.be/maven-to-gradle-part-3/ 
+* "A comparison of build script length":http://kaczanowscy.pl/tomek/2010-11/build-script-length-maven3-polyglot-maven-gradle-ant 
+* "Ant/Gradle/Maven comparison":http://kaczanowscy.pl/tomek/2009-11/ant-gradle-and-maven-comparison-install-script 
+* "DZone article":http://java.dzone.com/hibernate-users-learn-gradle 
+* "OpenMRS Mailing list on Maven VS Gradle":http://openmrs-mailing-list-archives.1560443.n2.nabble.com/Maven-vs-Gradle-td4511793.html 
 
 			
 

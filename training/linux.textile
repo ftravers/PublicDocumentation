@@ -76,10 +76,17 @@ bc.
 sudo apt-get build-dep gnome-do
 sudo apt-get install gnome-do gnome-do-plugins
 
-* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, meld, apache2, auctex, libtiff-tools, openoffice.org, transmission
+* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, meld, apache2, auctex, libtiff-tools, openoffice.org, transmission, cups-pdf
 
 * Web Downloads
 "java":#java, eclipse
+
+h2. Printers
+
+* PDF's can be found in ~/PDF, can view with @xdg-open <pdf_name>@
+* Add a printer from @http://localhost:631@, local username password, HP LaserJet P2015 Series
+** HP LaserJet P2015 Series Postscript (recommended) (en, da, de, es, fi, fr, it, ja, ko, nl, nb, pt, sv, zh_CN, zh_TW)
+** Connection:	dnssd://HP%20LaserJet%20P2015%20Series%20(0D9452)._pdl-datastream._tcp.local/
 
 h2. Pidgin
 
@@ -148,6 +155,7 @@ h2. VPN
 * https://myaccess.oraclevpn.com
 * Oracle VPN username (with the 8 character_cc)
 * Click AnyConnect, download & run shell script.
+* Server to connect to: rmdc-twvpn-2.oraclevpn.com
 
 h2. Config
 
