@@ -138,6 +138,17 @@ Path=/home/ftravers/bin/eclipse_3.6.1/
 
 See "here":#ubuntuInstall for the rest of the details.
 
+h2. Startup Programs
+
+System > Preferences > Startup Applications ... add
+* pidgin, tomboy
+
+h2. VPN
+
+* https://myaccess.oraclevpn.com
+* Oracle VPN username (with the 8 character_cc)
+* Click AnyConnect, download & run shell script.
+
 h2. Config
 
 * "Generate your ssh key pair":ssh.html#keypair
