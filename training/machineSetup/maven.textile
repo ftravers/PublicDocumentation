@@ -53,7 +53,9 @@ h2. Mac
 
 h2. m2eclipse
 
-is a good plugin for maven into eclipse, make sure to set a jdk for the jvm ala: http://wiki.eclipse.org/Eclipse.ini#Specifying_the_JVM
+m2eclipse Core Update Site: @http://m2eclipse.sonatype.org/sites/m2e@
+
+is a good plugin for maven into eclipse, make sure to "set a jdk for the jvm":http://wiki.eclipse.org/Eclipse.ini#Specifying_the_JVM
 
 h2(#eclipse_maven_repo_variable). Eclipse Setup
  
@@ -288,7 +290,7 @@ h2(#createProject). Create Project
 * Execute the following command replacing @com.mycompany.app@ with the domain name and app name, then change the artifact id to something like @app-web@.  
 This will create a folder called @app-web@ in that directory
 
-bc. mvn archetype:create -DgroupId=com.mycompany.app -DartifactId=app-web
+bc. mvn archetype:generate  -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false -DgroupId=com.mycompany.app -DartifactId=my-app
 
 h2(#eclipsify). Eclips'ify
 
