@@ -9,36 +9,45 @@ p(toc). Table of Contents
 h1. XM Commands
 
 List which virtual machines are running right now.
+
 bc. # xm list
 
 Start the vm. By convention we will always have a file called vm.cfg
+
 bc. # xm create vm.cfg
 
 Kill the power to vm: vm01, i.e. a hard shutdown
+
 bc. # xm destroy vm01
 
 Monitors a host and its domains in real time# xm top 
 
 Send the vm: vm01 the shutdown command, like doing a shutdown inside the vm
+
 bc. # xm shutdown vm01
 
 Current status of the guest operating system is written to disk and removed from system memory
+
 bc. # xm suspend vm01
 
 restore vm01 (any time including after a host system reboot)
+
 bc. # xm resume vm01
 
 Not Finished:
 add a disk to a running vm: xm block-attach <Domain Id> <Backend Device> <Frontend Device> <Mode>. Domain Id is got from xm list command under the id column, 
+
 bc. # xm block-attach 3 phy:/dev/sr0 /dev/xvda2 r
 
 Split / Join files
 Sometime the files are too big to put on FAT32 thumbdrives. Use the split and cat commands here:
 
 Split the file system.img into 3Gig chunks
+
 bc. # split --bytes=3000m system.img
 
 Join up the files system.img.part1, system.img.part2, etc... into the file system.img
+
 bc. # cat system.img.part* > system.img
 
 Make an extra Linux file system for your VM
