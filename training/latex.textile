@@ -3,6 +3,8 @@ p(toc). Table of Contents
 {toc}
 
 h1. Reference
+
+* "Decent Samples":http://www.andy-roberts.net/misc/latex/
 * "Latex wiki book":http://en.wikibooks.org/wiki/LaTeX/Basics
 * "Another handy manual":http://www.personal.ceu.hu/tex/latex.htm
 
@@ -90,7 +92,10 @@ bc.
   \centering
   \fbox{\includegraphics[width=130mm]{images/BasicArchitecture}}
   \caption{Basic Architecture}
+  \label{basicArch}
 \end{figure}
+...
+See figure~\ref{basicArch} on page~\pageref{basicArch}.
 
 
 |_. Command                                 |_. Comment|
@@ -370,6 +375,18 @@ bc.
 
 ampersand, tilde, dollar sign, underscore, carrot, hash, percent, parenthesis, back slash
 
+h2. Label and Cross-Referencing
+
+First label your spot with:
+
+bc. \label{marker}
+
+Then you can reference it with:
+
+bc. 
+See figure~\ref{marker} on page~\pageref{marker}.
+
+"Reference":http://en.wikibooks.org/wiki/LaTeX/Labels_and_Cross-referencing
 
 h2. Sample Letter
 

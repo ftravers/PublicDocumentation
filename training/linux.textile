@@ -76,10 +76,18 @@ bc.
 sudo apt-get build-dep gnome-do
 sudo apt-get install gnome-do gnome-do-plugins
 
-* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, meld, apache2, auctex, libtiff-tools, openoffice.org, transmission, cups-pdf
+* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, meld, apache2, auctex, libtiff-tools, openoffice.org, transmission, cups-pdf, gimp
 
 * Web Downloads
 "java":#java, eclipse
+
+h2. Set Open DSN Servers
+
+* Right-click on ‘Network Icon’ (located at top-right panel by default) and click on ‘Edit Connections’ to open Network Connections Manager.
+* Under ‘Wireless’, highlight your wireless connection and click on ‘Edit’.
+* Inside 'Editing Auto etho' window, click on ‘IPv4 Settings’ tab.
+* Under ‘IPv4 Settings’, change the ‘Method’ to Automatic (DHCP) addresses only.
+* Put these nameserver addresses as your ‘DNS Servers’: 208.67.222.222, 208.67.220.220
 
 h2. Printers
 

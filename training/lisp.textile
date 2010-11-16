@@ -19,3 +19,45 @@ bc. (format t "hello, world")
 * Define a new function
 
 bc. (defun <function_name> <paren_list> <function>)
+
+* Loading a file full of lisp
+
+bc. (load "myFunctions.lisp")
+
+* Load defun into lisp (do anywhere in or immediately after defun)
+
+bc. C-c C-c
+
+* Switch to the REPL
+
+bc. C-c C-z
+
+* Quit
+
+bc. , quit
+
+* Exit the debugger
+
+bc. q
+
+* Compile a file, creates "hello.fasl" (FASt Load)
+
+bc. (compile-file "hello.lisp")
+
+* Compile and load the file in the current buffer
+
+bc. C-c C-k
+
+* Make a list function, constructs a list from its arguments
+
+bc. (list 1 2 3)
+(1 2 3)
+
+* A plist or property list (like a hash map) contains key=>value pairs. A plist is a list where every other element, starting with the first, is a symbol that describes what the next element in the list is. A keyword is any name that starts with a colon (:), for instance, :foo. 
+
+bc. (list :a 1 :b 2 :c 3)
+
+* The function GETF, which takes a plist and a symbol and returns the value in the plist following the symbol
+
+bc. (GETF (list :a 1 :b 2 :c 3) :a)
+(1)
