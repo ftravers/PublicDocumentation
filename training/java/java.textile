@@ -10,7 +10,11 @@ h1. Installation Considerations
 
 Mac JVMs are installed to here: @/System/Library/Frameworks/JavaVM.framework/Versions@
 
-h1. Properties Files
+h1. Application Configuration
+
+h2. Resource Files
+
+These are okay if you want hard package a properties file with your jar.  However, if you want the end user to configure your application then you should use a properties file like the next section recommends.
 
 Often you need to load values from a properties file.  The best way to do this is to put the properties files into your classpath somewhere and access it like:
 
@@ -22,6 +26,14 @@ System.out.println("This is the host: " + host);
 in this case you'd have a file called @resource.properties@ located in the @some.pkg@ package.
 
 In the above scenario this would be located at: @some/pkg/resource.properties@.  Then you'd jar up your sources, including the resource.properties file and your code would still work when deployed in different scenarios.
+
+h2. Properties File
+
+bc. 
+Properties properties = new Properties();
+String filename = "application.properties";
+File file = new File(filename);
+properties.load(new FileInputStream(file));
 
 h1. Loops
 
