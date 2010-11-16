@@ -76,7 +76,7 @@ bc.
 sudo apt-get build-dep gnome-do
 sudo apt-get install gnome-do gnome-do-plugins
 
-* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, meld, apache2, auctex, libtiff-tools, openoffice.org, transmission, cups-pdf, gimp
+* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, meld, apache2, auctex, libtiff-tools, openoffice.org, transmission, cups-pdf, gimp, xmlcopy
 
 * Web Downloads
 "java":#java, eclipse
