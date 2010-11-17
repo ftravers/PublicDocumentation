@@ -200,7 +200,23 @@ NIL). So you can use the following:
 
 bc. (or (parse-integer (prompt-read "Rating") :junk-allowed t) 0)
 
-h3. Booleans
+h3. Conditionals, Booleans
+
+h4. if
+
+bc. (if <condition> <do this if true> <do this if false>)
+
+h4. or
+
+Lisp’s OR macro is just the thing you need here. It’s similar to the
+“short-circuiting” || in Perl, Python, Java, and C; it takes a series
+of expressions, evalu- ates them one at a time, and returns the first
+non-nil value (or NIL if they’re all NIL).
+
+h4. t
+
+@t@ = Lisp’s version of truth
+
 
 Fixing the code to prompt for Ripped is quite a bit simpler. You can just use the Common
 Lisp function Y-OR-N-P.
@@ -325,6 +341,62 @@ h3. Define a new function
 
 bc. (defun <function_name> <paren_list> <function>)
 
+h3. Keyword Functions
+
+In the functions you’ve written so far, you’ve specified a simple list
+of parameters, which are bound to the corresponding arguments in the
+call to the function. For instance, the following function:
+
+bc. (defun foo (a b c) (list a b c))
+
+has three parameters, a, b, and c, and must be called with three
+arguments. But sometimes you may want to write a function that can be
+called with varying numbers of arguments. Keyword parameters are one
+way to achieve this. A version of foo that uses keyword parameters
+might look like this:
+
+bc. (defun foo (&key a b c) (list a b c))
+
+The only difference is the &key at the beginning of the argument
+list. However, the calls to this new foo will look quite
+different. These are all legal calls with the result to the right of
+the:
+
+bc. 
+(foo :a 1 :b 2 :c 3) => (1 2 3)
+(foo :c 3 :b 2 :a 1) => (1 2 3)
+(foo :a 1 :c 3) => (1 NIL 3)
+(foo) => (NIL NIL NIL)
+
+As these examples show, the value of the variables a, b, and c are
+bound to the values that follow the corresponding keyword. And if a
+particular keyword isn’t present in the call, the corre- sponding
+variable is set to NIL. I’m glossing over a bunch of details of how
+keyword parameters are specified and how they relate to other kinds of
+parameters, but you need to know one more detail.
+
+Normally if a function is called with no argument for a particular
+keyword parameter, the parameter will have the value NIL. However,
+sometimes you’ll want to be able to distinguish between a NIL that was
+explicitly passed as the argument to a keyword parameter and the
+default value NIL. To allow this, when you specify a keyword parameter
+you can replace the simple name with a {color:red}list consisting of
+the name of the parameter, a default value, and another parameter
+name, called a supplied-p parameter. The supplied-p parameter will be
+set to true or false depending on whether an argument was actually
+passed for that keyword parameter in a particular call to the
+function{color}. Here’s a version of foo that uses this feature:
+
+bc. (defun foo (&key a (b 20) (c 30 c-p)) (list a b c c-p))
+
+Now the same calls from earlier yield these results:
+
+bc. 
+(foo :a 1 :b 2 :c 3) -> (1 2 3 T)
+(foo :c 3 :b 2 :a 1) -> (1 2 3 T)
+(foo :a 1 :c 3) -> (1 20 3 T)
+(foo) -> (NIL 20 30 NIL)
+
 h3. Define a variable (with DEFVAR macro)
 
 bc. (defvar *data* nil)
@@ -342,6 +414,7 @@ character by character
 
 So @(equal (getf cd :artist) "Dixie Chicks")@ will test whether the
 artist field of a given CD is equal to "Dixie Chicks"
+
 
 h3. Loading a file full of lisp
 
