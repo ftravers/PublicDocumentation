@@ -43,7 +43,7 @@ bc.
   (format t "~{~a:~10t~a~%~}~%" cd)))
 
 
-You can also see the current value of *db* whenever you want by typing *db* at the REPL.
+You can also see the current value of @*db*@ whenever you want by typing @*db*@ at the REPL.
 
 bc. 
 CL-USER> *db*
