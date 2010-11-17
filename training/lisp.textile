@@ -6,6 +6,89 @@ p(toc). Table of Contents
 
 h1. Getting Started
 
+h2. Code & Data modes
+
+The Lisp compiler uses two modes when it reads your code: 
+
+* A Code Mode and a 
+* Data Mode. 
+
+When you're in Data Mode, you can put anything you want into your
+lists. However, the compiler first starts off reading your code in
+Code Mode.
+
+In Code Mode, your lists need to be a special type of list called a
+form:
+
+bc. (command param1 param2 param3 ... )
+
+A form is a list where the first symbol in the list has to be a
+special word that the compiler can understand- Usually the name of a
+function. In this case, the compiler will send the other items of the
+list to the function as parameters. When it reads the text for these
+parameters, it will usually assume that they are also in Code Mode,
+unless you tell it to flip into data mode.
+
+bc. (setf *objects* '(whiskey-bottle bucket frog chain))
+                    
+Ok, now let's dissect this line an see what it means: Since a Lisp
+compiler always starts reading things in Code Mode and expects a form,
+the first symbol, setf, must be a command. In this case, the command
+sets a variable to a value: The variable is @*objects*@ (Lispers like to
+put stars around the names for global variables as a convention) and
+the value we are setting it to is a list of the four objects. Now,
+since the list is data (i.e. we don't want the compiler to try and
+call a function called whiskey-bottle) we need to "flip" the compiler
+into Data Mode when reading the list. The single quote in front of the
+list is the command that tells the compiler to flip:
+
+!lisp_flipDataMode.jpg!
+
+h3. Flip, flop
+
+bc. 
+(defun describe-path (path)
+  `(there is a ,(second path) going ,(first path) from here.))
+
+Ok, now this function looks pretty strange: It almost looks more like
+a piece of data than a function.
+
+Now when we look at the function again, we can see that the function
+"looks" a lot like the data it produces: It basically just splices the
+first and second item from the path into a declared sentence. How does
+it do this? It uses back-quoting!
+
+Remember that we've used a quote before to flip the compiler from Code
+Mode to Data Mode- Well, by using the the back-quote (the quote in the
+upper left corner of the keyboard) we can not only flip, but then also
+flop back into Code Mode by using a comma:
+
+
+
+h2. Functional Programming Definition
+
+The Functional Programming Style
+
+You may have noticed that our describe-location function seems pretty
+awkward in several different ways. First of all, why are we passing in
+the variables for location and map as parameters, instead of just
+reading our global variables directly? The reason is that Lispers
+often like to write code in the Functional Programming Style (To be
+clear, this is completely unrelated in any way to the concept called
+"procedural programming" or "structural programming" that you might
+have learned about in high school...). In this style, the goal is to
+write functions that always follow the following rules:
+
+1. You only read variables that are passed into the function or are
+created by the function (So you don't read any global variables)
+
+2. You never change the value of a variable that has already been set
+(So no incrementing variables or other such foolishness)
+
+3. You never interact with the outside world, besides returning a
+result value. (So no writing to files, no writing messages for the
+user)
+
 In emacs execute:
 
 bc. Alt-x slime
@@ -197,6 +280,34 @@ the elements of the original list that match the predicate. In other words, it h
 elements that don’t match the predicate. However, @REMOVE-IF-NOT@ doesn’t really remove
 anything—it creates a new list, leaving the original list untouched. 
 
+bc. 
+CL-USER> (remove-if-not #'evenp '(1 2 3 4 5 6 7 8 9 10))
+(2 4 6 8 10)
+
+h3. Passing functions as parameters
+
+In this case, the predicate is the function EVENP, which returns true if its argument is an
+even number. The funny notation #' is shorthand for “Get me the function with the following
+name.” Without the #', Lisp would treat evenp as the name of a variable and look up the value
+of the variable, not the function.
+
+h3. Anonymous functions (lambdas)
+
+You can also pass REMOVE-IF-NOT an anonymous function. For instance, if EVENP didn’t
+exist, you could write the previous expression as the following:
+
+bc. 
+CL-USER> (remove-if-not #'(lambda (x) (= 0 (mod x 2))) '(1 2 3 4 5 6 7 8 9 10))
+(2 4 6 8 10)
+
+In this case, the predicate is this anonymous function:
+
+bc. (lambda (x) (= 0 (mod x 2)))
+
+h3. mapcar
+
+mapcar simply applies another function to every object in the list
+
 h3. DOLIST
 
 The @DOLIST@ macro works by looping over all the elements of @*db*@ with
@@ -210,26 +321,39 @@ bc.
 
 h2. Other Commands
 
-* Define a new function
+h3. Define a new function
 
 bc. (defun <function_name> <paren_list> <function>)
 
-* Define a variable (with DEFVAR macro)
+h3. Define a variable (with DEFVAR macro)
 
 bc. (defvar *data* nil)
 
+h3. cddr
 
+The cddr command chops the first two item from the front of the list (so only the path data remains). 
 
+h2. String functions
 
-* Loading a file full of lisp
+h3. EQUAL
+
+The function EQUAL, when given string arguments, compares them
+character by character
+
+So @(equal (getf cd :artist) "Dixie Chicks")@ will test whether the
+artist field of a given CD is equal to "Dixie Chicks"
+
+h3. Loading a file full of lisp
 
 bc. (load "myFunctions.lisp")
 
-* Load defun into lisp (do anywhere in or immediately after defun)
+h3. Load defun into lisp 
+
+(do anywhere in or immediately after defun)
 
 bc. C-c C-c
 
-* Switch to the REPL
+h3. Switch to the REPL
 
 bc. C-c C-z
 
