@@ -58,9 +58,68 @@ bc.
 (defun dump-db ()
 (format t "~{~{~a:~10t~a~%~}~%~}" *db*))
 
+h2. User Input
 
+h3. Strings 
 
+The variable *query-io* is a global variable (which you can tell
+because of the * naming convention for global variables) that contains
+the input stream connected to the terminal.
 
+bc. 
+(defun prompt-read (prompt)
+ (format *query-io* "~a: " prompt)
+ (force-output *query-io*)
+ (read-line *query-io*))
+
+Note that there’s no ~% in the format string, so the cursor will stay
+on the same line. The call to FORCE-OUTPUT is necessary in some
+implementations to ensure that Lisp doesn’t wait for a newline before
+it prints the prompt.
+
+Then you can read a single line of text with the aptly named READ-LINE
+function.
+
+h3. Integers
+
+prompt-read returns a string, what about numbers/booleans?
+
+bc. (parse-integer (prompt-read "Age"))
+
+Unfortunately, the default behavior of PARSE-INTEGER is to signal an
+error if it can’t parse an integer out of the string or if there’s any
+non-numeric junk in the string. However, it takes an optional keyword
+argument :junk-allowed, which tells it to relax a bit.
+
+bc. (parse-integer (prompt-read "Rating") :junk-allowed t)
+
+But there’s still one problem: if it can’t find an integer amidst all
+the junk, PARSE-INTEGER will return NIL rather than a number. In
+keeping with the quick-and-dirty approach, you may just want to call
+that 0 and continue. Lisp’s OR macro is just the thing you need
+here. It’s similar to the “short-circuiting” || in Perl, Python, Java,
+and C; it takes a series of expressions, evalu- ates them one at a
+time, and returns the first non-nil value (or NIL if they’re all
+NIL). So you can use the following:
+
+bc. (or (parse-integer (prompt-read "Rating") :junk-allowed t) 0)
+
+h3. Booleans
+
+Fixing the code to prompt for Ripped is quite a bit simpler. You can just use the Common
+Lisp function Y-OR-N-P.
+
+bc. (y-or-n-p "Ripped [y/n]: ")
+
+Putting it all together:
+
+bc. 
+(defun prompt-for-cd ()
+ (make-cd
+ (prompt-read "Title")
+ (prompt-read "Artist")
+ (or (parse-integer (prompt-read "Rating") :junk-allowed t) 0)
+ (y-or-n-p "Ripped [y/n]: ")))
 
 
 h2. Other Commands
