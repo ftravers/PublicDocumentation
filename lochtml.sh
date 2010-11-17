@@ -28,6 +28,10 @@ if [ ! -d "$webStageDir/images" ]; then
     mkdir "$webStageDir/images"
 fi
 
+if [ ! -d "$webStageDir/projects" ]; then
+    mkdir "$webStageDir/projects"
+fi
+
 docsSrcDir="$HOME/projects/documentation/"
 cd $docsSrcDir/training
 git archive master | tar -x -C "$webStageDir/training"
@@ -41,6 +45,8 @@ git archive master | tar -x -C "$webStageDir/styles"
 cd $docsSrcDir/images
 git archive master | tar -x -C "$webStageDir/images"
 
+cd $docsSrcDir/projects
+git archive master | tar -x -C "$webStageDir/projects"
 
 cd $docsSrcDir
 cp index.textile build.xml $webStageDir

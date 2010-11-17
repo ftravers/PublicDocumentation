@@ -12,13 +12,43 @@ bc. Alt-x slime
 
 h1. Commands
 
-* Printing
+h2. Printing
 
 bc. (format t "hello, world")
+
+Format directives start with ~ (much the way printf’s directives start
+with %).
+
+The ~t directive is for tabulating. The ~10t tells FORMAT to emit enough spaces to move to
+the tenth column before processing the next ~a. A ~t doesn’t consume any arguments.
+
+CL-USER>  (format t "~a:~10t~a" :artist "Dixie Chicks")
+ARTIST:   Dixie Chicks
+NIL
+
+Now things get slightly more complicated. When FORMAT sees ~{ the next argument to be
+consumed must be a list. FORMAT loops over that list, processing the directives between the ~{
+and ~}, consuming as many elements of the list as needed each time through the list. 
+
+
 
 * Define a new function
 
 bc. (defun <function_name> <paren_list> <function>)
+
+* Define a variable (with DEFVAR macro)
+
+bc. (defvar *data* nil)
+
+* DOLIST macro.  This function works by looping over all the elements of *db* with the DOLIST macro,
+binding each element to the variable cd in turn. For each value of cd, you use the FORMAT
+function to print it.
+
+bc. 
+(defun dump-db ()
+ (dolist (cd *db*)
+  (format t "~{~a:~10t~a~%~}~%" cd)))
+
 
 * Loading a file full of lisp
 

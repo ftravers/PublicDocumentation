@@ -26,11 +26,9 @@ h1. Samples
 h2. A basic document
 
 bc. 
-\documentclass[final,letterpaper,twoside,12pt]{article}
-\usepackage{graphicx}
+\documentclass{article}
 \begin{document}
 This is a simple document...
-\includegraphics[width=60mm]{filesystem}
 \end{document}
 
 h1. General Notes

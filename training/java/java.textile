@@ -16,8 +16,6 @@ h2. Resource Files
 
 These are okay if you want hard package a properties file with your jar.  However, if you want the end user to configure your application then you should use a properties file like the next section recommends.
 
-Often you need to load values from a properties file.  The best way to do this is to put the properties files into your classpath somewhere and access it like:
-
 bc. 
 ResourceBundle props = ResourceBundle.getBundle ("some.pkg.resource");
 String host = props.getString("host");
@@ -25,7 +23,7 @@ System.out.println("This is the host: " + host);
 
 in this case you'd have a file called @resource.properties@ located in the @some.pkg@ package.
 
-In the above scenario this would be located at: @some/pkg/resource.properties@.  Then you'd jar up your sources, including the resource.properties file and your code would still work when deployed in different scenarios.
+In the above scenario this would be located at: @some/pkg/resource.properties@.  Then you'd jar up your sources, including the resource.properties file and your code would still work when deployed in different scenarios...however it is very difficult for the end user to modify...since they don't have a simple text file separate from your jar in which to place settings.  In that scenario use a property file as described next.
 
 h2. Properties File
 
