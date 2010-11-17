@@ -390,6 +390,9 @@ argument was actually passed for that keyword parameter in a
 particular call to the function.
 {color} 
 
+{color:blue}blue{color}
+
+
 Here’s a version of foo that uses this feature:
 
 bc. (defun foo (&key a (b 20) (c 30 c-p)) (list a b c c-p))
