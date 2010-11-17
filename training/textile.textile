@@ -54,6 +54,12 @@ h2. Bullets
 bc. 
 *
 
+h2. Images
+
+Surround in exclamation marks @!@.
+
+bc. !attached-image.gif!
+
 h2. headings
 
 bc.
