@@ -390,7 +390,7 @@ argument was actually passed for that keyword parameter in a
 particular call to the function.
 {color} 
 
-{color:blue}blue{color}
+%{color:blue}blue%
 
 
 Here’s a version of foo that uses this feature:
