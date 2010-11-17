@@ -26,10 +26,21 @@ CL-USER>  (format t "~a:~10t~a" :artist "Dixie Chicks")
 ARTIST:   Dixie Chicks
 NIL
 
-Now things get slightly more complicated. When FORMAT sees ~{ the next argument to be
-consumed must be a list. FORMAT loops over that list, processing the directives between the ~{
-and ~}, consuming as many elements of the list as needed each time through the list. 
+Now things get slightly more complicated. When FORMAT sees ~{ the next
+argument to be consumed must be a list. FORMAT loops over that list,
+processing the directives between the ~{ and ~}, consuming as many
+elements of the list as needed each time through the list.
 
+In dump-db, the FORMAT loop will consume one keyword and one value
+from the list each time through the loop. The ~% directive doesn’t
+consume any arguments but tells FORMAT to emit a newline. Then after
+the ~} ends the loop, the last ~% tells FORMAT to emit one more
+newline to put a blank line between each CD.
+
+bc. 
+(defun dump-db ()
+ (dolist (cd *db*)
+  (format t "~{~a:~10t~a~%~}~%" cd)))
 
 
 * Define a new function

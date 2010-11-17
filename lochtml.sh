@@ -33,6 +33,8 @@ if [ ! -d "$webStageDir/projects" ]; then
 fi
 
 docsSrcDir="$HOME/projects/documentation/"
+cd $docsSrcDir
+git commit -a -m"."
 cd $docsSrcDir/training
 git archive master | tar -x -C "$webStageDir/training"
 
