@@ -42,6 +42,7 @@ bc.
  (dolist (cd *db*)
   (format t "~{~a:~10t~a~%~}~%" cd)))
 
+h2. Other Commands
 
 * Define a new function
 
