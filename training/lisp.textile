@@ -123,6 +123,8 @@ bc.
 
 h2. File I/O
 
+h3. Write to file
+
 The @WITH-OPEN-FILE@ macro opens a file, binds the stream to a variable,
 executes a set of expressions, and then closes the file. It also makes
 sure the file is closed even if something goes wrong while evaluating
@@ -135,6 +137,14 @@ opened. Here you specify that you’re opening the file for writing with
 @:direction :output@ and that you want to overwrite an existing file of
 the same name if it exists with @:if-exists :supersede@.
 
+Once you have the file open, all you have to do is print the contents
+of the database with @(print *db* out)@. Unlike @FORMAT, PRINT@ prints
+Lisp objects in a form that can be read back in by the Lisp
+reader. The macro @WITH-STANDARD-IO-SYNTAX@ ensures that certain
+variables that affect the behavior of @PRINT@ are set to their standard
+values. You’ll use the same macro when you read the data back in to
+make sure the Lisp reader and printer are operating compatibly.
+
 
 bc. 
 (defun save-db (filename)
@@ -144,6 +154,23 @@ bc.
  (with-standard-io-syntax
  (print *db* out))))
 
+h3. Read from file
+
+bc. 
+(defun load-db (filename)
+ (with-open-file (in filename)
+ (with-standard-io-syntax
+ (setf *db* (read in)))))
+
+This time you don’t need to specify :direction in the options to
+WITH-OPEN-FILE, since you want the default of :input. And instead of
+printing, you use the function READ to read from the stream in.
+
+The @SETF@ macro is Common Lisp’s main assignment operator. It sets its first argument to
+the result of evaluating its second argument. So in @load-db@ the @*db*@ variable will contain the
+object read from the file, namely, the list of lists written by save-db. You do need to be careful
+about one thing—load-db clobbers whatever was in @*db*@ before the call. So if you’ve added
+records with add-record or add-cds that haven’t been saved with save-db, you’ll lose them.
 
 h2. Other Commands
 

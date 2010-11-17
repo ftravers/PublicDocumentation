@@ -120,6 +120,8 @@ domain = gmail.com
 ** Advanced
 require ssl/tsl = checked
 
+Notifications: In Pidgin, go to Tools > Plugins and select Libnotify and then click Configure Plugin and uncheck what you don't want.
+
 h2. SQLDeveloper
 
 you need a *.desktop file for SQLDeveloper too.  Something like:

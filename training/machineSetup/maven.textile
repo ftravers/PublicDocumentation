@@ -213,23 +213,35 @@ bc.
 				</plugin>
 bc. 
 # cat ~/.m2/settings.xml
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
   <servers>
     <server>
       <id>spicevan</id>
       <username>spiceman</username>
       <password>spicepass</password>
-      <privateKey>${user.home}/.ssh/id_dsa</privateKey>
-      <filePermissions>664</filePermissions>
-      <directoryPermissions>775</directoryPermissions>
-      <configuration></configuration>
     </server>
   </servers>
+  <activeProfiles>
+    <activeProfile>stage</activeProfile>
+  </activeProfiles>
+  <profiles>
+    <profile>
+      <id>stage</id>
+      <properties>
+        <crmod.password>abc123</crmod.password>
+        <crmod.username>ONGS-CRMOD-HRMS-STAGE_WW@oracle.com</crmod.username>
+      </properties>
+    </profile>
+    <profile>
+      <id>prod</id>
+      <properties>
+        <crmod.password>abc123</crmod.password>
+        <crmod.username>ongs/Fenton.travers@oracle.com</crmod.username>
+      </properties>
+    </profile>
+  </profiles>
 </settings>
-
 	
 h2. Generate and Deploy javadocs
 
