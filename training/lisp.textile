@@ -382,13 +382,11 @@ explicitly passed as the argument to a keyword parameter and the
 default value NIL. To allow this, when you specify a keyword parameter
 you can replace the simple name with a 
 
-%{color:red}
-list consisting of the name of the parameter, a default value, and
+%{color:red}list consisting of the name of the parameter, a default value, and
 another parameter name, called a supplied-p parameter. The supplied-p
 parameter will be set to true or false depending on whether an
 argument was actually passed for that keyword parameter in a
-particular call to the function.
-%
+particular call to the function.%
 
 Here’s a version of foo that uses this feature:
 
