@@ -121,6 +121,29 @@ bc.
  (or (parse-integer (prompt-read "Rating") :junk-allowed t) 0)
  (y-or-n-p "Ripped [y/n]: ")))
 
+h2. File I/O
+
+The @WITH-OPEN-FILE@ macro opens a file, binds the stream to a variable,
+executes a set of expressions, and then closes the file. It also makes
+sure the file is closed even if something goes wrong while evaluating
+the body. The list directly after @WITH-OPEN-FILE@ isn’t a function call
+but rather part of the syntax defined by @WITH-OPEN-FILE@. It contains
+the name of the variable that will hold the file stream to which
+you’ll write within the body of @WITH-OPEN-FILE@, a value that must be a
+file name, and then some options that control how the file is
+opened. Here you specify that you’re opening the file for writing with
+@:direction :output@ and that you want to overwrite an existing file of
+the same name if it exists with @:if-exists :supersede@.
+
+
+bc. 
+(defun save-db (filename)
+ (with-open-file (out filename
+  :direction :output
+  :if-exists :supersede)
+ (with-standard-io-syntax
+ (print *db* out))))
+
 
 h2. Other Commands
 
