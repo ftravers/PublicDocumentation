@@ -42,6 +42,27 @@ bc.
  (dolist (cd *db*)
   (format t "~{~a:~10t~a~%~}~%" cd)))
 
+
+You can also see the current value of *db* whenever you want by typing *db* at the REPL.
+
+bc. 
+CL-USER> *db*
+((:TITLE "Home" :ARTIST "Dixie Chicks" :RATING 9 :RIPPED T)
+ (:TITLE "Fly" :ARTIST "Dixie Chicks" :RATING 8 :RIPPED T)
+ (:TITLE"Roses" :ARTIST "Kathy Mattea" :RATING 7 :RIPPED T))
+
+Technically, you could have also used FORMAT to loop over the database
+itself, turning our dump-db function into a one-liner.
+
+bc. 
+(defun dump-db ()
+(format t "~{~{~a:~10t~a~%~}~%~}" *db*))
+
+
+
+
+
+
 h2. Other Commands
 
 * Define a new function
