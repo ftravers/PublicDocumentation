@@ -46,6 +46,7 @@ h2. Buffers, Regions, & Windows
 | C-x C-v Ret         | Reload buffer from file system |
 | C-x b *scratch* RET | re-open scratch buffer |
 | d                   | In buffer list, mark buffer for deletion, happens when hit x |
+| A-^                 | Join this line to previous and fix up whitespace at join. If there is a fill prefix, delete it from the beginning of this line.|
 
 h2. Edit, Selection, Cut & Paste
 
@@ -62,6 +63,8 @@ h2. Edit, Selection, Cut & Paste
 | C-w         | Cut |
 | C-y, Esc-y  | Yank (paste), successive Esc-y get clipboard history |
 | A-x cua-mode | Column Edit, C-Ret. begin selection, Ret. for text before block selection, Ret. for text after block selection|
+
+In sgml-mode, a built-in pretty printing function called (sgml-pretty-print ...) 
 
 h2. Latex
 

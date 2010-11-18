@@ -46,6 +46,9 @@ h1. Codes
 
 h2. Color
 
+p{color:red;margin:30px}. list consisting of the name of the parameter, a default value, and
+another parameter name, called a supplied-p parameter.
+
 %{color:blue}blue%
 
 h2. Verbatim
