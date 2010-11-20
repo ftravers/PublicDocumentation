@@ -13,6 +13,7 @@ lein new project1   # substitute the name of your project for project1
 launch emacs
 
 bc. 
+A-x package-list-packages    # I have no idea why I need to do this line!!!
 A-x swank-clojure-project
 
 It'll ask for the root of your project which will be: @~/projects/clojure/project1@, or whatever you named your project.
