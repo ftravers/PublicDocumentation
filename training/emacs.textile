@@ -149,7 +149,7 @@ h3. One time
 Ensure you have the following in your ~/.emacs file:
 
 bc. 
-(add-to-list 'load-path "~/projects2/elisp")
+(add-to-list 'load-path "~/projects/elisp")
 
 h3. For each new *.el file
 
@@ -159,6 +159,8 @@ bc.
 (require 'foo)
 
 where foo means foo.el
+
+And put your foo.el file in: @~/projects/elisp@
 
 h1. Reference
 
