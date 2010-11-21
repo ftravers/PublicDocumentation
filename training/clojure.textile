@@ -4,6 +4,206 @@ p(toc). Table of Contents
 
 {toc}
 
+h1. Installation
+
+"Ref Website":http://riddell.us/ClojureSwankLeiningenWithEmacsOnLinux.html
+
+References
+
+This tutorial is provided as a very specific approach to installing a clojure environment on linux. Although an attempt is made to keep it up to date, the various technologies used are moving very fast. The following list contains links to the offical documentation of the most relevant packages.
+
+Clojure Wiki - Getting Started: http://www.assembla.com/wiki/show/clojure/Getting_Started
+Leiningen: http://github.com/technomancy/leiningen
+Command line support
+
+Install Java
+
+bc. ~$ sudo apt-get install sun-java6-jdk
+
+Install Ant
+
+bc. ~$ sudo apt-get install ant
+
+Install Maven
+
+bc. ~$ sudo apt-get install maven2
+
+Install Git
+
+bc. ~$ sudo apt-get install git-core
+
+Install Clojure
+
+bc. 
+~$ mkdir ~/opt
+~$ cd ~/opt
+~$ git clone git://github.com/clojure/clojure.git
+~$ cd clojure
+~$ ant
+~$ mkdir ~/.clojure
+~$ cp clojure.jar ~/.clojure
+
+Test Clojure
+
+Gentlemen, start your REPLs.
+
+bc. 
+~$ cd ~/.clojure 
+~$ java -cp clojure.jar clojure.main
+user=> (+ 1 41) 
+42 
+
+Ctrl-d will exit the REPL.
+
+Install clojure-contrib
+
+bc. 
+~$ cd ~/opt 
+~$ git clone git://github.com/clojure/clojure-contrib.git 
+~$ cd clojure-contrib 
+~$ mvn package 
+~$ cp target/clojure-contrib*.jar ~/.clojure/clojure-contrib.jar
+
+Configure Bash Start-up Script
+
+clojure-contrib contains a bash script called clj-env-dir for starting
+clojure with various options. Edit your ~/.bashrc file to configure
+this script.
+
+bc. 
+export CLOJURE_EXT=~/.clojure
+export PATH=$PATH:~/opt/clojure-contrib/launchers/bash
+alias clj=clj-env-dir
+
+The last line added to the file above sets an alias to the clj-env-dir
+script. This example uses clj but it could be set to anything.
+
+See the file at @~/opt/clojure-contrib/launchers/bash/clj-env-dir@ for
+more options.
+
+h3. Add JLine support
+
+* Download JLine from @http://jline.sourceforge.net/@ and unzip and copy
+jar to the @~/.clojure@ directory.
+
+* Add jline.ConsoleRunner to the last line in
+@~/opt/clojure-contrib/launchers/bash/clj-env-dir@ to add JLine
+functionality.
+
+bc. exec $JAVA $OPTS jline.ConsoleRunner $MAIN "$@"
+
+* Test the Script
+
+To test the new script and verify access to the clojure-contrib
+library, open a new terminal window and try this:
+
+bc. 
+~$ clj
+user=> (System/getProperty "java.class.path")
+
+If any other jars are needed either copy or link them to the
+@~/.clojure@ directory.
+
+h3. Emacs support
+
+* Install Emacs
+
+bc. ~$ sudo apt-get install emacs-snapshot-gtk
+
+* Install Slime
+
+bc. 
+~$ cd ~/opt
+~$ git clone git://github.com/nablaone/slime.git
+
+* Install clojure-mode
+
+~$ cd ~/opt 
+~$ git clone git://github.com/technomancy/clojure-mode.git 
+
+h3. Install leiningen
+
+bc. 
+~$ cd ~/opt
+~$ mkdir leiningen
+~$ cd leiningen
+~$ wget http://github.com/technomancy/leiningen/raw/stable/bin/lein
+
+* Add the following to .bashrc.
+
+bc. export PATH=$PATH:~/opt/leiningen
+
+* Execute the leiningen script.
+
+bc. 
+~$ chmod +x lein
+~$ ./lein self-install
+
+h3. Configure Emacs
+
+* Add these specifics to the .emacs file.
+
+bc. 
+;; clojure-mode
+(add-to-list 'load-path "~/opt/clojure-mode")
+(require 'clojure-mode)
+;; slime
+(eval-after-load "slime" 
+  '(progn (slime-setup '(slime-repl))))
+(add-to-list 'load-path "~/opt/slime")
+(require 'slime)
+(slime-setup)
+
+h3. Test Configuration
+
+h4. Create a test project.
+
+bc. 
+~$ mkdir ~/tmp
+~$ cd tmp
+~$ lein new test-project
+~$ cd test-project
+~$ emacs project.clj
+
+* Add the following:
+
+bc. 
+(defproject test-project "0.1.0"
+  :description "Test Project"
+  :dependencies [[org.clojure/clojure "1.2.0-master-SNAPSHOT"]
+                 [org.clojure/clojure-contrib "1.2.0-SNAPSHOT"]]
+  :dev-dependencies [[swank-clojure "1.2.1"]])
+
+* Save and exit the file.
+
+bc. 
+~$ lein deps
+~$ lein swank
+
+* Open a new terminal and open the generated file in emacs:
+
+bc. 
+~$ emacs ~/tmp/test-project/src/test_project/core.clj
+
+* Connect to the running swank server:
+
+bc. M-x slime-connect
+
+Add some code to the file:
+
+bc. (System/getProperty "java.class.path")
+
+And then at the end of the line, evaluate:
+
+bc. C-x C-e
+
+The output will show the configured jar files and their associated
+paths on the Java classpath.
+
+Lastly, compile the file:
+
+bc. C-c C-k
+
 h1. Starting a project
 
 bc. 
