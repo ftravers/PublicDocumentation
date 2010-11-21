@@ -8,31 +8,34 @@ h1. Installation
 
 "Ref Website":http://riddell.us/ClojureSwankLeiningenWithEmacsOnLinux.html
 
-References
+This tutorial is provided as a very specific approach to installing a
+clojure environment on linux. Although an attempt is made to keep it
+up to date, the various technologies used are moving very fast. The
+following list contains links to the offical documentation of the most
+relevant packages.
 
-This tutorial is provided as a very specific approach to installing a clojure environment on linux. Although an attempt is made to keep it up to date, the various technologies used are moving very fast. The following list contains links to the offical documentation of the most relevant packages.
+* Clojure Wiki - Getting Started: http://www.assembla.com/wiki/show/clojure/Getting_Started
+* Leiningen: http://github.com/technomancy/leiningen
 
-Clojure Wiki - Getting Started: http://www.assembla.com/wiki/show/clojure/Getting_Started
-Leiningen: http://github.com/technomancy/leiningen
-Command line support
+h3. Command line support
 
-Install Java
+* Install Java
 
 bc. ~$ sudo apt-get install sun-java6-jdk
 
-Install Ant
+* Install Ant
 
 bc. ~$ sudo apt-get install ant
 
-Install Maven
+* Install Maven
 
 bc. ~$ sudo apt-get install maven2
 
-Install Git
+* Install Git
 
 bc. ~$ sudo apt-get install git-core
 
-Install Clojure
+* Install Clojure
 
 bc. 
 ~$ mkdir ~/opt
@@ -43,7 +46,7 @@ bc.
 ~$ mkdir ~/.clojure
 ~$ cp clojure.jar ~/.clojure
 
-Test Clojure
+*Test Clojure
 
 Gentlemen, start your REPLs.
 
@@ -55,16 +58,15 @@ user=> (+ 1 41)
 
 Ctrl-d will exit the REPL.
 
-Install clojure-contrib
-
+* Install clojure-contrib
+ 
 bc. 
 ~$ cd ~/opt 
 ~$ git clone git://github.com/clojure/clojure-contrib.git 
 ~$ cd clojure-contrib 
-~$ mvn package 
-~$ cp target/clojure-contrib*.jar ~/.clojure/clojure-contrib.jar
+~$ mvn install 
 
-Configure Bash Start-up Script
+* Configure Bash Start-up Script
 
 clojure-contrib contains a bash script called clj-env-dir for starting
 clojure with various options. Edit your ~/.bashrc file to configure
@@ -125,9 +127,9 @@ h3. Install leiningen
 
 bc. 
 ~$ cd ~/opt
-~$ mkdir leiningen
-~$ cd leiningen
-~$ wget http://github.com/technomancy/leiningen/raw/stable/bin/lein
+~$ git clone https://github.com/technomancy/leiningen.git
+~$ cd leiningen/bin
+!$ chmod +x lein; ./lein self-install  # or maybe just ./lein is enough
 
 * Add the following to .bashrc.
 
