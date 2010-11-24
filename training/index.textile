@@ -28,7 +28,7 @@ h1. Machine setup
 
 !(icon)/images/file.gif! "Eclipse Setup":machineSetup/eclipse.html
 !(icon)/images/file.gif! "Tomcat":tomcat.html
-!(icon)/images/file.gif! "Maven":machineSetup/maven.html
+!(icon)/images/file.gif! "Maven":/maven.html
 !(icon)/images/file.gif! "Unix, Ubuntu, Fedora, etc...":linux.html
 !(icon)/images/file.gif! "Mac":mac/mac_general.html
 !(icon)/images/file.gif! "Windows":windows/windows.html

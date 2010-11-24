@@ -204,7 +204,7 @@ only acts like a read (access), there is no _setting_ like setTarget().  So @wel
 
 h2. Login: Username and Password
 
-Lets make the example a little more useful by making it into a login functionality.  Lets change the page names to reflect what we are doing too.  Create the following files. (In this example I'm using: @com/spicevan/tailor@ however you would use whatever you specified to maven in the "Maven: Create Project":../machineSetup/maven.html#createproject section for @groupId@ parameter.
+Lets make the example a little more useful by making it into a login functionality.  Lets change the page names to reflect what we are doing too.  Create the following files. (In this example I'm using: @com/spicevan/tailor@ however you would use whatever you specified to maven in the "Maven: Create Project":/maven.html#createproject section for @groupId@ parameter.
 
 <filelocation>/src/main/java/com/spicevan/tailor/model/User.java 
 

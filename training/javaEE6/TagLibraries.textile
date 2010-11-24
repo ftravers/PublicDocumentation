@@ -13,7 +13,7 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:clarity="http://clarity/facelets/debug"
 xmlns:h="http://java.sun.com/jsf/html"
 
-You will also need to download some jars that implement these.  Put these dependencies into your Maven pom.  See "Maven":../machineSetup/maven.html for more information about Maven.
+You will also need to download some jars that implement these.  Put these dependencies into your Maven pom.  See "Maven":/maven.html for more information about Maven.
 
 bc. 
 <dependency>

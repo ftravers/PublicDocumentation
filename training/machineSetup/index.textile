@@ -5,5 +5,5 @@ p(toc). Navigation
 !(icon)/images/file.gif! "Eclipse Setup":eclipse.html
 !(icon)/images/file.gif! "Tomcat":tomcat.html
 !(icon)/images/file.gif! "Fedora":fedora.html
-!(icon)/images/file.gif! "Maven":maven.html
+!(icon)/images/file.gif! "Maven":/maven.html
 

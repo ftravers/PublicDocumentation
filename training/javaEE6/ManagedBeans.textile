@@ -14,7 +14,7 @@ The following are the recommended prerequisites:
 
 * "First Time Setup":FirstTimeSetup.html
 * "Eclipse & Subversion Setup":../machineSetup/eclipse.html
-* "Maven Setup":../machineSetup/maven.html
+* "Maven Setup":/maven.html
 
 h1. Steps
 

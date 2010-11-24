@@ -93,7 +93,7 @@ h1(#maven). Maven
 
 h2. Install Maven Plugin
 
-To see how to install Maven see "this link":maven.html
+To see how to install Maven see "this link":/maven.html
 
 You can have a look at the video on "this page":http://m2eclipse.sonatype.org/installing-m2eclipse.html, to see how to setup Maven2Eclipse.  The following are some images that will help you too.
 

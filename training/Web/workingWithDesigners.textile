@@ -42,4 +42,4 @@ Next "setup and install Tomcat":../machineSetup/tomcat.html.
 
 h2. Maven
 
-Finally "setup Maven":../machineSetup/maven.html.
+Finally "setup Maven":/maven.html.

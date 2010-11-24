@@ -316,7 +316,7 @@ mysql> grant all privileges on missecure.* to user1@localhost;
 
 h3. Run Test
 
-So lets run the JUnit TestCase and see if everything works out okay.  Don't forget to ensure that maven will compile to the "correct JVM level":../maven.html#jvm_compile_version.
+So lets run the JUnit TestCase and see if everything works out okay.  Don't forget to ensure that maven will compile to the "correct JVM level":/maven.html#jvm_compile_version.
 
 h2. Mapping
 
@@ -472,7 +472,7 @@ bc.
 	</persistence-unit>
 </persistence>
 
-As you will have notices the passwords, etc... are all parameterized.  This is specified like this because rarely these are the same across development, testing and production.  So this is a best practice.  See the maven section on "Profiles":../maven.html#profiles to see how to set this up so you'll get the correct username/passwords when you build the project.
+As you will have notices the passwords, etc... are all parameterized.  This is specified like this because rarely these are the same across development, testing and production.  So this is a best practice.  See the maven section on "Profiles":/maven.html#profiles to see how to set this up so you'll get the correct username/passwords when you build the project.
 
 Update the persistence.xml to contain references to your classes.
 
