@@ -1,11 +1,8 @@
 <project default="deploy" name="Documentation">
   <property name="webFinalDir" value="${user.home}/bin/website" />
-	<property name="fenton_wikitext" value="${user.home}/bin" />
-
-	<property name="wikitext.standalone" value="${fenton_wikitext}/mylyn-wikitext-standalone" />
 
 	<path id="wikitext.classpath">
-		<fileset dir="${wikitext.standalone}">
+		<fileset dir="${user.home}/bin/mylyn-wikitext-standalone">
 			<include name="org.eclipse.mylyn.wikitext.*core*.jar" />
 		</fileset>
 	</path>
@@ -31,7 +28,6 @@
 			</fileset>
 		</copy>
 	</target>
-
 
 	<target name="rsync">
 		<exec executable="rsync">
