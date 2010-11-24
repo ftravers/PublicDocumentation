@@ -1,4 +1,4 @@
-"home":../../index.html > "training":../index.html > Maven
+"home":/index.html > Maven
 
 p(toc). Table of Contents
 
