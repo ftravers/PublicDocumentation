@@ -1,8 +1,7 @@
 <project default="deploy" name="Documentation">
   <property name="webFinalDir" value="${user.home}/bin/website" />
-	<property name="fenton_fop_exec" value="~/bin/fop-0.95/fop" />
 	<property name="fenton_wikitext" value="${user.home}/bin" />
-	<property name="rsync_exec" value="/usr/bin/rsync" />
+
 	<property name="wikitext.standalone" value="${fenton_wikitext}/mylyn-wikitext-standalone" />
 
 	<path id="wikitext.classpath">
@@ -12,14 +11,7 @@
 	</path>
 
 	<taskdef classpathref="wikitext.classpath" resource="org/eclipse/mylyn/wikitext/core/util/anttask/tasks.properties" />
-	<!-- 
-		A problem is that the wikitext-to-html outputs its content into the same 
-		folder as the source *.textile files, whose folders are under source control.  
 
-     Therefore I copy the source files to the ${webStageDir}, convert the textile -> html
-  there, then copy just the web objects (i.e. not the *.textile) to the ${webFinalDir}.
-  For remote deployment I rsync the ${webFinalDir}
-	-->
 	<target name="generate-html" description="Generate HTML from textile source">
 		<wikitext-to-html markupLanguage="Textile">
 			<fileset dir=".">
@@ -40,9 +32,10 @@
 		</copy>
 	</target>
 
+
 	<target name="rsync">
-		<exec executable="${rsync_exec}">
-			<arg line="${rsync_exec} -avP ${webFinalDir} ftravers@spicevan.com:/home/ftravers/mohe.spicevan.com" />
+		<exec executable="rsync">
+			<arg line="rsync -avP ${webFinalDir} ftravers@spicevan.com:/home/ftravers/mohe.spicevan.com" />
 		</exec>
 	</target>
 </project>
