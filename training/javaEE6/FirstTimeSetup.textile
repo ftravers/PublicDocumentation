@@ -10,7 +10,109 @@ This document will explain how to setup your system for developing modern dynami
 
 h1. Quick Version
 
-* Create a bare-bones Maven project.
+Note I'll include sample statements, but they shouldn't be copied verbatim as they have MY project names etc...
+
+* "Create a bare-bones Maven project":/maven.html#createProject
+
+Modify -DgroupId & -DartifactId to reflect YOUR project names.
+
+bc. mvn archetype:generate  -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false -DgroupId=com.oracle.git -DartifactId=MvnSesFe
+
+* Modify the pom.xml.  Add the single dependency, and update packaging to be war.
+
+bc. 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.oracle.git</groupId>
+	<artifactId>MvnSesFe</artifactId>
+	<packaging>war</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>MvnSesFe</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<!--can put scope to provided if we are using an app server
+      that will provide the required jars. -->
+			<scope>compile</scope>
+			<version>6.0</version>
+		</dependency>
+	</dependencies>
+</project>
+
+* Add missing dirs:
+
+bc. 
+~$ mkdir MvnSesFe/src/main/webapp
+~$ mkdir MvnSesFe/src/main/webapp/WEB-INF
+~$ touch web.xml faces-config.xml sun-web.xml
+~$ mvn eclipse:eclipse
+
+* Put the following contents into the three 'touch'ed files above:
+
+web.xml
+
+bc. 
+<?xml version='1.0' encoding='UTF-8'?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>Web Project</display-name>
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping> 
+	<welcome-file-list>
+		<welcome-file>test.xhtml</welcome-file>
+	</welcome-file-list>
+</web-app>
+
+faces-config.xml
+
+bc. 
+<?xml version="1.0"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+            http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+    version="2.0">
+  <application>
+  </application>
+</faces-config>
+
+sun-web.xml
+
+bc. 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sun-web-app PUBLIC "-//Sun Microsystems, Inc.//DTD GlassFish Application Server 3.0 Servlet 3.0//EN" "http://www.sun.com/software/appserver/dtds/sun-web-app_3_0-0.dtd">
+<sun-web-app error-url="">
+  <context-root>/SES</context-root>
+  <class-loader delegate="true"/>
+  <jsp-config>
+    <property name="keepgenerated" value="true">
+      <description>Keep a copy of the generated servlet class' java code.</description>
+    </property>
+  </jsp-config>
+</sun-web-app>
+
+* Build the war with: 
+
+Now open project in Netbeans.  It'll recognize it's a web project.  Create a test.xhtml facelet, and launch it.
+
+
+
+The rest of this document is a bit old...I'm leaving it here for future reworking.
 
 h1. Required Software
 
