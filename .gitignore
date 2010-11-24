@@ -6,3 +6,4 @@ latex/**/*.pdf
 *~
 .*
 \#*
+target/*
