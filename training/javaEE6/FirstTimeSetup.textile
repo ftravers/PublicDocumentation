@@ -8,6 +8,10 @@ h1. Introduction
 
 This document will explain how to setup your system for developing modern dynamic web sites.
 
+h1. Quick Version
+
+* Create a bare-bones Maven project.
+
 h1. Required Software
 
 h2. Eclipse
@@ -20,7 +24,7 @@ You will be sharing code with other people in a Subversion code repository.  You
 
 h2. Maven: Dependency Management
 
-For your coding you will be depending on third party libraries.  Managing these can be a head-ache without an automated system.  Maven is the system we will use for this.  Download and install maven from @http://www.codehaus.org@.  See "this page":/maven.html for detailed documentation.
+For your coding you will be depending on third party libraries.  Managing these can be a head-ache without an automated system.  Maven is the system we will use for this.  Download and install maven from @http://www.codehaus.org@.  See "this page":../machineSetup/maven.html for detailed documentation.
 
 * You will tell eclipse once where your maven repository is with the following command: (ensure that Eclipse is not running)
 
