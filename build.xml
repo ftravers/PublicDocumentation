@@ -22,13 +22,13 @@
 	-->
 	<target name="generate-html" description="Generate HTML from textile source">
 		<wikitext-to-html markupLanguage="Textile">
-			<fileset dir="${webStageDir}">
+			<fileset dir=".">
 				<include name="**/*.textile" />
 			</fileset>
 			<stylesheet url="/styles/main.css" />
 		</wikitext-to-html>
 		<copy todir="${webFinalDir}">
-			<fileset dir="${webStageDir}">
+			<fileset dir=".">
 				<exclude name="website/**" />
 				<include name="**/*.html" />
 				<include name="**/*.css" />

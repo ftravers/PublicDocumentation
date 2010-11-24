@@ -1,56 +1,25 @@
 #!/bin/bash
-binDir="$HOME/bin"
 
-if [ ! -d "$binDir" ]; then
-    mkdir $binDir
+# Prepare location where html files will be exported to
+
+bin="$HOME/bin"
+
+if [ ! -d "$bin" ]; then
+    mkdir $bin
 fi
 
-webStageDir="$binDir/webStageDir"
+webStageDir="$bin/webStageDir"
 if [ ! -d "$webStageDir" ]; then
     mkdir $webStageDir
 fi
 
 cd $webStageDir
 
-if [ ! -d "$webStageDir/training" ]; then
-    mkdir "$webStageDir/training"
-fi
-
-if [ ! -d "$webStageDir/jeos" ]; then
-    mkdir "$webStageDir/jeos"
-fi
-
-if [ ! -d "$webStageDir/styles" ]; then
-    mkdir "$webStageDir/styles"
-fi
-
-if [ ! -d "$webStageDir/images" ]; then
-    mkdir "$webStageDir/images"
-fi
-
-if [ ! -d "$webStageDir/projects" ]; then
-    mkdir "$webStageDir/projects"
-fi
-
-docsSrcDir="$HOME/projects/documentation/"
-cd $docsSrcDir
+# $DOCS_HOME defined in ~/.bashrc
+cd $DOCS_HOME
 git commit -a -m"."
-cd $docsSrcDir/training
-git archive master | tar -x -C "$webStageDir/training"
 
-cd $docsSrcDir/jeos
-git archive master | tar -x -C "$webStageDir/jeos"
+git archive master | tar -x -C "$webStageDir"
 
-cd $docsSrcDir/styles
-git archive master | tar -x -C "$webStageDir/styles"
-
-cd $docsSrcDir/images
-git archive master | tar -x -C "$webStageDir/images"
-
-cd $docsSrcDir/projects
-git archive master | tar -x -C "$webStageDir/projects"
-
-cd $docsSrcDir
-cp index.textile build.xml $webStageDir
 cd $webStageDir
-ant generate-html -DwebStageDir=$webStageDir
+ant generate-html
