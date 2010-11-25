@@ -1,0 +1,525 @@
+SQL> desc MISSECURE.PN_SPACE_ASSIGN_EMP_ALL
+Name                                      Null?    Type
+----------------------------------------- -------- ----------------------------
+EMP_SPACE_ASSIGN_ID                       NOT NULL NUMBER
+LOCATION_ID                                        NUMBER
+PERSON_ID                                          NUMBER
+PROJECT_ID                                         NUMBER
+TASK_ID                                            NUMBER
+EMP_ASSIGN_START_DATE                              DATE
+EMP_ASSIGN_END_DATE                                DATE
+COST_CENTER_CODE                                   VARCHAR2(30)
+ALLOCATED_AREA_PCT                                 NUMBER
+ALLOCATED_AREA                                     NUMBER
+UTILIZED_AREA                                      NUMBER
+EMP_SPACE_COMMENTS                                 VARCHAR2(2000)
+LAST_UPDATE_DATE                          NOT NULL DATE
+LAST_UPDATED_BY                           NOT NULL NUMBER
+CREATION_DATE                             NOT NULL DATE
+CREATED_BY                                NOT NULL NUMBER
+LAST_UPDATE_LOGIN                                  NUMBER
+ATTRIBUTE_CATEGORY                                 VARCHAR2(30)
+ATTRIBUTE1                                         VARCHAR2(150)
+ATTRIBUTE2                                         VARCHAR2(150)
+ATTRIBUTE3                                         VARCHAR2(150)
+ATTRIBUTE4                                         VARCHAR2(150)
+ATTRIBUTE5                                         VARCHAR2(150)
+ATTRIBUTE6                                         VARCHAR2(150)
+ATTRIBUTE7                                         VARCHAR2(150)
+ATTRIBUTE8                                         VARCHAR2(150)
+ATTRIBUTE9                                         VARCHAR2(150)
+ATTRIBUTE10                                        VARCHAR2(150)
+ATTRIBUTE11                                        VARCHAR2(150)
+ATTRIBUTE12                                        VARCHAR2(150)
+ATTRIBUTE13                                        VARCHAR2(150)
+ATTRIBUTE14                                        VARCHAR2(150)
+ATTRIBUTE15                                        VARCHAR2(150)
+ORG_ID                                             NUMBER(15)
+SOURCE                                             VARCHAR2(80)
+
+
+SQL> desc MISSECURE.PN_LOCATIONS_ALL
+Name                                      Null?    Type
+----------------------------------------- -------- ----------------------------
+LOCATION_ID                               NOT NULL NUMBER
+LAST_UPDATE_DATE                          NOT NULL DATE
+LAST_UPDATED_BY                           NOT NULL NUMBER
+CREATION_DATE                             NOT NULL DATE
+CREATED_BY                                NOT NULL NUMBER
+LAST_UPDATE_LOGIN                                  NUMBER
+LOCATION_PARK_ID                                   NUMBER
+LOCATION_TYPE_LOOKUP_CODE                 NOT NULL VARCHAR2(30)
+LOCATION_CODE                             NOT NULL VARCHAR2(90)
+LOCATION_ALIAS                                     VARCHAR2(30)
+BUILDING                                           VARCHAR2(30)
+LEASE_OR_OWNED                                     VARCHAR2(30)
+FLOOR                                              VARCHAR2(20)
+OFFICE                                             VARCHAR2(20)
+ADDRESS_ID                                         NUMBER
+MAX_CAPACITY                                       NUMBER
+OPTIMUM_CAPACITY                                   NUMBER
+RENTABLE_AREA                                      NUMBER
+USABLE_AREA                                        NUMBER
+ALLOCATE_COST_CENTER_CODE                          VARCHAR2(30)
+UOM_CODE                                           VARCHAR2(3)
+DESCRIPTION                                        VARCHAR2(50)
+PARENT_LOCATION_ID                                 NUMBER
+INTERFACE_FLAG                                     VARCHAR2(1)
+REQUEST_ID                                         NUMBER
+PROGRAM_APPLICATION_ID                             NUMBER
+PROGRAM_ID                                         NUMBER
+PROGRAM_UPDATE_DATE                                DATE
+STATUS                                    NOT NULL VARCHAR2(1)
+SPACE_TYPE_LOOKUP_CODE                             VARCHAR2(30)
+ATTRIBUTE_CATEGORY                                 VARCHAR2(30)
+ATTRIBUTE1                                         VARCHAR2(150)
+ATTRIBUTE2                                         VARCHAR2(150)
+ATTRIBUTE3                                         VARCHAR2(150)
+ATTRIBUTE4                                         VARCHAR2(150)
+ATTRIBUTE5                                         VARCHAR2(150)
+ATTRIBUTE6                                         VARCHAR2(150)
+ATTRIBUTE7                                         VARCHAR2(150)
+ATTRIBUTE8                                         VARCHAR2(150)
+ATTRIBUTE9                                         VARCHAR2(150)
+ATTRIBUTE10                                        VARCHAR2(150)
+ATTRIBUTE11                                        VARCHAR2(150)
+ATTRIBUTE12                                        VARCHAR2(150)
+ATTRIBUTE13                                        VARCHAR2(150)
+ATTRIBUTE14                                        VARCHAR2(150)
+ATTRIBUTE15                                        VARCHAR2(150)
+ORG_ID                                             NUMBER(15)
+SOURCE                                             VARCHAR2(80)
+PROPERTY_ID                                        NUMBER
+CLASS                                              VARCHAR2(30)
+STATUS_TYPE                                        VARCHAR2(30)
+SUITE                                              VARCHAR2(30)
+GROSS_AREA                                         NUMBER
+ASSIGNABLE_AREA                                    NUMBER
+COMMON_AREA                                        NUMBER
+COMMON_AREA_FLAG                                   VARCHAR2(1)
+FUNCTION_TYPE_LOOKUP_CODE                          VARCHAR2(30)
+STANDARD_TYPE_LOOKUP_CODE                          VARCHAR2(30)
+ACTIVE_START_DATE                         NOT NULL DATE
+ACTIVE_END_DATE                           NOT NULL DATE
+BOOKABLE_FLAG                                      VARCHAR2(1)
+OCCUPANCY_STATUS_CODE                              VARCHAR2(30)
+ASSIGNABLE_EMP                                     VARCHAR2(30)
+ASSIGNABLE_CC                                      VARCHAR2(30)
+ASSIGNABLE_CUST                                    VARCHAR2(30)
+DISPOSITION_CODE                                   VARCHAR2(30)
+ACC_TREATMENT_CODE                                 VARCHAR2(30)
+
+SQL>
+
+SQL> desc MISSECURE.PN_ADDRESSES_ALL
+Name                                      Null?    Type
+----------------------------------------- -------- ----------------------------
+ADDRESS_ID                                NOT NULL NUMBER
+ADDRESS_LINE1                                      VARCHAR2(240)
+ADDRESS_LINE2                                      VARCHAR2(240)
+ADDRESS_LINE3                                      VARCHAR2(240)
+ADDRESS_LINE4                                      VARCHAR2(240)
+COUNTY                                             VARCHAR2(60)
+CITY                                               VARCHAR2(60)
+STATE                                              VARCHAR2(60)
+PROVINCE                                           VARCHAR2(60)
+ZIP_CODE                                           VARCHAR2(60)
+COUNTRY                                   NOT NULL VARCHAR2(60)
+ADDRESS_STYLE                                      VARCHAR2(30)
+TERRITORY_ID                                       NUMBER
+LAST_UPDATE_DATE                          NOT NULL DATE
+LAST_UPDATED_BY                           NOT NULL NUMBER
+CREATION_DATE                             NOT NULL DATE
+CREATED_BY                                NOT NULL NUMBER
+LAST_UPDATE_LOGIN                                  NUMBER
+ATTRIBUTE_CATEGORY                                 VARCHAR2(30)
+ATTRIBUTE1                                         VARCHAR2(150)
+ATTRIBUTE2                                         VARCHAR2(150)
+ATTRIBUTE3                                         VARCHAR2(150)
+ATTRIBUTE4                                         VARCHAR2(150)
+ATTRIBUTE5                                         VARCHAR2(150)
+ATTRIBUTE6                                         VARCHAR2(150)
+ATTRIBUTE7                                         VARCHAR2(150)
+ATTRIBUTE8                                         VARCHAR2(150)
+ATTRIBUTE9                                         VARCHAR2(150)
+ATTRIBUTE10                                        VARCHAR2(150)
+ATTRIBUTE11                                        VARCHAR2(150)
+ATTRIBUTE12                                        VARCHAR2(150)
+ATTRIBUTE13                                        VARCHAR2(150)
+ATTRIBUTE14                                        VARCHAR2(150)
+ATTRIBUTE15                                        VARCHAR2(150)
+ORG_ID                                             NUMBER(15)
+ADDR_ATTRIBUTE_CATEGORY                            VARCHAR2(30)
+ADDR_ATTRIBUTE1                                    VARCHAR2(150)
+ADDR_ATTRIBUTE2                                    VARCHAR2(150)
+ADDR_ATTRIBUTE3                                    VARCHAR2(150)
+ADDR_ATTRIBUTE4                                    VARCHAR2(150)
+ADDR_ATTRIBUTE5                                    VARCHAR2(150)
+ADDR_ATTRIBUTE6                                    VARCHAR2(150)
+ADDR_ATTRIBUTE7                                    VARCHAR2(150)
+ADDR_ATTRIBUTE8                                    VARCHAR2(150)
+ADDR_ATTRIBUTE9                                    VARCHAR2(150)
+ADDR_ATTRIBUTE10                                   VARCHAR2(150)
+ADDR_ATTRIBUTE11                                   VARCHAR2(150)
+ADDR_ATTRIBUTE12                                   VARCHAR2(150)
+ADDR_ATTRIBUTE13                                   VARCHAR2(150)
+ADDR_ATTRIBUTE14                                   VARCHAR2(150)
+ADDR_ATTRIBUTE15                                   VARCHAR2(150)
+
+Sample Data
+----------------------------------------------------------------------------
+
+
+Query: select * from MISSECURE.PN_SPACE_ASSIGN_EMP_ALL
+Row: (0)
+--------------------------------------------
+EMP_SPACE_ASSIGN_ID:(int)11
+LOCATION_ID:(int)2084
+PERSON_ID:(int)0
+PROJECT_ID:(int)0
+TASK_ID:(int)0
+EMP_ASSIGN_START_DATE:(timestamp)1993-01-24 00:00:00.0
+EMP_ASSIGN_END_DATE:(timestamp)null
+COST_CENTER_CODE:(string)0614
+ALLOCATED_AREA_PCT:(int)100
+ALLOCATED_AREA:(int)146
+UTILIZED_AREA:(int)0
+EMP_SPACE_COMMENTS:(string)null
+LAST_UPDATE_DATE:(timestamp)2009-05-23 01:05:09.0
+LAST_UPDATED_BY:(int)87439
+CREATION_DATE:(timestamp)1993-01-24 00:00:00.0
+CREATED_BY:(int)30244
+LAST_UPDATE_LOGIN:(int)331417135
+ATTRIBUTE_CATEGORY:(string)null
+ATTRIBUTE1:(string)null
+ATTRIBUTE2:(string)null
+ATTRIBUTE3:(string)null
+ATTRIBUTE4:(string)null
+ATTRIBUTE5:(string)null
+ATTRIBUTE6:(string)null
+ATTRIBUTE7:(string)null
+ATTRIBUTE8:(string)null
+ATTRIBUTE9:(string)null
+ATTRIBUTE10:(string)null
+ATTRIBUTE11:(string)null
+ATTRIBUTE12:(string)73
+ATTRIBUTE13:(string)114.06
+ATTRIBUTE14:(string)null
+ATTRIBUTE15:(string)null
+ORG_ID:(int)1001
+SOURCE:(string)null
+
+
+Query: select * from MISSECURE.PN_LOCATIONS_ALL
+Row: (0)
+--------------------------------------------
+LOCATION_ID:(int)1
+LAST_UPDATE_DATE:(timestamp)2006-05-24 14:12:31.0
+LAST_UPDATED_BY:(int)1683211
+CREATION_DATE:(timestamp)1991-01-15 00:00:00.0
+CREATED_BY:(int)30204
+LAST_UPDATE_LOGIN:(int)164810431
+LOCATION_PARK_ID:(int)0
+LOCATION_TYPE_LOOKUP_CODE:(string)BUILDING
+LOCATION_CODE:(string)LA
+LOCATION_ALIAS:(string)LA
+BUILDING:(string)OLD - Pacific Corporate Tower
+LEASE_OR_OWNED:(string)L
+FLOOR:(string)null
+OFFICE:(string)null
+ADDRESS_ID:(int)10608
+MAX_CAPACITY:(int)248
+OPTIMUM_CAPACITY:(int)235
+RENTABLE_AREA:(int)36700
+USABLE_AREA:(int)22961
+ALLOCATE_COST_CENTER_CODE:(string)null
+UOM_CODE:(string)FT2
+DESCRIPTION:(string)null
+PARENT_LOCATION_ID:(int)0
+INTERFACE_FLAG:(string)null
+REQUEST_ID:(int)0
+PROGRAM_APPLICATION_ID:(int)0
+PROGRAM_ID:(int)0
+PROGRAM_UPDATE_DATE:(timestamp)null
+STATUS:(string)A
+SPACE_TYPE_LOOKUP_CODE:(string)null
+ATTRIBUTE_CATEGORY:(string)BUILDING
+ATTRIBUTE1:(string)null
+ATTRIBUTE2:(string)null
+ATTRIBUTE3:(string)null
+ATTRIBUTE4:(string)null
+ATTRIBUTE5:(string)null
+ATTRIBUTE6:(string)null
+ATTRIBUTE7:(string)null
+ATTRIBUTE8:(string)null
+ATTRIBUTE9:(string)null
+ATTRIBUTE10:(string)null
+ATTRIBUTE11:(string)null
+ATTRIBUTE12:(string)null
+ATTRIBUTE13:(string)null
+ATTRIBUTE14:(string)null
+ATTRIBUTE15:(string)null
+ORG_ID:(int)1001
+SOURCE:(string)null
+PROPERTY_ID:(int)0
+CLASS:(string)null
+STATUS_TYPE:(string)null
+SUITE:(string)null
+GROSS_AREA:(int)0
+ASSIGNABLE_AREA:(int)19822
+COMMON_AREA:(int)0
+COMMON_AREA_FLAG:(string)null
+FUNCTION_TYPE_LOOKUP_CODE:(string)null
+STANDARD_TYPE_LOOKUP_CODE:(string)null
+ACTIVE_START_DATE:(timestamp)0001-01-01 00:00:00.0
+ACTIVE_END_DATE:(timestamp)2006-05-01 00:00:00.0
+BOOKABLE_FLAG:(string)null
+OCCUPANCY_STATUS_CODE:(string)Y
+ASSIGNABLE_EMP:(string)Y
+ASSIGNABLE_CC:(string)Y
+ASSIGNABLE_CUST:(string)Y
+DISPOSITION_CODE:(string)null
+ACC_TREATMENT_CODE:(string)null
+
+
+Query: select * from MISSECURE.PN_ADDRESSES_ALL
+Row: (0)
+--------------------------------------------
+ADDRESS_ID:(int)10000
+ADDRESS_LINE1:(string)c/o Pacific Building Mgmt., Inc.
+ADDRESS_LINE2:(string)222 N. Sepulveda Blvd.
+ADDRESS_LINE3:(string)Suite 1400
+ADDRESS_LINE4:(string)null
+COUNTY:(string)null
+CITY:(string)El Segundo
+STATE:(string)CA
+PROVINCE:(string)null
+ZIP_CODE:(string)90245
+COUNTRY:(string)US
+ADDRESS_STYLE:(string)null
+TERRITORY_ID:(int)0
+LAST_UPDATE_DATE:(timestamp)1995-09-20 00:00:00.0
+LAST_UPDATED_BY:(int)31186
+CREATION_DATE:(timestamp)1991-01-15 00:00:00.0
+CREATED_BY:(int)30204
+LAST_UPDATE_LOGIN:(int)1318493
+ATTRIBUTE_CATEGORY:(string)null
+ATTRIBUTE1:(string)null
+ATTRIBUTE2:(string)null
+ATTRIBUTE3:(string)null
+ATTRIBUTE4:(string)null
+ATTRIBUTE5:(string)null
+ATTRIBUTE6:(string)null
+ATTRIBUTE7:(string)null
+ATTRIBUTE8:(string)null
+ATTRIBUTE9:(string)null
+ATTRIBUTE10:(string)null
+ATTRIBUTE11:(string)null
+ATTRIBUTE12:(string)null
+ATTRIBUTE13:(string)null
+ATTRIBUTE14:(string)null
+ATTRIBUTE15:(string)null
+ORG_ID:(int)1001
+ADDR_ATTRIBUTE_CATEGORY:(string)null
+ADDR_ATTRIBUTE1:(string)null
+ADDR_ATTRIBUTE2:(string)null
+ADDR_ATTRIBUTE3:(string)null
+ADDR_ATTRIBUTE4:(string)null
+ADDR_ATTRIBUTE5:(string)null
+ADDR_ATTRIBUTE6:(string)null
+ADDR_ATTRIBUTE7:(string)null
+ADDR_ATTRIBUTE8:(string)null
+ADDR_ATTRIBUTE9:(string)null
+ADDR_ATTRIBUTE10:(string)null
+ADDR_ATTRIBUTE11:(string)null
+ADDR_ATTRIBUTE12:(string)null
+ADDR_ATTRIBUTE13:(string)null
+ADDR_ATTRIBUTE14:(string)null
+ADDR_ATTRIBUTE15:(string)null
+
+
+Query: select * from MISSECURE.HR_PEOPLE_L1_L2_DATA_V
+Row: (0)
+--------------------------------------------
+PERSON_ID:(int)72476
+EFFECTIVE_START_DATE:(timestamp)1994-07-14 00:00:00.0
+EFFECTIVE_END_DATE:(timestamp)1994-07-26 00:00:00.0
+CORRESPONDENCE_LANGUAGE:(string)null
+FTE_CAPACITY:(int)0
+ON_MILITARY_SERVICE:(string)null
+ORDER_NAME:(string)Garcia, Jorge Carlos
+COORD_BEN_MED_PL_NAME:(string)null
+COORD_BEN_MED_INSR_CRR_NAME:(string)null
+BUSINESS_GROUP_ID:(int)1001
+START_DATE:(timestamp)1994-01-26 00:00:00.0
+APPLICANT_NUMBER:(string)21512
+COMMENT_ID:(int)0
+CURRENT_EMP_OR_APL_FLAG:(string)Y
+CURRENT_EMPLOYEE_FLAG:(string)Y
+CURRENT_APPLICANT_FLAG:(string)null
+DATE_EMPLOYEE_DATA_VERIFIED:(timestamp)null
+EMAIL_ADDRESS:(string)JOGARCIA
+EMPLOYEE_NUMBER:(string)15063
+MAIL_TO:(string)null
+LAST_NAME:(string)Garcia
+FIRST_NAME:(string)Jorge
+FULL_NAME:(string)Garcia, Mr Jorge Carlos
+HOLD_APPLICANT_DATE_UNTIL:(timestamp)null
+INTERNAL_LOCATION:(string)null
+KNOWN_AS:(string)null
+MAILSTOP:(string)null
+MIDDLE_NAMES:(string)Carlos
+OFFICE_NUMBER:(string)null
+PRE_NAME_ADJUNCT:(string)null
+PREVIOUS_LAST_NAME:(string)null
+RESUME_EXISTS:(string)null
+RESUME_LAST_UPDATED:(timestamp)null
+SUFFIX:(string)null
+TITLE:(string)MR.
+BENEFIT_GROUP_ID:(int)0
+PER_INFORMATION_CATEGORY:(string)US
+REQUEST_ID:(int)0
+PROGRAM_APPLICATION_ID:(int)0
+PROGRAM_ID:(int)0
+PROGRAM_UPDATE_DATE:(timestamp)null
+GLOBAL_USER_ID:(string)null
+ORIGINAL_DATE_OF_HIRE:(timestamp)1994-07-14 00:00:00.0
+GLOBAL_PERSON_ID:(string)null
+PARTY_ID:(int)10038680
+ENGLISH_FIRST_NAME:(string)null
+ENGLISH_LAST_NAME:(string)null
+LAST_UPDATE_DATE:(timestamp)2005-10-10 14:15:46.0
+LAST_UPDATED_BY:(int)539144
+CREATION_DATE:(timestamp)1994-02-23 00:00:00.0
+CREATED_BY:(int)30604
+PERSON_TYPE_ID:(int)4
+SYSTEM_PERSON_TYPE:(string)EMP
+USER_PERSON_TYPE:(string)Employee
+PPTUF_EFFECTIVE_START_DATE:(timestamp)1994-07-14 00:00:00.0
+PPTUF_EFFECTIVE_END_DATE:(timestamp)4712-12-31 00:00:00.0
+
+
+Query: select * from MISSECURE.HR_ASSIGNMENT_L1_L2_DATA_V
+Row: (0)
+--------------------------------------------
+EFFECTIVE_START_DATE:(timestamp)1982-04-02 00:00:00.0
+EFFECTIVE_END_DATE:(timestamp)1988-05-31 00:00:00.0
+ASSIGNMENT_NUMBER:(string)1005
+SUPERVISOR_ID:(int)0
+DATE_PROBATION_END:(timestamp)null
+NORMAL_HOURS:(int)40
+PERF_REVIEW_PERIOD:(int)0
+PERIOD_OF_SERVICE_ID:(int)6
+TIME_NORMAL_FINISH:(string)17:00
+TIME_NORMAL_START:(string)09:00
+LABOUR_UNION_MEMBER_FLAG:(string)null
+CAGR_ID_FLEX_NUM:(int)0
+EMPLOYMENT_CATEGORY:(string)null
+JOB_POST_SOURCE_NAME:(string)null
+BUSINESS_GROUP_ID:(int)1001
+PERSON_ID:(int)1005
+ASSIGNMENT_ID:(int)13382
+ASSIGNMENT_TYPE:(string)E
+PRIMARY_FLAG:(string)Y
+APPLICATION_ID:(int)0
+ASSIGNMENT_SEQUENCE:(int)1
+COMMENT_ID:(int)0
+DEFAULT_CODE_COMB_ID:(int)0
+INTERNAL_ADDRESS_LINE:(string)null
+MANAGER_FLAG:(string)null
+SET_OF_BOOKS_ID:(int)100126
+SOURCE_TYPE:(string)null
+BARGAINING_UNIT_CODE:(string)null
+HOURLY_SALARIED_CODE:(string)null
+CONTRACT_ID:(int)0
+COLLECTIVE_AGREEMENT_ID:(int)0
+CAGR_GRADE_DEF_ID:(int)0
+ESTABLISHMENT_ID:(int)0
+REQUEST_ID:(int)0
+PROGRAM_APPLICATION_ID:(int)0
+PROGRAM_ID:(int)1000
+PROGRAM_UPDATE_DATE:(timestamp)1991-01-17 00:00:00.0
+TITLE:(string)null
+ASSIGNMENT_STATUS_TYPE_ID:(int)1
+CHANGE_REASON:(string)null
+ORGANIZATION_ID:(int)1693
+PREVIOUS_EMPLOYEE_ID:(string)null
+PREVIOUS_COUNTRY:(string)null
+DISCRETIONARY_TITLE:(string)null
+PRODUCT_ASSOCIATION:(string)N/A
+INDIRECT_SUPERVISOR:(string)null
+LOCATION_ID:(int)8560
+JOB_ID:(int)1
+LAST_UPDATE_DATE:(timestamp)2009-04-20 19:33:45.0
+LAST_UPDATED_BY:(int)1462855
+CREATION_DATE:(timestamp)null
+CREATED_BY:(int)999999
+PERSON_TYPE_ID:(int)4
+USER_PERSON_TYPE:(string)Employee
+VENDOR_EMPLOYEE_NUMBER:(string)null
+
+
+Query: select * from MISSECURE.hr_address_l1_l2_data_v
+Row: (0)
+--------------------------------------------
+ADDRESS_ID:(int)6686
+BUSINESS_GROUP_ID:(int)1001
+PERSON_ID:(int)10537
+PRIMARY_FLAG:(string)Y
+DATE_FROM:(timestamp)1991-02-18 00:00:00.0
+DATE_TO:(timestamp)null
+ADDRESS_TYPE:(string)Primary
+STYLE:(string)US
+ADDRESS_LINE1:(string)637 Bainbridge Street
+ADDRESS_LINE2:(string)null
+ADDRESS_LINE3:(string)null
+POSTAL_CODE:(string)94404
+REGION_1:(string)San Mateo
+REGION_2:(string)CA
+REGION_3:(string)null
+TELEPHONE_NUMBER_1:(string)650 571-6842
+TELEPHONE_NUMBER_2:(string)null
+TELEPHONE_NUMBER_3:(string)null
+TOWN_OR_CITY:(string)Foster City
+COUNTRY:(string)US
+ADDR_ATTRIBUTE_CATEGORY:(string)null
+ADDR_ATTRIBUTE1:(string)Y
+ADDR_ATTRIBUTE2:(string)null
+ADDR_ATTRIBUTE3:(string)null
+ADDR_ATTRIBUTE4:(string)null
+ADDR_ATTRIBUTE5:(string)null
+ADDR_ATTRIBUTE6:(string)null
+ADDR_ATTRIBUTE7:(string)null
+ADDR_ATTRIBUTE8:(string)null
+ADDR_ATTRIBUTE9:(string)null
+ADDR_ATTRIBUTE10:(string)null
+ADDR_ATTRIBUTE11:(string)null
+ADDR_ATTRIBUTE12:(string)null
+ADDR_ATTRIBUTE13:(string)null
+ADDR_ATTRIBUTE14:(string)null
+ADDR_ATTRIBUTE15:(string)null
+ADDR_ATTRIBUTE16:(string)null
+ADDR_ATTRIBUTE17:(string)null
+ADDR_ATTRIBUTE18:(string)null
+ADDR_ATTRIBUTE19:(string)null
+ADDR_ATTRIBUTE20:(string)null
+ADD_INFORMATION13:(string)null
+ADD_INFORMATION14:(string)null
+ADD_INFORMATION15:(string)null
+ADD_INFORMATION16:(string)null
+ADD_INFORMATION17:(string)null
+ADD_INFORMATION18:(string)null
+ADD_INFORMATION19:(string)null
+ADD_INFORMATION20:(string)null
+PARTY_ID:(int)10027525
+DERIVED_LOCALE:(string)Foster City, CA, US
+Unaccounted for integer type returned is: 2002
+REQUEST_ID:(int)0
+PROGRAM_APPLICATION_ID:(int)0
+PROGRAM_ID:(int)0
+PROGRAM_UPDATE_DATE:(timestamp)null
+LAST_UPDATE_DATE:(timestamp)2003-10-18 05:37:02.0
+LAST_UPDATED_BY:(int)-1
+CREATION_DATE:(timestamp)1991-03-01 00:00:00.0
+CREATED_BY:(int)20243
+OBJECT_VERSION_NUMBER:(int)10

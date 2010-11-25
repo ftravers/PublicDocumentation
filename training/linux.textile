@@ -46,7 +46,7 @@ Preview Scale = 100
 Background Gradient = All Black
 Others = All white
 *** Bindings
-Move Up/Down/Next/Prev = Ctrl - <direction arrow>
+Move Up/Down/Next/Prev = Ctrl-Alt - i/,/l/j
 
 ** (Edit) Window Management > Grid
 Remove Alt from all key bindings

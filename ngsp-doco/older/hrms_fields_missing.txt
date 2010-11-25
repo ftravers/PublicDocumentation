@@ -1,0 +1,54 @@
+*** IMPORTANT ***
+We NEED keys in each of the views so we can do joins on them!  I don't see any field I can use as a key in each of the views provided so far so please advise.
+
+Views provided so far: MISSECURE.PN_LOCATIONS_ALL, MISSECURE.PN_ADDRESSES_ALL, MISSECURE.PN_SPACE_ASSIGN_EMP_ALL
+
+-----------------------------------------------------------------------------------------------------------------
+status..description...example.....................view...............col_name(s)
+-----------------------------------------------------------------------------------------------------------------
+N....Job Title.......Senior Business Analyst..
+N....First Name......Jason....................
+N....Last Name.......Miao.....................
+N....User Email......jason.miao@oracle.com....
+N....Employee #......HK00469..................
+N....Cellular #......+ 852 9307 6641..........
+N....Work Ph. #......+ 852 3655 7772..........
+N....Time Zone.......(GMT+08:00)Beijing.......
+N....Global UID......JASMIAO..................
+N....User Type.......Employee.................
+Y....Status..........Active...................MISSECURE.PN_LOCATIONS_ALL..........STATUS
+N....Manager.........Mitch Kreaden............
+M....Organization....GSS Network Operations...MISSECURE.PN_ADDRESSES_ALL..........ORG_ID ( this is just an id do we need to a lookup table too?)
+Y....Cost Center.....Y731.....................MISSECURE.PN_SPACE_ASSIGN_EMP_ALL...
+Y....Address.........39/F Gardens 33 Hysan....MISSECURE.PN_ADDRESSES_ALL..........ADDRESS_ID, ADDRESS_LINE(1-4)
+Y....Floor...........46.......................MISSECURE.PN_LOCATIONS_ALL..........FLOOR
+Y....Office..........46117....................MISSECURE.PN_LOCATIONS_ALL..........OFFICE
+Y....Country.........HK.......................MISSECURE.PN_ADDRESSES_ALL..........COUNTRY
+Y....City............Hong Kong................MISSECURE.PN_ADDRESSES_ALL..........CITY
+--------------------------------------------------------------------------------------------
+status legend:
+	Y = yes we have the field and can begin work, 
+	N = no we don't see the field in the provided data, 
+	M = maybe, can't tell if this is enough yet
+
+
+
+N Job Title: Senior Business Implementation Analyst, Service Platform
+N First Name: Jason
+N Last Name: Miao
+N User Email: jason.miao@oracle.com
+N Employee #: HK00469
+N Cellular #: + 852-93076641
+N Work Phone #: + 852 36557772
+N Time Zone: (GMT+08:00)Beijing, Chongqing, Hong Kong, Urumqi
+N Global UID: JASMIAO
+N User Type: Employee
+N Manager: Mitch Kreaden
+
+Y Status: Active
+Y Cost Center: Y731
+Y Location_All Address: 39/F The Lee Gardens 33 Hysan Avenue
+Y Floor: 46
+Y Office: 46117
+Y Country: HK
+Y City: Hong Kong

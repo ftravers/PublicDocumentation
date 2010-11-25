@@ -1,0 +1,4 @@
+OVS - star-vmsvr1.hk.oracle.com
+root password - Pass99Word
+
+ngsp machine: xps.hk.oracle.com

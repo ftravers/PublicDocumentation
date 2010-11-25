@@ -624,3 +624,21 @@ bc.
 (import
   '(java.util Calendar GregorianCalendar)
   '(javax.swing JFrame JLabel))
+
+h1. Projects
+
+h2. Scrape a web page
+
+So for this project, I want to parse some JSON XML that I get by
+calling a URL.
+
+The java code uses the HttpClient library and looks like:
+
+bc. 
+String url = "http://search.oracle.com?&search.timezone=-480&group=All&search_p_main_operator=all";
+HttpClient client = new HttpClient();
+client.getHostConfiguration().setProxy("www-proxy.us.oracle.com", 80);
+GetMethod method = new GetMethod(url);
+method.getResponseBodyAsString();
+
+So the first step is to get the dependent library in place.

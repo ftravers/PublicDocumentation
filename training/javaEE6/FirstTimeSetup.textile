@@ -18,7 +18,8 @@ Modify -DgroupId & -DartifactId to reflect YOUR project names.
 
 bc. mvn archetype:generate  -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false -DgroupId=com.oracle.git -DartifactId=MvnSesFe
 
-* Modify the pom.xml.  Add the single dependency, and update packaging to be war.
+* Modify the pom.xml.  Add the single dependency, update packaging to
+  be war, and add 1.6 compiling.
 
 bc. 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -40,6 +41,19 @@ bc.
 			<version>6.0</version>
 		</dependency>
 	</dependencies>
+	<build>
+		<finalName>MvnSesFe</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
 
 * Add missing dirs:

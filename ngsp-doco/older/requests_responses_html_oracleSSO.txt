@@ -1,0 +1,116 @@
+(1)
+-> GET: https://global-ebusiness.oraclecorp.com/OA_HTML/AppsLogin
+<- 302 Redirect
+Location: https://login.oracle.com/pls/orasso/orasso.wwsso_app_admin.ls_login?...
+Set-Cookie: BIGipServergsiap_ssa_http
+
+Cookie State:
+global-ebusiness.oraclecorp.com: BIGipServergsiap_ssa_http
+---------
+(2)
+-> GET: https://login.oracle.com/pls/orasso/orasso.wwsso_app_admin.ls_login?...
+<- 302 Moved Temporarily
+Location: https://login.oracle.com/mysso/signon.jsp?...
+Set-Cookie: ORASSO_AUTH_HINT, BIGipServerloginocs_new_pool
+
+Cookie State:
+global-ebusiness.oraclecorp.com: BIGipServergsiap_ssa_http
+login.oracle.com: ORASSO_AUTH_HINT, BIGipServerloginocs_new_pool
+
+---------
+(3)
+-> GET: https://login.oracle.com/mysso/signon.jsp?...
+Cookie: ORASSO_AUTH_HINT,  BIGipServerloginocs_new_pool
+<- 200 OK
+Set-Cookie: BIGipServerloginocs_new_pool
+
+Cookie State:
+global-ebusiness.oraclecorp.com: BIGipServergsiap_ssa_http
+login.oracle.com: ORASSO_AUTH_HINT, BIGipServerloginocs_new_pool(updated)
+
+---------
+(4)
+-> POST: https://login.oracle.com/sso/auth
+Referer: https://login.oracle.com/mysso/signon.jsp?...
+Cookie: ORASSO_AUTH_HINT,  BIGipServerloginocs_new_pool
+Post-Params: v, site2pstoretoken, locale, ssousername, password
+<- 302 Moved Temporarily
+Location: https://global-ebusiness.oraclecorp.com/osso_login_success?...
+Set-Cookie: ORASSO_AUTH_HINT, SSO_ID, ORA_UCM_INFO, ORA_UCM_VER, ORA_UCM_SRVC
+
+Cookie State:
+global-ebusiness.oraclecorp.com: BIGipServergsiap_ssa_http
+login.oracle.com: ORASSO_AUTH_HINT(updated), BIGipServerloginocs_new_pool, SSO_ID, ORA_UCM_INFO, ORA_UCM_VER, ORA_UCM_SRVC
+
+---------
+(5)
+-> GET: https://global-ebusiness.oraclecorp.com/osso_login_success?...
+Referer: https://login.oracle.com/mysso/signon.jsp?...
+Cookie: BIGipServergsiap_ssa_http
+<- 302 Found
+Location: https://global-ebusiness.oraclecorp.com/OA_HTML/AppsLogin
+Set-Cookie: OHS-global-ebusiness.oraclecorp.com-443, BIGipServergsiap_ssa_http
+
+Cookie State:
+global-ebusiness.oraclecorp.com: BIGipServergsiap_ssa_http(updated), OHS-global-ebusiness.oraclecorp.com-443
+login.oracle.com: ORASSO_AUTH_HINT(updated), BIGipServerloginocs_new_pool, SSO_ID, ORA_UCM_INFO, ORA_UCM_VER, ORA_UCM_SRVC
+
+---------
+(6)
+-> GET: https://global-ebusiness.oraclecorp.com/OA_HTML/AppsLogin
+Referer: https://login.oracle.com/mysso/signon.jsp?...
+Cookie: BIGipServergsiap_ssa_http,  OHS-global-ebusiness.oraclecorp.com-443, 
+<- 302 Moved Temporarily
+Location: https://global-ebusiness.oraclecorp.com:443/OA_HTML/OA.jsp?OAFunc=OAHOMEPAGE
+Set-Cookie: GSI, BIGipServergsiap_ssa_http
+
+Cookie State:
+global-ebusiness.oraclecorp.com: BIGipServergsiap_ssa_http(updated), OHS-global-ebusiness.oraclecorp.com-443, GSI
+login.oracle.com: ORASSO_AUTH_HINT(updated), BIGipServerloginocs_new_pool, SSO_ID, ORA_UCM_INFO, ORA_UCM_VER, ORA_UCM_SRVC
+---------
+(7)
+-> GET: https://global-ebusiness.oraclecorp.com/OA_HTML/OA.jsp?OAFunc=OAHOMEPAGE
+Referer: https://login.oracle.com/mysso/signon.jsp?...
+Cookie: BIGipServergsiap_ssa_http,  OHS-global-ebusiness.oraclecorp.com-443,  GSI
+<- 200 OK
+Set-Cookie: JSESSIONID, BIGipServergsiap_ssa_http
+
+Cookie State:
+global-ebusiness.oraclecorp.com: JSESSIONID, BIGipServergsiap_ssa_http(updated), OHS-global-ebusiness.oraclecorp.com-443, GSI
+login.oracle.com: ORASSO_AUTH_HINT(updated), BIGipServerloginocs_new_pool, SSO_ID, ORA_UCM_INFO, ORA_UCM_VER, ORA_UCM_SRVC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

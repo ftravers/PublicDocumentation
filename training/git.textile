@@ -363,3 +363,17 @@ h1(#gitOnWindows). Using Git on Windows
 * Send me your public key generated from "Setup SSH":/training/ssh.html#keypair
 
 Then you can do the rest of the commands for Git specified above.
+
+h1. Recipes
+
+h2. Restore deleted file
+
+Q: I deleted a file, committed that delete.  How do I find the commit where that file was deleted and how do I restore just that file?
+
+A: Find the last commit that affected the given path. As the file isn't in the HEAD commit, this commit must have deleted it.
+
+bc. git rev-list -n 1 HEAD -- <file_path>
+
+Then checkout the version at the commit before.
+
+bc. git checkout <deleting_commit>^ -- <file_path>

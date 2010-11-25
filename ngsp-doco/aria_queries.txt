@@ -1,0 +1,65 @@
+ARIA PEOPLE SQL
+---------------
+        select
+                p.person_id,
+                peo.employee_number empno,
+                peo.last_name last_name,
+                peo.first_name first_name,
+                peo.known_as aka,
+                peo.pre_name_adjunct last_name_prefix,
+                lower(peo.email_address) email,
+                upper(peo.global_user_id) userid,
+                upper(peo.global_user_id) attribute01,
+                discretionary_title title,
+                j.name official_title,
+                jd.function,
+                jd.specialist_area,
+                jd.global_career_level,
+                o.local_lob line_of_business,
+                p.product_association product_association,
+                phone.phone_number work_phone,
+                p.location_id,
+                o.cost_center_name organization,
+                p.supervisor_id mgr_person_id,
+                to_number(case when length(replace(translate(o.hr_rep,'0123456789','0000000000'),'0')) > 0 then null else o.hr_rep end) hr_rep_person_id,
+                to_number(case when length(replace(translate(o.hr_mgr,'0123456789','0000000000'),'0')) > 0 then null else o.hr_mgr end) hr_mgr_person_id,
+                u.person_type_id,
+                t.user_person_type person_type_desc,
+                p.business_group_id,
+                o.cost_center,
+                peo.current_employee_flag current_flag,
+                peo.english_first_name attribute08,
+                peo.english_last_name attribute09
+          from  MISSECURE.HR_ASSIGNMENT_L1_L2_DATA_V p,
+                MISSECURE.HR_PEOPLE_L1_L2_DATA_V peo,
+                MISSECURE.HR_ORGANIZATION_LOOKUP_V o,
+                MISSECURE.hr_person_type_usages_l1_l2_v u,
+                MISSECURE.hr_person_types_lookup_v t,
+                (select * from MISSECURE.hr_phones_l1_l2_data_v where phone_type = 'W1') phone,
+                MISSECURE.hr_jobs_lookup_v j,
+                MISSECURE.hr_job_definitions_l3_l4_v jd
+         where  trunc(sysdate) between
+                  trunc(p.effective_start_date)
+                  and trunc(p.effective_end_date)
+           and  peo.person_id (+) = p.person_id
+           and  p.person_id = u.person_id
+           and  o.organization_id (+) = p.organization_id
+           and  u.person_type_id = t.person_type_id
+           and  trunc(sysdate) between
+                   u.effective_start_date
+                   and u.effective_end_date
+           and  (trunc(sysdate) between
+                   peo.effective_start_date
+                   and peo.effective_end_date)
+           and  t.user_person_type = 'Employee'
+           and  t.system_person_type = 'EMP'
+           and  p.primary_flag = 'Y'
+           and  p.person_id != 10443939
+           and  p.assignment_type = 'E'
+           and  p.user_person_type != 'Agency'
+           and  p.assignment_status_type_id != 8444468
+           and  phone.parent_id (+) = p.person_id
+           and  j.job_id (+) = p.job_id
+           and  jd.job_definition_id(+) = j.job_definition_id
+           and p.person_id in( 305321,887492517) -- phi, jason --
+           and rownum < 6;

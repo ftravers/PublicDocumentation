@@ -1,0 +1,13 @@
+Web Services Links:
+
+http://www.coderanch.com/t/224372/Web-Services/java/New-article-Web-Services-Authentication
+
+http://www.javaranch.com/journal/200603/Journal200603.jsp#a2
+
+https://saaj.dev.java.net/source/browse/*checkout*/saaj/saaj-ri/docs/index.html
+
+http://marc.info/?l=axis-user&m=113174178716398&w=2
+
+http://onjava.com/pub/a/onjava/2002/06/12/form.html
+
+http://forums.oracle.com/forums/thread.jspa?threadID=1059539&stqc=true
