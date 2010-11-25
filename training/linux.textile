@@ -14,72 +14,47 @@ bc. sudo apt-get update
 
 Applications > Ubuntu Software Center > Edit > Software Sources... > Other Software > select the other two partner repositories
 
-* Install Chrome: Just google it and go through google's install instructions.
+setup google chrome preferences > personal stuff ( to sync everything )
 
-* Compiz
+sudo apt-get install compiz compizconfig-settings-manager compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do gnome-do-plugins texlive-full emacs clisp slime latexdiff git-core git-gui gitosis gitweb ant maven2 pidgin meld apache2 auctex libtiff-tools openoffice.org transmission cups-pdf gimp xmlcopyeditor shutter
 
-bc. 
-sudo apt-get install compiz compizconfig-settings-manager compiz-fusion-plugins-extra
-ccsm
+set gnome-do to be alt-space, and hide on first startup.
 
-Add the following:
-
-** (Add) Effects > Wobbly Windows
-
-** (Remove) Desktop > Viewport Switcher
-
-** (Edit) Desktop > Expo
-*** Bindings
-**** Expo Button = Ctrl - Button5
-**** Drag&Drop = Ctrl - Button1
-**** Exit Expo = Ctrl - Button4
-*** Appearance
-Viewport Distance = .15
-Hide panels/docs in expo = checked
-Mipmaps = checked
-Brightness = 71
-Saturation = 62
-
-** (Edit) Desktop > Desktop Wall
-*** Viewport Switch Preview
-Preview Scale = 100
-Background Gradient = All Black
-Others = All white
-*** Bindings
-Move Up/Down/Next/Prev = Ctrl-Alt - i/,/l/j
-
-** (Edit) Window Management > Grid
-Remove Alt from all key bindings
-
-** (Remove) Static Application Switcher
-
-** (Add) Application Switcher
-*** Next Window = Ctrl-Super-KPRight
-*** Prev Window = Ctrl-Super-KPLeft
-
-** (Add) Shift Switcher (resolve conflict by setting dont set terminiate)
-*** Bindings
-**** Next Window = Alt-Tab
-**** Prev Window = Alt-Shift-Tab
-
-** (Edit) Scale
-*** Bindings
-**** Initiate Window Picker = Super-KP5(begin)
-**** Initiate Window Picker for all Windows = Ctrl-Super-KP5(begin)
-
-
-* gnome-do
-
-System > Preferences > Keyboard Shortcuts > Window Management > Activate the window Menu = Disabled
+get the git stuff...
 
 bc. 
-sudo apt-get build-dep gnome-do
-sudo apt-get install gnome-do gnome-do-plugins
+~$ git config --global user.name "Fenton Travers"
+~$ git config --global user.email fenton.travers@gmail.com
 
-* Package Manager = texlive-full, emacs, clisp, slime, latexdiff, git-core, git-gui, gitosis, gitweb, ant, maven, pidgin, meld, apache2, auctex, libtiff-tools, openoffice.org, transmission, cups-pdf, gimp, xmlcopy, shutter
+* email id_rsa.pub to computer that can add you to gitosis-admin.
+
+bc. 
+~$ mkdir projects
+~$ cd projects/
+~/projects$ git clone ft_git3@spicevan.com:documentation.git
+~/projects$ git clone ft_git3@spicevan.com:crmod-ws-wrapper.git
+~/projects$ git clone ft_git3@spicevan.com:rtbDispute.git
+~/projects$ git clone ft_git3@spicevan.com:lisp.git
+~/projects$ git clone ft_git3@spicevan.com:myConfig.git
+~/projects$ git clone ft_git3@spicevan.com:SesReader.git
+~/projects$ git clone ft_git3@spicevan.com:gitosis-admin.git
+~/projects$ git clone ft_git3@spicevan.com:CRMOD_WS_Writer.git
+~/projects$ git clone ft_git3@spicevan.com:ngsp-doco.git
+~/projects$ git clone ft_git3@spicevan.com:elisp.git
+~/projects$ git clone ft_git3@spicevan.com:pdit.git
+~/projects$ cd myConfig/
+~/projects/myConfig$ sudo ./setConfigRsync.sh 
+
+* ~$ mkdir ~/.emacs.d/cache
+
+* Import Compiz profile
+
+* System > Preferences > Keyboard Shortcuts > 
+** Desktop > Lock screen (disable (BACKSPACE))
+** Window Management > Activate the window Menu = Disabled
 
 * Web Downloads
-"java":#java, eclipse
+Eclipse, SQLDeveloper
 
 h2. Set Open DSN Servers
 
@@ -98,6 +73,8 @@ h2. Printers
 
 h2. Pidgin
 
+* Tools > Preferences > Show system tray icon: Always
+
 * Oracle Account
 
 ** Basic
@@ -110,8 +87,7 @@ require ssl/tsl = checked
 force old (port 5223) ssl = checked
 connect port = 5223
 connect server = stbeehive.oracle.com
-file transfer proxies = proxy.eu.jabber.org
-proxy type = use gnome proxy settings
+
 
 * Gmail Account
 ** Basic
@@ -120,40 +96,24 @@ domain = gmail.com
 ** Advanced
 require ssl/tsl = checked
 
-Notifications: In Pidgin, go to Tools > Plugins and select Libnotify and then click Configure Plugin and uncheck what you don't want.
+h2. SQLDeveloper & Eclipse
 
-h2. SQLDeveloper
-
-you need a *.desktop file for SQLDeveloper too.  Something like:
+See "here":#ubuntuInstall for specific details.
 
 bc. 
-oracle@oracle-laptop:~/projects/myConfig$ cat SQLDeveloper.desktop 
-[Desktop Entry]
-Name=SQL Developer
-Comment=SQL Developer Program
-Exec=/bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
-Icon=/home/oracle/bin/sqldeveloper/icon.png
-Type=Application
-Categories=Development;Database;
-Path=/home/oracle/bin/sqldeveloper/
+cd projects/myConfig/
+desktop-file-validate Eclipse.desktop
+desktop-file-validate SQLDeveloper.desktop 
+sudo desktop-file-install Eclipse.desktop
+sudo desktop-file-install SQLDeveloper.desktop
 
-Should do the trick.  Run it once by hand to set the JDK path.
+Run SQLDeveloper once by hand to set the JDK path.
 
-h2. Eclipse
+/bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
 
-Now to get a proper icon for Eclipse in Ubuntu create a file called ~/Eclipse.desktop like:
+set your jvm home to: /usr/lib/jvm/java-6-sun
 
-bc. 
-[Desktop Entry]
-Name=Eclipse - Helios
-Comment=Eclipse - Helios, IDE
-Exec=/home/ftravers/bin/eclipse_3.6.1/eclipse
-Icon=/home/ftravers/bin/eclipse_3.6.1/icon.xpm
-Type=Application
-Categories=Development;IDE;
-Path=/home/ftravers/bin/eclipse_3.6.1/
-
-See "here":#ubuntuInstall for the rest of the details.
+Now you should find the icons to launch the apps under: Applications > Programming.
 
 h2. Startup Programs
 
@@ -170,6 +130,8 @@ h2. VPN
 h2. Config
 
 * "Generate your ssh key pair":ssh.html#keypair
+
+* Add plugin downthemall to firefox.
 
 h2. Package Management
 
@@ -446,5 +408,71 @@ bc.
 jpbox:/u01/Shared	/mount/jpbox		nfs	defaults	0 0
 [root@vl-vmsrv2 ~]# mount -a
 
+h2. Compiz Settings
+
+Add the following:
+
+** (Add) Effects > Wobbly Windows
+
+** (Remove) Desktop > Viewport Switcher
+
+** (Edit) Desktop > Expo
+*** Bindings
+**** Expo Button = Ctrl - Button5
+**** Drag&Drop = Ctrl - Button1
+**** Exit Expo = Ctrl - Button4
+*** Appearance
+Viewport Distance = .15
+Hide panels/docs in expo = checked
+Mipmaps = checked
+Brightness = 71
+Saturation = 62
+
+** (Edit) Desktop > Desktop Wall
+*** Viewport Switch Preview
+Preview Scale = 100
+Background Gradient = All Black
+Others = All white
+*** Bindings
+Move Up/Down/Next/Prev = Ctrl - <direction arrow>
+
+** (Edit) Window Management > Grid
+Remove Alt from all key bindings
+
+** (Remove) Static Application Switcher
+
+** (Add) Application Switcher
+*** Next Window = Ctrl-Super-KPRight
+*** Prev Window = Ctrl-Super-KPLeft
+
+** (Add) Shift Switcher (resolve conflict by setting dont set terminiate)
+*** Bindings
+**** Next Window = Alt-Tab
+**** Prev Window = Alt-Shift-Tab
+
+** (Edit) Scale
+*** Bindings
+**** Initiate Window Picker = Super-KP5(begin)
+**** Initiate Window Picker for all Windows = Ctrl-Super-KP5(begin)
+
+bc. 
+oracle@oracle-laptop:~/projects/myConfig$ cat SQLDeveloper.desktop 
+[Desktop Entry]
+Name=SQL Developer
+Comment=SQL Developer Program
+Exec=/bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
+Icon=/home/oracle/bin/sqldeveloper/icon.png
+Type=Application
+Categories=Development;Database;
+Path=/home/oracle/bin/sqldeveloper/
 
 
+bc. 
+[Desktop Entry]
+Name=Eclipse - Helios
+Comment=Eclipse - Helios, IDE
+Exec=/home/ftravers/bin/eclipse_3.6.1/eclipse
+Icon=/home/ftravers/bin/eclipse_3.6.1/icon.xpm
+Type=Application
+Categories=Development;IDE;
+Path=/home/ftravers/bin/eclipse_3.6.1/
