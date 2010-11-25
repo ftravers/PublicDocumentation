@@ -45,12 +45,13 @@ bc.
 ~/projects$ cd myConfig/
 ~/projects/myConfig$ sudo ./setConfigRsync.sh 
 
-Import Compiz profile
+* ~$ mkdir ~/.emacs.d/cache
 
-System > Preferences > Keyboard Shortcuts > 
+* Import Compiz profile
 
-* Desktop > Lock screen (disable (Backspace Key))
-* Window Management > Activate the window Menu = Disabled
+* System > Preferences > Keyboard Shortcuts > 
+** Desktop > Lock screen (disable (BACKSPACE))
+** Window Management > Activate the window Menu = Disabled
 
 * Web Downloads
 Eclipse, SQLDeveloper
