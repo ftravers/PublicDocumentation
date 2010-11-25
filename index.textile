@@ -10,9 +10,11 @@ Quick Links:
 !(icon)/images/file.gif! "GIT":training/git.html
 !(icon)/images/file.gif! "Groovy & Gradle":training/java/groovy.html
 !(icon)/images/file.gif! "Java":training/java/java.html
+!(icon)/images/file.gif! "JSF":training/javaEE6/jsf.html
 !(icon)/images/file.gif! "Latex":training/latex.html
 !(icon)/images/file.gif! "Linux":training/linux.html
 !(icon)/images/file.gif! "Lisp":training/lisp.html
+!(icon)/images/file.gif! "Managed Beans":training/javaEE6/ManagedBeans.html
 !(icon)/images/file.gif! "Maven":/maven.html
 !(icon)/images/file.gif! "OVM Manager & Template Builder":/jeos/OVM_Manager_TemplateBuilder.html
 !(icon)/images/file.gif! "Oracle VM Commands":/training/oracleVM.html
