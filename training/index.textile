@@ -7,11 +7,8 @@ p(toc). Navigation
 h1. Java EE 6
 
 !(icon)/images/file.gif! "First Time Setup":javaEE6/FirstTimeSetup.html
-!(icon)/images/file.gif! "Facelets":javaEE6/Facelets.html
 !(icon)/images/file.gif! "JSF":javaEE6/jsf.html
-!(icon)/images/file.gif! "Managed Beans":javaEE6/ManagedBeans.html
 !(icon)/images/file.gif! "Maven / Eclipse First Time Setup":javaEE6/MavenEclipseSetupSteps.html
-!(icon)/images/file.gif! "Navigation":javaEE6/Navigation.html
 !(icon)/images/file.gif! "Persistence":javaEE6/persistence.html
 !(icon)/images/file.gif! "Security":javaEE6/security.html
 !(icon)/images/file.gif! "Servlets":javaEE6/servlet.html
