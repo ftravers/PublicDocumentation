@@ -54,7 +54,7 @@ bc.
 ** Window Management > Activate the window Menu = Disabled
 
 * Web Downloads
-Eclipse, SQLDeveloper
+Eclipse, SQLDeveloper, Skype
 
 h2. Set Open DSN Servers
 
