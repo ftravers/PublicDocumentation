@@ -349,6 +349,11 @@ h3. JSF Tag Library Reference
 
 * "JSF Tag Library Reference":http://www.horstmann.com/corejsf/jsf-tags.html
 
+h4. Notes
+
+|| field             || note                          || example                             ||
+|style               | direct style info              | style="color:#00ff00;font-size:200%" |
+|styleClass          | name of CSS class              | styleClass="myClass"                 |
 
 
 h1. JSF Phases
