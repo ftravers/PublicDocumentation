@@ -1,6 +1,6 @@
  <project default="deploy" name="Documentation">
   <property name="webFinalDir" value="${user.home}/bin/website" />
-
+  
 	<path id="wikitext.classpath">
 		<fileset dir="${user.home}/bin/mylyn-wikitext-standalone">
 			<include name="org.eclipse.mylyn.wikitext.*core*.jar" />
