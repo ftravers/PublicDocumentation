@@ -49,7 +49,7 @@ Now that you are VNC'd into the VM.
 
 * Login with @root/ovsroot@.
 * Determine the IP address with: @ifconfig -a@ you are looking for the entry next to @eth0@ that says @inet addr@.
-* Setup an "SSH trust":/ssh.html#sshAutoLogin
+* Setup an "SSH trust":/secure.html#sshAutoLogin
 
 * Static IP: To convert a dhcp OEL to Static IP address edit file:
 
@@ -78,7 +78,7 @@ bc.
 bc. 
 [root@localhost ~]# service network restart
 
-Your terminal session should die here and you can now setup a new "SSH trust":/ssh.html#sshAutoLogin, as trusts are based on IP addresses and you've changed IP Address.
+Your terminal session should die here and you can now setup a new "SSH trust":/secure.html#sshAutoLogin, as trusts are based on IP addresses and you've changed IP Address.
 
 Finally update your name servers, and root passwords
 

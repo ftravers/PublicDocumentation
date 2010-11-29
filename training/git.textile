@@ -360,7 +360,7 @@ git commit -m"Removed testGetActivities from ServiceRequestTest"     # Command E
 h1(#gitOnWindows). Using Git on Windows
 
 * Install cygwin adding the 'git' & 'openssh' packages when it comes time to select packages
-* Send me your public key generated from "Setup SSH":/ssh.html#keypair
+* Send me your public key generated from "Setup SSH":/secure.html#keypair
 
 Then you can do the rest of the commands for Git specified above.
 
