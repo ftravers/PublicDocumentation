@@ -71,7 +71,7 @@ h1. Misc
 !(icon)/images/file.gif! "Oracle Portal":portal.html
 !(icon)/images/file.gif! "Oracle VM":oracleVM.html
 !(icon)/images/file.gif! "Sendmail":sendmail.html
-!(icon)/images/file.gif! "SSH":ssh.html
+!(icon)/images/file.gif! "SSH":/ssh.html
 !(icon)/images/file.gif! "Textile":textile.html
 
 

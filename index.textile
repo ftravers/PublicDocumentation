@@ -19,7 +19,7 @@ Quick Links:
 !(icon)/images/file.gif! "OVM Manager & Template Builder":/jeos/OVM_Manager_TemplateBuilder.html
 !(icon)/images/file.gif! "Oracle VM Commands":/training/oracleVM.html
 !(icon)/images/file.gif! "Setting up an Oracle Virtual Machine Lab":jeos/SettingUpVirtualLab.html
-!(icon)/images/file.gif! "SSH":training/ssh.html
+!(icon)/images/file.gif! "SSH":/ssh.html
 !(icon)/images/file.gif! "Textile":training/textile.html
 !(icon)/images/file.gif! "Virtual Machines Labs":jeos/virtualMachines.html
 
