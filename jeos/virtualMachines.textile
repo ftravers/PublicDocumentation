@@ -68,3 +68,17 @@ h3(#wcfs). wcfs
 
 This is the VM with Tiji's and Fenton's web apps on it deployed for
 the Conference Room Pilot (CRP).
+
+The tomcat5 configuration directory
+
+bc. /usr/share/tomcat5/webapps
+
+To restart tomcat5
+
+bc. service tomcat5 restart
+
+Linux username and password:
+
+bc. tomcat/welcome1
+
+Url @http://10.179.252.40:8080/@

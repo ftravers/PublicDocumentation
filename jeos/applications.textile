@@ -1,0 +1,17 @@
+h1. Java
+
+bc. yum install java-1.6.0-openjdk
+
+h1. Tomcat
+
+bc. 
+yum install tomcat5
+chkconfig --level 5 tomcat5 on
+
+Open port 8080
+
+bc. /usr/bin/system-config-securitylevel-tui
+
+Customize > other ports > 8080:tcp
+
+
