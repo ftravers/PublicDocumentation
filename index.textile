@@ -10,7 +10,7 @@ Quick Links:
 !(icon)/images/file.gif! "GIT":training/git.html
 !(icon)/images/file.gif! "Groovy & Gradle":training/java/groovy.html
 !(icon)/images/file.gif! "Java":training/java/java.html
-!(icon)/images/file.gif! "JSF":training/javaEE6/jsf.html
+!(icon)/images/file.gif! "JSF":/jsf.html
 !(icon)/images/file.gif! "Latex":training/latex.html
 !(icon)/images/file.gif! "Linux":training/linux.html
 !(icon)/images/file.gif! "Lisp":training/lisp.html
@@ -19,7 +19,7 @@ Quick Links:
 !(icon)/images/file.gif! "OVM Manager & Template Builder":/jeos/OVM_Manager_TemplateBuilder.html
 !(icon)/images/file.gif! "Oracle VM Commands":/training/oracleVM.html
 !(icon)/images/file.gif! "Setting up an Oracle Virtual Machine Lab":jeos/SettingUpVirtualLab.html
-!(icon)/images/file.gif! "SSH":training/ssh.html
+!(icon)/images/file.gif! "SSH":/secure.html
 !(icon)/images/file.gif! "Textile":training/textile.html
 !(icon)/images/file.gif! "Virtual Machines Labs":jeos/virtualMachines.html
 

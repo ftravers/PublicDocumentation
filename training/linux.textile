@@ -132,7 +132,7 @@ h2. VPN
 
 h2. Config
 
-* "Generate your ssh key pair":ssh.html#keypair
+* "Generate your ssh key pair":/secure.html#keypair
 
 * Add plugin downthemall to firefox.
 
