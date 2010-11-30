@@ -52,7 +52,15 @@ h2. Virtual Machines
 
 h3(#linux1). VM: linux1
 
+This VM has the downloaded (from eDelivery) VM with Oracle Virtual Machine
+Builder on it.  When you build a VM it get put in the folder:
+
+bc. ./opt/ovmtb/tarballs/
+
+The folder: @/mnt/vmsrv@ is @vl-vmsrv2:/OVS/downloads@
+
 * unix user/password: oracle/welcome1
+
 
 h3. VM: db1
 
