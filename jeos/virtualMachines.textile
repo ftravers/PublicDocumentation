@@ -26,7 +26,7 @@ h4. All Hosts
 | vl-db1     | free    | 10.179.252.29             | 
 | xps        | free    | 10.179.252.34             |
 | vl-wlp1    | free    | 10.179.252.31             | 
-| linux1     | assigned| ssh root@10.179.252.32    | vl-vmsrv2   | OVM TB Template|
+| "linux1":#linux1     | assigned| ssh root@10.179.252.32    | vl-vmsrv2   | OVM TB Template|
 | vl-wciwcm1 | free    | 10.179.252.35             | 
 | alm        | assigned| ssh root@10.179.252.39    | vl-vmsrv2   | my OVM TB&Mangr |
 | youtube    | free    | 10.179.252.38             |
@@ -50,7 +50,7 @@ h4. Folders
 
 h2. Virtual Machines
 
-h3. VM: linux1
+h3(#linux1). VM: linux1
 
 * unix user/password: oracle/welcome1
 
