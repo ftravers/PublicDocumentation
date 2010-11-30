@@ -50,6 +50,12 @@ h4. Folders
 
 h2. Virtual Machines
 
+h3(#vl-vmsrv2). vl-vmsrv2
+
+* Running VM's folder:
+
+bc. /OVS/running_pool
+
 h3(#linux1). VM: linux1
 
 This VM has the downloaded (from eDelivery) VM with Oracle Virtual Machine
@@ -57,22 +63,9 @@ Builder on it.  When you build a VM it get put in the folder:
 
 bc. ./opt/ovmtb/tarballs/
 
-The folder: @/mnt/vmsrv@ is @vl-vmsrv2:/OVS/downloads@
+The folder: @/mnt/vmsrv@ is @vl-vmsrv2:/OVS/downloads@ so you can copy the VM
+tarballs there.
 
 * unix user/password: oracle/welcome1
 
 
-h3. VM: db1
-
-username/password: root/welcome1
-
-oracle sid: orcl
-
-db: username/password = system/welcome1
-|| User Name  || Used By Virtual Machine  || UCM Instance  ||
-| idc_dam2_user | linux1 | fox_ucm |
-| ucm3 | ucm1  | idc3 |
-| idc_user | ucm1  | idc |
-| idc_dam_test_user | xps | damtest |
-| xps_user | xps | idc |
-| idc_cisdi_user | ucm1 | cisdi |
