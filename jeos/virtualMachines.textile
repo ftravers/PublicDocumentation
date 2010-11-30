@@ -2,7 +2,7 @@
 
 p(toc). Table of Contents
 
-{toc:style=disc|maxLevel=1}
+{toc:style=disc}
 
 h1. Physical
 
