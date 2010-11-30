@@ -43,6 +43,7 @@ h3(#vl-vmsrv2). vl-vmsrv2
 
 h4. Folders
 
+|| Description     || Folder            || Notes         |
 | Virtual Machines | /OVS/running_pool/ |                |
 | NFS exports      | /OVS/downloads     | 450/500GB Free |
 | NFS mounts       | /mount/jpbox       | 100/917GB Free |
