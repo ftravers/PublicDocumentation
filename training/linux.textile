@@ -61,11 +61,11 @@ Eclipse, SQLDeveloper, Skype
 
 h2. Set Open DSN Servers
 
-* Right-click on ‘Network Icon’ (located at top-right panel by default) and click on ‘Edit Connections’ to open Network Connections Manager.
-* Under ‘Wireless’, highlight your wireless connection and click on ‘Edit’.
-* Inside 'Editing Auto etho' window, click on ‘IPv4 Settings’ tab.
-* Under ‘IPv4 Settings’, change the ‘Method’ to Automatic (DHCP) addresses only.
-* Put these nameserver addresses as your ‘DNS Servers’: 208.67.222.222, 208.67.220.220
+set /etc/resolv.conf
+
+bc. 
+nameserver 208.67.222.222 
+nameserver 208.67.220.220
 
 h2. Printers
 
@@ -135,6 +135,13 @@ h2. Config
 * "Generate your ssh key pair":/secure.html#keypair
 
 * Add plugin downthemall to firefox.
+
+h2. Netbeans
+
+bc. 
+~/Downloads$ chmod 755 netbeans-6.9.1-ml-java-linux.sh 
+~/Downloads$ ./netbeans-6.9.1-ml-java-linux.sh 
+
 
 h2. Package Management
 
