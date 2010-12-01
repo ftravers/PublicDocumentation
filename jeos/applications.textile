@@ -14,4 +14,18 @@ bc. /usr/bin/system-config-securitylevel-tui
 
 Customize > other ports > 8080:tcp
 
+Create an @oracle@ user and give sudo permissions.
+
+bc. 
+useradd oracle
+passwd oracle
+usermod -a -G tomcat oracle
+yum install sudo
+visudo
+
+add the following line to the end of the file:
+
+bc. 
+oracle wcfs=/sbin/service tomcat5 restart,/sbin/service tomcat5 stop, /sbin/service tomcat5 start
+
 

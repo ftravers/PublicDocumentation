@@ -66,6 +66,10 @@ tarballs there.
 
 h3(#wcfs). wcfs
 
+bc. ssh oracle@10.179.252.40
+
+password is @welcome1@
+
 This is the VM with Tiji's and Fenton's web apps on it deployed for
 the Conference Room Pilot (CRP).
 
@@ -73,12 +77,11 @@ The tomcat5 configuration directory
 
 bc. /usr/share/tomcat5/webapps
 
-To restart tomcat5
+To restart, stop, start tomcat5:
 
-bc. service tomcat5 restart
-
-Linux username and password:
-
-bc. tomcat/welcome1
+bc. 
+sudo /sbin/service tomcat5 restart
+sudo /sbin/service tomcat5 stop
+sudo /sbin/service tomcat5 start
 
 Url @http://10.179.252.40:8080/@
