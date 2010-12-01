@@ -2,7 +2,7 @@
 
 p(toc). Table of Contents
 
-{toc:style=disc|maxLevel=1}
+{toc:style=disc}
 
 h1. Physical
 
@@ -21,50 +21,64 @@ h4. All Hosts
 * Go to [this page|http://iprequest.oraclecorp.com/] to request additional *Static IP* addresses.
 * All running VM's are located in the directory: */OVS/running_pool*
 
-|| Name      || Status || IP Address               || Hosted On  || Notes  || 
-| vl-ucm1    | free    | 10.179.252.30             |
-| vl-db1     | free    | 10.179.252.29             | 
-| xps        | free    | 10.179.252.34             |
-| vl-wlp1    | free    | 10.179.252.31             | 
-| linux1     | assigned| ssh root@10.179.252.32    | vl-vmsrv2   | OVM TB Template|
-| vl-wciwcm1 | free    | 10.179.252.35             | 
-| alm        | assigned| ssh root@10.179.252.39    | vl-vmsrv2   | my OVM TB&Mangr |
-| youtube    | free    | 10.179.252.38             |
-| ipm        | free    | 10.179.252.41             |
-| wcfs       | free    | 10.179.252.40             |
-| vl-urmses  | free    | 10.179.252.42             |
-| vl-autovue | free    | 10.179.252.37             |
+|| Name            || IP Address   || Notes                            || 
+| vl-ucm1          | 10.179.252.30 |                                   |
+| vl-db1           | 10.179.252.29 |                                   |
+| xps              | 10.179.252.34 |                                   |
+| vl-wlp1          | 10.179.252.31 |                                   |
+| "linux1":#linux1 | 10.179.252.32 | OVM TB Template                   |
+| vl-wciwcm1       | 10.179.252.35 |                                   | 
+| alm              | 10.179.252.39 | my OVM TB&Mangr                   |
+| youtube          | 10.179.252.38 |                                   |
+| ipm              | 10.179.252.41 |                                   |
+| "wcfs":#wcfs     | 10.179.252.40 | web apps for CRP                  |
+| vl-urmses        | 10.179.252.42 |                                   |
+| vl-autovue       | 10.179.252.37 |                                   |
 
 h1. Details
 
 h2. Physical Machines
 
-h3. vl-vmsrv2
+h3(#vl-vmsrv2). vl-vmsrv2
 
 h4. Folders
 
+|| Description     || Folder            || Notes         |
 | Virtual Machines | /OVS/running_pool/ |                |
-| NFS exports      | /OVS/sharedDisk    | 450/500GB Free |
+| NFS exports      | /OVS/downloads     | 450/500GB Free |
 | NFS mounts       | /mount/jpbox       | 100/917GB Free |
 
 
 h2. Virtual Machines
 
-h3. VM: linux1
+h3(#linux1). linux1
+
+This VM has the downloaded (from eDelivery) VM with Oracle Virtual Machine
+Builder on it.  When you build a VM it get put in the folder:
+
+bc. ./opt/ovmtb/tarballs/
+
+The folder: @/mnt/vmsrv@ is @vl-vmsrv2:/OVS/downloads@ so you can copy the VM
+tarballs there.
 
 * unix user/password: oracle/welcome1
 
-h3. VM: db1
 
-username/password: root/welcome1
+h3(#wcfs). wcfs
 
-oracle sid: orcl
+This is the VM with Tiji's and Fenton's web apps on it deployed for
+the Conference Room Pilot (CRP).
 
-db: username/password = system/welcome1
-|| User Name  || Used By Virtual Machine  || UCM Instance  ||
-| idc_dam2_user | linux1 | fox_ucm |
-| ucm3 | ucm1  | idc3 |
-| idc_user | ucm1  | idc |
-| idc_dam_test_user | xps | damtest |
-| xps_user | xps | idc |
-| idc_cisdi_user | ucm1 | cisdi |
+The tomcat5 configuration directory
+
+bc. /usr/share/tomcat5/webapps
+
+To restart tomcat5
+
+bc. service tomcat5 restart
+
+Linux username and password:
+
+bc. tomcat/welcome1
+
+Url @http://10.179.252.40:8080/@
