@@ -1,4 +1,4 @@
-"home":../../index.html > "Training":../index.html > "Java EE 6":index.html > JSF
+"home":/index.html > JSF
 
 p(toc). Table of Contents
 
@@ -343,17 +343,31 @@ h2. Summary
 
 Between the three techniques shown above, _Includes_, _Templates_, and _Composite Components_, you have covered the basics of JSF 2.0 facelets. 
 
-h2. References
+h2. Resource Library
 
-h3. JSF Tag Library Reference
+As of JSF 2.0, the new library and name attributes have been added in
+order to support rendering of images from a resource library. The JSF
+2.0 spec requires that Web application resources be located in the
+/resources folder under the Web application root. Alternatively,
+resources can be located in the META-INF/resources folder of any JAR
+file in the classpath.  Each resource must adhere to the following
+naming convention:
 
-* "JSF Tag Library Reference":http://www.horstmann.com/corejsf/jsf-tags.html
+bc. [localePrefix/][libraryName/][libraryVersion/]resourceName[/resourceVersion]
 
-h4. Notes
+"Reference":http://www.mkyong.com/jsf2/resources-library-in-jsf-2-0/
 
-|| field             || note                          || example                             ||
-|style               | direct style info              | style="color:#00ff00;font-size:200%" |
-|styleClass          | name of CSS class              | styleClass="myClass"                 |
+bc. 
+src/main/webapp/resources
+src/main/webapp/resources/css/style.css
+src/main/webapp/resources/javascript
+src/main/webapp/resources/images
+
+In your JSF:
+
+bc. <h:outputStylesheet name="style.css" library="css" />
+
+In the above cases, @library@ is the folder under resources.
 
 
 h1. JSF Phases
@@ -709,10 +723,39 @@ This site also shows how to inject one java (bean/class) into another.
 
 
 
-
-
-
 h1. Core JSF Tags
+
+h2. References
+
+h3. JSF Tag Library Reference
+
+* "JSF Tag Library Reference":http://www.horstmann.com/corejsf/jsf-tags.html
+
+h3. panelgroup
+
+The panelGroup tag is a container component that renders its child
+components. It is intended to be used in situations where it is
+desirable to include several components but when only one child
+component is allowed, such as within a panelGrid column or a facet
+component.
+
+h3. datatable
+
+for formating tables while iterating the data
+
+bc. 
+
+<%@ taglib prefix="h" uri="http://java.sun.com/jsf/html" %>
+<h:dataTable value="#{dataTableBean.arr}" var="loc">
+ <h:column>
+  <f:facet name="header" >
+   <h:outputText value="Frameworks"/>
+  </f:facet>    
+  <h:outputText value="#{loc}"/>
+ </h:column>
+</h:dataTable>
+
+
 
 h2. Validator
 
