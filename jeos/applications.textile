@@ -59,8 +59,7 @@ ensure the value returned by @hostname@ is on the line (at the end of the line) 
 ensure nothing is running on ports 8080 4848
 
 bc. 
-netstat -atunp | grep 4848
-netstat -atunp | grep 8080
+sudo netstat -atunp | grep 4848; sudo netstat -atunp | grep 8080
 
 h2(glassfish-admin). Admin
 
