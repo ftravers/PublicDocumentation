@@ -76,14 +76,16 @@ $ ./asadmin stop-domain
 
 Watch the logs
 
+bc. 
 $ cd ~/bin/glassfish-3.0.1/glassfish/domains/domain1/logs/
 $ tail -f server.log
 
 See where your app is deployed to:
 
+bc. 
 $ cd ~/bin/glassfish-3.0.1/glassfish/domains/domain1/applications
 $ find .
 
-Automatically Deploy/Undeploy
+h3. Automatically Deploy/Undeploy
 
 cp sample-dir/hello.war as-install/domains/domain1/autodeploy
