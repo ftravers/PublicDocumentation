@@ -1,3 +1,21 @@
+h1. NFS
+
+bc. 
+yum install nfs-utils
+mount -t rpc_pipefs sunpc /var/lib/nfs/rpc_pipefs
+service portmap start
+service iptables stop
+service nfs start
+mount -a
+
+client: /etc/fstab example:
+
+bc. vl-vmsrv2:/OVS/downloads	/mnt/vmsrv	nfs	defaults	0 0
+
+server: /etc/mounts example:
+
+bc. /OVS/downloads *(rw,sync,all_squash,anonuid=500,anongid=500)
+
 h1. Java
 
 bc. yum install java-1.6.0-openjdk
@@ -28,4 +46,44 @@ add the following line to the end of the file:
 bc. 
 oracle wcfs=/sbin/service tomcat5 restart,/sbin/service tomcat5 stop, /sbin/service tomcat5 start
 
+h1. Glassfish
 
+Setup the WWW proxy so wget will work.  You'll probably have a different URL to download glassfish from.
+
+bc. 
+export http_proxy=http://www-proxy.sg.oracle.com
+wget -c http://files.spicevan.com/glassfish-3.0.1.zip
+yum install unzip
+
+ensure the value returned by @hostname@ is on the line (at the end of the line) for the 127.0.0.1 ipaddress
+ensure nothing is running on ports 8080 4848
+
+bc. 
+netstat -atunp | grep 4848
+netstat -atunp | grep 8080
+
+h2(glassfish-admin). Admin
+
+Deploy/Undeploy
+
+bc. 
+$ cd ~oracle/bin/glassfish-3.0.1/glassfish/bin
+$ ./asadmin list-applications
+$ ./asadmin deploy ~/projects/MvnSesFe/target/SES.war 
+$ ./asadmin undeploy com.oracle.git_MvnSesFe_war_1.0-SNAPSHOT
+$ ./asadmin start-domain
+$ ./asadmin stop-domain
+
+Watch the logs
+
+$ cd ~/bin/glassfish-3.0.1/glassfish/domains/domain1/logs/
+$ tail -f server.log
+
+See where your app is deployed to:
+
+$ cd ~/bin/glassfish-3.0.1/glassfish/domains/domain1/applications
+$ find .
+
+Automatically Deploy/Undeploy
+
+cp sample-dir/hello.war as-install/domains/domain1/autodeploy
