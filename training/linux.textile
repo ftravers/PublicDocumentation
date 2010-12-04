@@ -486,3 +486,14 @@ Icon=/home/ftravers/bin/eclipse_3.6.1/icon.xpm
 Type=Application
 Categories=Development;IDE;
 Path=/home/ftravers/bin/eclipse_3.6.1/
+
+
+h1. Redhat derivatives
+
+h2. rpm
+
+For installing a software package, you use the rpm command with -i
+option (which stands for "install"). For example, to install an RPM
+package called software-2.3.4.rpm:
+
+bc. # rpm -i software-2.3.4.rpm
