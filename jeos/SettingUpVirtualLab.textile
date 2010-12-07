@@ -28,9 +28,9 @@ Select a Product Pack: Oracle VM
 Platform: x86 32 bit
 Oracle VM Templates for Oracle VM Manager 2.1.5 Media Pack for x86 (32 bit)
 
-h2. Template Builder Template
+h2(#tbt). Template Builder Template
 
-You will download the template build template.  
+In the previous step you downloaded the TBT(Template Builder Template).  
 This is a virtual machine that you will untar on your OVMS.  
 Then you will launch it.  Steps:
 
@@ -52,21 +52,21 @@ vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']
 vif = ['type=netfront']
 [root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]#
 
-Notice the changes I've made from the default vm.cfg.  The location of the file images will need updating.  Launch the vm with:
+Notice the changes I've made from the default vm.cfg.  The location of the file images (System.img & data.img) will need updating.  Launch the vm with:
 
 bc. 
 [root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]# xm create vm.cfg
 
 h3. Configure Template Builder Template
 
-Follow all the steps in the following documentation section:
+Follow all the steps in the following documentation section to setup a static ip and hostname for the TBT.
 
 * "Setup a static IP and ...":/jeos/oel_detail_setup.html#staticIp
 
 h3. TB Web Interface
 
-Now that the network is properly setup, we can SSH into the machine and 
-abandon our VNC client from now on in.  Lets assume that the machine name 
+Now that the network is properly setup, we can SSH(Secure Shell) into the machine and 
+abandon our VNC(Virtual Network Client) client from now on in.  Lets assume that the machine name 
 is: @tb@ and that it's IP Address is: @192.168.8.3@.
 
 Rebooting this machine we can then open a browser on your laptop and put the following URL in:
@@ -78,7 +78,7 @@ be the password.
 
 h3. Getting the JeOS Template
 
-Again from: "eDelivery":http://edelivery.oracle.com/linux we can grab the JeOS templates we want.
+Again from: "eDelivery":http://edelivery.oracle.com/linux we can grab the JeOS(Just enough Operating System) templates we want.
 
 bc. 
 Select a Product Pack: Oracle Linux
@@ -118,6 +118,39 @@ Preparing...                ########################################### [100%]
    1:ovm-el5u5-xvm-jeos     ########################################### [100%]
 [root@linux1 jeos]# 
 
+h3. Build first template
+
+Now we can build our first template.  The first template we'll build is one that will contain several useful functions.  We'll put our own Template Builder on it...this way we can throw away the one we downloaded.  Lets get started with that, and we can add more software onto the image later.
+
+h4. Setup New Template
+
+* In the web ui @http://tb/ovmtb@ you can select the ''New Template Project'' button on the top right.  
+
+* We can name this template after the size of the system disk we will allocate to it and the OS it will be running.  Lets choose: @sys12gb_swp1gb_oel5u5@, meaning we'll assign a 12GB system disk and install OEL(Oracle Enterprise Linux) 5 update 5 into it.
+
+* Choose @EL55_i386_PVM_jeos@, as the JeOS Image, and hit next.  PVM(Para-Virtualized Machine) is _WAY_ faster than a HVM(Hosted Virtual Machine).  This is fine for OEL(Oracle Enterprise Linux), but if we want a Windows VM, we are stuck using HVM.  (Note: there are PVM drivers for windows which we can install to minimize the slowness of HVM)
+
+* We simply don't care about VCPUs and Memory as these are trivial to change after the fact.  System disk size and Swap space, however are harder to change.  The general rule of thumb for swap space is that it should be twice the RAM.  For our purposes, I want this template to have a SLIM memory footprint, so 512 RAM should be okay, and we'll set the swap to be 1024.  We can set the System disk size to be 12GB, which is: 12288MB.  Hit next.
+
+* Don't specify a YUM repo, or ISO image. Next.  Don't specify any packages. Next. Skip Additional Packages. Next. Click @Save and Build@.  It will take some time (maybe ~5-10 minutes) so relax and have a beer! :)
+
+h4. Using the new template
+
+The new template will be saved to:
+
+bc. /opt/ovmtb/tarballs
+
+as it reports in the status window.  Lets copy that to our VM server, which is easy because of the NFS mounts.
+
+bc. # cp project_3.tgz /mnt/vmsrv/
+
+Login to the VM server and extract it.
+
+bc. 
+# mv  /OVS/downloads/project_3.tgz /OVS/running_pool/
+# tar xvfz /OVS/running_pool/project_3.tgz
+
+Cleanup the vm.cfg file, in a "similar way to the TBT above":#tbt.
 
 h1. Glossary
 

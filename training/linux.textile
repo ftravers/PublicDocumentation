@@ -16,7 +16,7 @@ Applications > Ubuntu Software Center > Edit > Software Sources... > Other Softw
 
 setup google chrome preferences > personal stuff ( to sync everything )
 
-sudo apt-get install compiz compizconfig-settings-manager compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do gnome-do-plugins texlive-full emacs clisp slime latexdiff git-core git-gui gitosis gitweb ant maven2 pidgin meld apache2 auctex libtiff-tools openoffice.org transmission cups-pdf gimp xmlcopyeditor shutter vlc rar acroread p7zip-full
+sudo apt-get install compiz compizconfig-settings-manager compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do gnome-do-plugins texlive-full emacs clisp slime latexdiff git-core git-gui gitosis gitweb ant maven2 pidgin meld apache2 auctex libtiff-tools openoffice.org transmission cups-pdf gimp xmlcopyeditor shutter vlc rar acroread p7zip-full dia virtualbox-ose
 
 some vnc's r good to add too.
 
@@ -155,22 +155,42 @@ h2. Package Management
 
 h3. Package Details
 
+h4. List all installed packages
+
+bc. dpkg --get-selections > installed-software
+
+h4. Re-install based on above list
+
+bc. dpkg --set-selections < installed-software; dselect
+
+h4. Package info
+
 To determine info about a given package do:
 
 bc. 
 dpkg -p <package_name>
 dpkg -p clisp
 
-List files installed to your system from package.
+h4. List files installed to your system from package.
 
 bc. 
 dpkg -L package-Name
 
 
-List contents of a deb package.
+h4. List contents of a deb package.
 
 bc. 
 dpkg -c filename
+
+h4. re-install
+
+apt-get --reinstall install <package>
+
+h4. purge
+
+apt-get --purge remove <package>
+
+can also do: @dpkg --purge <package>@ then try re-install
 
 h2. Setting up Lisp
 
@@ -308,6 +328,10 @@ The example below sets two environment variables: @PATH@ and @JAVA_HOME@.  Notic
 bc. 
 export PATH=$PATH:/home/ft/bin/apache-maven-2.2.1/bin:/home/ft/bin/jdk1.6.0_18/bin
 export JAVA_HOME=/home/ft/bin/jdk1.6.0_18
+
+* Global Environment Variables
+
+Try: @/etc/bash.bashrc@
 
 h2. Aliasing
 

@@ -305,14 +305,38 @@ domain name and app name, then change the artifact id to something
 like @app-web@.  This will create a folder called @app-web@ in your
 code development folder.
 
+h3. Generic
+
+Simple Java project, suitable for JAR generation. Maven 2 default.
+
 bc. mvn archetype:generate
 -DarchetypeArtifactId=maven-archetype-quickstart
 -DinteractiveMode=false -DgroupId=com.mycompany.app
 -DartifactId=my-app
 
+h3. Web
+
+Creates a web application project (WAR), with a simple Hello World JSP.
+
+bc. mvn archetype:generate
+-DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+-DgroupId=com.mycompany.app -DartifactId=my-app
+
+h3. J2EE
+
+Creates a J2EE project (EAR), with directories and subprojects for the
+EJBs, servlets, etc.
+
+bc. mvn archetype:generate
+-DarchetypeArtifactId=maven-archetype-j2ee-simple
+-DinteractiveMode=false -DgroupId=com.mycompany.app
+-DartifactId=my-app
+
+
 h2(#eclipsify). Eclips'ify
 
-@cd@ into the @app-web@ folder and make your project suitable for using with eclipse
+@cd@ into the @app-web@ folder and make your project suitable for
+using with eclipse
 
 bc. 
 cd app-web

@@ -51,12 +51,14 @@ h4. Folders
 
 h2. Virtual Machines
 
-h3(#linux1). linux1
+h3(#linux1). linux1 - Template Builder
+
+http://linux1.hk.oracle.com/ovmtb/  (username/password = oracle/welcome1)
 
 This VM has the downloaded (from eDelivery) VM with Oracle Virtual Machine
 Builder on it.  When you build a VM it get put in the folder:
 
-bc. ./opt/ovmtb/tarballs/
+bc. /opt/ovmtb/tarballs
 
 The folder: @/mnt/vmsrv@ is @vl-vmsrv2:/OVS/downloads@ so you can copy the VM
 tarballs there.

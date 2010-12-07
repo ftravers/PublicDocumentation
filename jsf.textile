@@ -4,6 +4,70 @@ p(toc). Table of Contents
 
 {toc}
 
+h1. Start 
+
+To kick off a new project do:
+
+bc. mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false -DgroupId=com.mycompany.app -DartifactId=my-app
+
+Netbeans has good support for JSF 2.x so I recommend using it.
+
+h2. pom.xml
+
+Cleanup your pom a bit, here is a sample:
+bc. 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.oracle.git</groupId>
+    <artifactId>SSP</artifactId>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>SSP</name>
+    <dependencies>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <scope>provided</scope>
+            <version>6.0</version>
+        </dependency>
+    </dependencies>
+</project>
+
+h2. web.xml 
+
+update: @Web Pages/WEB-INF/web.xml@, the following can serve as a basic model.
+
+bc. 
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>Web Project</display-name>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+</web-app>
+
+
+h2. index.html
+
+A basic index.html
+
+bc. 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:outputText value="Hello World."/>
+</html>
+
+Run it and check it out: @http://localhost:8080/SSP/index.html@
+
 h1. Navigation
 
 h2(#basicnav). Basic Navigation
