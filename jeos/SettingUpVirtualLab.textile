@@ -8,8 +8,6 @@ h1. Overview
 
 This document will describe in broad strokes the steps you need to go through to establish an Oracle Virtual Machine Lab.  It assumes that you have 1 dedicated 'server'.  This should be any old desktop with as much RAM as possible, 4GB is considered a minimum.
 
-h1. Steps
-
 h2. Install OVMS
 
 OVMS(Oracle Virtual Machine Server).  You can download the iso from "eDelivery":http://edelivery.oracle.com/linux
@@ -99,14 +97,6 @@ bc.
 ovm-el5u5-xvm-jeos-1.1.0-1.el5.i386.rpm  ovm-template-config-1.1.0-1.el5.noarch.rpm
 ovm-modify-jeos-1.1.0-2.el5.noarch.rpm
 
-h4. Easy Disk Access
-
-To make your life easier, we'll NFS export a folder on the OVMS and mount it on the OVM Template Builder VM.  In OVMS's @/etc/exports@ add:
-
-bc. /OVS/downloads tb.mydomain.com (rw,sync,all_squash,anonuid=500,anongid=500)
-
-In the @/etc/fstab@ of the @tb@ machine add:
-
 h3. Install JeOS Images
 
 bc. 
@@ -134,13 +124,23 @@ h4. Setup New Template
 
 * Don't specify a YUM repo, or ISO image. Next.  Don't specify any packages. Next. Skip Additional Packages. Next. Click @Save and Build@.  It will take some time (maybe ~5-10 minutes) so relax and have a beer! :)
 
-h4. Using the new template
+h2. Using the new template
 
 The new template will be saved to:
 
 bc. /opt/ovmtb/tarballs
 
-as it reports in the status window.  Lets copy that to our VM server, which is easy because of the NFS mounts.
+as it reports in the status window.  Lets copy that to our VM server, which is easy because of the NFS mount we'll create next:
+
+h3. Easy Disk Access
+
+To make your life easier, we'll NFS export a folder on the OVMS and mount it on the OVM Template Builder VM.  In OVMS's @/etc/exports@ add:
+
+bc. /OVS/downloads tb.mydomain.com (rw,sync,all_squash,anonuid=500,anongid=500)
+
+In the @/etc/fstab@ of the @tb@ machine add:
+
+h3. copy, extract, launch
 
 bc. # cp project_3.tgz /mnt/vmsrv/
 
@@ -151,6 +151,107 @@ bc.
 # tar xvfz /OVS/running_pool/project_3.tgz
 
 Cleanup the vm.cfg file, in a "similar way to the TBT above":#tbt.
+
+I'm gonna use this template for Oracle Virtual Machine Manager, and Oracle Virtual Machine Template Builder...so I rename the folder to reflect that.
+
+bc. 
+mv sys12gb_swp1gb_oel5u5/ ovmm_ovmtb/
+
+Here is a look at my new vm.cfg file:
+
+bc. 
+# cat vm.cfg
+bootloader = '/usr/bin/pygrub'
+disk = ['file:/OVS/running_pool/ovmm_ovmtb/System.img,xvda,w']
+memory = '512'
+name = 'ovmm_ovmtb'
+vcpus = 1
+on_crash = 'restart'
+on_reboot = 'restart'
+vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']
+vif = ['type=netfront']
+
+Lets fire it up...
+
+bc. # xm create vm.cfg
+
+h2. configure VNC
+
+It's handy to understand the line: @vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']@ 
+
+Actually, vncunused=1 says use the first unused vnc port. vncunused=0 shuts 
+off that behavior.
+
+bc. 
+# The backend listens on 127.0.0.1 port 5900+N by default, where N is 
+# the domain ID.  You can override both address and N: 
+# 
+# vfb = [ 'type=vnc,vnclisten=127.0.0.1,vncdisplay=1' ] 
+# 
+# Or you can bind the first unused port above 5900: 
+# 
+# vfb = [ 'type=vnc,vnclisten=0.0.0.0,vnunused=1' ] 
+
+So we don't need to use trial and error to find the right port, lets hard set the port to be: @vncdisplay=10@, lets modify the vm.cfg to reflect this and restart it.  The line now looks like: @vfb = ['type=vnc,vncdisplay=10,vnclisten=0.0.0.0']@.  We can reboot with:
+
+bc. # xm reboot ovmm_ovmtb
+
+h2(#vncin). VNC in
+
+Once it is running you'll need to @VNC@ into machine to update it's IP address,
+hostname, etc...
+
+* Ubuntu: Out of the box: Applications > Internet > Remote Desktop Viewer
+* Mac: Chicken of the VNC
+* Windows: Tight VNC
+
+You set the IP address of the VNC Server to be the IP Address of your OVMS.  The port you use depends on the number of VM's you have running.  Start at port 0 (aka 5900) and work your way up until you find the VM you are interested in.  Or if you have set a static port, VNC into that.
+
+h2. Configure VM
+
+Now that you are VNC'd into the VM.  
+
+* Login with @root/ovsroot@.
+* Determine the IP address with: @ifconfig -a@ you are looking for the entry next to @eth0@ that says @inet addr@.
+* Setup an "SSH trust":/secure.html#sshAutoLogin
+
+* Static IP: To convert a dhcp OEL to Static IP address edit file:
+
+bc. 
+[root@localhost network-scripts]# vi /etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE=eth0
+ONBOOT=yes
+BOOTPROTO=static
+IPADDR=192.168.8.118
+NETMASK=255.255.255.0
+GATEWAY=192.168.8.1
+TYPE=Ethernet
+
+* Hostname: Change the hostname here:
+
+bc. 
+[root@localhost network-scripts]# vi /etc/sysconfig/network
+
+* Hostname: set for this session with:
+
+bc. 
+[root@localhost ~]# hostname ucm
+
+* Now you can restart your network services with the following command:
+
+bc. 
+[root@localhost ~]# service network restart
+
+Your terminal session should die here and you can now setup a new "SSH trust":/secure.html#sshAutoLogin, as trusts are based on IP addresses and you've changed IP Address.
+
+Finally update your name servers, and root passwords
+
+bc. 
+[root@db11g ~]# cat > /etc/resolv.conf
+search ftravers.com
+nameserver 192.168.8.133
+[root@db11g ~]# passwd
+
 
 h1. Glossary
 

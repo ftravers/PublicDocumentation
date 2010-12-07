@@ -34,59 +34,9 @@ Althought @system.img@ could be called anything, and probably @vm.cfg@ could be 
 
 Ensure you are in the folder with the vm files noted above and start the vm with: @xm create vm.cfg@
 
-Once it is running you'll need to @VNC@ into machine to update it's IP address,
-hostname, etc...
+h2. VNC in
 
-* Ubuntu: Out of the box: Applications > Internet > Remote Desktop Viewer
-* Mac: Chicken of the VNC
-* Windows: Tight VNC
-
-You set the IP address of the VNC Server to be the IP Address of your OVMS.  The port you use depends on the number of VM's you have running.  Start at port 0 (aka 5900) and work your way up until you find the VM you are interested in.
-
-h2. Configure VM
-
-Now that you are VNC'd into the VM.  
-
-* Login with @root/ovsroot@.
-* Determine the IP address with: @ifconfig -a@ you are looking for the entry next to @eth0@ that says @inet addr@.
-* Setup an "SSH trust":/secure.html#sshAutoLogin
-
-* Static IP: To convert a dhcp OEL to Static IP address edit file:
-
-bc. 
-[root@localhost network-scripts]# vi /etc/sysconfig/network-scripts/ifcfg-eth0
-DEVICE=eth0
-ONBOOT=yes
-BOOTPROTO=static
-IPADDR=192.168.8.118
-NETMASK=255.255.255.0
-GATEWAY=192.168.8.1
-TYPE=Ethernet
-
-* Hostname: Change the hostname here:
-
-bc. 
-[root@localhost network-scripts]# vi /etc/sysconfig/network
-
-* Hostname: set for this session with:
-
-bc. 
-[root@localhost ~]# hostname ucm
-
-* Now you can restart your network services with the following command:
-
-bc. 
-[root@localhost ~]# service network restart
-
-Your terminal session should die here and you can now setup a new "SSH trust":/secure.html#sshAutoLogin, as trusts are based on IP addresses and you've changed IP Address.
-
-Finally update your name servers, and root passwords
-
-bc. 
-[root@db11g ~]# cat > /etc/resolv.conf
-search ftravers.com
-nameserver 192.168.8.133
-[root@db11g ~]# passwd
+please see: "Setting Up Virtual Machine Lab - VNC in.":/jeos/SettingUpVirtualLab.html#vncin
 
 h1. NFS Mount
 
