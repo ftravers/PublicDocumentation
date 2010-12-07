@@ -1,4 +1,21 @@
-h1. NFS
+h1(#nfs). NFS
+
+h2. client
+
+bc. mkdir /mnt/vmsrv
+
+edit @/etc/fstab@ example:
+
+bc. vl-vmsrv2:/OVS/downloads	/mnt/vmsrv	nfs	defaults	0 0
+
+bc. 
+yum install -y nfs-utils
+mount -t rpc_pipefs sunpc /var/lib/nfs/rpc_pipefs
+service portmap start
+service nfs start
+mount -a
+
+h2. server
 
 bc. 
 yum install nfs-utils
@@ -6,11 +23,6 @@ mount -t rpc_pipefs sunpc /var/lib/nfs/rpc_pipefs
 service portmap start
 service iptables stop
 service nfs start
-mount -a
-
-client: /etc/fstab example:
-
-bc. vl-vmsrv2:/OVS/downloads	/mnt/vmsrv	nfs	defaults	0 0
 
 server: /etc/mounts example:
 
@@ -88,3 +100,7 @@ $ find .
 h3. Automatically Deploy/Undeploy
 
 cp sample-dir/hello.war as-install/domains/domain1/autodeploy
+
+h1. GIT
+
+rpm -Uhv http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm

@@ -134,11 +134,7 @@ as it reports in the status window.  Lets copy that to our VM server, which is e
 
 h3. Easy Disk Access
 
-To make your life easier, we'll NFS export a folder on the OVMS and mount it on the OVM Template Builder VM.  In OVMS's @/etc/exports@ add:
-
-bc. /OVS/downloads tb.mydomain.com (rw,sync,all_squash,anonuid=500,anongid=500)
-
-In the @/etc/fstab@ of the @tb@ machine add:
+Export /OVS/downloads on server, import it to /mnt/vmsrv on client.  Please follow: "these instructions":applications.html#nfs to get it setup.
 
 h3. copy, extract, launch
 
@@ -169,7 +165,9 @@ vcpus = 1
 on_crash = 'restart'
 on_reboot = 'restart'
 vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']
-vif = ['type=netfront']
+vif = ['bridge=xenbr0,mac=00:16:3e:00:00:01']
+
+make sure the vif has a mac address set.
 
 Lets fire it up...
 
@@ -213,6 +211,10 @@ Now that you are VNC'd into the VM.
 
 * Login with @root/ovsroot@.
 * Determine the IP address with: @ifconfig -a@ you are looking for the entry next to @eth0@ that says @inet addr@.
+* Open port SSH and Web ports:
+
+bc. system-config-securitylevel-tui --quiet --port=http --port=ssh --port=httpd
+
 * Setup an "SSH trust":/secure.html#sshAutoLogin
 
 * Static IP: To convert a dhcp OEL to Static IP address edit file:
@@ -226,6 +228,9 @@ IPADDR=192.168.8.118
 NETMASK=255.255.255.0
 GATEWAY=192.168.8.1
 TYPE=Ethernet
+
+Make sure there is NO HWADDR setting in here.
+
 
 * Hostname: Change the hostname here:
 
@@ -280,7 +285,107 @@ Test it out:
 
 bc. yum install wget
 
+h2. Backup
 
+Since we've put quite a bit of work into this image already and don't want to repeat ourselves, lets take a backup of it.  From the VM server, shutdown the VM.
+
+bc. xm shutdown ovmm_ovmtb
+
+Ensure that the vm is not longer listed with the following command, you may need to wait a few seconds for the VM to shutdown.
+
+bc. xm list
+
+Now just tar and zip it up with:
+
+bc. cd /OVS/running_pool
+tar cvfz ovmm_ovmtb.tgz ovmm_ovmtb
+
+Now since we chose to have a 12GB system drive this may take a while, in the future, I think I'll set this to be around 2GB and soft link the @/opt/ovmtb/tarballs@ folder directly to the NFS mount.  I'm impatient!  The result was a 183MB file...quite small and shareable!  Cool!  Thats an entire, modern OS in 183MB!  Fire the image back up, give it a minute to startup and ssh back into it.
+
+h2. Install Template Builder
+
+Download the JeOS RPM files from eDelivery.oracle.com/linux: 
+
+* Product Pack: Oracle Linux
+* Platform: x86 32 bit 
+* Description: Oracle Linux JeOS for Building Oracle VM templates for x86 (32 bit)
+
+Download:
+
+* Name: JeOS Base x86 and x86_64  V17420-01
+* Name: JeOS Oracle Linux 5 Update 5 base image x86 (32 Bit)	V21114-01	
+
+The first one has an RPM we need next, and the second one has the OEL5U5 images we'll be using to stamp out new OEL5U5 images.
+
+untar/unzip, then copy to the VM
+
+bc. scp ovm-modify-jeos-1.1.0-2.el5.noarch.rpm root@alm.hk.oracle.com:/tmp
+
+Go back onto the server and install the RPM.  But first we need to install some pre-requisits, then we can install ovmtb
+
+bc. 
+yum install -y bzip2 createrepo parted perl
+rpm -ivh ovm-modify-jeos-1.1.0-2.el5.noarch.rpm
+yum install -y ovmtb ovmtb-images
+
+Lets unzip the second download, and send it over to the VM:
+
+bc. 
+unzip V21114-01.zip
+scp ovm-el5u5-xvm-jeos-1.1.0-1.el5.i386.rpm root@alm.hk.oracle.com:/tmp
+
+We can now go install these as well:
+
+bc. 
+rpm -ivh ovm-el5u5-xvm-jeos-1.1.0-1.el5.i386.rpm
+
+That should do the trick.  Lets restart a couple of services for good measure and see if our web UI for TB is ready for us.
+
+bc. 
+service httpd restart; service ovmtb restart
+
+Navigate to: "http://alm.hk.oracle.com/ovmtb":http://alm.hk.oracle.com/ovmtb
+
+Choose register, put in a @username/password@ combo such as @oracle/welcome1@.
+
+h2. OVM Manager
+
+* Go to: "edelivery.oracle.com/linux":edelivery.oracle.com/linux
+* Select a product pack: Oracle VM
+* Platform: x86 32 bit.  Click Go
+* Click on link: Description/Release/Part Number: Oracle VM 2.2.1 Media Pack / 2.2.1.0.0	/ B58990-04
+* Download: Name: Oracle VM Manager 2.2.0
+
+Now it can be a pain to download once to your desktop and then up to your server.  You can download directly from edelivery to your server with a cute little trick.  You can't just use @wget <url>@ because we need to login to edelivery and it gives our browser a cookie.  So do the following:
+
+* Use firefox.
+* Install the Export Cookies plugin: https://addons.mozilla.org/en-US/firefox/addon/8154/
+* Log into edelivery going right up to the place where you normally download from.
+* In Firefox > Tools > Export Cookies... export the cookie file to (say) your desktop.
+* scp this up to the machine where you want to download from
+* run wget as follows:
+
+bc. wget --load-cookies=cookies.txt "http://edelivery.oracle.com/EPD/Download/process_download/V18419-01.zip?file_id=28676878&aru=11865636&userid=890087&egroup_aru_number=12550529&email=fenton.travers@oracle.com&country_id=344&patch_file=V18419-01.zip"
+
+Note I have the URL in quotes so the @&@ don't screw things up.  Also this is just a sample url.
+
+hostname should be resolved in file "/etc/hosts" please check the
+result of the command 'hostname' returned and make sure it is the same
+as the hostname in "/etc/hosts"
+
+bc. 
+cat /etc/hosts
+127.0.0.1       localhost alm.hk.oracle.com alm
+
+bc. 
+yum install -y libaio bc 
+mkdir /mnt/disk
+mount -o loop OracleVM-Manager-2.2.0.iso /mnt/disk
+cd /mnt/disk; sh runInstaller.sh
+
+note: It can take a bit...so be patient.
+
+https://alm.hk.oracle.com:4443/OVS
 
 h1. Glossary
 

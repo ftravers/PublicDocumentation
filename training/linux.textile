@@ -469,3 +469,44 @@ option (which stands for "install"). For example, to install an RPM
 package called software-2.3.4.rpm:
 
 bc. # rpm -i software-2.3.4.rpm
+
+h2. accelerated web downloads
+
+There is a nice utility @aget@ that you can install on Redhat distributions.  Add the following to: @/etc/yum.repos.d/dries.repo@:
+
+bc. 
+# cat /etc/yum.repos.d/dries.repo 
+[dries]
+name=dries
+enabled=1
+gpgcheck=1
+gpgkey=http://dries.ulyssis.org/rpm/RPM-GPG-KEY.dries.txt
+baseurl=http://ftp.belnet.be/packages/dries.ulyssis.org/redhat/el5/en/i386/dries/RPMS
+
+you _may_ need to also do: 
+
+bc. 
+wget http://dries.ulyssis.org/rpm/RPM-GPG-KEY.dries.txt
+rpm --import RPM-GPG-KEY.dries.txt
+
+but I think the dries.repo entries should take care of that.
+
+Then just do:
+
+bc. yum install aget
+
+Run aget to see how it is used:
+
+bc. 
+# aget
+usage: aget [options] url
+	options:
+		-p port number
+		-l local file name
+		-n suggested number of threads
+		-f force using suggested number of threads
+		-h this screen
+		-v version info
+http//www.enderunix.org/aget/
+
+

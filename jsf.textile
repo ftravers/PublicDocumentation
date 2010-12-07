@@ -14,7 +14,7 @@ Netbeans has good support for JSF 2.x so I recommend using it.
 
 h2. pom.xml
 
-Cleanup your pom a bit, here is a sample:
+Remove the junit dependency and add the javaee-web-api dependency V6.0:
 bc. 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -23,7 +23,7 @@ bc.
     <artifactId>SSP</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>SSP</name>
+    <name>${pom.artifactId}</name>
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
@@ -32,6 +32,9 @@ bc.
             <version>6.0</version>
         </dependency>
     </dependencies>
+    <build>
+        <finalName>${pom.artifactId}</finalName>
+    </build>
 </project>
 
 h2. web.xml 
@@ -51,6 +54,9 @@ bc.
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.xhtml</welcome-file>
+	</welcome-file-list>
 </web-app>
 
 
