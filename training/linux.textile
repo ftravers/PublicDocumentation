@@ -331,7 +331,9 @@ export JAVA_HOME=/home/ft/bin/jdk1.6.0_18
 
 * Global Environment Variables
 
-Try: @/etc/bash.bashrc@
+On debian linux: @/etc/bash.bashrc@
+
+On redhat linux: @/etc/profile@
 
 h2. Aliasing
 
