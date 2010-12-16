@@ -17,7 +17,9 @@
  line-height: 160%;
  font-size: 10pt;
 }
-
+pre {
+	background: black;
+}
 code {
 	color: lightGreen;%;
 	background: black;
