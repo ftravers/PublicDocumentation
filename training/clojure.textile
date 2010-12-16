@@ -224,9 +224,77 @@ h2. Help
 
 To get help use the @(doc <function-name>)@ or @(find-doc "<a part of the function name>")@
 
+"API":http://clojure.org/api
+
+h2. load code
+
+If you have a block of code that is too large to conveniently type at the
+REPL, save the code into a file, and then load that file from the REPL.
+You can use an absolute path or a path relative to where you launched
+the REPL:
+
+bc. (load-file "temp.clj")
+
+h2. refs
+
+@ref@ creates reference.
+
+bc. (ref initial-state)
+
+bc. (ref #{}) 
+
+Creates a reference to an empty set.
+
+We can bind this to a symbol by using def:
+
+bc. (def symbol initial-value?)
+
+bc. (def visitors (ref #{}))
+
+Use ref to create a reference, and use def to bind this reference to the
+name visitors.
+
+In order to update a reference, you must use a function such as @alter@.
+
+bc. (alter ref update-fn & args)
+
+h2. &
+
+The ampersand means what follows is a collection of arguments.  Or an argument that is a collection.
+
+bc. (function & expressions)
+
+h2. state
+
+h3. Alter
+
+To create a transaction do:
+
+bc. (dosync & exprs)
+
+Use dosync to add a visitor within a transaction
+
+bc. (dosync (alter visitors conj "Stu"))
+
+h3. Examine
+
+At any time, you can peek inside the ref with deref or with the shorter
+@:
+
+bc. (deref visitors)
+
+or
+
+bc. @visitors
+
 h2. Bindings
 
-The def special form creates a global binding and optionally gives it a "root value" that is visible in all threads unless a thread-local value is assigned. def can also be used to change the root value of an existing binding. However, doing this is frowned upon because it sacrifices the benefits of working with immutable data.
+The def special form creates a global binding and optionally gives it
+a "root value" that is visible in all threads unless a thread-local
+value is assigned. def can also be used to change the root value of an
+existing binding. However, doing this is frowned upon because it
+sacrifices the benefits of working with immutable data. A def can
+define functions or data.
 
 bc. (def v 1) ; v is a global binding
 
@@ -248,6 +316,15 @@ bc.
 (f1)                 ;; kick off the program
 
 The call to @f2@ above will produce "v = 1" because when you call the function, you leave the form, and let bindings are only local to that form.
+
+h3. sets are functions of their members
+
+bc. (@visitors name)
+
+@visitors returns the current value of the visitors reference.
+Sets are functions of their members, so (@visitors username) checks to
+see whether @name@ is a member of the current value of visitors. The let
+then binds the result of this check to the name past-visitor.
 
 h3. map
 
@@ -624,6 +701,61 @@ bc.
 (import
   '(java.util Calendar GregorianCalendar)
   '(javax.swing JFrame JLabel))
+
+bc. 
+(.toUpperCase "hello")
+
+The dot before toUpperCase tells Clojure to treat it as the name of a Java
+method instead of a Clojure function.
+
+
+
+
+
+
+h1. Cookbook with Explanations
+
+h2. file writing
+
+bc. 
+(use '[clojure.contrib.duck-streams :only (spit)])
+(spit "hello.out" "hello, world")
+
+This program writes the string "hello, world" out to the file @hello.out@.
+
+The first line is like the import line in java.
+
+The simple form of @use@ 
+
+bc. (use 'clojure.contrib.duck-streams)
+
+causes the current namespace to refer to all public vars in
+clojure.contrib.duck-streams. This can be confusing, because it does
+not make explicit which names are being referred to.  Be nice to
+future readers of your code, and pass the :only option to use, listing
+only the vars you need:
+
+The definition of spit is: 
+
+bc. 
+; from clojure-contrib
+(defn spit [f content]
+ (with-open [#^PrintWriter w (writer f)]
+  (.print w content)
+ )
+)
+
+The @with-open@ function's general form is: 
+
+bc. (with-open [name init-form] & body)
+
+Internally, with-open creates a try block, sets @name@ to the result of
+@init-form@, and then runs the forms in @body@. Most important, with-open
+always closes the object bound to name in a finally block.
+
+
+
+
 
 h1. Projects
 

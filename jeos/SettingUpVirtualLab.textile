@@ -122,7 +122,7 @@ h4. Setup New Template
 
 * We simply don't care about VCPUs and Memory as these are trivial to change after the fact.  System disk size and Swap space, however are harder to change.  The general rule of thumb for swap space is that it should be twice the RAM.  For our purposes, I want this template to have a SLIM memory footprint, so 512 RAM should be okay, and we'll set the swap to be 1024.  We can set the System disk size to be 12GB, which is: 12288MB.  Hit next.
 
-* Don't specify a YUM repo, or ISO image. Next.  Don't specify any packages. Next. Skip Additional Packages. Next. Click @Save and Build@.  It will take some time (maybe ~5-10 minutes) so relax and have a beer! :)
+* Use the OEL 5U3 repo. Next.  Add the @wget@ package. Next. Skip Additional Packages. Next. Click @Save and Build@.  It will take some time (maybe ~5-10 minutes) so relax and have a beer! :)
 
 h2. Using the new template
 
@@ -213,7 +213,7 @@ Now that you are VNC'd into the VM.
 * Determine the IP address with: @ifconfig -a@ you are looking for the entry next to @eth0@ that says @inet addr@.
 * Open port SSH and Web ports:
 
-bc. system-config-securitylevel-tui --quiet --port=http --port=ssh --port=httpd
+bc. system-config-securitylevel-tui --quiet --port=http --port=ssh --port=https
 
 * Setup an "SSH trust":/secure.html#sshAutoLogin
 
@@ -273,8 +273,10 @@ export http_proxy=http://www-proxy.sg.oracle.com
 Download the repo file:
 
 bc. 
-cd /etc/yum.repos.d/
+# cd /etc/yum.repos.d/
+# wget http://public-yum.oracle.com/public-yum-el5.repo
 
+If you dont have wget installed:
 In a browser on your local laptop navigate to: "http://public-yum.oracle.com/public-yum-el5.repo":http://public-yum.oracle.com/public-yum-el5.repo.  Save the file as: @public-yum-el5.repo@ to your desktop, and transfer it to the VM you are setting up into the folder: @/etc/yum.repos.d/@.  A command like the following should do the trick:
 
 bc. ~/Desktop$ scp public-yum-el5.repo root@alm.hk.oracle.com:/etc/yum.repos.d/
@@ -347,6 +349,15 @@ service httpd restart; service ovmtb restart
 Navigate to: "http://alm.hk.oracle.com/ovmtb":http://alm.hk.oracle.com/ovmtb
 
 Choose register, put in a @username/password@ combo such as @oracle/welcome1@.
+
+h3. folder linking
+
+There are two folders that use a lot of space:
+
+* @/opt/ovmtb/builds/@
+* @/opt/ovmtb/tarballs/@
+
+Recommend repointing these to the NFS drive so we can keep the OVMTB disk as small as possible. (2GB seems about the limit of small).  This makes backing up much quicker.
 
 h2. OVM Manager
 
