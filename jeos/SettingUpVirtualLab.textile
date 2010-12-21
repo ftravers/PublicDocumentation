@@ -274,8 +274,11 @@ Download the repo file:
 
 bc. 
 cd /etc/yum.repos.d/
+wget http://public-yum.oracle.com/public-yum-el5.repo
 
-In a browser on your local laptop navigate to: "http://public-yum.oracle.com/public-yum-el5.repo":http://public-yum.oracle.com/public-yum-el5.repo.  Save the file as: @public-yum-el5.repo@ to your desktop, and transfer it to the VM you are setting up into the folder: @/etc/yum.repos.d/@.  A command like the following should do the trick:
+h3. If you don't have wget 
+
+installed: In a browser on your local laptop navigate to: "http://public-yum.oracle.com/public-yum-el5.repo":http://public-yum.oracle.com/public-yum-el5.repo.  Save the file as: @public-yum-el5.repo@ to your desktop, and transfer it to the VM you are setting up into the folder: @/etc/yum.repos.d/@.  A command like the following should do the trick:
 
 bc. ~/Desktop$ scp public-yum-el5.repo root@alm.hk.oracle.com:/etc/yum.repos.d/
 
