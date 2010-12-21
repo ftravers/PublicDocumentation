@@ -101,6 +101,74 @@ h3. Automatically Deploy/Undeploy
 
 cp sample-dir/hello.war as-install/domains/domain1/autodeploy
 
+h3. Auto start/stop scripts:
+
+in @/etc/init.d/glassfish@ put:
+
+h4. startup/shutdown script:
+
+bc.. 
+#!/bin/bash
+#
+# glassfish:          Startup script for Glassfish Application Server.
+#
+# chkconfig: 3 80 05
+# description:      Startup script for domain1 of Glassfish Application Server.
+ 
+GLASSFISH_HOME=/home/oracle/bin/glassfishv3/glassfish;
+export GLASSFISH_HOME
+ 
+GLASSFISH_OWNER=oracle;
+export GLASSFISH_OWNER
+ 
+start() {
+        echo -n "Starting Glassfish: "
+        echo "Starting Glassfish at `date`" >> $GLASSFISH_HOME/domains/domain1/logs/startup.log
+        su $GLASSFISH_OWNER -c "$GLASSFISH_HOME/bin/asadmin start-domain domain1" >> $GLASSFISH_HOME/domains/domain1/logs/startup.log
+        sleep 2
+        echo "done"
+}
+ 
+stop() {
+        echo -n "Stopping Glassfish: "
+        echo "Stopping Glassfish at `date`" >> $GLASSFISH_HOME/domains/domain1/logs/startup.log
+        su $GLASSFISH_OWNER -c "$GLASSFISH_HOME/bin/asadmin stop-domain domain1" >> $GLASSFISH_HOME/domains/domain1/logs/startup.log
+        echo "done"
+}
+ 
+# See how we were called.
+case "$1" in
+        start)
+                start
+                ;;
+        stop)
+                stop
+                ;;
+        restart)
+                stop
+                start
+                ;;
+        *)
+                echo $"Usage: glassfish {start|stop|restart}"
+                exit
+esac
+
+h4. Install Service
+
+bc. 
+#chmod +x /etc/init.d/glassfish
+#chkconfig --add glassfish
+#chkconfig --level 3 glassfish on
+
+h4. Start Service
+
+bc. 
+#/etc/init.d/glassfish start
+
+h4. Open port in firewall
+
+bc. system-config-securitylevel-tui --quiet --port=8080
+
 h1. GIT
 
 rpm -Uhv http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
