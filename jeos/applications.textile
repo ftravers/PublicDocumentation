@@ -99,7 +99,7 @@ $ find .
 
 h3. Automatically Deploy/Undeploy
 
-cp sample-dir/hello.war as-install/domains/domain1/autodeploy
+bc. cp sample-dir/hello.war as-install/domains/domain1/autodeploy
 
 h3. Auto start/stop scripts:
 
