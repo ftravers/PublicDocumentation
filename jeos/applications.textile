@@ -21,7 +21,7 @@ bc.
 yum install nfs-utils
 mount -t rpc_pipefs sunpc /var/lib/nfs/rpc_pipefs
 service portmap start
-service iptables stop
+system-config-securitylevel-tui --quiet --port=111 --port=2049
 service nfs start
 
 server: /etc/mounts example:
