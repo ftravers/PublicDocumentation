@@ -150,11 +150,10 @@ So our first file will look like:
 
 /var/named/chroot/etc/named.conf file sample:
 
-bc.. 
+bc. 
 acl good-hosts {
         any;
 };
-
 options {
    directory "/var/named";
    dump-file "/var/named/data/cache_dump.db";
@@ -163,36 +162,29 @@ options {
         allow-query { good-hosts; };
         allow-recursion { good-hosts; };
 };
-
 //
 // a caching only nameserver config
 //
 controls {
    inet 127.0.0.1 allow { localhost; } keys { rndckey; };
 };
-
 zone "." IN {
    type hint;
    file "named.ca";
 };
-
 include "/etc/rndc.key";
-
 zone "githklab" {
         type master;
         allow-query { any; };
         allow-update { none; };
         file "githklab.zone";
 };
-
 zone "252.179.10.in-addr.arpa" IN {
         type master;
         file "githklab.rev.zone";
         allow-update { none; };
         allow-query { any; };
 };
-
-p. 
 
 Zone file example: @/var/named/chroot/var/named/githklab.zone@
 
