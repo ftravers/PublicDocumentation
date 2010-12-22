@@ -139,10 +139,20 @@ The following describes how to setup a DNS server inside of Oracle.  This exampl
 bc. 
 oracle@oracle-laptop:~$ ifconfig
 eth0      Link encap:Ethernet  HWaddr 00:1f:16:21:93:76  
-          inet addr:10.179.252.142
+          inet addr:10.179.252.142  Bcast:10.179.252.255  Mask:255.255.255.0
 ...
 
 So I see it is: @10.179.252.142@ since this was freely handed out by DHCP, I can also take that IP and just give it to one of my servers.
+
+Establish the following: gateway, netmask.
+
+for gateway do: @traceroute google.com@, the firts line returned (starts with a one ) has an ipaddress...thats your gateway address.
+
+ifconfig will return your netmask, its the ip address following @Mask:@ above.
+
+You'll need these when you are setting up the static networking for the servers you add to your DNS setup.
+
+Now when you 
 
 The second thing I need to do is make up a domain.  Lets call it githklab for GIT-HK-Lab, so the full domain can be: githklab, not githklab.com or githklab.oracle.com, or githklab.hk.oracle.com...simply githklab
 
@@ -219,7 +229,14 @@ $TTL 14400
                 IN      NS      linux1.hk.oracle.com
 142             IN      PTR     ovmtbman.githklab.
 
+h3. Restart Servers
 
+bc. service named restart
+
+Next you'll want to give one of your VM's this IP address.  Then
+restart your laptop's network connection, DHCP, should notice that the
+IP address is already used by another machine and give you a different
+IP address.
 
 h1. Old Stuff
 
