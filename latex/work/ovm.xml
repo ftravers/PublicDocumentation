@@ -1,0 +1,16 @@
+<book>
+  <id>OVM</id>
+  <title>Oracle Virtual Machines</title>
+  <author>Fenton Travers</author>
+  <date>August 16, 2010</date>
+  <chapters>
+    <chapter>
+      <id>tb</id>
+      <title>Oracle Template Builder</title>
+      <sections>
+        <section><id>ovm_tb_1_1</id><title>Getting Started</title></section>
+        <section><id>firewall_iptables</id><title>Firewalls</title></section>
+      </sections>
+    </chapter>
+  </chapters>
+</book>

@@ -1,0 +1,21 @@
+Placeholder definitions 
+
+Files that define what region definitions, region templates, and
+subtemplates are allowed for the associated placeholders. They also
+specify what contributor actions are allowed for the placeholders.
+
+A placeholder is no more than an insertion point (a tag) on a page
+template to identify where there is a contribution region (that is,
+editable area) on the web page. What that contribution region contains
+and what it looks like is defined using region templates and region
+definitions. A page template may contain multiple placeholders. There
+are no files associated with placeholders; that is, there are no
+"placeholder files" on the content server. Placeholders are controlled
+by placeholder definitions, which specify what content can go in the
+contribution region and how it is displayed, as well the actions
+available to contributors (for example, switching content or modifying
+metadata). A placeholder contains either one subtemplate or one region
+template.}}
+
+
+
