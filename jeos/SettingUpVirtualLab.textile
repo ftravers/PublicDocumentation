@@ -258,7 +258,7 @@ nameserver 10.179.253.14
 nameserver 146.56.237.50
 nameserver 140.83.70.155
 
-[root@db11g ~]# passwd
+bc. [root@db11g ~]# passwd
 
 h2. Install Software
 
