@@ -146,9 +146,7 @@ So I see it is: @10.179.252.142@ since this was freely handed out by DHCP, I can
 
 The second thing I need to do is make up a domain.  Lets call it githklab for GIT-HK-Lab, so the full domain can be: githklab, not githklab.com or githklab.oracle.com, or githklab.hk.oracle.com...simply githklab
 
-So our first file will look like:
-
-/var/named/chroot/etc/named.conf file sample:
+So our first file, @/var/named/chroot/etc/named.conf@, will look like:
 
 bc. 
 acl good-hosts {
