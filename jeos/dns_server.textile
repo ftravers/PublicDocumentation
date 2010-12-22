@@ -18,7 +18,7 @@ h1. Steps
 
 bc. yum -y install bind* caching-nameserver
 
-two files: named.conf and <zone files>.  
+three files: named.conf and <forward and reverse zone files>.  
 
 /var/named/chroot/etc/named.conf file sample:
 
@@ -128,6 +128,105 @@ Since the server1 and server2 names do not end in a trailing period (.), the $OR
 h1. Restart Servers
 
 bc. service named restart
+
+
+h1. Cookbook
+
+h2. Inside Oracle
+
+The following describes how to setup a DNS server inside of Oracle.  This example is the hong kong office.  The first thing you need to do is understand about getting IP Addresses.  In most cases you'll need to understand that you are working in an environment where IP addresses are given out by a DHCP server.  That is they are dynamic.  However, you can just plug your machine in, find out what IP address it got, then take that info and use it in your DNS server.  So for example, on my laptop, I'm plugged into the network, and my ipaddress is:
+
+bc. 
+oracle@oracle-laptop:~$ ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:1f:16:21:93:76  
+          inet addr:10.179.252.142
+...
+
+So I see it is: @10.179.252.142@ since this was freely handed out by DHCP, I can also take that IP and just give it to one of my servers.
+
+The second thing I need to do is make up a domain.  Lets call it githklab for GIT-HK-Lab, so the full domain can be: githklab, not githklab.com or githklab.oracle.com, or githklab.hk.oracle.com...simply githklab
+
+So our first file will look like:
+
+/var/named/chroot/etc/named.conf file sample:
+
+bc.. 
+acl good-hosts {
+        any;
+};
+
+options {
+   directory "/var/named";
+   dump-file "/var/named/data/cache_dump.db";
+   statistics-file "/var/named/data/named_stats.txt";
+   listen-on port 53 { 127.0.0.1; any; };
+        allow-query { good-hosts; };
+        allow-recursion { good-hosts; };
+};
+
+//
+// a caching only nameserver config
+//
+controls {
+   inet 127.0.0.1 allow { localhost; } keys { rndckey; };
+};
+
+zone "." IN {
+   type hint;
+   file "named.ca";
+};
+
+include "/etc/rndc.key";
+
+zone "githklab" {
+        type master;
+        allow-query { any; };
+        allow-update { none; };
+        file "githklab.zone";
+};
+
+zone "252.179.10.in-addr.arpa" IN {
+        type master;
+        file "githklab.rev.zone";
+        allow-update { none; };
+        allow-query { any; };
+};
+
+p. Zone file example: /var/named/chroot/var/named/githklab.zone
+
+bc.. 
+; Zone File for githklab
+$TTL 14400
+@               IN      SOA     linux1.hk.oracle.com. hostmast.githklab. (
+                                2006102400 ; serial, todays date + todays serial #
+                                14400 ; refresh, seconds
+                                7200 ; retry, seconds
+                                3600000 ; expire, seconds
+                                86400 ; minimum, seconds
+                                )
+;
+
+hk.oracle.com.  14400   IN      NS      linux1
+;
+ovmtbman        14400   IN      A       10.179.252.142
+
+
+p. Zone file example: /var/named/chroot/var/named/githklab.rev.zone
+
+bc. 
+; Reverse Zone File for ftravers.com - 252.179.10.in-addr.arpa.
+$TTL 14400
+@               14440   IN      SOA     dns.ftravers.com. hostmaster.ftravers.com. ( 2006102400
+                                        14400
+                                        7200
+                                        3600000
+                                        86400
+                                        )
+;
+                IN      NS      linux1.hk.oracle.com
+142             IN      PTR     ovmtbman.githklab.
+
+
 
 h1. Old Stuff
 
