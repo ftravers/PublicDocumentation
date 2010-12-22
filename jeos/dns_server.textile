@@ -192,7 +192,7 @@ zone "252.179.10.in-addr.arpa" IN {
         allow-query { any; };
 };
 
-p. Zone file example: /var/named/chroot/var/named/githklab.zone
+p. Zone file example: @/var/named/chroot/var/named/githklab.zone@
 
 bc.. 
 ; Zone File for githklab
@@ -211,7 +211,7 @@ hk.oracle.com.  14400   IN      NS      linux1
 ovmtbman        14400   IN      A       10.179.252.142
 
 
-p. Zone file example: /var/named/chroot/var/named/githklab.rev.zone
+p. Zone file example: @/var/named/chroot/var/named/githklab.rev.zone@
 
 bc. 
 ; Reverse Zone File for ftravers.com - 252.179.10.in-addr.arpa.
