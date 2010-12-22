@@ -34,39 +34,36 @@ bc.
 Choose Customize, add a line like: 8888:tcp, to the other ports
 section, OK, OK.  Restart the firewall with:
 
-bc. 
-[root@ucm3 ~]# service iptables restart
+bc. [root@ucm3 ~]# service iptables restart
 
 The following command will show you if your changes worked...
 
-bc. 
-[root@ucm3 ~]# cat /etc/sysconfig/iptables
+bc. [root@ucm3 ~]# cat /etc/sysconfig/iptables
 
 The rest below is just additional background info about the firewall:
 
 First backup your current IP Tables settings:
 
-bc. 
-[root@hp4 etc]# cp /etc/sysconfig/iptables /etc/sysconfig/iptables.orig 
+bc. [root@hp4 etc]# cp /etc/sysconfig/iptables /etc/sysconfig/iptables.orig 
 	
 Restore original tables:
 
-bc. 
-[root@hp2 ~]# cp /etc/sysconfig/iptables.orig /etc/sysconfig/iptables
+bc. [root@hp2 ~]# cp /etc/sysconfig/iptables.orig /etc/sysconfig/iptables
 	
 Start, stop, restart the iptables ( will reload /etc/sysconfig/iptables rules )
 
-[root@hp2 ~]# service iptables [restart|start|stop]
+bc. [root@hp2 ~]# service iptables [restart|start|stop]
 	
 Examine what the tables currently have in them:
 
+bc. 
 [root@hp2 ~]# iptables -L
 # /usr/bin/system-config-securitylevel
 8888:tcp,8899:tcp 
 	
 Save the changes so they persist after a reboot with:
 
-[root@hp2 ~]# /sbin/service iptables save
+bc. [root@hp2 ~]# /sbin/service iptables save
 	
 	 
 Now lets allow a user to ssh into port 10322
