@@ -38,8 +38,8 @@ bc. ~$ sudo apt-get install git-core
 * Install Clojure
 
 bc. 
-~$ mkdir ~/opt
-~$ cd ~/opt
+~$ mkdir ~/bin
+~$ cd ~/bin
 ~$ git clone git://github.com/clojure/clojure.git
 ~$ cd clojure
 ~$ ant
@@ -61,7 +61,7 @@ Ctrl-d will exit the REPL.
 * Install clojure-contrib
  
 bc. 
-~$ cd ~/opt 
+~$ cd ~/bin 
 ~$ git clone git://github.com/clojure/clojure-contrib.git 
 ~$ cd clojure-contrib 
 ~$ mvn install 
@@ -74,13 +74,13 @@ this script.
 
 bc. 
 export CLOJURE_EXT=~/.clojure
-export PATH=$PATH:~/opt/clojure-contrib/launchers/bash
+export PATH=$PATH:~/bin/clojure-contrib/launchers/bash
 alias clj=clj-env-dir
 
 The last line added to the file above sets an alias to the clj-env-dir
 script. This example uses clj but it could be set to anything.
 
-See the file at @~/opt/clojure-contrib/launchers/bash/clj-env-dir@ for
+See the file at @~/bin/clojure-contrib/launchers/bash/clj-env-dir@ for
 more options.
 
 h3. Add JLine support
@@ -89,7 +89,7 @@ h3. Add JLine support
 jar to the @~/.clojure@ directory.
 
 * Add jline.ConsoleRunner to the last line in
-@~/opt/clojure-contrib/launchers/bash/clj-env-dir@ to add JLine
+@~/bin/clojure-contrib/launchers/bash/clj-env-dir@ to add JLine
 functionality.
 
 bc. exec $JAVA $OPTS jline.ConsoleRunner $MAIN "$@"
@@ -115,25 +115,25 @@ bc. ~$ sudo apt-get install emacs-snapshot-gtk
 * Install Slime
 
 bc. 
-~$ cd ~/opt
+~$ cd ~/bin
 ~$ git clone git://github.com/nablaone/slime.git
 
 * Install clojure-mode
 
-~$ cd ~/opt 
+~$ cd ~/bin 
 ~$ git clone git://github.com/technomancy/clojure-mode.git 
 
 h3. Install leiningen
 
 bc. 
-~$ cd ~/opt
+~$ cd ~/bin
 ~$ git clone https://github.com/technomancy/leiningen.git
 ~$ cd leiningen/bin
 !$ chmod +x lein; ./lein self-install  # or maybe just ./lein is enough
 
 * Add the following to .bashrc.
 
-bc. export PATH=$PATH:~/opt/leiningen
+bc. export PATH=$PATH:~/bin/leiningen
 
 * Execute the leiningen script.
 
@@ -147,12 +147,12 @@ h3. Configure Emacs
 
 bc. 
 ;; clojure-mode
-(add-to-list 'load-path "~/opt/clojure-mode")
+(add-to-list 'load-path "~/bin/clojure-mode")
 (require 'clojure-mode)
 ;; slime
 (eval-after-load "slime" 
   '(progn (slime-setup '(slime-repl))))
-(add-to-list 'load-path "~/opt/slime")
+(add-to-list 'load-path "~/bin/slime")
 (require 'slime)
 (slime-setup)
 
