@@ -6,7 +6,23 @@ p(toc). Table of Contents
 
 h1. Ubuntu
 
-h2. Clean Install Setup
+Clean Install Setup
+
+h2. USB Thumbdrive install
+
+* source: "https://help.ubuntu.com/community/Installation/FromUSBStick":https://help.ubuntu.com/community/Installation/FromUSBStick
+
+* From an ubuntu machine do:
+
+bc. 
+$ sudo apt-get install usb-creator
+$ usb-creator-gtk
+
+* Select the ubuntu iso you downloaded
+* You can delete usb contents first if u want
+* Select discard saved files
+* CREATE your bootable usb disk!
+* Boot other computer from this usb disk drive...follow install instructions.
 
 h3. Packages
 

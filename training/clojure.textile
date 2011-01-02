@@ -35,7 +35,7 @@ bc. ~$ sudo apt-get install maven2
 
 bc. ~$ sudo apt-get install git-core
 
-* Install Clojure
+h3(#install_clojure). Install Clojure
 
 bc. 
 ~$ mkdir ~/bin
@@ -58,8 +58,8 @@ user=> (+ 1 41)
 
 Ctrl-d will exit the REPL.
 
-* Install clojure-contrib
- 
+h3(#install_clojContrib). Install clojure-contrib 
+
 bc. 
 ~$ cd ~/bin 
 ~$ git clone git://github.com/clojure/clojure-contrib.git 
@@ -120,26 +120,21 @@ bc.
 
 * Install clojure-mode
 
+bc. 
 ~$ cd ~/bin 
-~$ git clone git://github.com/technomancy/clojure-mode.git 
+~$ git clone git://github.com/technomancy/clojure-mode.git
 
-h3. Install leiningen
+h3(#install_lein). Install leiningen
 
 bc. 
-~$ cd ~/bin
-~$ git clone https://github.com/technomancy/leiningen.git
-~$ cd leiningen/bin
-!$ chmod +x lein; ./lein self-install  # or maybe just ./lein is enough
+$ cd ~/bin
+$ git clone https://github.com/technomancy/leiningen.git
+$ cd leiningen/bin
+$ ./lein self-install
 
 * Add the following to .bashrc.
 
 bc. export PATH=$PATH:~/bin/leiningen
-
-* Execute the leiningen script.
-
-bc. 
-~$ chmod +x lein
-~$ ./lein self-install
 
 h3. Configure Emacs
 
@@ -222,12 +217,21 @@ bc.
 ~$ mv ~/.emacs.d ~/.emacs.d.orig
 ~$ mv ~/emacs-starter-kit ~/.emacs.d
 
-Get the latest package.el file
+* Start Emacs
 
-bc. 
-~$ cd ~/tmp
-~/tmp$ git clone https://github.com/technomancy/package.el.git
-~/tmp$ cp package.el/package.el ~/projects/elisp/
+do: @Alt-x package-list-packages@ and select clojure-mode (press i),
+and then install the selected package (press x).
+
+Go back to the packages list with M-x package-list-packages and choose
+slime-repl.
+
+* "Install clojure":install_clojure
+* "Install clojure-contrib":install_clojContrib
+* "Install Lein":#install_lein
+
+
+
+
 
 * update ~/.emacs with:
 
