@@ -208,25 +208,9 @@ apt-get --purge remove <package>
 
 can also do: @dpkg --purge <package>@ then try re-install
 
-h2. Setting up Lisp
+h2. Clojure
 
-h3. Install clisp
-
-bc. sudo apt-get install clisp
-
-h3. slime
-
-"Slime Documentation":http://common-lisp.net/project/slime/doc/html/
-
-installation just requires a few lines in your .emacs:
-
-bc. 
-(setq inferior-lisp-program "/usr/bin/clisp") ; your Lisp system
-(add-to-list 'load-path "~/bin/slime-2010-11-09/")  ; your SLIME directory
-(require 'slime)
-(slime-setup)
-
-Run it in emacs with: @Alt-x slime@
+see: "Clojure Install":clojure.html
 
 h2. Startup, Shutdown, Scripts
 
