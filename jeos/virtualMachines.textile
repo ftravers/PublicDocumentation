@@ -21,19 +21,27 @@ h4. All Hosts
 * Go to [this page|http://iprequest.oraclecorp.com/] to request additional *Static IP* addresses.
 * All running VM's are located in the directory: */OVS/running_pool*
 
-|| Name            || IP Address   || Notes                            || 
-| vl-ucm1          | 10.179.252.30 |                                   |
-| vl-db1           | 10.179.252.29 |                                   |
-| xps              | 10.179.252.34 |                                   |
-| vl-wlp1          | 10.179.252.31 |                                   |
-| "linux1":#linux1 | 10.179.252.32 | [dns]                             |
-| vl-wciwcm1       | 10.179.252.35 |                                   | 
-| "alm":#alm       | 10.179.252.39 | my OVM TB&Mangr                   |
-| youtube          | 10.179.252.38 |                                   |
-| "ipm":#ipm       | 10.179.252.41 | DEV glassfish                     |
-| "wcfs":#wcfs     | 10.179.252.40 | PROD glassfish - web apps for CRP |
-| vl-urmses        | 10.179.252.42 |                                   |
-| vl-autovue       | 10.179.252.37 |                                   |
+h5. Static IPs
+
+|| Name              || IP Address   || Notes                                        || 
+| vl-ucm1            | 10.179.252.30 |                                               |
+| vl-db1             | 10.179.252.29 |                                               |
+| xps                | 10.179.252.34 |                                               |
+| vl-wlp1            | 10.179.252.31 |                                               |
+| "linux1":#linux1   | 10.179.252.32 | [dns]                                         |
+| vl-wciwcm1         | 10.179.252.35 |                                               | 
+| "alm":#alm         | 10.179.252.39 | [ovm_tb_man] my OVM TB&Mangr                  |
+| youtube            | 10.179.252.38 |                                               |
+| "ipm":#ipm         | 10.179.252.41 |                                  |
+| "vl-wcfs":#vl-wcfs | 10.179.252.40 | [vl-wcfs] PROD glassfish - web apps for CRP   |
+| vl-urmses          | 10.179.252.42 |                                               |
+| vl-autovue         | 10.179.252.37 |                                               |
+
+h5. Non routable IPs
+
+|| Name              || IP Address   || Notes                                        || 
+| ovmtbman            | 192.168.186.3 | [ovm_tb_man_2] smaller disk for easy backup   |
+
 
 h1. Details
 
@@ -51,23 +59,13 @@ h4. Folders
 
 h2. Virtual Machines
 
-h3(#linux1). linux1 - Template Builder
+h3(#linux1). linux1
 
-http://linux1.hk.oracle.com/ovmtb/  (username/password = oracle/welcome1)
-
-This VM has the downloaded (from eDelivery) VM with Oracle Virtual Machine
-Builder on it.  When you build a VM it get put in the folder:
-
-bc. /opt/ovmtb/tarballs
-
-The folder: @/mnt/vmsrv@ is @vl-vmsrv2:/OVS/downloads@ so you can copy the VM
-tarballs there.
-
-* unix user/password: oracle/welcome1
+future dns server when can figure out how to route inbound packets to 192.168.186.* network.
 
 h3(#alm). alm - TB
 
-This is the NEW Template Builder.  When it is finished we should delete "linux1":#linux1.
+This is the NEW Template Builder. 
 
 http://alm.hk.oracle.com/ovmtb/  (username/password = oracle/welcome1)
 
@@ -80,28 +78,10 @@ tarballs there.
 
 * unix user/password: oracle/welcome1
 
-h3(#ipm). ipm
+h3(#vl-wcfs). vl-wcfs
 
+This has the search SES webapp on it.
 
-h3(#wcfs). wcfs
+URL: http://vl-wcfs.hk.oracle.com:8080/SES
 
-bc. ssh oracle@10.179.252.40
-
-password is @welcome1@
-
-This is the VM with Tiji's and Fenton's web apps on it deployed for
-the Conference Room Pilot (CRP).
-
-
-The tomcat5 configuration directory
-
-bc. /usr/share/tomcat5/webapps
-
-To restart, stop, start tomcat5:
-
-bc. 
-sudo /sbin/service tomcat5 restart
-sudo /sbin/service tomcat5 stop
-sudo /sbin/service tomcat5 start
-
-Url @http://10.179.252.40:8080/@
+To manage see "glassfish admin":applications.html#glassfish-admin
