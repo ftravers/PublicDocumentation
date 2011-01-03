@@ -415,9 +415,19 @@ mkdir /mnt/disk
 mount -o loop OracleVM-Manager-2.2.0.iso /mnt/disk
 cd /mnt/disk; sh runInstaller.sh
 
+NOTE: make sure to answer the following question with 'n'
+
+bc. Do you want to use HTTPS access for Oracle VM Manager (Y|n)?n
+
 note: It can take a bit...so be patient.
 
-https://alm.hk.oracle.com:4443/OVS
+* restart
+
+* test with URL:
+
+http://alm.hk.oracle.com:8888/OVS/
+
+login: (admin/password)
 
 h1. Glossary
 
