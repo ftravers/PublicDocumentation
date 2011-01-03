@@ -152,7 +152,7 @@ ifconfig will return your netmask, its the ip address following @Mask:@ above.
 
 You'll need these when you are setting up the static networking for the servers you add to your DNS setup.
 
-Now when you 
+Now when you 7
 
 The second thing I need to do is make up a domain.  Lets call it githklab for GIT-HK-Lab, so the full domain can be: githklab, not githklab.com or githklab.oracle.com, or githklab.hk.oracle.com...simply githklab
 

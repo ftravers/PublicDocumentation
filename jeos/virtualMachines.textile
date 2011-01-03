@@ -26,7 +26,7 @@ h4. All Hosts
 | vl-db1           | 10.179.252.29 |                                   |
 | xps              | 10.179.252.34 |                                   |
 | vl-wlp1          | 10.179.252.31 |                                   |
-| "linux1":#linux1 | 10.179.252.32 | OVM TB Template                   |
+| "linux1":#linux1 | 10.179.252.32 | [dns]                             |
 | vl-wciwcm1       | 10.179.252.35 |                                   | 
 | "alm":#alm       | 10.179.252.39 | my OVM TB&Mangr                   |
 | youtube          | 10.179.252.38 |                                   |
