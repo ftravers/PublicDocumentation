@@ -32,7 +32,7 @@ Applications > Ubuntu Software Center > Edit > Software Sources... > Other Softw
 
 setup google chrome preferences > personal stuff ( to sync everything )
 
-sudo apt-get install compiz compizconfig-settings-manager compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do gnome-do-plugins texlive-full emacs clisp slime latexdiff git-core git-gui gitosis gitweb ant maven2 pidgin meld apache2 auctex libtiff-tools openoffice.org transmission cups-pdf gimp xmlcopyeditor shutter vlc rar acroread p7zip-full dia virtualbox-ose
+sudo apt-get install compiz compizconfig-settings-manager compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do gnome-do-plugins texlive-full emacs clisp slime latexdiff git-core git-gui gitosis gitweb ant maven2 pidgin meld apache2 auctex libtiff-tools openoffice.org transmission cups-pdf gimp xmlcopyeditor shutter vlc rar acroread p7zip-full dia virtualbox-ose bzr bzr-explorer bugzilla3 lighttpd curl
 
 some vnc's r good to add too.
 
@@ -94,7 +94,10 @@ nameserver 208.67.220.220
 h2. Printers
 
 * PDF's can be found in ~/PDF, can view with @xdg-open <pdf_name>@
-* Add a printer from @http://localhost:631@, local username password, HP LaserJet P2015 Series
+* Add a printer from @http://localhost:631@, local username password.
+** CUPS for Administrators > Adding Printers and Classes > Printers > Find New Printers > Add This Printer: Canon iR 6800c EUR 12.02 (...) > Continue > Make: Canon > Continue > Model: Canon imageRunner C6800 Foomatic/Postscript (recommended ) (en) > Add Printer > Page Size: A4 > Set Default Options
+
+
 ** HP LaserJet P2015 Series Postscript (recommended) (en, da, de, es, fi, fr, it, ja, ko, nl, nb, pt, sv, zh_CN, zh_TW)
 ** Connection:	dnssd://HP%20LaserJet%20P2015%20Series%20(0D9452)._pdl-datastream._tcp.local/
 

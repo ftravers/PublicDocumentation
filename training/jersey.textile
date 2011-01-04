@@ -1,0 +1,98 @@
+bc. 
+mvn archetype:create -DgroupId=com.oracle.git.ngsp -DartifactId=crmodRestServer -DarchetypeArtifactId=maven-archetype-webapp
+
+
+The java file:
+
+bc. 
+package com.example.my;
+import javax.ws.rs.GET;
+import javax.ws.rs.ProduceMime;
+import javax.ws.rs.Path;
+// The Java class will be hosted at the URI path "/greeting"
+@Path("greeting")
+public class SimpleResource {
+    // and implement the following GET method 
+    @GET @ProduceMime("text/plain")
+    public String getGreeting() {
+        return "Hi there";
+    }
+}
+
+Maven POM updates:
+
+bc. 
+<dependency>
+  <groupId>com.sun.jersey</groupId>
+  <artifactId>jersey</artifactId>
+  <version>0.8-ea-SNAPSHOT</version>
+</dependency>
+<repositories>
+  <repository>
+    <id>maven2-repository.dev.java.net</id>
+    <name>Java.net Repository for Maven</name>
+    <url>http://download.java.net/maven/2/</url>
+    <layout>default</layout>
+  </repository>
+</repositories>
+
+Here is some stuff so we can run it on tomcat:
+
+bc. 
+<build>
+<plugins>
+ <plugin>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>tomcat-maven-plugin</artifactId>
+ </plugin>
+ <plugin>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <configuration>
+   <source>1.6</source>
+   <target>1.6</target>
+  </configuration>
+ </plugin>
+</plugins>
+...
+</build>
+The web.xml:
+
+bc. 
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>Jersey Web Application</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>com.sun.jersey.config.property.resourceConfigClass</param-name>
+      <param-value>com.sun.jersey.api.core.PackagesResourceConfig</param-value>
+    </init-param>
+    <init-param>
+      <param-name>com.sun.jersey.config.property.packages</param-name>
+      <param-value>com.example.my</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Jersey Web Application</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+</web-app>
+
+run the application:
+
+bc. mvn tomcat:run
+
+testing it:
+
+bc. 
+curl -i http://localhost:8080/SimpleRESTApp/greeting 
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: text/plain
+Transfer-Encoding: chunked
+Date: Mon, 02 Jun 2008 13:49:18 GMT
+Hi there

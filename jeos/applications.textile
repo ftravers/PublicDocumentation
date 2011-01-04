@@ -66,12 +66,19 @@ bc.
 export http_proxy=http://www-proxy.sg.oracle.com
 wget -c http://files.spicevan.com/glassfish-3.0.1.zip
 yum install unzip
+unzip glassfish-3.0.1.zip
+
+put the asadmin dir into your path for oracle: 
+
+bc. vi ~/.bashrc
+export PATH=$PATH:~/bin/glassfishv3/glassfish/bin/
 
 ensure the value returned by @hostname@ is on the line (at the end of the line) for the 127.0.0.1 ipaddress
 ensure nothing is running on ports 8080 4848
 
 bc. 
 sudo netstat -atunp | grep 4848; sudo netstat -atunp | grep 8080
+netstat -atun | grep 4848; netstat -atun | grep 8080
 
 h2(glassfish-admin). Admin
 
