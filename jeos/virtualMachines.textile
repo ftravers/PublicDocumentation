@@ -7,8 +7,9 @@ p(toc). Table of Contents
 h1. Physical
 
 || Connection Info                   || Specs                                   || Notes ||
-| ssh oracle@vl-vmsrv2.hk.oracle.com | *CPU:* CoreDUO *DISK:* 500GB *RAM:* 8GB  |
-| ssh oracle@jpbox.hk.oracle.com     | *CPU:* CoreDUO *DISK:* 1.5TB *RAM:* 16GB |
+| oracle@vl-vmsrv1.hk.oracle.com | *CPU:* CoreDUO *DISK:* 500GB *RAM:* 4GB  |
+| oracle@vl-vmsrv2.hk.oracle.com | *CPU:* CoreDUO *DISK:* 500GB *RAM:* 8GB  |
+| oracle@jpbox.hk.oracle.com     | *CPU:* CoreDUO *DISK:* 1.5TB *RAM:* 16GB |
 | Man Kiet's machines too            | | 
 
 h1. Virtual
@@ -23,19 +24,19 @@ h4. All Hosts
 
 h5. Static IPs
 
-|| Name              || IP Address   || Notes                                        || 
-| vl-ucm1            | 10.179.252.30 |                                               |
-| vl-db1             | 10.179.252.29 |                                               |
-| xps                | 10.179.252.34 |                                               |
-| vl-wlp1            | 10.179.252.31 |                                               |
-| "linux1":#linux1   | 10.179.252.32 | [dns]                                         |
-| vl-wciwcm1         | 10.179.252.35 |                                               | 
-| "alm":#alm         | 10.179.252.39 | [ovm_tb_man] my OVM TB&Mangr                  |
-| youtube            | 10.179.252.38 |                                               |
-| "ipm":#ipm         | 10.179.252.41 |                                  |
-| "vl-wcfs":#vl-wcfs | 10.179.252.40 | [vl-wcfs] PROD glassfish - web apps for CRP   |
-| vl-urmses          | 10.179.252.42 |                                               |
-| vl-autovue         | 10.179.252.37 |                                               |
+|| Name                    || IP Address   || Notes                                        || 
+| vl-ucm1                  | 10.179.252.30 |                                               |
+| vl-db1                   | 10.179.252.29 |                                               |
+| xps                      | 10.179.252.34 |                                               |
+| vl-wlp1                  | 10.179.252.31 |                                               |
+| "linux1":#linux1         | 10.179.252.32 | [dns]                                         |
+| vl-wciwcm1               | 10.179.252.35 |                                               | 
+| "alm":#alm               | 10.179.252.39 | [ovm_tb_man] my OVM TB&Mangr                  |
+| youtube                  | 10.179.252.38 |                                               |
+| "ipm":#ipm               | 10.179.252.41 |                                  |
+| "vl-wcfs":#vl-wcfs       | 10.179.252.40 | [vl-wcfs] PROD glassfish - web apps for CRP   |
+| vl-urmses                | 10.179.252.42 |                                               |
+| "vl-autovue":#autovue    | 10.179.252.37 | ubuntu server                                 |
 
 h5. Non routable IPs
 
@@ -58,6 +59,12 @@ h4. Folders
 
 
 h2. Virtual Machines
+
+h3(#autovue). vl-autovue
+
+This is an ubuntu server machine.  It should host the git, and bug
+tracker software (hopefully red-mine).
+
 
 h3(#linux1). linux1
 

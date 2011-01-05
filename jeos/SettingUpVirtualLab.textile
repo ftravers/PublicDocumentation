@@ -429,6 +429,21 @@ http://alm.hk.oracle.com:8888/OVS/
 
 login: (admin/password)
 
+h3. Using
+
+if you want to make a VM based on an ISO file such as windows xp or
+ubuntu, 
+
+* make a directory under /OVS/iso_pool/, say 'ubuntu' and drop
+your *.iso file in it.
+
+* might need to restart the server
+
+* resources > import > Select from Server Pool (Discover and register) >
+
+* expand search, set iso-label = %, set server pool to your pool name, then approve the iso in there.
+
+
 h1. Glossary
 
 {glossary}
