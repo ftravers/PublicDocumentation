@@ -33,6 +33,13 @@ String filename = "application.properties";
 File file = new File(filename);
 properties.load(new FileInputStream(file));
 
+h2. The Best Way
+
+The following loads a properties file (not resource file) from the root of the classpath....without it needing to be compiled into the jar.
+
+Sometimes you want to find out what file it did find...you can use:
+
+
 h1. Loops
 
 h2. foreach

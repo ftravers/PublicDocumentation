@@ -309,7 +309,13 @@ h3. Generic
 
 Simple Java project, suitable for JAR generation. Maven 2 default.
 
-bc. mvn archetype:generate -DarchetypeArtifactId=maven-archetype-quickstart -dinteractivemode=false -DgroupId=com.mycompany.app -DartifactId=my-app
+bc. mvn archetype:generate -B -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.0 -DgroupId=com.oracle.git.ngsp -DartifactId=ossoCrmodTester -Dversion=1.0 -Dpackage=com.oracle.git.ngsp
+
+|| Parameter || Meaning                                                ||
+| package    | This is the java package the classes will be created in |
+| version    | This is the starting version number to use for release management |
+| artifactId | This is what your jar will be called |
+| -B         | Is non-interactive mode |
 
 h3. Web
 
@@ -431,6 +437,13 @@ bc.
 Run with:
 
 @mvn assembly:assembly@ or @mvn -Ptest assembly:assembly -Dmaven.test.skip=true@ to avoid running the tests...the tests may depend on a setting that is only valid in the development environment and the @-Ptest@ flag will load up the test profile settings which can break the tests.  This way you shut off that step and can still build your uber jar. 
+
+You can also SKIP TESTS with the following:
+
+bc. 
+<properties>
+  <maven.test.skip>true</maven.test.skip>
+</properties>
 
 The above will also specify that the resultant jar execute the main method of: @com.oracle.ngsp.controller.Controller@ (an executable jar) with the following command:
 

@@ -178,4 +178,9 @@ bc. system-config-securitylevel-tui --quiet --port=8080
 
 h1. GIT
 
-rpm -Uhv http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
+Install pre-requisits:
+
+bc. yum install rsync curl.i386 perl perl-DBI.i386
+
+bc. rpm  -Uhv http://packages.sw.be/git/perl-Git-1.7.3-1.el5.rf.i386.rpm http://packages.sw.be/git/git-1.7.3-1.el5.rf.i386.rpm
+

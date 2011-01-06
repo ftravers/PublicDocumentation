@@ -215,6 +215,12 @@ bc.
 
 Run it in emacs with: @Alt-x slime@
 
+h2. Restart Network
+
+Debian systems:
+
+bc. sudo /etc/init.d/networking restart
+
 h2. Startup, Shutdown, Scripts
 
 To make it usable, and make possible it's automatic startup on server boot change its permissions and update-rc.d
@@ -355,6 +361,10 @@ h3. Grep
 Remove found files with either the png or the jpg string in them...the trick is the \| part.
 
 bc. find . | grep -v "png\|jpg"
+
+Search recursively in current directory on down for files ending in *.java for string Wiki
+
+bc. grep -R Wiki --include "*.java" .
 
 h3. Linking 
 
