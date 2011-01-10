@@ -28,10 +28,10 @@ h4. All Hosts
 | vl-wlp1          | 10.179.252.31 |                                   |
 | "linux1":#linux1 | 10.179.252.32 | OVM TB Template                   |
 | vl-wciwcm1       | 10.179.252.35 |                                   | 
-| alm              | 10.179.252.39 | my OVM TB&Mangr                   |
+| "alm":#alm       | 10.179.252.39 | my OVM TB&Mangr                   |
 | youtube          | 10.179.252.38 |                                   |
-| ipm              | 10.179.252.41 |                                   |
-| "wcfs":#wcfs     | 10.179.252.40 | web apps for CRP                  |
+| "ipm":#ipm       | 10.179.252.41 | DEV glassfish                     |
+| "wcfs":#wcfs     | 10.179.252.40 | PROD glassfish - web apps for CRP |
 | vl-urmses        | 10.179.252.42 |                                   |
 | vl-autovue       | 10.179.252.37 |                                   |
 
@@ -51,34 +51,57 @@ h4. Folders
 
 h2. Virtual Machines
 
-h3(#linux1). linux1
+h3(#linux1). linux1 - Template Builder
+
+http://linux1.hk.oracle.com/ovmtb/  (username/password = oracle/welcome1)
 
 This VM has the downloaded (from eDelivery) VM with Oracle Virtual Machine
 Builder on it.  When you build a VM it get put in the folder:
 
-bc. ./opt/ovmtb/tarballs/
+bc. /opt/ovmtb/tarballs
 
 The folder: @/mnt/vmsrv@ is @vl-vmsrv2:/OVS/downloads@ so you can copy the VM
 tarballs there.
 
 * unix user/password: oracle/welcome1
 
+h3(#alm). alm - TB
+
+This is the NEW Template Builder.  When it is finished we should delete "linux1":#linux1.
+
+http://alm.hk.oracle.com/ovmtb/  (username/password = oracle/welcome1)
+
+Created VM tarballs:
+
+bc. /opt/ovmtb/tarballs
+
+The folder: @/mnt/vmsrv@ is @vl-vmsrv2:/OVS/downloads@ so you can copy the VM
+tarballs there.
+
+* unix user/password: oracle/welcome1
+
+h3(#ipm). ipm
+
 
 h3(#wcfs). wcfs
 
+bc. ssh oracle@10.179.252.40
+
+password is @welcome1@
+
 This is the VM with Tiji's and Fenton's web apps on it deployed for
 the Conference Room Pilot (CRP).
+
 
 The tomcat5 configuration directory
 
 bc. /usr/share/tomcat5/webapps
 
-To restart tomcat5
+To restart, stop, start tomcat5:
 
-bc. service tomcat5 restart
-
-Linux username and password:
-
-bc. tomcat/welcome1
+bc. 
+sudo /sbin/service tomcat5 restart
+sudo /sbin/service tomcat5 stop
+sudo /sbin/service tomcat5 start
 
 Url @http://10.179.252.40:8080/@

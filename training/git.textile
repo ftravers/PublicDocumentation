@@ -403,3 +403,23 @@ bc. git rev-list -n 1 HEAD -- <file_path>
 Then checkout the version at the commit before.
 
 bc. git checkout <deleting_commit>^ -- <file_path>
+
+h2. I committed something in the past for one file and I want to undo that commit.
+
+open gitk in the project and navigate the history to find the commit you want to undo.  Make sure you have 'patch' selected in bottom right window.  You can right click on the filename and choose 'Highlight this only'.  Look in the box: 'SHA1 ID:' to get a sense of the SHA1 ID for this commit.  Then do a: @git log@ in the terminal so you can select (copy/paste) this SHA1.  Make sure you have the version number (SHA1) of the commit before the commit that has the change. Once you have the SHA1 you want to checkout this version like so:
+
+git checkout a5ab6dd2505a5bcbdeafcb393cafd6a404ef051d -- src/main/java/com/oracle/git/sesReader/SesReader.java
+
+h1. Bazaar
+
+Bazaar is another VCS similar to GIT but apparently easier to use.
+
+h2. Getting started
+
+bc. 
+bzr init
+bzr add
+bzr commit -m "Initial import"
+bzr log
+
+

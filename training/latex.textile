@@ -76,11 +76,12 @@ All of them are similar, except letter. The main differences can be summerised a
 An “article” does not provide “chapter”, whereas “book” and “report” do. Thus, the first structuring element of an “article” is \section{name}.  In a “book”, a header is automatically added to each page indicating the page number as well as the chapter name on even pages and the section name on odd pages A “book” is always 2-sided whereas in a “report” or “article” you have to specify it by using the “twoside” option. In addition, in a “book” and “report” the “titlepage” and “abstract” will take a whole page each, which is not the case for “article”. In an “article”, you can use the options “titlepage” and “abstract”.  The “letter” provides a US-type letter format.
 
 
-h1. Images
+h1. Images / Pictures
 
 h2. Cheatsheet
 
 bc. 
+\usepackage{graphicx}
 \setlength\fboxsep{1pt}
 \setlength\fboxrule{0.5pt}
 ...
@@ -92,6 +93,8 @@ bc.
   \caption{Basic Architecture}
   \label{basicArch}
 \end{figure}
+\newpage
+\clearpage
 ...
 See figure~\ref{basicArch} on page~\pageref{basicArch}.
 
@@ -137,6 +140,14 @@ do
     echo "Processing $f"
     sam2p $f EPS: ${f/.png}.eps
 done
+
+h2. Quoting
+
+bc. 
+\begin{quote}
+    ``...\emph{As it is a private shared residential home it does not come
+    under the Landlord Tenancy Act}''
+\end{quote}
 
 h1. Cross Linking between viewer and source
 

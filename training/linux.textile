@@ -6,7 +6,23 @@ p(toc). Table of Contents
 
 h1. Ubuntu
 
-h2. Clean Install Setup
+Clean Install Setup
+
+h2. USB Thumbdrive install
+
+* source: "https://help.ubuntu.com/community/Installation/FromUSBStick":https://help.ubuntu.com/community/Installation/FromUSBStick
+
+* From an ubuntu machine do:
+
+bc. 
+$ sudo apt-get install usb-creator
+$ usb-creator-gtk
+
+* Select the ubuntu iso you downloaded
+* You can delete usb contents first if u want
+* Select discard saved files
+* CREATE your bootable usb disk!
+* Boot other computer from this usb disk drive...follow install instructions.
 
 h3. Packages
 
@@ -16,7 +32,7 @@ Applications > Ubuntu Software Center > Edit > Software Sources... > Other Softw
 
 setup google chrome preferences > personal stuff ( to sync everything )
 
-sudo apt-get install compiz compizconfig-settings-manager compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do gnome-do-plugins texlive-full emacs clisp slime latexdiff git-core git-gui gitosis gitweb ant maven2 pidgin meld apache2 auctex libtiff-tools openoffice.org transmission cups-pdf gimp xmlcopyeditor shutter vlc rar acroread 
+sudo apt-get install compiz compizconfig-settings-manager compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do gnome-do-plugins texlive-full emacs clisp slime latexdiff git-core git-gui gitosis gitweb ant maven2 pidgin meld apache2 auctex libtiff-tools openoffice.org transmission cups-pdf gimp xmlcopyeditor shutter vlc rar acroread p7zip-full dia virtualbox-ose bzr bzr-explorer bugzilla3 lighttpd curl
 
 some vnc's r good to add too.
 
@@ -61,6 +77,12 @@ bc.
 * Web Downloads
 Eclipse, SQLDeveloper, Skype, Adobe Acrobat Reader
 
+h2. Evolution setup
+
+* backup and import all data from old computer
+* Edit > Preferences > Composer Preferences > Forward/Reply Style > Inline
+
+
 h2. Set Open DSN Servers
 
 set /etc/resolv.conf
@@ -72,7 +94,10 @@ nameserver 208.67.220.220
 h2. Printers
 
 * PDF's can be found in ~/PDF, can view with @xdg-open <pdf_name>@
-* Add a printer from @http://localhost:631@, local username password, HP LaserJet P2015 Series
+* Add a printer from @http://localhost:631@, local username password.
+** CUPS for Administrators > Adding Printers and Classes > Printers > Find New Printers > Add This Printer: Canon iR 6800c EUR 12.02 (...) > Continue > Make: Canon > Continue > Model: Canon imageRunner C6800 Foomatic/Postscript (recommended ) (en) > Add Printer > Page Size: A4 > Set Default Options
+
+
 ** HP LaserJet P2015 Series Postscript (recommended) (en, da, de, es, fi, fr, it, ja, ko, nl, nb, pt, sv, zh_CN, zh_TW)
 ** Connection:	dnssd://HP%20LaserJet%20P2015%20Series%20(0D9452)._pdl-datastream._tcp.local/
 
@@ -144,10 +169,23 @@ bc.
 ~/Downloads$ chmod 755 netbeans-6.9.1-ml-java-linux.sh 
 ~/Downloads$ ./netbeans-6.9.1-ml-java-linux.sh 
 
+h2. Clojure
+
+see: "Clojure Install":clojure.html
 
 h2. Package Management
 
 h3. Package Details
+
+h4. List all installed packages
+
+bc. dpkg --get-selections > installed-software
+
+h4. Re-install based on above list
+
+bc. dpkg --set-selections < installed-software; dselect
+
+h4. Package info
 
 To determine info about a given package do:
 
@@ -155,36 +193,26 @@ bc.
 dpkg -p <package_name>
 dpkg -p clisp
 
-List files installed to your system from package.
+h4. List files installed to your system from package.
 
 bc. 
 dpkg -L package-Name
 
 
-List contents of a deb package.
+h4. List contents of a deb package.
 
 bc. 
 dpkg -c filename
 
-h2. Setting up Lisp
+h4. re-install
 
-h3. Install clisp
+apt-get --reinstall install <package>
 
-bc. sudo apt-get install clisp
+h4. purge
 
-h3. slime
+apt-get --purge remove <package>
 
-"Slime Documentation":http://common-lisp.net/project/slime/doc/html/
-
-installation just requires a few lines in your .emacs:
-
-bc. 
-(setq inferior-lisp-program "/usr/bin/clisp") ; your Lisp system
-(add-to-list 'load-path "~/bin/slime-2010-11-09/")  ; your SLIME directory
-(require 'slime)
-(slime-setup)
-
-Run it in emacs with: @Alt-x slime@
+can also do: @dpkg --purge <package>@ then try re-install
 
 h2. Startup, Shutdown, Scripts
 
@@ -302,6 +330,12 @@ The example below sets two environment variables: @PATH@ and @JAVA_HOME@.  Notic
 bc. 
 export PATH=$PATH:/home/ft/bin/apache-maven-2.2.1/bin:/home/ft/bin/jdk1.6.0_18/bin
 export JAVA_HOME=/home/ft/bin/jdk1.6.0_18
+
+* Global Environment Variables
+
+On debian linux: @/etc/bash.bashrc@
+
+On redhat linux: @/etc/profile@
 
 h2. Aliasing
 
@@ -426,3 +460,55 @@ Icon=/home/ftravers/bin/eclipse_3.6.1/icon.xpm
 Type=Application
 Categories=Development;IDE;
 Path=/home/ftravers/bin/eclipse_3.6.1/
+
+
+h1. Redhat derivatives
+
+h2. rpm
+
+For installing a software package, you use the rpm command with -i
+option (which stands for "install"). For example, to install an RPM
+package called software-2.3.4.rpm:
+
+bc. # rpm -i software-2.3.4.rpm
+
+h2. accelerated web downloads
+
+There is a nice utility @aget@ that you can install on Redhat distributions.  Add the following to: @/etc/yum.repos.d/dries.repo@:
+
+bc. 
+# cat /etc/yum.repos.d/dries.repo 
+[dries]
+name=dries
+enabled=1
+gpgcheck=1
+gpgkey=http://dries.ulyssis.org/rpm/RPM-GPG-KEY.dries.txt
+baseurl=http://ftp.belnet.be/packages/dries.ulyssis.org/redhat/el5/en/i386/dries/RPMS
+
+you _may_ need to also do: 
+
+bc. 
+wget http://dries.ulyssis.org/rpm/RPM-GPG-KEY.dries.txt
+rpm --import RPM-GPG-KEY.dries.txt
+
+but I think the dries.repo entries should take care of that.
+
+Then just do:
+
+bc. yum install aget
+
+Run aget to see how it is used:
+
+bc. 
+# aget
+usage: aget [options] url
+	options:
+		-p port number
+		-l local file name
+		-n suggested number of threads
+		-f force using suggested number of threads
+		-h this screen
+		-v version info
+http//www.enderunix.org/aget/
+
+

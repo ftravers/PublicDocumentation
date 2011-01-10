@@ -1,3 +1,33 @@
+h1(#nfs). NFS
+
+h2. client
+
+bc. mkdir /mnt/vmsrv
+
+edit @/etc/fstab@ example:
+
+bc. vl-vmsrv2:/OVS/downloads	/mnt/vmsrv	nfs	defaults	0 0
+
+bc. 
+yum install -y nfs-utils
+mount -t rpc_pipefs sunpc /var/lib/nfs/rpc_pipefs
+service portmap start
+service nfs start
+mount -a
+
+h2. server
+
+bc. 
+yum install nfs-utils
+mount -t rpc_pipefs sunpc /var/lib/nfs/rpc_pipefs
+service portmap start
+system-config-securitylevel-tui --quiet --port=111 --port=2049
+service nfs start
+
+server: /etc/mounts example:
+
+bc. /OVS/downloads *(rw,sync,all_squash,anonuid=500,anongid=500)
+
 h1. Java
 
 bc. yum install java-1.6.0-openjdk
@@ -14,4 +44,138 @@ bc. /usr/bin/system-config-securitylevel-tui
 
 Customize > other ports > 8080:tcp
 
+Create an @oracle@ user and give sudo permissions.
 
+bc. 
+useradd oracle
+passwd oracle
+usermod -a -G tomcat oracle
+yum install sudo
+visudo
+
+add the following line to the end of the file:
+
+bc. 
+oracle wcfs=/sbin/service tomcat5 restart,/sbin/service tomcat5 stop, /sbin/service tomcat5 start
+
+h1. Glassfish
+
+Setup the WWW proxy so wget will work.  You'll probably have a different URL to download glassfish from.
+
+bc. 
+export http_proxy=http://www-proxy.sg.oracle.com
+wget -c http://files.spicevan.com/glassfish-3.0.1.zip
+yum install unzip
+unzip glassfish-3.0.1.zip
+
+put the asadmin dir into your path for oracle: 
+
+bc. vi ~/.bashrc
+export PATH=$PATH:~/bin/glassfishv3/glassfish/bin/
+
+ensure the value returned by @hostname@ is on the line (at the end of the line) for the 127.0.0.1 ipaddress
+ensure nothing is running on ports 8080 4848
+
+bc. 
+sudo netstat -atunp | grep 4848; sudo netstat -atunp | grep 8080
+netstat -atun | grep 4848; netstat -atun | grep 8080
+
+h2(glassfish-admin). Admin
+
+Deploy/Undeploy
+
+bc. 
+$ cd ~oracle/bin/glassfish-3.0.1/glassfish/bin
+$ ./asadmin list-applications
+$ ./asadmin deploy ~/projects/MvnSesFe/target/SES.war 
+$ ./asadmin undeploy com.oracle.git_MvnSesFe_war_1.0-SNAPSHOT
+$ ./asadmin start-domain
+$ ./asadmin stop-domain
+
+Watch the logs
+
+bc. 
+$ cd ~/bin/glassfish-3.0.1/glassfish/domains/domain1/logs/
+$ tail -f server.log
+
+See where your app is deployed to:
+
+bc. 
+$ cd ~/bin/glassfish-3.0.1/glassfish/domains/domain1/applications
+$ find .
+
+h3. Automatically Deploy/Undeploy
+
+bc. cp sample-dir/hello.war as-install/domains/domain1/autodeploy
+
+h3. Auto start/stop scripts:
+
+in @/etc/init.d/glassfish@ put:
+
+h4. startup/shutdown script:
+
+bc.. 
+#!/bin/bash
+#
+# glassfish:          Startup script for Glassfish Application Server.
+#
+# chkconfig: 3 80 05
+# description:      Startup script for domain1 of Glassfish Application Server.
+ 
+GLASSFISH_HOME=/home/oracle/bin/glassfishv3/glassfish;
+export GLASSFISH_HOME
+ 
+GLASSFISH_OWNER=oracle;
+export GLASSFISH_OWNER
+ 
+start() {
+        echo -n "Starting Glassfish: "
+        echo "Starting Glassfish at `date`" >> $GLASSFISH_HOME/domains/domain1/logs/startup.log
+        su $GLASSFISH_OWNER -c "$GLASSFISH_HOME/bin/asadmin start-domain domain1" >> $GLASSFISH_HOME/domains/domain1/logs/startup.log
+        sleep 2
+        echo "done"
+}
+ 
+stop() {
+        echo -n "Stopping Glassfish: "
+        echo "Stopping Glassfish at `date`" >> $GLASSFISH_HOME/domains/domain1/logs/startup.log
+        su $GLASSFISH_OWNER -c "$GLASSFISH_HOME/bin/asadmin stop-domain domain1" >> $GLASSFISH_HOME/domains/domain1/logs/startup.log
+        echo "done"
+}
+ 
+# See how we were called.
+case "$1" in
+        start)
+                start
+                ;;
+        stop)
+                stop
+                ;;
+        restart)
+                stop
+                start
+                ;;
+        *)
+                echo $"Usage: glassfish {start|stop|restart}"
+                exit
+esac
+
+h4. Install Service
+
+bc. 
+#chmod +x /etc/init.d/glassfish
+#chkconfig --add glassfish
+#chkconfig --level 3 glassfish on
+
+h4. Start Service
+
+bc. 
+#/etc/init.d/glassfish start
+
+h4. Open port in firewall
+
+bc. system-config-securitylevel-tui --quiet --port=8080
+
+h1. GIT
+
+rpm -Uhv http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
