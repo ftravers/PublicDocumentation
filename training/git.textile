@@ -366,7 +366,6 @@ Then you can do the rest of the commands for Git specified above.
 
 h1(#gitRouting). Change your routing
 
-_Note: this tutorial is designed for linux and mac users._
 
 If you are plugged on a company network where SSH is not tolerated but on the other hand have access to a wifi network where it is, 
 there is a way to have GIT working without plugging/unplugging your network cable
@@ -378,12 +377,16 @@ bc.
 bvanders-laptop:~ bvanders$ traceroute spicevan.com
 traceroute to spicevan.com (173.236.138.100), 64 hops max, 40 byte packets
  1  xxx.xxxx.xxx (192.168.0.1)  163.935 ms  167.994 ms  153.271 ms
+ 
+_Note: on windows, the command would be tracert spicevan.com but the result would be similar_
 
 _192.168.0.1_ is your gateway
 _173.236.138.100_ is spicevan.com's ip address
 
 * connect your ethernet cable and type the following command to add a static route:
 @sudo route add 173.236.138.100/32 192.168.0.1@
+
+_Note: on windows, the command is @route ADD 173.236.138.100 MASK 255.255.255.0 192.168.0.1@_
 
 You should now be able to test it with the command @git status@
 
