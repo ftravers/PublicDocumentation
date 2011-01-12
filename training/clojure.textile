@@ -740,8 +740,27 @@ bc.
 The dot before toUpperCase tells Clojure to treat it as the name of a Java
 method instead of a Clojure function.
 
+h2. Parameter naming conventions
 
+||Parameter|| Usage||
+|a    |A Java array|
+|agt  |An agent|
+|coll |A collection|
+|expr |An expression|
+|f    |A function|
+|idx  |Index|
+|r    |A ref|
+|v    |A vector|
+|val  |A value|
 
+h2. form grammar
+
+bc. 
+(example-fn required-arg)
+(example-fn optional-arg?)
+(example-fn zero-or-more-arg*)
+(example-fn one-or-more-arg+)
+(example-fn & collection-of-variable-args)
 
 
 

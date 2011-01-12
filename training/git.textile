@@ -255,6 +255,15 @@ bc. git push origin newfeature
 
 Where @origin@ is your remote name and @newfeature@ is the name of the branch you want to push up.
 
+h2. Pull a remote branch
+
+create a local tracking branch:
+
+bc. $ git checkout -b experimental origin/experimental
+
+where the first experimental is the name of your local branch that
+maps to the branch name on the remote (origin) named (experimental) as well.
+
 h3. Deleting remote branch
 
 Deleting is also a pretty simple task (despite it feeling a bit kludgy):
