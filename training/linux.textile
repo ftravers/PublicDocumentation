@@ -6,7 +6,23 @@ p(toc). Table of Contents
 
 h1. Ubuntu
 
-h2. Clean Install Setup
+Clean Install Setup
+
+h2. USB Thumbdrive install
+
+* source: "https://help.ubuntu.com/community/Installation/FromUSBStick":https://help.ubuntu.com/community/Installation/FromUSBStick
+
+* From an ubuntu machine do:
+
+bc. 
+$ sudo apt-get install usb-creator
+$ usb-creator-gtk
+
+* Select the ubuntu iso you downloaded
+* You can delete usb contents first if u want
+* Select discard saved files
+* CREATE your bootable usb disk!
+* Boot other computer from this usb disk drive...follow install instructions.
 
 h3. Packages
 
@@ -110,6 +126,25 @@ domain = gmail.com
 ** Advanced
 require ssl/tsl = checked
 
+h2. SQLDeveloper & Eclipse
+
+See "here":#ubuntuInstall for specific details.
+
+bc. 
+cd projects/myConfig/
+desktop-file-validate Eclipse.desktop
+desktop-file-validate SQLDeveloper.desktop 
+sudo desktop-file-install Eclipse.desktop
+sudo desktop-file-install SQLDeveloper.desktop
+
+Run SQLDeveloper once by hand to set the JDK path.
+
+/bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
+
+set your jvm home to: /usr/lib/jvm/java-6-sun
+
+Now you should find the icons to launch the apps under: Applications > Programming.
+
 h2. Startup Programs
 
 System > Preferences > Startup Applications ... add
@@ -134,6 +169,9 @@ bc.
 ~/Downloads$ chmod 755 netbeans-6.9.1-ml-java-linux.sh 
 ~/Downloads$ ./netbeans-6.9.1-ml-java-linux.sh 
 
+h2. Clojure
+
+see: "Clojure Install":clojure.html
 
 h2. Package Management - Debian Systems
 
