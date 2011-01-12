@@ -31,13 +31,12 @@ h5. Static IPs
 | vl-wlp1                  | 10.179.252.31 |                                               |
 | "linux1":#linux1         | 10.179.252.32 | [dns]                                         |
 | vl-wciwcm1               | 10.179.252.35 |                                               | 
-| "alm":#alm               | 10.179.252.39 | [ovm_tb_man] my OVM TB&Mangr                  |
+| "alm":#alm               | 10.179.252.39 | [ovm_tb_man_2] my OVM TB&Mangr                |
 | youtube                  | 10.179.252.38 |                                               |
-| "ipm":#ipm               | 10.179.252.41 |                                  |
+| ipm                      | 10.179.252.41 |                                               |
 | "vl-wcfs":#vl-wcfs       | 10.179.252.40 | [vl-wcfs] PROD glassfish - web apps for CRP   |
 | vl-urmses                | 10.179.252.42 |                                               |
-| "vl-autovue":#autovue    | 10.179.252.37 | ubuntu server                                 |
-
+| vl-autovue               | 10.179.252.37 |                                               |
 h5. Non routable IPs
 
 || Name              || IP Address   || Notes                                        || 
@@ -57,20 +56,18 @@ h4. Folders
 | NFS exports      | /OVS/downloads     | 450/500GB Free |
 | NFS mounts       | /mount/jpbox       | 100/917GB Free |
 
+h3(#vl-vmsrv1). vl-vmsrv1
+
+|| Description     || Folder            || Notes         |
+| Virtual Machines | /OVS/running_pool/ |                |
 
 h2. Virtual Machines
 
-h3(#autovue). vl-autovue
-
-This is an ubuntu server machine.  It should host the git, and bug
-tracker software (hopefully red-mine).
-
-
-h3(#linux1). linux1
+h3(#linux1). linux1 - dns
 
 future dns server when can figure out how to route inbound packets to 192.168.186.* network.
 
-h3(#alm). alm - TB
+h3(#alm). alm - ovm_tb_man_2
 
 This is the NEW Template Builder. 
 
@@ -85,7 +82,7 @@ tarballs there.
 
 * unix user/password: oracle/welcome1
 
-h3(#vl-wcfs). vl-wcfs
+h3(#vl-wcfs). vl-wcfs - wcfs
 
 This has the search SES webapp on it.
 

@@ -176,11 +176,33 @@ h4. Open port in firewall
 
 bc. system-config-securitylevel-tui --quiet --port=8080
 
-h1. GIT
+h1(#git). GIT
 
-Install pre-requisits:
+Install pre-requisits: (perl might now be needed, but perl-DBI is)
 
 bc. yum install rsync curl.i386 perl perl-DBI.i386
 
 bc. rpm  -Uhv http://packages.sw.be/git/perl-Git-1.7.3-1.el5.rf.i386.rpm http://packages.sw.be/git/git-1.7.3-1.el5.rf.i386.rpm
 
+h1(#python26). Python 2.6 
+
+From: "http://www.geekymedia.com/uncategorized/rhel5-centos5-rpms-for-python-2-5-and-2-6/":http://www.geekymedia.com/uncategorized/rhel5-centos5-rpms-for-python-2-5-and-2-6/, download:
+
+* python26-2.6-geekymedia1.i386.rpm
+* python26-libs-2.6-geekymedia1.i386.rpm
+
+bc. rpm -ivh python26-libs-2.6-geekymedia1.i386.rpm python26-2.6-geekymedia1.i386.rpm
+
+h1(#gitosis). Gitosis 
+
+Create a user called git, and set the password.
+
+bc. 
+useradd git
+passwd git
+
+Add an alias in ~/.bashrc
+
+bc. alias python=/usr/bin/python26
+
+source: "http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1":http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1

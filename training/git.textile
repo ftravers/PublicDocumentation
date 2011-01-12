@@ -28,6 +28,12 @@ bc.
 
 Check your version of python with: @python --version@
 
+* for JeOS systems see: 
+** "Installing GIT":/jeos/applications.html#git
+** "Installing Python 2.6":/jeos/applications.html#python26 
+
+
+
 for 2.5*
 
 bc. 
@@ -52,6 +58,8 @@ bc.
 If the @git clone git://eagain.net/gitosis.git@ line doesn't work for you
 like it didn't for me once, you can download the tar.gz off the web and 
 untar it in your root folder so @cd; ls@ shows the @gitosis@ directory.
+
+Maybe get it here: "http://felixembeddedonandroid.googlecode.com/files/gitosis.tar.gz":http://felixembeddedonandroid.googlecode.com/files/gitosis.tar.gz
 
 bc. 
 [remote]$ cd; tar xvfz gitosis-somelongHashCode.tar.gz
@@ -240,6 +248,20 @@ bc.
 [testuser@local]$ cd ~/projects/testrepo1; git pull; cat test.txt
 
 h1. Misc Tasks
+
+h2. Pushing a branch to remote repository
+
+bc. git push origin newfeature
+
+Where @origin@ is your remote name and @newfeature@ is the name of the branch you want to push up.
+
+h3. Deleting remote branch
+
+Deleting is also a pretty simple task (despite it feeling a bit kludgy):
+
+bc. git push origin :newfeature
+
+That will delete the newfeature branch on the origin remote, but you’ll still need to delete the branch locally with git branch -d newfeature.
 
 h2. Unstaging a file
 
