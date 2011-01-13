@@ -1,3 +1,5 @@
+reference: "http://blogs.sun.com/japod/entry/building_simple_jersey_web_app":http://blogs.sun.com/japod/entry/building_simple_jersey_web_app
+
 bc. 
 mvn archetype:create -DgroupId=com.oracle.git.ngsp -DartifactId=crmodRestServer -DarchetypeArtifactId=maven-archetype-webapp
 
@@ -89,10 +91,60 @@ bc. mvn tomcat:run
 testing it:
 
 bc. 
-curl -i http://localhost:8080/SimpleRESTApp/greeting 
+curl -i http://localhost:8080/crmodRestServer/greeting 
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
 Content-Type: text/plain
 Transfer-Encoding: chunked
 Date: Mon, 02 Jun 2008 13:49:18 GMT
 Hi there
+
+h2. URL *PATH* Parameters
+
+Update the java code to:
+
+bc.
+// The Java class will be hosted at the URI path "/greeting"
+@Path("greeting/{name}")
+public class CrmodRestServer {
+	@GET
+	@ProduceMime("text/plain")
+	public String getGreeting(@PathParam("name") String name) {
+		return "Hi there " + name;
+	}
+
+Test
+
+bc. 
+curl -i http://localhost:8080/crmodRestServer/greeting/Fenton
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: text/plain
+Transfer-Encoding: chunked
+Date: Thu, 13 Jan 2011 07:01:00 GMT
+Hi there Fenton
+
+
+h2. URL *QUERY* Parameters 
+
+code:
+
+bc. 
+@Path("greeting")
+public class CrmodRestServer {
+	@GET
+	@ProduceMime("text/plain")
+	public String getGreeting(@QueryParam("name") String name) {
+		return "Hi there " + name;
+	}
+
+Test
+
+bc. 
+curl -i http://localhost:8080/crmodRestServer/greeting?name=Fenton
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: text/plain
+Transfer-Encoding: chunked
+Date: Thu, 13 Jan 2011 07:07:39 GMT
+Hi there Fenton

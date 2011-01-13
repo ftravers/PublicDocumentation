@@ -34,14 +34,13 @@ h5. Static IPs
 | "alm":#alm               | 10.179.252.39 | [ovm_tb_man_2] my OVM TB&Mangr                |
 | youtube                  | 10.179.252.38 |                                               |
 | ipm                      | 10.179.252.41 |                                               |
-| "vl-wcfs":#vl-wcfs       | 10.179.252.40 | [vl-wcfs] PROD glassfish - web apps for CRP   |
+| "vl-wcfs":#vl-wcfs       | 10.179.252.40 | [wcfs] PROD glassfish - web apps for CRP   |
 | vl-urmses                | 10.179.252.42 |                                               |
 | vl-autovue               | 10.179.252.37 |                                               |
 h5. Non routable IPs
 
 || Name              || IP Address   || Notes                                        || 
 | ovmtbman            | 192.168.186.3 | [ovm_tb_man_2] smaller disk for easy backup   |
-
 
 h1. Details
 
@@ -69,6 +68,8 @@ future dns server when can figure out how to route inbound packets to 192.168.18
 
 h3(#alm). alm - ovm_tb_man_2
 
+h4. Oracle Virtual Machine, Oracle Virtual Machine Manager
+
 This is the NEW Template Builder. 
 
 http://alm.hk.oracle.com/ovmtb/  (username/password = oracle/welcome1)
@@ -81,6 +82,11 @@ The folder: @/mnt/vmsrv@ is @vl-vmsrv2:/OVS/downloads@ so you can copy the VM
 tarballs there.
 
 * unix user/password: oracle/welcome1
+
+h4. Hudson
+
+
+
 
 h3(#vl-wcfs). vl-wcfs - wcfs
 
