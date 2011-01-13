@@ -64,7 +64,12 @@ h2. Virtual Machines
 
 h3(#linux1). linux1 - dns
 
+h4. DNS Server
+
 future dns server when can figure out how to route inbound packets to 192.168.186.* network.
+
+h4. GIT Server
+
 
 h3(#alm). alm - ovm_tb_man_2
 
