@@ -55,10 +55,19 @@ h4. Folders
 | NFS exports      | /OVS/downloads     | 450/500GB Free |
 | NFS mounts       | /mount/jpbox       | 100/917GB Free |
 
+h4. VMs
+
+* linux1 - dns
+* alm - ovm_tb_man_2
+
 h3(#vl-vmsrv1). vl-vmsrv1
 
 || Description     || Folder            || Notes         |
 | Virtual Machines | /OVS/running_pool/ |                |
+
+h4. VMs
+
+* wcfs
 
 h2. Virtual Machines
 

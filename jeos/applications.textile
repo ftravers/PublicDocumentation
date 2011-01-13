@@ -178,31 +178,68 @@ bc. system-config-securitylevel-tui --quiet --port=8080
 
 h1(#git). GIT
 
-Install pre-requisits: (perl might now be needed, but perl-DBI is)
+* Install python-setuptools on your server, you'll need it to install gitosis.
+As root:
 
-bc. yum install rsync curl.i386 perl perl-DBI.i386
+bc. yum -y install python-setuptools
 
-bc. rpm  -Uhv http://packages.sw.be/git/perl-Git-1.7.3-1.el5.rf.i386.rpm http://packages.sw.be/git/git-1.7.3-1.el5.rf.i386.rpm
+* On your laptop download: 
 
-h1(#python26). Python 2.6 
+bc. http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
 
-From: "http://www.geekymedia.com/uncategorized/rhel5-centos5-rpms-for-python-2-5-and-2-6/":http://www.geekymedia.com/uncategorized/rhel5-centos5-rpms-for-python-2-5-and-2-6/, download:
+upload it to your server 
 
-* python26-2.6-geekymedia1.i386.rpm
-* python26-libs-2.6-geekymedia1.i386.rpm
+bc. rsync -avP rpmforge-release-0.3.6-1.el5.rf.i386.rpm root@linux1.hk.oracle.com:/root/
 
-bc. rpm -ivh python26-libs-2.6-geekymedia1.i386.rpm python26-2.6-geekymedia1.i386.rpm
+and do:
 
-h1(#gitosis). Gitosis 
+bc. rpm -ivh rpmforge-release-0.3.6-1.el5.rf.i386.rpm
 
-Create a user called git, and set the password.
+* Install GIT
+
+bc. yum -y install git
+
+* Install Gitosis
+
+on laptop download: 
+
+bc. http://felixembeddedonandroid.googlecode.com/files/gitosis.tar.gz
+
+upload to server
+
+bc. rsync -avP gitosis.tar.gz root@linux1.hk.oracle.com:/root/
+
+on server
+
+bc. 
+tar xvfz gitosis.tar.gz
+cd gitosis
+python setup.py install
+
+* Create a user called git, and set the password.
 
 bc. 
 useradd git
 passwd git
 
-Add an alias in ~/.bashrc
+* Copy your laptop public key to server
 
-bc. alias python=/usr/bin/python26
+bc. scp /home/oracle/.ssh/id_rsa.pub git@linux1.hk.oracle.com:/home/git
+
+* On server AS git USER!!!
+
+bc. 
+gitosis-init < id_rsa.pub
+rm id_rsa.pub
+chmod 755 /home/git; chmod 700 /home/git/.ssh; chmod 644 /home/git/.ssh/authorized_keys
+
+* On client (laptop)
+
+bc. 
+cd ~; mkdir projects; cd projects
+git clone git@linux1.hk.oracle.com:gitosis-admin.git
+cd gitosis-admin/
+
+You are pretty much done now...see: "GIT":/training/git.html for more instructions
 
 source: "http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1":http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1
