@@ -441,6 +441,29 @@ open gitk in the project and navigate the history to find the commit you want to
 
 git checkout a5ab6dd2505a5bcbdeafcb393cafd6a404ef051d -- src/main/java/com/oracle/git/sesReader/SesReader.java
 
+h2. Move remote repo
+
+Say I want to start using a new remote repository.  Say also that this
+remote repository doesn't have the code there yet.
+
+* Change Origin
+
+The first thing to do is change where origin points to
+
+bc. 
+$ git remote -v
+origin	ft_git3@spicevan.com:elisp.git (fetch)
+origin	ft_git3@spicevan.com:elisp.git (push)
+$ git remote set-url origin git@linux1.hk.oracle.com:elisp.git
+$ git push origin master:refs/heads/master
+
+If the repo already exists on the server (say for your colleagues
+after you've moved it there), they just have to do the @git remote
+set-url...@ step, followed by:
+
+bc. git pull origin master
+
+
 h1. Bazaar
 
 Bazaar is another VCS similar to GIT but apparently easier to use.

@@ -57,7 +57,6 @@ h4. Folders
 
 h4. VMs
 
-* linux1 - dns
 * alm - ovm_tb_man_2
 
 h3(#vl-vmsrv1). vl-vmsrv1
@@ -68,6 +67,7 @@ h3(#vl-vmsrv1). vl-vmsrv1
 h4. VMs
 
 * wcfs
+* linux1 - dns
 
 h2. Virtual Machines
 

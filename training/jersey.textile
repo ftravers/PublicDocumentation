@@ -148,3 +148,16 @@ Content-Type: text/plain
 Transfer-Encoding: chunked
 Date: Thu, 13 Jan 2011 07:07:39 GMT
 Hi there Fenton
+
+h3. Multiple Params
+
+code:
+
+bc. 
+public String getGreeting(
+       @QueryParam("name1") String name1, 
+       @QueryParam("name2") String name2) { return "Hi " + name1 + " " + name2; }
+
+test:
+
+bc. curl -i "http://localhost:8080/crmodRestServer/greeting?name1=Fenton&name2=Travers"

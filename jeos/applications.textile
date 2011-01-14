@@ -243,3 +243,9 @@ cd gitosis-admin/
 You are pretty much done now...see: "GIT":/training/git.html for more instructions
 
 source: "http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1":http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1
+
+
+h1. HTTP
+
+bc. yum install -y httpd
+
