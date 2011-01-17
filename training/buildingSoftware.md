@@ -1,1 +1,1 @@
-First create the project you want with "Maven":/maven.html#createProject
+First create the project you want with [Maven](/maven.html#createProject)
