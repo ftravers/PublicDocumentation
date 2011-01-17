@@ -204,7 +204,7 @@ bc.
 [ftravers@local]$ git commit -a -m"My Message."
 [ftravers@local]$ git push
 
-h2. Clone Repository
+h2(#clone). Clone Repository
 
 Now the other user @testuser@ can checkout this repository
 

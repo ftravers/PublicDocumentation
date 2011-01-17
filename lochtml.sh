@@ -17,7 +17,7 @@ cd $webStageDir
 
 # $DOCS_HOME defined in ~/.bashrc
 cd $DOCS_HOME
-git commit -a -m"."
+git commit -am"."
 
 # Checkout files from GIT and put them into the webstage dir
 git archive master | tar -x -C "$webStageDir"
