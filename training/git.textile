@@ -152,7 +152,7 @@ bc.
 
 * Add it to git server
 
-bc. 
+bc(#initialize). 
 [ftravers@local]$ cd testrepo1; git init
 [ftravers@local]$ git remote add origin ft_git3@spicevan.com:testrepo1.git
 
