@@ -80,7 +80,7 @@ bc.
 [ftravers@local]$ mkdir ~/projects; cd ~/projects
 [ftravers@local]$ git clone ft_git3@spicevan.com:gitosis-admin.git
 
-h1. Adding a new Repository
+h1(#addingProjects). Adding a new Repository
 
 h2. Edit config file
 
