@@ -19,9 +19,12 @@ cd $webStageDir
 cd $DOCS_HOME
 git commit -a -m"."
 
+# Checkout files from GIT and put them into the webstage dir
 git archive master | tar -x -C "$webStageDir"
 
 cd $webStageDir
+markdownScript.sh
 ant generate-html
+
 
 
