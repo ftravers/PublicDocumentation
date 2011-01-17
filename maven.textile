@@ -305,7 +305,7 @@ domain name and app name, then change the artifact id to something
 like @app-web@.  This will create a folder called @app-web@ in your
 code development folder.
 
-h3. Generic
+h3(#createproject). Generic
 
 Simple Java project, suitable for JAR generation. Maven 2 default.
 

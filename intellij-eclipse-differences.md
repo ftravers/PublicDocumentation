@@ -61,4 +61,4 @@ Ctrl-Shift-V
 
 * Ctrl-Shift-- (minus) collapse/fold all.
 
-* “Column mode” can be turned on it “Edit - Column mode” or with alt + shift + insert.
+* “Column mode” can be turned on it “Edit - Column mode” or with alt + shift + insert
