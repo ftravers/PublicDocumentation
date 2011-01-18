@@ -502,6 +502,7 @@ h3. For each particular repo you want public
   do (the following example, elisp is the repos I want readable)
 
 bc. 
+chmod 755 elisp.git/
 cd /home/git/repositories/elisp.git/
 touch git-daemon-export-ok
 
