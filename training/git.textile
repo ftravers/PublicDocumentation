@@ -465,6 +465,8 @@ bc. git pull origin master
 
 h2. Setting up a public repository
 
+h3. Install Process
+
 * ensure "rpmforge":/jeos/applications.html#rpmforge is installed on your server
 
 * install xinetd
@@ -493,6 +495,8 @@ service git
         server_args     = --base-path=/home/git/repositories --syslog --inetd --verbose
         log_on_failure  += USERID
 }
+
+h3. For each particular repo you want public
 
 * ON THE GIT SERVER in the git repos you want to be publicly readable
   do (the following example, elisp is the repos I want readable)
