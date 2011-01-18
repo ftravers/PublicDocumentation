@@ -247,5 +247,8 @@ source: "http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1":ht
 
 h1. HTTP
 
-bc. yum install -y httpd
+bc. 
+yum install -y httpd
+chkconfig --level 345 httpd on
 
+service httpd start
