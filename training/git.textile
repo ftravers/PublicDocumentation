@@ -463,6 +463,47 @@ set-url...@ step, followed by:
 
 bc. git pull origin master
 
+h2. Setting up a public repository
+
+* ensure "rpmforge":/jeos/applications.html#rpmforge is installed on your server
+
+* install xinetd
+
+bc. yum -y install xinetd
+
+* install the git-daemon
+
+bc. yum -y install git-daemon
+
+* open the correct port
+
+bc. system-config-securitylevel-tui --quiet --port 9418
+
+* enable git for xinetd
+
+bc. 
+[root@linux1 elisp.git]# cat /etc/xinetd.d/git
+service git
+{
+        disable         = no
+        socket_type     = stream
+        wait            = no
+        user            = nobody
+        server          = /usr/libexec/git-core/git-daemon
+        server_args     = --base-path=/home/git/repositories --syslog --inetd --verbose
+        log_on_failure  += USERID
+}
+
+* ON THE GIT SERVER in the git repos you want to be publicly readable
+  do (the following example, elisp is the repos I want readable)
+
+bc. 
+cd /home/git/repositories/elisp.git/
+touch git-daemon-export-ok
+
+* Now from anywhere else (some client machine) do:
+
+bc. git clone git://linux1.hk.oracle.com/elisp.git
 
 h1. Bazaar
 

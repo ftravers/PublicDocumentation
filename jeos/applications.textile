@@ -183,6 +183,8 @@ As root:
 
 bc. yum -y install python-setuptools
 
+p(#rpmforge). 
+
 * On your laptop download: 
 
 bc. http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
