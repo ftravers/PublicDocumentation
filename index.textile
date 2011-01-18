@@ -1,4 +1,4 @@
-HOME
+git clone git://linux1.hk.oracle.com/documentation.git
 
 p(toc). Navigation
 
