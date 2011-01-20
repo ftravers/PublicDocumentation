@@ -23,6 +23,8 @@ one around at the moment.  Often you are a windows user (developer).
 You need to install [cygwin](/secure.html#WindowsLinuxOSX) will get
 you setup with cygwin, ssh, and git.
 
+## Sharing your code
+
 Once you have these, you'll need to have a repository setup for you,
 ask the git admin to do this for you.  Lets say your code is contained
 in a folder called: 
@@ -41,6 +43,8 @@ name.
         [----connect string----] [-Repo Name-]
 
 So the steps above have let you push your repo up into the server.
+
+## Getting other peoples code
 
 Sometimes you'll want to pull down a repo, normally this is done with
 a command like:
