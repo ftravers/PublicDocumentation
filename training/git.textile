@@ -423,6 +423,12 @@ You should now be able to test it with the command @git status@
 
 h1. Recipes
 
+h2. Cherry pick files from other branch
+
+bc. 
+#You are in the branch you want to merge to
+git checkout <branch_you_want_to_merge_from> <file_paths...>
+
 h2. Restore deleted file
 
 Q: I deleted a file, committed that delete.  How do I find the commit where that file was deleted and how do I restore just that file?

@@ -340,6 +340,12 @@ Creates a web application project (WAR), with a simple Hello World JSP.
 
 bc. mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false -DgroupId=com.mycompany.app -DartifactId=my-app
 
+h3. Jersey Spring Web-App
+
+bc. mvn archetype:generate -DarchetypeCatalog=http://download.java.net/maven/2 -DgroupId=com.mycompany.app -DartifactId=my-app 
+
+
+
 h3. J2EE
 
 Creates a J2EE project (EAR), with directories and subprojects for the
