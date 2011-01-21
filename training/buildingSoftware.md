@@ -45,6 +45,7 @@ name.
 So the steps above have let you push your repo up into the server.
 
 <a href="getCode"></a>
+
 ## Getting other peoples code
 
 Sometimes you'll want to pull down a repo, normally this is done with
