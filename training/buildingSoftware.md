@@ -1,4 +1,4 @@
-# Advice on how to start a project
+# Global IT custom project development methodology
 
 1. Agree on a project folder name with the GIT administrator.  You
 send them your suggestion, and as long as it's not taken, you should
