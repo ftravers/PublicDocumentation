@@ -168,8 +168,7 @@ h1. Using Netbeans
 Since it is desireable to be able to debug the web services, it's
 helpful if we can run the REST server inside the IDE.
 
-bc. 
-mvn -DarchetypeVersion=1.0.2 -Darchetype.interactive=false -DgroupId=com.oracle.git.ngsp -DarchetypeArtifactId=webapp-javaee6 -Dversion=1.0-SNAPSHOT -DarchetypeGroupId=org.codehaus.mojo.archetypes -Dbasedir=/home/oracle/projects -Dpackage=com.oracle.git.ngsp -DartifactId=crmodRestServer4 -Dnetbeans.execution=true --batch-mode org.apache.maven.plugins:maven-archetype-plugin:2.0-alpha-4:generate
+bc. mvn -DarchetypeGroupId=org.codehaus.mojo.archetypes -DarchetypeArtifactId=webapp-javaee6 -DarchetypeVersion=1.0.2 --batch-mode org.apache.maven.plugins:maven-archetype-plugin:2.0-alpha-4:generate -Dversion=1.0-SNAPSHOT -DgroupId=com.oracle.git.ngsp -DartifactId=crmodRestServer4
 
 * Right-click project > Set as Main Project
 
@@ -183,7 +182,8 @@ RESTful Web Services from Patterns > Simple Root Resource > put in
 your desired values 
 
 # I chose my path: Autosr
-# Output: text/plain
+
+# Note your 'Rest Resources Path': resources
 
 > Radio button select: "Create default REST servlet
 adaptor in web.xml" > OK
@@ -195,3 +195,8 @@ bc. return "Hello World.";
 * Launch the Server
 
 Debug Main Project: Ctrl-F5
+
+* Test
+
+bc. http://localhost:8080/crmodRestServer4/resources/Autosr
+

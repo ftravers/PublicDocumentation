@@ -1,6 +1,10 @@
 # Advice on how to start a project
 
-1. First create the project you want with
+1. Agree on a project folder name with the GIT administrator.  You
+send them your suggestion, and as long as it's not taken, you should
+be able to proceed with it.  They'll setup a repo for you to upload into.
+
+1. Create the project you want with
 [Maven](/maven.html#createProject)
 
 2. Make sure that you allow the project to be added to the [GIT
