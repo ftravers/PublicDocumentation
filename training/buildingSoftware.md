@@ -13,7 +13,7 @@ repository](/training/git.html#addingProjects)
 2. Next setup your pom.xml so the project will be reasonable.  The
 best advice is to look at an existing pom.xml to figure out what to do.
 
-2.1 Setup [distribution management](/maven.html#distributionManagement).
+2. Setup [distribution management](/maven.html#distributionManagement).
 
 3. Get [git](/training/git.html#initialize) setup for your project.
 
