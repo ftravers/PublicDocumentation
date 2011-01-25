@@ -309,6 +309,12 @@ bc.
 git diff <branchA> <branchB> -- <file>
 git diff <commit> <commit> -- <file>
 
+compare file: pom.xml with current and two commits ago:
+
+bc. 
+git diff HEAD HEAD^^ -- pom.xml
+git diff HEAD HEAD~2 -- pom.xml
+
 h2. Bring down remote changes
 
 The following workflow has us list all of our branch (-a includes the remote branches)
