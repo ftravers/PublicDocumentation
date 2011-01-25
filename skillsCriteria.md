@@ -4,6 +4,11 @@
 
 ## Bruno V.
 
+### GIT - 60%
+### Maven - 40%
+### IDE's - 30%
+### Java - 20%
+
 
 ## Adil 
 
@@ -32,6 +37,9 @@
 
 ## Java
 
+### Language
+
+* Data Structures
 
 ### Unit Testing
 
