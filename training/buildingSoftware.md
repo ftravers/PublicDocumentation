@@ -1,23 +1,29 @@
 # Global IT custom project development methodology
 
-1. Agree on a project folder name with the GIT administrator.  You
-send them your suggestion, and as long as it's not taken, you should
-be able to proceed with it.  They'll setup a repo for you to upload into.
+1. Role - Project Developer: Agree on a project folder name with the
+GIT administrator.  You send them your suggestion, and as long as it's
+not taken, you should be able to proceed with it.  They'll setup a
+repo for you to upload into.
 
-1. Create the project you want with
+2. Role - Project Developer: Create the project you want with
 [Maven](/maven.html#createProject)
 
-2. Make sure that you allow the project to be added to the [GIT
-repository](/training/git.html#addingProjects)
+3. Role - Git Administrator: Make sure that you allow the project to
+be added to the [GIT repository](/training/git.html#addingProjects)
 
-2. Next setup your pom.xml so the project will be reasonable.  The
-best advice is to look at an existing pom.xml to figure out what to do.
+4. Role - Project Developer: Get [git](/training/git.html#initialize)
+setup for your project.
 
-2. Setup [distribution management](/maven.html#distributionManagement).
+4. Role - Project Developer: Next setup your pom.xml so the project
+will be reasonable.  The best advice is to look at an existing pom.xml
+to figure out what to do.
 
-3. Get [git](/training/git.html#initialize) setup for your project.
+5. Role - Project Developer: Setup [distribution
+management](/maven.html#distributionManagement).
 
-3. Code and [release](/maven.html#release) a version of your artifact.
+
+
+7. Role - Project Developer: Code and [release](/maven.html#release) a version of your artifact.
 
 
 # Advice on how to collaborate with someone
