@@ -176,6 +176,49 @@ h4. Open port in firewall
 
 bc. system-config-securitylevel-tui --quiet --port=8080
 
+h3. More on ports
+
+To change the HTTP port to 10080: 
+
+bc. asadmin set server.http-service.http-listener.http-listener-1.port=10080 
+
+To change the HTTPS port to 10443: 
+
+bc. asadmin set server.http-service.http-listener.http-listener-2.port=10443 
+
+To change the administration server port to 14848: 
+
+bc. asadmin set server.http-service.http-listener.admin-listener.port=14848 
+
+It's handy to know you can grep for server properties in GlassFish v3
+Prelude as follows:
+
+bc. asadmin get server | grep listener 
+
+shows all the properties with the text "listener" in them.
+
+In GlassFish v3 Prelude, you can set port numbers for administration
+and the HTTP listener in the installer - but not for the HTTPS
+listener. You might find yourself needing to explicitly specify the
+administration port in your asadmin command. For example:
+
+bc. asadmin set --port 14848 server.http-service.http-listener.http-listener-2.port=10443
+
+It's also posible to change the port directly in configuration file:
+
+bc. <GLASSFISH_PATH>/glassfish/domains/domain1/config/domain.xml
+
+Just change the following properties:
+
+bc. 
+<network-listeners>
+<network-listener port="8093" ... />
+<network-listener port="8181" ... />
+<network-listener port="4848" ... />
+</network-listeners>
+
+Cheers.
+
 h1(#git). GIT
 
 * Install python-setuptools on your server, you'll need it to install gitosis.

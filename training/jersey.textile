@@ -1,4 +1,8 @@
-reference: "http://blogs.sun.com/japod/entry/building_simple_jersey_web_app":http://blogs.sun.com/japod/entry/building_simple_jersey_web_app
+reference: 
+
+* "http://blogs.sun.com/japod/entry/building_simple_jersey_web_app":http://blogs.sun.com/japod/entry/building_simple_jersey_web_app
+
+* "http://blogs.sun.com/enterprisetechtips/entry/jersey_and_spring":http://blogs.sun.com/enterprisetechtips/entry/jersey_and_spring
 
 bc. 
 mvn archetype:create -DgroupId=com.oracle.git.ngsp -DartifactId=crmodRestServer -DarchetypeArtifactId=maven-archetype-webapp
@@ -168,7 +172,8 @@ h1. Using Netbeans
 Since it is desireable to be able to debug the web services, it's
 helpful if we can run the REST server inside the IDE.
 
-bc. mvn -DarchetypeGroupId=org.codehaus.mojo.archetypes -DarchetypeArtifactId=webapp-javaee6 -DarchetypeVersion=1.0.2 --batch-mode org.apache.maven.plugins:maven-archetype-plugin:2.0-alpha-4:generate -Dversion=1.0-SNAPSHOT -DgroupId=com.oracle.git.ngsp -DartifactId=crmodRestServer4
+bc. mvn archetype:generate -DgroupId=grp -DartifactId=art -Dversion=1.0-SNAPSHOT -Dpackage=grp -DarchetypeArtifactId=jersey-quickstart-webapp -DarchetypeVersion=1.5 -DarchetypeCatalog=http://download.java.net/maven/2 -DarchetypeGroupId=com.sun.jersey.archetypes --batch-mode
+
 
 * Right-click project > Set as Main Project
 
@@ -199,4 +204,73 @@ Debug Main Project: Ctrl-F5
 * Test
 
 bc. http://localhost:8080/crmodRestServer4/resources/Autosr
+
+To figure out what the test URL should be:
+
+h3. In Netbeans
+
+h4. port
+
+first the port: 8080
+
+In netbeans goto: view > servers > select your glassfish server there
+> location.
+
+h4. webapp 
+
+The web app will be the name of the folder you are doing your
+development in
+
+h4. resource 
+
+ the next part comes from looking at the url-pattern for the
+Jersey servlet in @src/main/webapp/WEB-INF/web.xml@
+
+bc. 
+<servlet-mapping>
+  <servlet-name>Jersey Web Application</servlet-name>
+  <url-pattern>/webresources/*</url-pattern>
+</servlet-mapping>
+
+h4. path 
+
+the final part comes your java class you made into a Jersey rest
+service
+
+bc. 
+import java.util.Map;
+@Path("ottoEssAre")
+@Component
+@Scope("request")
+public class AutoSrHttpListener {
+
+The @Path@ annotation is what you are looking for
+
+h3. Deployed to app server as *.war
+
+h4. port
+
+bc. grep network-listener /home/oracle/bin/glassfishv3/glassfish/domains/domain1/config/domain.xml
+
+h4. webapp
+
+This will be the name of the war file that gets deployed.  Or
+
+bc. /src/main/webapp/WEB-INF/sun-web.xml:  <context-root>/SES</context-root>
+
+h4. resource
+
+Should be same as above.
+
+h4. path
+
+Should be same as above.
+
+h1. Spring and Jersey
+
+reference:
+
+* "file:///home/oracle/Desktop/desktop-tmp/Jersey%20and%20Spring.html":file:///home/oracle/Desktop/desktop-tmp/Jersey%20and%20Spring.html
+
+
 

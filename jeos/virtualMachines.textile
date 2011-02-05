@@ -104,8 +104,15 @@ h4. Hudson
 
 h3(#vl-wcfs). vl-wcfs - wcfs
 
+Deployment folder is: 
+
+bc. 
+#!/bin/bash
+rsync -avP target/testartifact.war oracle@vl-wcfs.hk.oracle.com:/home/oracle/bin/glassfishv3/glassfish/domains/domain1/autodeploy
+
 This has the search SES webapp on it.
 
 URL: http://vl-wcfs.hk.oracle.com:8080/SES
 
 To manage see "glassfish admin":applications.html#glassfish-admin
+
