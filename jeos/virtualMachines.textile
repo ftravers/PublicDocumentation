@@ -66,7 +66,7 @@ h3(#vl-vmsrv1). vl-vmsrv1 :stage
 
 h4. vl-wcfs
 
-h4. linux1
+h4. linux1.
 
 h2. Virtual Machines
 
