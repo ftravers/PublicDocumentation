@@ -28,15 +28,16 @@ h5. Static IPs
 | vl-ucm1                  | 10.179.252.30 |                                               |
 | vl-db1                   | 10.179.252.29 |                                               |
 | xps                      | 10.179.252.34 |                                               |
-| vl-wlp1                  | 10.179.252.31 |                                               |
-| "linux1":#linux1         | 10.179.252.32 | [dns] git :stage                              |
+| "vl-wlp1":vl-wlp1        | 10.179.252.31 | glassfish :dev                                |
+| "linux1":#linux1         | 10.179.252.32 | git :stage                                    |
 | vl-wciwcm1               | 10.179.252.35 |                                               | 
 | "alm":#alm               | 10.179.252.39 | OVMM, OVMTB, Hudson :dev                      |
 | youtube                  | 10.179.252.38 |                                               |
 | ipm                      | 10.179.252.41 |                                               |
-| "vl-wcfs":#vl-wcfs       | 10.179.252.40 | [wcfs] PROD glassfish - web apps for CRP   |
+| "vl-wcfs":#vl-wcfs       | 10.179.252.40 | glassfish :stage                              |
 | vl-urmses                | 10.179.252.42 |                                               |
 | vl-autovue               | 10.179.252.37 |                                               |
+
 h5. Non routable IPs
 
 || Name              || IP Address   || Notes                                        || 
@@ -48,25 +49,17 @@ h2. Physical Machines
 
 h3(#vl-vmsrv2). vl-vmsrv2 :dev
 
-h4. Folders
 
 || Description     || Folder            || Notes         |
 | Virtual Machines | /OVS/running_pool/ |                |
 | NFS exports      | /OVS/downloads     | 450/500GB Free |
 | NFS mounts       | /mount/jpbox       | 100/917GB Free |
 
-h4. alm.
-
-
 
 h3(#vl-vmsrv1). vl-vmsrv1 :stage
 
 || Description     || Folder            || Notes         |
 | Virtual Machines | /OVS/running_pool/ |                |
-
-h4. vl-wcfs
-
-h4. linux1.
 
 h2. Virtual Machines
 
@@ -98,6 +91,8 @@ tarballs there.
 * unix user/password: oracle/welcome1
 
 h4. Hudson
+
+h3(#vl-wlp1). vl-wlp1: Glassfish :dev
 
 h3(#vl-wcfs). vl-wcfs: Glassfish :stage
 
