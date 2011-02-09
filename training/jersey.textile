@@ -1,4 +1,8 @@
-reference: "http://blogs.sun.com/japod/entry/building_simple_jersey_web_app":http://blogs.sun.com/japod/entry/building_simple_jersey_web_app
+reference: 
+
+* "http://blogs.sun.com/japod/entry/building_simple_jersey_web_app":http://blogs.sun.com/japod/entry/building_simple_jersey_web_app
+
+* "http://blogs.sun.com/enterprisetechtips/entry/jersey_and_spring":http://blogs.sun.com/enterprisetechtips/entry/jersey_and_spring
 
 bc. 
 mvn archetype:create -DgroupId=com.oracle.git.ngsp -DartifactId=crmodRestServer -DarchetypeArtifactId=maven-archetype-webapp
@@ -168,7 +172,8 @@ h1. Using Netbeans
 Since it is desireable to be able to debug the web services, it's
 helpful if we can run the REST server inside the IDE.
 
-bc. mvn -DarchetypeGroupId=org.codehaus.mojo.archetypes -DarchetypeArtifactId=webapp-javaee6 -DarchetypeVersion=1.0.2 --batch-mode org.apache.maven.plugins:maven-archetype-plugin:2.0-alpha-4:generate -Dversion=1.0-SNAPSHOT -DgroupId=com.oracle.git.ngsp -DartifactId=crmodRestServer4
+bc. mvn archetype:generate -DgroupId=grp -DartifactId=art -Dversion=1.0-SNAPSHOT -Dpackage=grp -DarchetypeArtifactId=jersey-quickstart-webapp -DarchetypeVersion=1.5 -DarchetypeCatalog=http://download.java.net/maven/2 -DarchetypeGroupId=com.sun.jersey.archetypes --batch-mode
+
 
 * Right-click project > Set as Main Project
 
@@ -200,3 +205,241 @@ Debug Main Project: Ctrl-F5
 
 bc. http://localhost:8080/crmodRestServer4/resources/Autosr
 
+To figure out what the test URL should be:
+
+h3. In Netbeans
+
+h4. port
+
+first the port: 8080
+
+In netbeans goto: view > servers > select your glassfish server there
+> location.
+
+h4. webapp 
+
+The web app will be the name of the folder you are doing your
+development in
+
+h4. resource 
+
+ the next part comes from looking at the url-pattern for the
+Jersey servlet in @src/main/webapp/WEB-INF/web.xml@
+
+bc. 
+<servlet-mapping>
+  <servlet-name>Jersey Web Application</servlet-name>
+  <url-pattern>/webresources/*</url-pattern>
+</servlet-mapping>
+
+h4. path 
+
+the final part comes your java class you made into a Jersey rest
+service
+
+bc. 
+import java.util.Map;
+@Path("ottoEssAre")
+@Component
+@Scope("request")
+public class AutoSrHttpListener {
+
+The @Path@ annotation is what you are looking for
+
+h3. Deployed to app server as *.war
+
+h4. port
+
+bc. grep network-listener /home/oracle/bin/glassfishv3/glassfish/domains/domain1/config/domain.xml
+
+h4. webapp
+
+This will be the name of the war file that gets deployed.  Or
+
+bc. /src/main/webapp/WEB-INF/sun-web.xml:  <context-root>/SES</context-root>
+
+h4. resource
+
+Should be same as above.
+
+h4. path
+
+Should be same as above.
+
+h1. Spring and Jersey
+
+reference:
+
+* "file:///home/oracle/Desktop/desktop-tmp/Jersey%20and%20Spring.html":file:///home/oracle/Desktop/desktop-tmp/Jersey%20and%20Spring.html
+
+h2. web.xml
+
+bc. 
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <servlet>
+        <servlet-name>Jersey Web Application</servlet-name>
+        <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>testgroup</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Jersey Web Application</servlet-name>
+        <url-pattern>/service/*</url-pattern>
+    </servlet-mapping>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+</web-app>
+
+
+h2. pom.xml 
+
+bc. 
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-spring</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.distributions</groupId>
+            <artifactId>web-all</artifactId>
+            <version>10.0-build-20080430</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.embedded</groupId>
+            <artifactId>gf-embedded-api</artifactId>
+            <version>1.0-alpha-4</version>
+            <scope>test</scope>
+        </dependency>
+
+
+h2. *.java 
+
+bc. 
+import com.oracle.git.ngsp.crmodRestServer.ICrmodServer;
+import com.oracle.git.ngsp.crmodRestServer.RestUtils;
+import com.oracle.git.ngsp.crmodRestServer.ServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
+import java.util.HashMap;
+import java.util.Map;
+@Path("execute")
+@Component
+@Scope("request")
+public class AutoSrHttpListener {
+    @Autowired
+    private ServiceProxy serviceProxy;
+    @GET
+    @Produces("text/html")
+    public String getHtml() throws ServiceException {
+...
+
+in the above case the ServiceProxy has an external dependency that we
+will mock out with FakeCrmodServer during testing.
+
+h2. file structure 
+
+bc. 
+|-- pom.xml
+`-- src
+     |-- main
+     |   |-- java
+     |   |   `-- crmodRestServer
+     |   |       |-- AutoSrDefaultValues.java
+     |   |       |-- fakeExternDep
+     |   |       |   `-- FakeCrmodServer.java
+     |   |       |-- hasExternDep
+     |   |       |   |-- AutoSrHttpListener.java
+     |   |       |   `-- ServiceProxy.java
+     |   |       |-- ICrmodServer.java
+     |   |       |-- isExternDep
+     |   |       |   `-- CrmodServer.java
+     |   |-- resources
+     |   |   |-- applicationContext.xml
+     |   |   `-- logback.xml
+     |   `-- webapp
+     |       `-- WEB-INF
+     |           |-- sun-web.xml
+     |           `-- web.xml
+     `-- test
+         |-- java
+         |   `-- crmodRestServer
+         |       `-- hasExternDep
+         |           `-- ServiceProxyTest.java
+         `-- resources
+             |-- logback-test.xml
+             `-- test-applicationContext.xml
+
+
+h2. directory structure 
+
+bc. 
+|--src
+    |-- main
+    |   |-- java
+    |   |   `-- crmodRestServer
+    |   |       |-- fakeExternDep
+    |   |       |-- hasExternDep
+    |   |       `-- isExternDep
+    |   |-- resources
+    |   `-- webapp
+    |       `-- WEB-INF
+    `-- test
+        |-- java
+        |   `-- crmodRestServer
+        |       `-- hasExternDep
+        `-- resources
+
+
+h2. files 
+
+bc. 
+@Service
+public class ServiceProxy {
+    @Autowired
+    private ICrmodServer crmodServer;
+
+bc. 
+@Service
+public class CrmodServer implements ICrmodServer {
+
+bc. 
+@Service
+public class FakeCrmodServer implements ICrmodServer {

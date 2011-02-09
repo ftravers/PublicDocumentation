@@ -6,45 +6,36 @@ p(toc). Table of Contents
 
 h1. Spring Dependency Injection - Overview
 
-User depends on Used.  User -> Used.
+We are trying to create a scenario where we can write code that does
+depend on outside services, but that we can test without having to
+have those outside services available.
 
-We have a scenario where we have two different environments, say production and development.  Something your program depends on say a file or a database are located in different location in production from development.  So we can use Spring to inject the dependency into your program at runtime.
+Create the following files:
 
-First create an interface, then implement the interface in two classes, one for prod, one for dev.  In our simple example we'll have a file that is located in two different locations, depending if you are in prod or dev.  Now there will be a class that uses the interface.  In this class, the _user_ class.
+!spring_di_folder_layout.png!
 
-h2. Using class
+h2. The Production Code
 
-(1) Annotate class with _@Service_
-(2) Have a private variable that will contain the used interface
-(3) Create a setter for that variable (making the class conform to the bean standard)
-(4) Annotate the setter with _@Autowired_
-	
-bc. 
-package user;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import IConfig;
-@Service // (2)
-public class MySpringBeanWithDependency {
-	private IConfig config;  // (1)
-	@Autowired // (4)
-	public void setConfig(IConfig config) { this.config = config } // (3)
-   
-h2. Used class 
-
-(5) Annotate the class with _@Service_
+src/main/java/main/Main.java
 
 bc. 
-package used;
-import org.springframework.stereotype.Service;
-@Service
-public class DevelopmentConfig implements IConfig {
- 
-h2. Wire them together
+package main;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import user.ClassWithExternalDependency;
+public class Main {
+	public static void main(String[] args) {
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"main/application-context.xml");
+		BeanFactory factory = context;
+		ClassWithExternalDependency cwed = (ClassWithExternalDependency) factory
+				.getBean("classWithExternalDependency");
+		cwed.run();
+	}
+}
 
-You create the following file and simply put the package names into it.  It will scan all the classes in the package looking for _@Service_ annotation.
-
-p(filelocation). (srcdir)/META-INF/applicationContext.xml
+src/main/java/main/application-context.xml
 
 bc. 
  <beans xmlns="http://www.springframework.org/schema/beans"
@@ -58,13 +49,112 @@ bc.
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-2.5.xsd">
    <context:component-scan base-package="user" />
-   <context:component-scan base-package="used" />
+   <context:component-scan base-package="services" />
  </beans>
 
-These are the only two lines that are specific for your application:
+src/main/java/services/IService.java
 
 bc. 
+package services;
+public interface IService {
+	public String service1(String filename);
+}
+
+src/main/java/services/ProductionService.java
+
+bc. 
+package services;
+import org.springframework.stereotype.Service;
+@Service
+public class ProductionService implements IService {
+	public String service1(String filename) {
+		return "Real Service";
+	}
+}
+
+src/main/java/user/ClassWithExternalDependency.java
+
+bc. 
+package user;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import services.IService;
+@Service
+public class ClassWithExternalDependency {
+	@Autowired
+	private IService service;
+	public void run() {
+		System.out.println(service.service1("inputArgs"));		
+	}
+}
+
+h2. The Tests
+
+src/test/java/testServices
+
+bc. 
+package testServices;
+import org.springframework.stereotype.Service;
+import services.IService;
+@Service
+public class UnitTestService implements IService {
+	public String service1(String filename) {
+		return "Fake Service.";
+	}
+}
+
+src/test/java/user/ClassWithExternalDependencyTest.java
+
+bc. 
+package user;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class ClassWithExternalDependencyTest {
+	private ClassWithExternalDependency cwed;
+	@Before
+	public void setup() {
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"user/test-application-context.xml");
+		BeanFactory factory = context;
+		cwed = (ClassWithExternalDependency) factory.getBean("classWithExternalDependency");
+	}
+	@Test
+	public void testRun() {
+		cwed.run();
+	}
+}
+
+src/test/java/user/test-application-context.xml
+
+bc. 
+ <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
    <context:component-scan base-package="user" />
-   <context:component-scan base-package="used" />
-   
- 
+   <context:component-scan base-package="testServices" />
+ </beans>
+
+That should do it
+
+h1. Spring Web App
+
+You'll need to configure your web.xml to pickup your
+applicationContext.xml file
+
+
+h2. Extra Notes
+
+tips on loading the applicationContext.xml file from web.xml
+
+http://www.gridshore.nl/2008/05/13/spring-application-context-loading-tricks/
+

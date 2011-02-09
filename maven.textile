@@ -326,7 +326,7 @@ h3(#createproject). Generic
 
 Simple Java project, suitable for JAR generation. Maven 2 default.
 
-bc. mvn archetype:generate -B -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.0 -DgroupId=com.oracle.git.ngsp -DartifactId=ossoCrmodTester -Dversion=1.0 -Dpackage=com.oracle.git.ngsp
+bc. mvn archetype:generate -B -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.0 -Dversion=1.0 -DgroupId=com.oracle.git.ngsp -DartifactId=ossoCrmodTester -Dpackage=com.oracle.git.ngsp
 
 || Parameter || Meaning                                                ||
 | package    | This is the java package the classes will be created in |
@@ -342,7 +342,7 @@ bc. mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp -Dintera
 
 h3. Jersey Spring Web-App
 
-bc. mvn archetype:generate -DarchetypeCatalog=http://download.java.net/maven/2 -DgroupId=com.mycompany.app -DartifactId=my-app 
+bc. mvn archetype:generate -DgroupId=grp -DartifactId=art -Dversion=1.0-SNAPSHOT -Dpackage=grp -DarchetypeArtifactId=jersey-quickstart-webapp -DarchetypeVersion=1.5 -DarchetypeCatalog=http://download.java.net/maven/2 -DarchetypeGroupId=com.sun.jersey.archetypes --batch-mode
 
 
 
@@ -435,27 +435,36 @@ That should be all that is required.
 h2. Assemble all dependent jars into one package
 
 bc. 
-	<build>
-		<finalName>server-assist</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>2.2-beta-5</version>
-					<configuration>
-						<descriptorRefs>
-							<descriptorRef>jar-with-dependencies</descriptorRef>
-						</descriptorRefs>
-						<archive>
-							<manifest>
-							<mainClass>com.oracle.ngsp.controller.Controller</mainClass>
-							</manifest>
-						</archive>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+<build>
+  <finalName>server-assist</finalName>
+  <pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-5</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+            <mainClass>com.oracle.ngsp.controller.Controller</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-my-jar-with-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </pluginManagement>
+</build>
 
 Run with:
 

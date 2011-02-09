@@ -305,7 +305,15 @@ h2. Compare Two Files
 Then you might wonder what is the difference between a file that exists in two different
 branches.
 
-bc. git diff <branchA> <branchB> -- <file>
+bc. 
+git diff <branchA> <branchB> -- <file>
+git diff <commit> <commit> -- <file>
+
+compare file: pom.xml with current and two commits ago:
+
+bc. 
+git diff HEAD HEAD^^ -- pom.xml
+git diff HEAD HEAD~2 -- pom.xml
 
 h2. Bring down remote changes
 
