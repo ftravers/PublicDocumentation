@@ -183,6 +183,10 @@ As root:
 
 bc. yum -y install python-setuptools
 
+h2. Setup RPMForge
+
+p(#rpmforge). 
+
 * On your laptop download: 
 
 bc. http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
@@ -195,11 +199,12 @@ and do:
 
 bc. rpm -ivh rpmforge-release-0.3.6-1.el5.rf.i386.rpm
 
-* Install GIT
+
+h2. Install GIT
 
 bc. yum -y install git
 
-* Install Gitosis
+h2. Install Gitosis
 
 on laptop download: 
 

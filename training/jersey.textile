@@ -161,3 +161,42 @@ public String getGreeting(
 test:
 
 bc. curl -i "http://localhost:8080/crmodRestServer/greeting?name1=Fenton&name2=Travers"
+
+
+h1. Using Netbeans
+
+Since it is desireable to be able to debug the web services, it's
+helpful if we can run the REST server inside the IDE.
+
+bc. mvn -DarchetypeGroupId=org.codehaus.mojo.archetypes -DarchetypeArtifactId=webapp-javaee6 -DarchetypeVersion=1.0.2 --batch-mode org.apache.maven.plugins:maven-archetype-plugin:2.0-alpha-4:generate -Dversion=1.0-SNAPSHOT -DgroupId=com.oracle.git.ngsp -DartifactId=crmodRestServer4
+
+* Right-click project > Set as Main Project
+
+* Open project in Netbeans. Right click project > Properties > Run >
+Select Glassfish.
+
+* Create your rest web service class:
+
+Right-click on project > New > Category: Web Services, File Types:
+RESTful Web Services from Patterns > Simple Root Resource > put in
+your desired values 
+
+# I chose my path: Autosr
+
+# Note your 'Rest Resources Path': resources
+
+> Radio button select: "Create default REST servlet
+adaptor in web.xml" > OK
+
+* Update the method annotated with @GET to have a one-liner:
+
+bc. return "Hello World.";
+
+* Launch the Server
+
+Debug Main Project: Ctrl-F5
+
+* Test
+
+bc. http://localhost:8080/crmodRestServer4/resources/Autosr
+

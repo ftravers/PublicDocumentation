@@ -12,6 +12,8 @@ Cygwin, gives you the power of Linux on a windows box.  Just go through the defa
 
 When you are installing, specifically add: @OpenSSH@ to the items to install.  If you need git specifically search for and add it too.  Several options will come up...just add them all.
 
+!/images/installGitCygwin.png!
+
 h1(#sshAutoLogin). Setup automatic login to ssh server
 
 h2(#keypair). Generate your public/private key pair

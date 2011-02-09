@@ -93,18 +93,13 @@ bc. mvn site-deploy
 
 bc. mvn jar-deploy
 
+p(#release)
+
 * doing a release with maven:
 
 bc. 
 mvn release:prepare
-mvn release:prepare -DdryRun=true
-mvn release:clean release:prepare
 mvn release:perform
-
-or all together
-
-bc. 
-mvn release:clean release:prepare release:perform
 
 h2. Cargo
 
@@ -130,46 +125,68 @@ or (easier to tokenize in excel sheet)
 bc. 
 mvn clean install dependency:list   
 
-h2. Distribution Management
+h2(#distributionManagement). Distribution Management
+
+Distribution management takes care of publishing your artifacts (jar
+files) and site to the internet.  The @<scm>@ is included here because
+when you release your artifacts with the maven release pluggin, it
+checks in and tags it for you.  The extension required for ssh is
+indicated below.
+
+* <scm> = source code management (repository/vcs).
+* <downloadUrl> = will be the link displayed to people to download
+your code.
+* <site> = where your website gets deployed to
+* <repository> = where your artifact gets deployed to
 
 bc. 
 <project...>
-	...
-	<distributionManagement>
-		<downloadUrl>http://files.spicevan.com/maven2/</downloadUrl>
-		<site>
-			<name>CRMOD SSO Login</name>
-			<id>spicevan</id>
-			<url>scp://spicevan.com/home/spiceman/files.spicevan.com/crmod-java-wrapper/</url>
-		</site>
-		<repository>
-			<id>spicevan</id>
-			<name>spicevan</name>
-			<url>scp://spicevan.com/home/spiceman/files.spicevan.com/maven2/</url>
-		</repository>
-		<snapshotRepository>
-			<id>spicevan</id>
-			<name>spicevan</name>
-			<url>scp://spicevan.com/home/spiceman/files.spicevan.com/maven2/</url>
-		</snapshotRepository>
-	</distributionManagement>
-	<scm>
-		<connection>scm:svn:http://svn.spicevan.com/svn/server-assist/</connection>
-		<developerConnection>scm:svn:http://svn.spicevan.com/svn/server-assist/</developerConnection>
-		<url>http://svn.spicevan.com/svn/server-assist/</url>
-	</scm>
-	<developers>
-		<developer>
-			<id>fenton</id>
-			<name>Fenton Travers</name>
-			<email>fenton.travers@gmail.com</email>
-			<roles>
-				<role>Architect</role>
-			</roles>
-			<organization>spicevan.com</organization>
-			<timezone>+8</timezone>
-		</developer>
-	</developers>
+...
+    <scm>
+        <developerConnection>scm:git:ssh://git@linux1.hk.oracle.com/jsonUtility.git</developerConnection>
+    </scm>
+    <distributionManagement>
+        <downloadUrl>http://linux1.hk.oracle.com/maven2/${project.groupId}/${project.name}/${project.version}
+        </downloadUrl>
+        <site>
+            <name>${project.name}</name>
+            <id>linux1</id>
+            <url>scpexe://linux1.hk.oracle.com/var/www/html/${project.name}</url>
+        </site>
+        <repository>
+            <id>linux1</id>
+            <url>scpexe://linux1.hk.oracle.com/var/www/html/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>linux1</id>
+            <url>scpexe://linux1.hk.oracle.com/var/www/html/maven2/</url>
+        </snapshotRepository>
+    </distributionManagement>
+       <build>
+        <finalName>${project.name}</finalName>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>1.0-beta-6</version>
+            </extension>
+        </extensions>
+this needs to be matched with @a ~/.m2/settings.xml@ file
+
+bc. 
+<settings xmlns="http://...
+  <servers>
+    <server>
+      <id>linux1</id>
+      <username>root</username>
+    </server>
+  </servers>
+...
+</settings>
+
+
+
+bc.
 	<reporting>
 		<plugins>
 			<plugin>
@@ -305,7 +322,7 @@ domain name and app name, then change the artifact id to something
 like @app-web@.  This will create a folder called @app-web@ in your
 code development folder.
 
-h3. Generic
+h3(#createproject). Generic
 
 Simple Java project, suitable for JAR generation. Maven 2 default.
 
@@ -322,6 +339,12 @@ h3. Web
 Creates a web application project (WAR), with a simple Hello World JSP.
 
 bc. mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false -DgroupId=com.mycompany.app -DartifactId=my-app
+
+h3. Jersey Spring Web-App
+
+bc. mvn archetype:generate -DarchetypeCatalog=http://download.java.net/maven/2 -DgroupId=com.mycompany.app -DartifactId=my-app 
+
+
 
 h3. J2EE
 
