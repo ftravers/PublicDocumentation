@@ -561,6 +561,177 @@ bc.
     <scope>compile</scope>
   </dependency>
 
+h1. Spring & Maven & JPA
+
+* reference: "http://paulszulc.wordpress.com/2010/01/09/jpa-2-0-and-spring-3-0-with-maven/":http://paulszulc.wordpress.com/2010/01/09/jpa-2-0-and-spring-3-0-with-maven/
+
+h2. Spring 3
+
+pom.xml 
+
+bc.
+<properties>
+ <spring.version>3.0.0.RELEASE</spring.version>
+</properties>
+
+<dependencies>
+ <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-core</artifactId>
+   <version>${spring.version}</version>
+ </dependency>
+ <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-web</artifactId>
+   <version>${spring.version}</version>
+ </dependency>
+ <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-beans</artifactId>
+   <version>${spring.version}</version>
+ </dependency>
+ <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-context</artifactId>
+   <version>${spring.version}</version>
+ </dependency>
+ <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-aop</artifactId>
+   <version>${spring.version}</version>
+ </dependency>
+ <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-context-support</artifactId>
+   <version>${spring.version}</version>
+ </dependency>
+ <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-tx</artifactId>
+   <version>${spring.version}</version>
+ </dependency>
+ <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-orm</artifactId>
+   <version>${spring.version}</version>
+ </dependency>
+ <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-jdbc</artifactId>
+   <version>${spring.version}</version>
+ </dependency>
+ <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-test</artifactId>
+   <version>${spring.version}</version>
+ </dependency>
+</dependecies>
+
+h2. JPA 2.0
+
+bc. 
+<dependencies>
+  <dependency>
+    <groupId>org.hibernate.java-persistence</groupId>
+    <artifactId>jpa-api</artifactId>
+    <version>2.0-cr-1</version>
+  </dependency>
+  <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-entitymanager</artifactId>
+    <version>3.5.0-Beta-2</version>
+  </dependency>
+</dependencies>
+
+h2. JBOSS Repo
+
+may need it
+
+bc. 
+<repositories>
+ <repository>
+   <id>JBoss Repo</id>
+   <url>http://repository.jboss.com/maven2</url>
+ </repository>
+</repositories>
+
+h2. Config
+
+bc. 
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:context="http://www.springframework.org/schema/context"
+ xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:aop="http://www.springframework.org/schema/aop"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.0.xsd  http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    <!-- holding properties for database connectivity /-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!-- enabling annotation driven configuration /-->
+    <context:annotation-config/>
+    <context:component-scan base-package="wcpackage"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <bean
+       class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+    <bean id="dataSource"
+       class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+       p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"/>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+       p:entityManagerFactory-ref="entityManagerFactory"/>
+    <bean id="entityManagerFactory"
+       class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+       p:dataSource-ref="dataSource"
+       p:jpaVendorAdapter-ref="jpaAdapter">
+       <property name="loadTimeWeaver">
+          <bean
+             class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver"/>
+        </property>
+        <property name="persistenceUnitName" value="wctemplatePU"></property>
+    </bean>
+    <bean id="jpaAdapter"
+         class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+         p:database="${jpa.database}"
+         p:showSql="${jpa.showSql}"/>
+</beans>
+
+h2. persistence
+
+META-INF/persistence.xml
+
+bc. 
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence">
+
+	<persistence-unit name="wctemplatePU" transaction-type="RESOURCE_LOCAL">
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="validate" />
+		</properties>
+	</persistence-unit>
+</persistence>
+
+h2. test!
+
+Injected EntityManager will be with transaction-scoped persistence context, resource_local transaction type (meaning transactions used from database not JTA)
+
+bc. 
+@Repository(value = "userDAO")
+public class UserDefaultDAO implements UserDAO {
+    @PersistenceContext
+    private EntityManager entityManager;
+
+h1. Simple Derby project
+
+NOT TESTED
+
+bc. 
+<dependency>
+    <groupId>org.apache.derby</groupId>
+    <artifactId>derby</artifactId>
+    <version>10.7.1.1</version>
+</dependency>
+
+
 h1. Glossary
 
 {glossary}

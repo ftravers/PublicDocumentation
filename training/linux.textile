@@ -101,6 +101,14 @@ h2. Printers
 ** HP LaserJet P2015 Series Postscript (recommended) (en, da, de, es, fi, fr, it, ja, ko, nl, nb, pt, sv, zh_CN, zh_TW)
 ** Connection:	dnssd://HP%20LaserJet%20P2015%20Series%20(0D9452)._pdl-datastream._tcp.local/
 
+hostnames for printers:
+
+* p2015.hk.oracle.com - 10.179.252.21
+
+connection string
+
+* Connection:	socket://p2015.hk.oracle.com:9100
+
 h2. Pidgin
 
 * Tools > Preferences > Show system tray icon: Always
@@ -176,6 +184,15 @@ see: "Clojure Install":clojure.html
 h2. Package Management - Debian Systems
 
 h3. Package Details
+
+h4. List all available packages in repos
+
+Sample below searches for Java 5.
+
+bc. 
+cd /var/lib/apt/lists
+grep Package * | grep java | grep 5
+
 
 h4. List all installed packages
 

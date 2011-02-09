@@ -29,9 +29,9 @@ h5. Static IPs
 | vl-db1                   | 10.179.252.29 |                                               |
 | xps                      | 10.179.252.34 |                                               |
 | vl-wlp1                  | 10.179.252.31 |                                               |
-| "linux1":#linux1         | 10.179.252.32 | [dns]                                         |
+| "linux1":#linux1         | 10.179.252.32 | [dns] git :stage                              |
 | vl-wciwcm1               | 10.179.252.35 |                                               | 
-| "alm":#alm               | 10.179.252.39 | [ovm_tb_man_2] my OVM TB&Mangr                |
+| "alm":#alm               | 10.179.252.39 | OVMM, OVMTB, Hudson :dev                      |
 | youtube                  | 10.179.252.38 |                                               |
 | ipm                      | 10.179.252.41 |                                               |
 | "vl-wcfs":#vl-wcfs       | 10.179.252.40 | [wcfs] PROD glassfish - web apps for CRP   |
@@ -46,7 +46,7 @@ h1. Details
 
 h2. Physical Machines
 
-h3(#vl-vmsrv2). vl-vmsrv2
+h3(#vl-vmsrv2). vl-vmsrv2 :dev
 
 h4. Folders
 
@@ -57,21 +57,21 @@ h4. Folders
 
 h4. VMs
 
-* alm - ovm_tb_man_2
+* alm
 
-h3(#vl-vmsrv1). vl-vmsrv1
+h3(#vl-vmsrv1). vl-vmsrv1 :stage
 
 || Description     || Folder            || Notes         |
 | Virtual Machines | /OVS/running_pool/ |                |
 
 h4. VMs
 
-* wcfs
-* linux1 - dns
+* vl-wcfs
+* linux1
 
 h2. Virtual Machines
 
-h3(#linux1). linux1 - dns
+h3(#linux1). linux1 - DNS, Git :stage
 
 h4. DNS Server
 
@@ -79,8 +79,9 @@ future dns server when can figure out how to route inbound packets to 192.168.18
 
 h4. GIT Server
 
+bc. /home/git/repositories
 
-h3(#alm). alm - ovm_tb_man_2
+h3(#alm). alm - OVMM, OVMTB, Hudson :dev
 
 h4. Oracle Virtual Machine, Oracle Virtual Machine Manager
 
@@ -99,10 +100,7 @@ tarballs there.
 
 h4. Hudson
 
-
-
-
-h3(#vl-wcfs). vl-wcfs - wcfs
+h3(#vl-wcfs). vl-wcfs: Glassfish :stage
 
 Deployment folder is: 
 
