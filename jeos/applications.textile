@@ -63,10 +63,13 @@ h1. Glassfish
 Setup the WWW proxy so wget will work.  You'll probably have a different URL to download glassfish from.
 
 bc. 
+yum -y install java-1.6.0-openjdk
+useradd oracle
+passwd oracle
+su - oracle
 export http_proxy=http://www-proxy.sg.oracle.com
-wget -c http://files.spicevan.com/glassfish-3.0.1.zip
-yum install unzip
-unzip glassfish-3.0.1.zip
+mkdir bin; cd bin
+wget -c http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1-unix.sh
 
 put the asadmin dir into your path for oracle: 
 
