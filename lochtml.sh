@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xv
 
 # Prepare location where html files will be exported to
 
