@@ -28,9 +28,30 @@ server: /etc/mounts example:
 
 bc. /OVS/downloads *(rw,sync,all_squash,anonuid=500,anongid=500)
 
-h1. Java
+h1(#install_java). Java
+
+h2. Just JRE
 
 bc. yum install java-1.6.0-openjdk
+
+h2. JDK
+
+Google download JDK
+Select Java SE JDK and download
+Select the .bin download, not .rpm.bin
+
+as root:
+
+bc. 
+chmod 755 jdk-6u23-linux-i586.bin
+./jdk-6u23-linux-i586.bin
+mv jdk1.6.0_23/ /usr/lib/jvm/
+
+in the ~/.bashrc as oracle:
+
+bc. 
+export JAVA_HOME=/usr/lib/jvm/jdk1.6.0_23
+export PATH=$JAVA_HOME/bin:$PATH
 
 h1. Tomcat
 
@@ -62,54 +83,29 @@ h1. Glassfish
 
 Setup the WWW proxy so wget will work.  You'll probably have a different URL to download glassfish from.
 
+"Install Java":#install_java
+
+
+
 bc. 
-yum -y install java-1.6.0-openjdk
+yum -y install unzip
 useradd oracle
 passwd oracle
 su - oracle
 export http_proxy=http://www-proxy.sg.oracle.com
 mkdir bin; cd bin
-wget -c http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1-unix.sh
+
+Make sure the download is .zip, not .sh. We want to do a console based installation.
+
+bc. 
+wget -c http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1.zip
+unzip glassfish-3.0.1.zip
+
 
 put the asadmin dir into your path for oracle: 
 
 bc. vi ~/.bashrc
-export PATH=$PATH:~/bin/glassfishv3/glassfish/bin/
-
-ensure the value returned by @hostname@ is on the line (at the end of the line) for the 127.0.0.1 ipaddress
-ensure nothing is running on ports 8080 4848
-
-bc. 
-sudo netstat -atunp | grep 4848; sudo netstat -atunp | grep 8080
-netstat -atun | grep 4848; netstat -atun | grep 8080
-
-h2(glassfish-admin). Admin
-
-Deploy/Undeploy
-
-bc. 
-$ cd ~oracle/bin/glassfish-3.0.1/glassfish/bin
-$ ./asadmin list-applications
-$ ./asadmin deploy ~/projects/MvnSesFe/target/SES.war 
-$ ./asadmin undeploy com.oracle.git_MvnSesFe_war_1.0-SNAPSHOT
-$ ./asadmin start-domain
-$ ./asadmin stop-domain
-
-Watch the logs
-
-bc. 
-$ cd ~/bin/glassfish-3.0.1/glassfish/domains/domain1/logs/
-$ tail -f server.log
-
-See where your app is deployed to:
-
-bc. 
-$ cd ~/bin/glassfish-3.0.1/glassfish/domains/domain1/applications
-$ find .
-
-h3. Automatically Deploy/Undeploy
-
-bc. cp sample-dir/hello.war as-install/domains/domain1/autodeploy
+export PATH=$JAVA_HOME/bin:$PATH:~/bin/glassfishv3/glassfish/bin/
 
 h3. Auto start/stop scripts:
 
@@ -163,6 +159,7 @@ case "$1" in
                 exit
 esac
 
+
 h4. Install Service
 
 bc. 
@@ -178,6 +175,41 @@ bc.
 h4. Open port in firewall
 
 bc. system-config-securitylevel-tui --quiet --port=8080
+
+ensure the value returned by @hostname@ is on the line (at the end of the line) for the 127.0.0.1 ipaddress
+ensure nothing is running on ports 8080 4848
+
+bc. 
+sudo netstat -atunp | grep 4848; sudo netstat -atunp | grep 8080
+netstat -atun | grep 4848; netstat -atun | grep 8080
+
+h2(glassfish-admin). Admin
+
+Deploy/Undeploy
+
+bc. 
+$ cd ~oracle/bin/glassfish-3.0.1/glassfish/bin
+$ ./asadmin list-applications
+$ ./asadmin deploy ~/projects/MvnSesFe/target/SES.war 
+$ ./asadmin undeploy com.oracle.git_MvnSesFe_war_1.0-SNAPSHOT
+$ ./asadmin start-domain
+$ ./asadmin stop-domain
+
+Watch the logs
+
+bc. 
+$ cd ~/bin/glassfish-3.0.1/glassfish/domains/domain1/logs/
+$ tail -f server.log
+
+See where your app is deployed to:
+
+bc. 
+$ cd ~/bin/glassfish-3.0.1/glassfish/domains/domain1/applications
+$ find .
+
+h3. Automatically Deploy/Undeploy
+
+bc. cp sample-dir/hello.war as-install/domains/domain1/autodeploy
 
 h3. More on ports
 
