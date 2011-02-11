@@ -191,7 +191,7 @@ bc.
 $ cd ~oracle/bin/glassfish-3.0.1/glassfish/bin
 $ ./asadmin list-applications
 $ ./asadmin deploy ~/projects/MvnSesFe/target/SES.war 
-$ ./asadmin undeploy com.oracle.git_MvnSesFe_war_1.0-SNAPSHOT
+$ ./asadmin undeploy SES
 $ ./asadmin start-domain
 $ ./asadmin stop-domain
 
