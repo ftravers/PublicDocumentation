@@ -326,7 +326,7 @@ h3(#createproject). Generic
 
 Simple Java project, suitable for JAR generation. Maven 2 default.
 
-bc. mvn archetype:generate -B -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.0 -Dversion=1.0 -DgroupId=com.oracle.git.ngsp -DartifactId=ossoCrmodTester -Dpackage=com.oracle.git.ngsp
+bc. mvn archetype:generate -B -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.1 -Dversion=1.0 -DgroupId=com.oracle.git.ngsp -DartifactId=ossoCrmodTester -Dpackage=com.oracle.git.ngsp
 
 || Parameter || Meaning                                                ||
 | package    | This is the java package the classes will be created in |
@@ -344,8 +344,6 @@ h3. Jersey Spring Web-App
 
 bc. mvn archetype:generate -DgroupId=grp -DartifactId=art -Dversion=1.0-SNAPSHOT -Dpackage=grp -DarchetypeArtifactId=jersey-quickstart-webapp -DarchetypeVersion=1.5 -DarchetypeCatalog=http://download.java.net/maven/2 -DarchetypeGroupId=com.sun.jersey.archetypes --batch-mode
 
-
-
 h3. J2EE
 
 Creates a J2EE project (EAR), with directories and subprojects for the
@@ -353,6 +351,42 @@ EJBs, servlets, etc.
 
 bc. mvn archetype:generate -DarchetypeArtifactId=maven-archetype-j2ee-simple -DinteractiveMode=false -DgroupId=com.mycompany.app -DartifactId=my-app
 
+h3. Layer a simple site on top of existing project
+
+maven-archetype-site-simple is an archetype which contains a sample
+Maven simple site.  This archetype can be layered upon an existing
+Maven project. 
+
+bc. mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-site-simple -DarchetypeVersion=1.1
+
+h3. Custom Archetypes
+
+ref: 
+"http://maven.apache.org/guides/mini/guide-creating-archetypes.html":http://maven.apache.org/guides/mini/guide-creating-archetypes.html
+
+Start creating your archetype with the following command:
+
+bc. 
+mvn archetype:create
+  -DgroupId=[your project's group id]
+  -DartifactId=[your project's artifact id]
+  -DarchetypeArtifactId=maven-archetype-archetype
+
+Sample:
+
+bc. 
+mvn archetype:create -DgroupId=com.oracle.git -DartifactId=addTesting-archetype -DarchetypeArtifactId=maven-archetype-archetype
+
+
+bc. mvn archetype:create -DarchetypeGroupId=<archetype-groupId> -DarchetypeArtifactId=<archetype-artifactId> -DarchetypeVersion=<archetype-version> -DgroupId=<my.groupid> -DartifactId=<my-artifactId>
+
+Sample one I created:
+
+bc. mvn archetype:create -DarchetypeGroupId=testArchetype -DarchetypeArtifactId=testArchetype -DarchetypeVersion=1.0 -DgroupId=testProject1 -DartifactId=testProject1
+
+bc. mvn archetype:create -DarchetypeGroupId=com.oracle.git.archetypes -DarchetypeArtifactId=basic-archetype -DarchetypeVersion=0.0.1-SNAPSHOT -DgroupId=testProject1 -DartifactId=testProject2 -DpackageName=com.oracle
+
+"http://blogs.mikeci.com/2010/01/14/working-with-custom-maven-archetypes-part-1/":http://blogs.mikeci.com/2010/01/14/working-with-custom-maven-archetypes-part-1/
 
 h2(#eclipsify). Eclips'ify
 

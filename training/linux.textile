@@ -389,7 +389,12 @@ The beauties of rsync are:
 
 h2. Environment Variables
 
-Edit the file: @~/.bashrc@, set an environment variable like the following:
+Edit the file: 
+
+debian linux: @~/.bashrc@ 
+red hat: @~/.bash_profile@
+
+set an environment variable like the following:
 
 bc. export [variable_name]=[variable_value]
 

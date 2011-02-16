@@ -300,6 +300,10 @@ know what is the difference between the two branches.
 
 bc. git diff --name-status master..npe
 
+h2. Compare working directory against latest commit (HEAD)
+
+bc. git diff HEAD --
+
 h2. Compare Two Files
 
 Then you might wonder what is the difference between a file that exists in two different

@@ -47,7 +47,13 @@ chmod 755 jdk-6u23-linux-i586.bin
 ./jdk-6u23-linux-i586.bin
 mv jdk1.6.0_23/ /usr/lib/jvm/
 
-in the ~/.bashrc as oracle:
+in the 
+
+* debian linux: ~/.bashrc 
+
+* red hat linux: ~/.bash_profile 
+
+as oracle:
 
 bc. 
 export JAVA_HOME=/usr/lib/jvm/jdk1.6.0_23

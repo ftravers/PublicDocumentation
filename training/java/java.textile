@@ -236,3 +236,20 @@ while (attributes.hasNext()) {
 	if (attribute.getName().toString().equals("type"));
 	String typeIsUser = attribute.getValue();
 }
+
+
+h2. Javadoc 
+
+link to method in same class
+
+bc. 
+{@link #createServiceRequest(Map)}
+
+link to another class called @Contact@
+
+bc. {@link Contact}
+
+link to a methond in another class
+
+bc. {@link Contact#getId(Map)}
+

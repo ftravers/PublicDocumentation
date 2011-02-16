@@ -531,8 +531,15 @@ bc.
 <dependency>	
 	<groupId>org.apache.derby</groupId>
 	<artifactId>derby</artifactId>
-	<version>10.5.3.0_1</version>
-	<scope>runtime</scope>
+	<version>10.7.1.1</version>
+</dependency>
+
+optional
+
+<dependency>	
+	<groupId>org.apache.derby</groupId>
+	<artifactId>derbytools</artifactId>
+	<version>10.7.1.1</version>
 </dependency>
 
 h2. MySQL
