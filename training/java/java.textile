@@ -10,6 +10,74 @@ h1. Installation Considerations
 
 Mac JVMs are installed to here: @/System/Library/Frameworks/JavaVM.framework/Versions@
 
+h1. Logging
+
+"Reference":http://logback.qos.ch/manual/joran.html
+
+Maven pom.xml
+
+bc. 
+<dependency>
+ <groupId>org.slf4j</groupId>
+ <artifactId>slf4j-api</artifactId>
+ <version>1.6.1</version>
+</dependency>
+<dependency>
+ <groupId>ch.qos.logback</groupId>
+ <artifactId>logback-classic</artifactId>
+ <version>0.9.28</version>
+</dependency>
+
+bc. 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+static final Logger log = LoggerFactory.getLogger(ServiceProxy.class);
+log.debug("After transformation params:\n{}", afterTransformation);
+
+Dir layout:
+
+bc. 
+.
+`-- src
+    |-- main
+    |   `-- resources
+    |       `-- logback.xml
+    `-- test
+        `-- resources
+            `-- logback-test.xml
+
+Config files: logback.xml:
+
+bc. 
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+    </layout>
+  </appender>
+  <logger name="com.base22" level="TRACE"/>
+  <root level="debug">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration> 
+
+Config files: logback-test.xml:
+
+bc. 
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%-5level %logger{100} - %msg%n</Pattern>
+        </layout>
+    </appender>
+    <logger name="com.oracle.git.ngsp.crmodRestServer.hasExternDep" level="DEBUG"/>
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
+
 h1. Application Configuration
 
 h2. Resource Files
