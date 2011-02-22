@@ -42,18 +42,18 @@ In production we can replace Glassfish with the latest version of WebLogic
 
 ### TAS Integration
 
-* [Design Document](http://linux1.hk.oracle.com/MvnSesFe/design.html)
-* [Deployment Guide](http://linux1.hk.oracle.com/SES-CRMOD-EAR/)
+* [Design Document]()
+* [Deployment Guide]()
 
 ### Mass Update of Master Incident
 
-* [Design Document](http://linux1.hk.oracle.com/MvnSesFe/design.html)
-* [Deployment Guide](http://linux1.hk.oracle.com/SES-CRMOD-EAR/)
+* [Design Document]()
+* [Deployment Guide]()
 
 ### HRMS to CRMOD user data integration
 
-* [Design Document](http://linux1.hk.oracle.com/MvnSesFe/design.html)
-* [Deployment Guide](http://linux1.hk.oracle.com/SES-CRMOD-EAR/)
+* [Design Document]()
+* [Deployment Guide]()
 
 ### AutoSR Replacement (AutoSR2)
 
