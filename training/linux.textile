@@ -571,6 +571,32 @@ Type=Application
 Categories=Development;IDE;
 Path=/home/ftravers/bin/eclipse_3.6.1/
 
+h2. screen
+
+To keep a shell session on a remote server in its state, there is a little utility that can do that for you.
+It can be useful to let a long script running like an rsync backup over the network.
+A session of screen can also be "detached" and used by another user, making it easy to collaborate on a project.
+
+To install screen (as root):
+
+bc. 
+yum -y install screen
+
+Then you can just start a screen session:
+
+bc. 
+screen -S MyTitle
+
+To exit this session and go back to the regular shell press _ctrl+a_ then _d_
+_ctrl+a_ then _k_ will kill the session.
+
+To list the active screen sessions:
+
+bc. 
+screen -ls
+
+to reattach a screen, use @screen -r@ if there is only one session open. If there are more, use @screen -r NNNN.SessionTitle@
+
 
 h1. Redhat derivatives
 
