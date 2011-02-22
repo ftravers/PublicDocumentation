@@ -42,18 +42,18 @@ In production we can replace Glassfish with the latest version of WebLogic
 
 ### TAS Integration
 
-* [Design Document]()
-* [Deployment Guide]()
+* Design Document
+* Deployment Guide
 
 ### Mass Update of Master Incident
 
-* [Design Document]()
-* [Deployment Guide]()
+* Design Document
+* Deployment Guide
 
 ### HRMS to CRMOD user data integration
 
-* [Design Document]()
-* [Deployment Guide]()
+* Design Document
+* Deployment Guide
 
 ### AutoSR Replacement (AutoSR2)
 
