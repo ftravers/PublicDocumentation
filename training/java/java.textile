@@ -12,7 +12,7 @@ Mac JVMs are installed to here: @/System/Library/Frameworks/JavaVM.framework/Ver
 
 h1. Logging
 
-"Reference":http://logback.qos.ch/manual/joran.html
+"Reference":http://logback.qos.ch/manual/layouts.html
 
 Maven pom.xml
 
@@ -77,6 +77,17 @@ bc.
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
+
+h2. Tips:
+
+More than 2 object in one line:
+
+If three or more arguments need to be passed, an Object[] variant is also availalble. For example, you can write:
+
+bc. 
+Object[] paramArray = {newVal, below, above};
+logger.debug("Value {} was inserted between {} and {}.", paramArray);
+
 
 h1. Application Configuration
 

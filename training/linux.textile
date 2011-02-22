@@ -365,6 +365,12 @@ h1. General Unix Commands
 
 h2. Tiff2Pdf
 
+h2. xmllint
+
+The following will take an xml file and format it so it's all properly 
+indented.
+
+bc. xmllint --format fenton.xml > cleanFenton.xml
 
 
 h2. rsync
