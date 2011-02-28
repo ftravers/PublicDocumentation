@@ -440,6 +440,8 @@ h1. Recipes
 
 h2. Cherry pick files from other branch
 
+What is the best way to merge selective files from one development branch to another while leaving behind everything else?
+
 bc. 
 #You are in the branch you want to merge to
 git checkout <branch_you_want_to_merge_from> <file_paths...>
