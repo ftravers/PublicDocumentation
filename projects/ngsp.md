@@ -53,7 +53,7 @@ In production we can replace Glassfish with the latest version of WebLogic
 ### HRMS to CRMOD user data integration
 
 * [Design Document](http://linux1.hk.oracle.com/hrmsToCrmodUserDataIntegration/design.html)
-* Deployment Guide
+* [Deployment Guide](http://linux1.hk.oracle.com/hrmsToCrmodUserDataIntegration)
 
 ### AutoSR Replacement (AutoSR2)
 
