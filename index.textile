@@ -22,6 +22,8 @@ Quick Links:
 !(icon)/images/file.gif! "OVM Manager & Template Builder":/jeos/OVM_Manager_TemplateBuilder.html
 !(icon)/images/file.gif! "Oracle VM Commands":/training/oracleVM.html
 !(icon)/images/file.gif! "Setting up an Oracle Virtual Machine Lab":jeos/SettingUpVirtualLab.html
+
+!(icon)/images/file.gif! "Spring - Dependency Injection":/trainging/javaEE6/DependencyInjection.html
 !(icon)/images/file.gif! "Skills Criteria":/skillsCriteria.html
 !(icon)/images/file.gif! "SSH":/secure.html
 !(icon)/images/file.gif! "Textile":training/textile.html

@@ -257,6 +257,11 @@ Where @origin@ is your remote name and @newfeature@ is the name of the branch yo
 
 h2. Pull a remote branch
 
+First update your local repo so it is aware of new branches on
+'origin'.
+
+bc. git pull origin master
+
 create a local tracking branch:
 
 bc. $ git checkout -b experimental origin/experimental

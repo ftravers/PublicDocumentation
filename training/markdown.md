@@ -1,5 +1,12 @@
 # Markdown
 
+[Ref](http://daringfireball.net/projects/markdown/syntax)
+
+## Headers
+
+Headers are specified by the number of `#` (hash) symbols you use at
+the beginning of a line.
+
 ## Links
 
 To create an inline link, use a set of regular parentheses immediately
