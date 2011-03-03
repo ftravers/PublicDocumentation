@@ -30,3 +30,11 @@ bc.
 +---
 the code u want verbatim
 +---
+
+h2. Links 
+
+bc. 
+{Anchor}
+Link to {{Anchor}}
+{{http://www.scottnesbitt.net}}
+{{{http://www.scottnesbitt.net}My home page}}

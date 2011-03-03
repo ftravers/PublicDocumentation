@@ -16,18 +16,19 @@ h2. Files
 
 h2. Navigation, Search & Replace
 
-|_. Key Stroke                      | _. Effect |
-| A->                               |  Go to the beginning of the file |
-| A-<                               |  Go to the end of the file |
-| A-(L/R) arrows                    |  Move word forward/backwards |
-| A-f, A-b                          |  Move word forward/backwards |
-| C-s                               |  Incremental Search Forward |
+|_. Key Stroke                      | _. Effect                         |
+| A->                               |  Go to the beginning of the file  |
+| A-<                               |  Go to the end of the file        |
+| A-g A-g                           |  Goto line #                      |
+| A-(L/R) arrows                    |  Move word forward/backwards      |
+| A-f, A-b                          |  Move word forward/backwards      |
+| C-s                               |  Incremental Search Forward       |
 | C-A-s                             |  Regular Expression incremental search
-| C-r                               |  Incremental Search Backwards |
-| A-%                               |  Replace |
-| A-x query-replace-regexp          |  Regex Replace |
-| C-q C-j                           |  Keystroke for Carriage Return |
-| C-q <SPC>                         |  Keystroke for space character |
+| C-r                               |  Incremental Search Backwards| 
+| A-%                               |  Replace                          |
+| A-x query-replace-regexp          |  Regex Replace                    |
+| C-q C-j                           |  Keystroke for Carriage Return    |
+| C-q <SPC>                         |  Keystroke for space character    |
 | C-x (, C-x ), C-x e, C-u 25 C-x e | Start, stop, playback macro, replay macro 25 times   |
 
 h2. Buffers, Regions, & Windows
