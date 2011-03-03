@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 for filename in `find . -name \*.mmd`; do
     NAME=`echo $filename | sed -e 's/\.md//g'`
