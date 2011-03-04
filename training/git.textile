@@ -326,6 +326,52 @@ git diff HEAD HEAD~2 -- pom.xml
 
 h2. Bring down remote changes
 
+Say the branch we are interested in bring remote changes down into is
+'master'.  The first thing we do is ensure locally we are on the
+master branch.  If you are not on the master branch commit or stash
+your local changes on the branch you are on and switch to the master
+branch.
+
+bc. git checkout master
+
+Now pull down the remote changes into your remote-tracking branch.
+You can see your local branches and your remote-tracking branches by
+doing: @git branch@ and @git branch -r@ respectively.  When I do a
+@git branch -r@ I see that I have a branch called @origin/master@.
+
+bc. 
+$ git branch -r
+  origin/master
+
+So to safetly update my remote-tracking branch origin/master I simply
+do:
+
+bc. git fetch origin
+
+Now I can compare the differences between my version of master and the
+remote version.  I simply do:
+
+bc. $ git diff --name-status master origin/master
+
+To see a list of files that have been changed.  Then I can get the
+full diff file by dropping the @--name-status@ parameter:
+
+bc. $ git diff master origin/master > ~/tmp/diff.diff
+
+I output the results of that command to a file that I can later open
+in emacs to get a better view of what the changes actually are.
+
+
+git diff master origin/master
+
+D       src/docs/AutoSR2 Reference Guide.docx
+M       src/site/apt/index.apt
+A       src/site/resources/AutoSR2-Reference-Guide.odt
+M       src/test/python/integrationTest.py
+M       src/test/resources/htmlInputTestStrings.properties
+oracle@oracle-laptop:~/projects/autoSR2$ 
+
+
 The following workflow has us list all of our branch (-a includes the remote branches)
 
 bc. 

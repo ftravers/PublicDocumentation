@@ -67,6 +67,25 @@ h2. Edit, Selection, Cut & Paste
 
 In sgml-mode, a built-in pretty printing function called (sgml-pretty-print ...) 
 
+h2. Keymaps & Function bindings
+
+|_. Command                |_. Meaning             |
+| A-x describe-key         | and hit the key (or key combination) in
+| question. This will reveal the name of the key as well as the
+| function it is currently bound to.|
+| C-h f <functionName>     | Display documentation on the Lisp
+| function named function (describe-function). Since commands are Lisp
+| functions, a command name may be used.|
+
+h2. Diff
+
+* "Reference":http://www.gnu.org/software/emacs/manual/html_node/emacs/Diff-Mode.html
+
+|_. Command                |_. Meaning             |
+| C-c C-n                  | Restrict the view to the current hunk (diff-restrict-view). See Narrowing. With a prefix argument of C-u, restrict the view to the current file of a multiple-file patch. To widen again, use C-x n w (widen). |
+| A-n                      | Move to the next hunk-start (diff-hunk-next). |
+| A-p                      | Move to the previous hunk-start (diff-hunk-prev). |
+
 h2. Latex
 
 |_. Key Stroke |_. Effect |
