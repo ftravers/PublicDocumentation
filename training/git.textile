@@ -361,16 +361,30 @@ bc. $ git diff master origin/master > ~/tmp/diff.diff
 I output the results of that command to a file that I can later open
 in emacs to get a better view of what the changes actually are.
 
+h2. (segue) Resolving merge problems for a single file
 
-git diff master origin/master
+Say we have a file that can't be automatically merged.  The branches
+are 'bugFix' and 'master', and the file it is complaining about is:
+'src/main/java/com/acme/My.java'.  First commit all changes on branch
+'bugFix', then switch to 'master' and try to merge.  My.java fails
+auto merge.  Get the diff for this file with:
 
-D       src/docs/AutoSR2 Reference Guide.docx
-M       src/site/apt/index.apt
-A       src/site/resources/AutoSR2-Reference-Guide.odt
-M       src/test/python/integrationTest.py
-M       src/test/resources/htmlInputTestStrings.properties
-oracle@oracle-laptop:~/projects/autoSR2$ 
+bc. git diff bugFix master src/main/java/com/acme/My.java > ~/tmp/My.java.diff
 
+Now get the My.java on the bugFix branch and apply this patch to it in
+emacs.
+
+bc. 
+mv src/main/java/com/acme/My.java src/main/java/com/acme/My.java.master
+git checkout bugFix src/main/java/com/acme/My.java
+
+Now open both files in emacs and run command: @A-x ediff-patch-buffer@
+and pick the correct buffers for the patch and the file to patch.
+
+Finally you can use 'n', 'p' for next and previous patch chunks.  You
+can type '?' in the mini-buffer to get a list of commands to help you.
+
+h2. (segue - over)
 
 The following workflow has us list all of our branch (-a includes the remote branches)
 
