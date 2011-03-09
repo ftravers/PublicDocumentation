@@ -361,6 +361,10 @@ bc. $ git diff master origin/master > ~/tmp/diff.diff
 I output the results of that command to a file that I can later open
 in emacs to get a better view of what the changes actually are.
 
+If you are happy with the differences then you can merge them:
+
+bc. $ git merge origin/master
+
 h2. (segue) Resolving merge problems for a single file
 
 Say we have a file that can't be automatically merged.  The branches
