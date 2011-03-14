@@ -42,8 +42,8 @@ In production we can replace Glassfish with the latest version of WebLogic
 
 ### TAS Integration
 
-* Design Document
-* Deployment Guide
+* [Design Document] (http://linux1.hk.oracle.com/crmodTasItgrtn/design.html)
+* [Deployment Guide] (http://linux1.hk.oracle.com/crmodTasItgrtn/)
 
 ### Mass Update of Master Incident
 
