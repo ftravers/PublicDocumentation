@@ -1,0 +1,203 @@
+<p><a href="/index.html">home</a> &gt; Emacs</p>
+<p>Table of Contents</p>
+<p>{toc}</p>
+<h2 id="files">Files</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Key Stroke</th>
+<th align="left">Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">C-x C-f</td>
+<td align="left">Open a new file</td>
+</tr>
+<tr class="even">
+<td align="left">C-x s</td>
+<td align="left">Save buffer (s)</td>
+</tr>
+<tr class="odd">
+<td align="left">C-x C-w</td>
+<td align="left">Save As</td>
+</tr>
+<tr class="even">
+<td align="left">C-x C-c</td>
+<td align="left">Close emacs</td>
+</tr>
+<tr class="odd">
+<td align="left">C-x C-r</td>
+<td align="left">Open file read only</td>
+</tr>
+<tr class="even">
+<td align="left">C-x C-c</td>
+<td align="left">Exit Emacs</td>
+</tr>
+</tbody>
+</table>
+<h2 id="navigation-search-replace">Navigation, Search &amp; Replace</h2>
+<p>|<em>. Key Stroke |</em>. Effect |<br />| A<span style="text-decoration: line-through;">&gt; | Go to the beginning of the file |<br />| A</span>&lt; | Go to the end of the file |<br />| A-g A-g | Goto line # |<br />| A<span style="text-decoration: line-through;">arrows | Move word forward/backwards |<br />| A-f, A-b | Move word forward/backwards |<br />| C-s | Incremental Search Forward |<br />| C-A-s | Regular Expression incremental search<br />| C-r | Incremental Search Backwards| <br />| A</span>% | Replace |<br />| A-x query-replace-regexp | Regex Replace |<br />| C-q C-j | Keystroke for Carriage Return |<br />| C-q <SPC> | Keystroke for space character |<br />| C-x (, C-x ), C-x e, C-u 25 C-x e | Start, stop, playback macro, replay macro 25 times |</p>
+<h2 id="buffers-regions-windows">Buffers, Regions, &amp; Windows</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Key Stroke</th>
+<th align="left">Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">C-x 1</td>
+<td align="left">Unsplit window (keep this)</td>
+</tr>
+<tr class="even">
+<td align="left">C-x 0</td>
+<td align="left">Unsplit window (keep others)</td>
+</tr>
+<tr class="odd">
+<td align="left">C-x 2</td>
+<td align="left">Split window horizontal</td>
+</tr>
+<tr class="even">
+<td align="left">C-x 3</td>
+<td align="left">Split window vertical</td>
+</tr>
+<tr class="odd">
+<td align="left">C-x o</td>
+<td align="left">Move to the next window</td>
+</tr>
+<tr class="even">
+<td align="left">C-x 1</td>
+<td align="left">Collapse other window</td>
+</tr>
+<tr class="odd">
+<td align="left">C-x 0</td>
+<td align="left">Collapse this window</td>
+</tr>
+<tr class="even">
+<td align="left">C-x b</td>
+<td align="left">Load previous buffer</td>
+</tr>
+<tr class="odd">
+<td align="left">C-x C-b</td>
+<td align="left">List all buffers. e to edit buffer</td>
+</tr>
+<tr class="even">
+<td align="left">C-x k</td>
+<td align="left">Close buffer</td>
+</tr>
+<tr class="odd">
+<td align="left">C-x C-v Ret</td>
+<td align="left">Reload buffer from file system</td>
+</tr>
+<tr class="even">
+<td align="left">C-x b <strong>scratch</strong> RET</td>
+<td align="left">re-open scratch buffer</td>
+</tr>
+<tr class="odd">
+<td align="left">d</td>
+<td align="left">In buffer list, mark buffer for deletion, happens when hit x</td>
+</tr>
+<tr class="even">
+<td align="left">A-^</td>
+<td align="left">Join this line to previous and fix up whitespace at join. If there is a fill prefix, delete it from the beginning of this line.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="edit-selection-cut-paste">Edit, Selection, Cut &amp; Paste</h2>
+<p>|<em>. Key Stroke |</em>. Effect |<br />| C-x u | Undo |<br />| A-q | Reformat Paragraph, take first line to 0 indent, then A-q, rest of paragraph is now 0 indent |<br />| C-A<span style="text-decoration: line-through;">\ | Auto indent selected region |<br />| A</span>^ | Remove indentation, brings current line up one |<br />| C-c C-c, M-x comment-region | Comment out a marked region<br />| C-u C-c C-c | Un-comment out the marked region<br />| C-x h | Select wHole buffer |<br />| C-x 0 | Delete the current window |<br />| A-w | Copy |<br />| C-w | Cut |<br />| C-y, Esc-y | Yank (paste), successive Esc-y get clipboard history |<br />| A-x cua-mode | Column Edit, C-Ret. begin selection, Ret. for text before block selection, Ret. for text after block selection|</p>
+<p>In sgml-mode, a built-in pretty printing function called (sgml-pretty-print …)</p>
+<h2 id="keymaps-function-bindings">Keymaps &amp; Function bindings</h2>
+<p>|<em>. Command |</em>. Meaning |<br />| A-x describe-key | and hit the key (or key combination) in<br />| question. This will reveal the name of the key as well as the<br />| function it is currently bound to.|<br />| C-h f <functionName> | Display documentation on the Lisp<br />| function named function (describe-function). Since commands are Lisp<br />| functions, a command name may be used.|</p>
+<h2 id="diff">Diff</h2>
+<ul>
+<li><a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Diff-Mode.html">Reference</a></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Command</th>
+<th align="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">C-c C-n</td>
+<td align="left">Restrict the view to the current hunk (diff-restrict-view). See Narrowing. With a prefix argument of C-u, restrict the view to the current file of a multiple-file patch. To widen again, use C-x n w (widen).</td>
+</tr>
+<tr class="even">
+<td align="left">A-n</td>
+<td align="left">Move to the next hunk-start (diff-hunk-next).</td>
+</tr>
+<tr class="odd">
+<td align="left">A-p</td>
+<td align="left">Move to the previous hunk-start (diff-hunk-prev).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="latex">Latex</h2>
+<p>|<em>. Key Stroke |</em>. Effect |<br />| C-c C-c | to compile to <strong>.dvi/</strong>.pdf, again to view<br />| C-c C-t C-p | to toggle into PDF mode.<br />| C-c = | show TOC |<br />h1. Programming</p>
+<h2 id="cheatsheet">Cheatsheet</h2>
+<p>|<em>. Key Stroke |</em>. Effect |<br />| C-h v <variable-name> | display the contents of a variable |<br />| C-x C-e | evaluate an expression: position the cursor after a list and type</p>
+<h2 id="variables">Variables</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">load-path</td>
+<td align="left">The variable load-path lists all the directories where Emacs should look for Elisp files.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="http://www.gnu.org/software/emacs/emacs-lisp-intro/html_node/index.html">Reference</a></p>
+<h2 id="overview">Overview</h2>
+<p>Put your code into <strong>.el files. Then put</strong>.el into a directory on your load-path, /usr/local/share/emacs/site-lisp or /usr/share/emacs/site-lisp/, are reasonable locations. Then you can put a line like the following into your .emacs <a href="file:">file:</a></p>
+<pre><code>(require 'textile-mode)
+</code></pre>
+<p>Put following into .emacs file, so you can reload your .emacs file without closing and reopenning emacs.</p>
+<pre><code></code></pre>
+<p>;; Reload .emacs file by typing: A-x reload.<br />(defun reload () “Reloads .emacs interactively.”<br />(interactive)<br />(load “~/.emacs”))</p>
+<h2 id="to-create-a-function">To create a function</h2>
+<p>A function definition has up to five parts following the word defun:</p>
+<ul>
+<li>The name of the symbol to which the function definition should be attached.</li>
+<li>A list of the arguments that will be passed to the function. If no arguments will be passed to the function, this is an empty list, ().</li>
+<li>Documentation describing the function. (Technically optional, but strongly recommended.)</li>
+<li>Optionally, an expression to make the function interactive so you can use it by typing M-x and then the name of the function; or by typing an appropriate key or keychord.</li>
+<li>The code that instructs the computer what to do: the body of the function definition.</li>
+</ul>
+<p>It is helpful to think of the five parts of a function definition as being organized in a template, with slots for each part:</p>
+<pre><code></code></pre>
+<p>(defun function-name (arguments…)<br /> “optional-documentation…”<br /> (interactive argument-passing-info) ; optional<br /> body…)</p>
+<p>As an example, here is the code for a function that multiplies its argument by 7. (This example is not interactive. See Making a Function Interactive, for that information.)</p>
+<pre><code></code></pre>
+<p>(defun multiply-by-seven (number)<br /> “Multiply NUMBER by seven.”<br /> (* 7 number))</p>
+<h2 id="install-the-function">Install the function</h2>
+<p>Install the function by putting the cursor at the end of the function and typing C-x C-e. This will install the function for the life of your current emacs session. To install more permanently put it in your ~/.emacs file.</p>
+<p>To make the above function interactive do:</p>
+<pre><code></code></pre>
+<p>(defun multiply-by-seven (number)<br /> “Multiply NUMBER by seven.”<br /> (interactive “p”)<br /> (message “The result is %d” (* 7 number)))</p>
+<p>Invoke with <code>C-u</code> some number <code>A-x multiply-by-seven</code>.</p>
+<h2 id="installing-.el-files">Installing *.el files</h2>
+<h3 id="one-time">One time</h3>
+<p>Ensure you have the following in your ~/.emacs <a href="file:">file:</a></p>
+<pre><code></code></pre>
+<p>(add-to-list ’load-path “~/projects/elisp”)</p>
+<h3 id="for-each-new-.el-file">For each new *.el file</h3>
+<p>Ensure you have the following in your ~/.emacs <a href="file:">file:</a></p>
+<pre><code></code></pre>
+<p>(require ’foo)</p>
+<p>where foo means foo.el</p>
+<p>And put your foo.el file in: <code>~/projects/elisp</code></p>
+<h1 id="reference">Reference</h1>
+<p>bc.. <br />C-SP set-mark-command C-q quoted-insert<br />C-a beginning-of-line C-r isearch-backward<br />C-b backward-char C-s isearch-forward<br />C-c exit-recursive-edit C-t transpose-chars<br />C-d delete-char C-u universal-argument<br />C-e end-of-line C-v scroll-up<br />C-f forward-char C-w kill-region<br />C-h help-command C-x Control-X-prefix<br />TAB indent-for-tab-command C-y yank<br />LFD newline-and-indent C-z suspend-emacs<br />C-k kill-line ESC ESC-prefix<br />C-l recenter C<span style="text-decoration: line-through;">] abort-recursive-edit<br />RET newline C</span>_ undo<br />C-n next-line SPC .. ~ self-insert-command<br />C-o open-line DEL delete-backward-char<br />C-p previous-line</p>
+<p>C-h v describe-variable C-h d describe-function<br />C-h w where-is C-h k describe-key<br />C-h t help-with-tutorial C-h c describe-key-briefly<br />C-h s describe-syntax C-h b describe-bindings<br />C-h n view-emacs-news C-h a command-apropos<br />C-h C-n view-emacs-news C-h C-d describe-distribution<br />C-h m describe-mode C-h C-c describe-copying<br />C-h l view-lossage C-h ? help-for-help<br />C-h i info C-h C-h help-for-help<br />C-h f describe-function</p>
+<p>C-x C-a add-mode-abbrev C-x 5 split-window-horizontally<br />C-x C-b list-buffers C-x ; set-comment-column<br />C-x C-c save-buffers-kill-emacs C-x &lt; scroll-left<br />C-x C-d list-directory C-x = what-cursor-position<br />C-x C-e eval-last-sexp C-x &gt; scroll-right<br />C-x C-f find-file C-x [ backward-page<br />C-x C-h inverse-add-mode-abbrev C-x ] forward-page<br />C-x TAB indent-rigidly C-x ^ enlarge-window<br />C-x C-l downcase-region C-x ` next-error<br />C-x C-n set-goal-column C-x a append-to-buffer<br />C-x C-o delete-blank-lines C-x b switch-to-buffer<br />C-x C-p mark-page C-x d dired<br />C-x C-q toggle-read-only C-x e call-last-kbd-macro<br />C-x C-r find-file-read-only C-x f set-fill-column<br />C-x C-s save-buffer C-x g insert-register<br />C-x C-t transpose-lines C-x h mark-whole-buffer<br />C-x C-u upcase-region C-x i insert-file<br />C-x C-v find-alternate-file C-x j register-to-dot<br />C-x C-w write-file C-x k kill-buffer<br />C-x C-x exchange-dot-and-mark C-x l count-lines-page<br />C-x C-z suspend-emacs C-x m mail<br />C-x ESC repeat-complex-command C-x n narrow-to-region<br />C-x $ set-selective-display C-x o other-window<br />C-x ( start-kbd-macro C-x p narrow-to-page<br />C-x ) end-kbd-macro C-x q kbd-macro-query<br />C-x + add-global-abbrev C-x r copy-rectangle-to-register<br />C-x - inverse-add-global-abbrev C-x s save-some-buffers<br />C-x . set-fill-prefix C-x u advertised-undo<br />C-x / dot-to-register C-x w widen<br />C-x 0 delete-window C-x x copy-to-register<br />C-x 1 delete-other-windows C-x { shrink-window-horizontally<br />C-x 2 split-window-vertically C-x } enlarge-window-horizontally<br />C-x 4 ctl-x–4-prefix C-x DEL backward-kill-sentence</p>
+<p>Alt C-SP mark-sexp Alt = count-lines-region<br />Alt C-a beginning-of-defun Alt &gt; end-of-buffer<br />Alt C-b backward-sexp Alt @ mark-word<br />Alt C-c exit-recursive-edit Alt O ??<br />Alt C-d down-list Alt [ backward-paragraph<br />Alt C-e end-of-defun Alt \ delete-horizontal-space<br />Alt C-f forward-sexp Alt ] forward-paragraph<br />Alt C-h mark-defun Alt ^ delete-indentation<br />Alt LFD indent-new-comment-line Alt a backward-sentence<br />Alt C-k kill-sexp Alt b backward-word<br />Alt C-n forward-list Alt c capitalize-word<br />Alt C-o split-line Alt d kill-word<br />Alt C-p backward-list Alt e forward-sentence<br />Alt C-s isearch-forward-regexp Alt f forward-word<br />Alt C-t transpose-sexps Alt g fill-region<br />Alt C-u backward-up-list Alt h mark-paragraph<br />Alt C-v scroll-other-window Alt i tab-to-tab-stop<br />Alt C-w append-next-kill Alt j indent-new-comment-line<br />Alt Alt ?? Alt k kill-sentence<br />Alt C<span style="text-decoration: line-through;">\ indent-region Alt l downcase-word<br />Alt SPC just-one-space Alt m back-to-indentation<br />Alt ! shell-command Alt q fill-paragraph<br />Alt $ spell-word Alt r move-to-window-line<br />Alt % query-replace Alt t transpose-words<br />Alt ’ abbrev-prefix-mark Alt u upcase-word<br />Alt ( insert-parentheses Alt v scroll-down<br />Alt ) move-past-close-and-reindent Alt w copy-region-as-kill<br />Alt , tags-loop-continue Alt x execute-extended-command<br />Alt</span> negative-argument Alt y yank-pop<br />Alt . find-tag Alt z zap-to-char<br />Alt 0 .. Alt 9 digit-argument Alt | shell-command-on-region<br />Alt ; indent-for-comment Alt ~ not-modified<br />Alt &lt; beginning-of-buffer Alt DEL backward-kill-word</p>
+<p>C-x 4 C-f find-file-other-window C-x 4 d dired-other-window<br />C-x 4 . find-tag-other-window C-x 4 f find-file-other-window<br />C-x 4 b pop-to-buffer C-x 4 m mail-other-window</p>

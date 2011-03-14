@@ -23,3 +23,13 @@ title for the link, surrounded in quotes. For example:
 To produce a code block in Markdown, simply indent every line of the
 block by at least 4 spaces or 1 tab. For example, given this input:
 
+# Convert textile -> markdown
+
+Easiest to just convert already converted HTML into Markdown.  The
+following converts a file called emacs.html into emacs.mmd
+(multi-markdown)
+
+        pandoc -f html -t markdown emacs.html > emacs.mmd
+
+
+
