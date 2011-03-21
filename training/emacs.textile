@@ -16,7 +16,7 @@ h2. Files
 
 h2. Navigation, Search & Replace
 
-|_. Key Stroke                      | _. Effect                         |
+|_. Key Stroke                      |_.  Effect                         |
 | A->                               |  Go to the beginning of the file  |
 | A-<                               |  Go to the end of the file        |
 | A-g A-g                           |  Goto line #                      |
@@ -30,6 +30,14 @@ h2. Navigation, Search & Replace
 | C-q C-j                           |  Keystroke for Carriage Return    |
 | C-q <SPC>                         |  Keystroke for space character    |
 | C-x (, C-x ), C-x e, C-u 25 C-x e | Start, stop, playback macro, replay macro 25 times   |
+
+
+|_.Name	         |_.ASCII Code	|_.string notation	|_.Caret Notation	|_.Input method                 |
+|horizontal tab	 |9	            |\t	                |^I	                |Ctrl+q Ctrl+i or Ctrl+q Tab    |
+|line feed	     |10	        |\n	                |^J	                |Ctrl+q Ctrl+j                  |
+|carriage return |13	        |\r	                |^M	                |Ctrl+q Ctrl+m or Ctrl+q Enter  |
+
+
 
 h2. Buffers, Regions, & Windows
 

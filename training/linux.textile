@@ -363,6 +363,20 @@ If you mess up, delete the *.desktop file from @/usr/share/applications@
 
 h1. General Unix Commands
 
+h2. find
+
+Find all files accessed in the last minute
+
+bc. find . -mmin 1
+
+h2. grep
+
+Find all files (recurse into subdirectories (R)) that have the word
+'fenton' in them (ignore case (i)).  Only search files ending in
+"*.java" (--include).
+
+bc. grep -iR fenton --include="*.java" .
+
 h2. Tiff2Pdf
 
 h2. xmllint
@@ -371,7 +385,6 @@ The following will take an xml file and format it so it's all properly
 indented.
 
 bc. xmllint --format fenton.xml > cleanFenton.xml
-
 
 h2. rsync
 

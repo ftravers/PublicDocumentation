@@ -23,7 +23,15 @@ title for the link, surrounded in quotes. For example:
 To produce a code block in Markdown, simply indent every line of the
 block by at least 4 spaces or 1 tab. For example, given this input:
 
-# Convert textile -> markdown
+## Inline Code
+
+To indicate a span of code, wrap it with backtick quotes (`). Unlike a
+pre-formatted code block, a code span indicates code within a normal
+paragraph. For example:
+
+           Use the `printf()` function.
+
+## Convert textile -> markdown
 
 Easiest to just convert already converted HTML into Markdown.  The
 following converts a file called emacs.html into emacs.mmd
@@ -31,5 +39,18 @@ following converts a file called emacs.html into emacs.mmd
 
         pandoc -f html -t markdown emacs.html > emacs.mmd
 
+## Lists
 
+### Unordered 
 
+Can use *, +, or - for unordered lists.
+
+### Ordered
+
+Any number followed by a period.
+
+    1.
+    3.
+    3.
+
+Still produces, 1, 2, 3.  (Actual number used is unimportant)
