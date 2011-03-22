@@ -25,7 +25,7 @@ git commit -am"."
 git archive master | tar -x -C "$webStageDir"
 
 cd $webStageDir
-./markdownScript.sh
+#./markdownScript.sh
 ./multimarkdown.sh
 ant generate-html
 
