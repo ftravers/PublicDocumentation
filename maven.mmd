@@ -284,20 +284,29 @@ Maven project.
 
 ### Custom Archetypes
 
+Custom archetypes let you build your own archetypes.  If you want to
+automate the setting up of a project with a maven archetype this is
+what you'd use.
+
 ref: 
 [http://maven.apache.org/guides/mini/guide-creating-archetypes.html](http://maven.apache.org/guides/mini/guide-creating-archetypes.html)
 
-Change the `groupId` and `artifactId` to be what you want your
-archetype to be called. Start creating your archetype with the
-following command:
+#### Step 1: Quickstart.
 
-    mvn archetype:create -DgroupId=com.oracle.git -DartifactId=addTesting-archetype -DarchetypeArtifactId=maven-archetype-archetype
+Get into a test directory:
+
+    cd ~/tmp
+
+Execute the following command.  Note: change the `groupId` and
+`artifactId` to be what you want your archetype to be called.
+
+    mvn archetype:generate -B -DarchetypeArtifactId=maven-archetype-archetype -DgroupId=com.oracle.git    -DartifactId=addTesting-archetype -Dversion=0.0.1-SNAPSHOT
 
 Once you’ve created the sample edit the pom.xml at:
 
-    addTesting-archetype/src/main/resources/archetype-resource/pom.xml
+     ~/tmp/addTesting-archetype/src/main/resources/archetype-resource/pom.xml
 
-it should be modified to look something like:
+it should be modified to look like:
 
     <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -307,14 +316,63 @@ it should be modified to look something like:
       <version>0.0.1-SNAPSHOT</version>
     </project>
 
-Now install it so it can be used
+Rename the archetype.xml into archetype-metadata.xml, (the former is
+for Archetype 1.0.X, the later is for Archetype 2.0.X).
+
+    cd src/main/resources/META-INF/maven/
+    mv archetype.xml archetype-metadata.xml
+
+Our folder structure now looks like:
+
+    ~/tmp/addTesting-archetype$ tree .
+    .
+    |-- pom.xml
+    `-- src
+        `-- main
+            `-- resources
+                |-- archetype-resources
+                |   |-- pom.xml
+                |   `-- src
+                |       |-- main
+                |       |   `-- java
+                |       |       `-- App.java
+                |       `-- test
+                |           `-- java
+                |               `-- AppTest.java
+                `-- META-INF
+                    `-- maven
+                        `-- archetype-metadata.xml
+
+
+Change directory back to your project root
+
+    cd ~/tmp/addTesting-archetype
+
+Install your archetype so it can be used
 
     mvn install
 
-Then you can build a new project based on this archetype by doing the
-following:
+Then you can build a new project based on this archetype.  Change back
+to a temp folder
+
+    cd ~/tmp
+
+Run the archetype:generate maven command:
 
     mvn archetype:generate -B -DarchetypeGroupId=com.oracle.git -DarchetypeArtifactId=addTesting-archetype -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=com.acme -DartifactId=testProject -Dpackage=com.acme.testProject
+
+#### Adding some files
+
+Say we want to create an archetype that sets up logback logging for
+us.  There are two config files we'll want added in our project, so
+lets add them in the following locations:
+
+    cd ~/tmp/addTesting-archetype/src/main/resources/archetype-resources/src/
+    mkdir main/resources; mkdir test/resources
+
+
+
+
 
 More refs:
 
