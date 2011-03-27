@@ -51,10 +51,10 @@ jvm](http://wiki.eclipse.org/Eclipse.ini#Specifying_the_JVM)
 
 ## Eclipse Setup
 
--   You will tell eclipse *once* where your maven repository is with the
-    following command: (ensure that Eclipse is not running)
+You will tell eclipse *once* where your maven repository is with the
+following command: (ensure that Eclipse is not running)
 
-    mvn -Declipse.workspace=<eclipse workspacle>/ eclipse:add-maven-repo
+    mvn -Declipse.workspace=<eclipse workspacle> eclipse:add-maven-repo
 
 example:
 
@@ -65,7 +65,6 @@ OR
 ![image](images/maven_pics/07_maven.gif)
 
 # Maven Commands
-
 Compile your test files
 
     mvn test-compile
@@ -123,13 +122,13 @@ when you release your artifacts with the maven release pluggin, it
 checks in and tags it for you. The extension required for ssh is
 indicated below.
 
--   = source code management (repository/vcs).
--   = will be the link displayed to people to download
+= source code management (repository/vcs).
+= will be the link displayed to people to download
 
 your code.
 
--   = where your website gets deployed to
--   = where your artifact gets deployed to
+= where your website gets deployed to
+= where your artifact gets deployed to
 
     <project...>
     ...
@@ -162,7 +161,8 @@ your code.
                     <version>1.0-beta-6</version>
                 </extension>
             </extensions>
-    this needs to be matched with @a ~/.m2/settings.xml@ file
+
+this needs to be matched with a ~/.m2/settings.xml file
 
     <settings xmlns="http://...
       <servers>
@@ -174,81 +174,12 @@ your code.
     ...
     </settings>
 
-bc.
- 
- 
- 
- org.apache.maven.plugins
- maven-javadoc-plugin
- 2.7
- 
- 
- 
- 
- 
- 
- server-assist
- 
- 
- 
- org.apache.maven.plugins
- maven-source-plugin
- 
- 
- package
- 
- jar
- 
- 
- 
- 
- 
- org.apache.maven.plugins
- maven-javadoc-plugin
- 
- 
- attach-javadocs
- <!— Restrict execution of source compilation to install -->
- install
- 
- javadoc
- 
- 
- 
- 
-bc.
+~/.m2/settings.xml
 
-1.  cat ~/.m2/settings.xml
-
-<?xml version=“1.0” encoding=“UTF-8”?>
-
- 
- 
- spicevan
- spiceman
- spicepass
- 
- 
- 
- stage
- 
- 
- 
- stage
- 
- <crmod.password>abc123</crmod.password>
-
-<crmod.username>ONGS-CRMOD-HRMS-STAGE_WW@oracle.com</crmod.username>
- 
- 
- 
- prod
- 
- <crmod.password>abc123</crmod.password>
- <crmod.username>ongs/Fenton.travers@oracle.com</crmod.username>
- 
- 
- 
+    <?xml version=“1.0” encoding=“UTF-8”?>
+    <crmod.password>abc123</crmod.password>
+    <crmod.username>ONGS-CRMOD-HRMS-STAGE_WW@oracle.com</crmod.username>
+    <crmod.username>ongs/Fenton.travers@oracle.com</crmod.username>
 
 ## Generate and Deploy javadocs
 
