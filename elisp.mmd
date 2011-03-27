@@ -1,33 +1,53 @@
-To determine the value of a symbol do C-x C-e after the symbol
+To determine the value of a symbol do `C-x C-e` after the symbol.  Can
+define a function like that too.
 
 Items ending in p, such as zerop, stand for predicate and evaluate to
-true of false.  So (zerop 3) = false, and (zerop 0) = true.
+true of false.  So `(zerop 3) = false`, and `(zerop 0) = true`.
 
-The argument list is followed by the documentation string that describes the
-function. This is what you see when you type C-h f and the name of a
-function.
+## set setq
 
-(defun multiply-by-seven (number) ; Interactive version.
-"Multiply NUMBER by seven."
-(interactive "p")
-(message "The result is %d" (* 7 number)))
-In this function, the expression, (interactive "p"), is a list of two elements.
-The "p" tells Emacs to pass the prefix argument to the function and use its value
-for the argument of the function.
+The `setq` function sets the value of its first argument to the value
+of the second argument. The first argument is automatically quoted by
+`setq`. It does the same for succeeding pairs of arguments. Another
+function, `set`, takes only two arguments and evaluates both of them
+before setting the value returned by its first argument to the value
+returned by its second argument.
 
-Then, you can use this code by
-typing C-u and a number and then typing M-x multiply-by-seven and pressing
-RET. The phrase ‘The result is ...’ followed by the product will appear in the
-echo area.
+## defun
 
-     let
+The argument list is followed by the documentation string that
+describes the function. This is what you see when you type `C-h f` and
+the name of a function.
 
-let is used to attach or bind a symbol to a value in such a way that the Lisp
-interpreter will not confuse the variable with a variable of the same name that is
-not part of the function.
+    (defun multiply-by-seven (number) ; Interactive version.
+    "Multiply NUMBER by seven."
+    (interactive "p")
+    (message "The result is %d" (* 7 number)))
 
-Another way to think about let is that it is like a setq that is temporary and
-local.
+### interactive
+
+In this function, the expression, (interactive "p"), is a list of two
+elements.  The `p` tells Emacs to pass the prefix argument to the
+function and use its value for the argument of the function.
+
+Then, you can use this code by typing `C-u` and a number and then
+typing `M-x multiply-by-seven` and pressing RET. The phrase `The
+result is ...` followed by the product will appear in the echo area.
+
+## if 
+
+    (if (= 22 emacs-major-version)
+      (message "This is version 22 Emacs")    
+      (message "This is not version 22 Emacs"))
+
+## let
+
+let is used to attach or bind a symbol to a value in such a way that
+the Lisp interpreter will not confuse the variable with a variable of
+the same name that is not part of the function.
+
+Another way to think about let is that it is like a `setq` that is
+temporary and local.
 
     (let ((variable value)
       (variable value)
@@ -42,7 +62,7 @@ local.
     (if (> 5 4)
         (message "5 is greater than 4!"))
 
-# Keyboard shortcuts
+## Keyboard shortcuts
 
 Key binding, keymaps.
 
@@ -68,7 +88,7 @@ all buffers.
 
 Associate *.mmd with markdown-mode:
 
-          (setq auto-mode-alist (cons '("\\.mmd$" . markdown-mode) auto-mode-alist))
+    (setq auto-mode-alist (cons '("\\.mmd$" . markdown-mode) auto-mode-alist))
 
 basically there is an alist (associative list / hashtable) called
 auto-mode-alist.  That points extension -> to mode.  Extension looks

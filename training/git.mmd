@@ -588,6 +588,15 @@ version like so:
 git checkout a5ab6dd2505a5bcbdeafcb393cafd6a404ef051d —
 src/main/java/com/oracle/git/sesReader/SesReader.java
 
+## revert (reset) a single file
+
+This one is hard to find out there so here it is. If you have an
+uncommitted change (its only in your working copy) that you wish to
+revert (in SVN terms) to the copy in your latest commit, do the
+following:
+
+    git checkout filename
+
 ## Move remote repo
 
 Say I want to start using a new remote repository. Say also that

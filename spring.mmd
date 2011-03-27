@@ -6,9 +6,50 @@ We are trying to create a scenario where we can write code that does
 depend on outside services, but that we can test without having to
 have those outside services available.
 
-     <package_root>/hasDep
-     <package_root>/isRealDep
-     <package_root>/isFakeDep
+## Maven Dependencies
+
+	<properties>
+		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+    </properties>
+    <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+	        <version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+## File and Folder Structure
+
+Lets pretend our package structure looks like: `com.acme.project`
+
+     src/main/java/com/acme/project/hasDep
+     src/main/java/com/acme/project/isRealDep
+     src/test/java/com/acme/project/isFakeDep
 
 Classes that have dependencies, such as database, webservices, etc...,
 will go in `isRealDep`.  Classes that have those classes, will go in
@@ -19,18 +60,31 @@ Additionally, we'll define an interface that both the `isFakeDep` and
 In this example we have an external Human Resources Management System
 database that we'll be interacting with.  So we'll call the interface:
 
-     <package_root>/IHrmsDao.java
+     src/main/java/com/acme/project/IHrmsDao.java
 
 And we'll have two implementations, the real one and the stub, that
 implement the interface. 
 
-    <package_root>/isReadDep/HrmsDao.java
-    <package_root>/isFakeDep/FakeHrmsDao.java
+    src/main/java/com/acme/project/isReadDep/HrmsDao.java
+    src/test/java/com/acme/project/isFakeDep/FakeHrmsDao.java
 
 Finally, we'll have a class that refers to the HrmsDao:
 
-    <package_root>/hasDep/HrReader.java
+    src/main/java/com/acme/project/hasDep/HrmsController.java
 
+## File Contents
+
+In your classes that have a reference to classes that are going to get
+stubbed out, include the following:
+    
+    @Component
+    public class HrmsController {
+        @Autowired
+	    IHrmsDao hrmsDao;
+
+The type should be the interface you defined, as sometimes this object
+will be the real HrmsDao (in Production) and sometimes the HrmsDaoStub
+(unit testing).
 
 
 

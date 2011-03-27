@@ -208,6 +208,31 @@ if (m.find()) {
 	return pkgName;
 }
 
+bc. 
+    String aDate = "date: 12-15-2003";
+    Pattern datePattern = Pattern.compile("date: (\\d{2})-(\\d{2})-(\\d{4})");
+    Matcher dateMatcher = datePattern.matcher(aDate);
+    if (dateMatcher.find())
+    {
+      System.out.println("Month is: " + dateMatcher.group(1));
+      System.out.println("Day is:   " + dateMatcher.group(2));
+      System.out.println("Year is:  " + dateMatcher.group(3));
+    }
+
+bc. 
+	// jdbc:oracle:thin:dbl_ongs_crmod/abcd1234//dbsv1005.us.oracle.com:1523/fapad.us.oracle.com
+	static String removePassword(String urlWithPassword) {
+		String regex = "/([^/]+)//";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(urlWithPassword);
+		if ( m.find() ) {
+			String password = m.group(1);
+			String blankedOutPassword = urlWithPassword.replaceFirst(password, "XXXXXXXX");
+			return blankedOutPassword;
+		}
+		return null;
+	}
+
 h1. XML & Java
 
 Recommend using StAX (Streaming API for XML)
