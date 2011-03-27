@@ -287,9 +287,9 @@ Maven project.
 ref: 
 [http://maven.apache.org/guides/mini/guide-creating-archetypes.html](http://maven.apache.org/guides/mini/guide-creating-archetypes.html)
 
-Change the groupId and artifactId to be what you want your archetype
-to be called. Start creating your archetype with the following
-command:
+Change the `groupId` and `artifactId` to be what you want your
+archetype to be called. Start creating your archetype with the
+following command:
 
     mvn archetype:create -DgroupId=com.oracle.git -DartifactId=addTesting-archetype -DarchetypeArtifactId=maven-archetype-archetype
 
@@ -309,7 +309,7 @@ it should be modified to look something like:
       <modelVersion>4.0.0</modelVersion>
       <groupId>${groupId}</groupId>
       <artifactId>${artifactId}</artifactId>
-      <version>${version}-SNAPSHOT</version>
+      <version>0.0.1-SNAPSHOT</version>
     </project>
 
 hit Ctrl-d to finish the `cat` command. Next run:
