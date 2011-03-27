@@ -295,15 +295,10 @@ following command:
 
 Once you’ve created the sample edit the pom.xml at:
 
-    `-- src
-        `-- main
-            `-- resources
-                `-- archetype-resources
-                    `--pom.xml
+    addTesting-archetype/src/main/resources/archetype-resource/pom.xml
 
 it should be modified to look something like:
 
-    $ cd addTesting-archetype;cat > src/main/resources/archetype-resources/pom.xml
     <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
       <modelVersion>4.0.0</modelVersion>
@@ -312,14 +307,14 @@ it should be modified to look something like:
       <version>0.0.1-SNAPSHOT</version>
     </project>
 
-hit Ctrl-d to finish the `cat` command. Next run:
+Now install it so it can be used
 
     mvn install
 
 Then you can build a new project based on this archetype by doing the
 following:
 
-    mvn archetype:generate -B -DarchetypeGroupId=com.oracle.git -DarchetypeArtifactId=addTesting-archetype -DarchetypeVersion=1.0-SNAPSHOT -Dversion=0.0.1 -DgroupId=com.acme -DartifactId=testProject -Dpackage=com.acme.testProject
+    mvn archetype:generate -B -DarchetypeGroupId=com.oracle.git -DarchetypeArtifactId=addTesting-archetype -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=com.acme -DartifactId=testProject -Dpackage=com.acme.testProject
 
 More refs:
 
