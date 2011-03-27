@@ -1,4 +1,4 @@
-#!/bin/bash  -xv
+#!/bin/bash  
 for filename in `find . -name \*.mmd`; do
     NAME=`echo $filename | sed -e 's/\.mmd//g'`
 	multimarkdown2XHTML.pl $NAME.mmd 
