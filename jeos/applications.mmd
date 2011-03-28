@@ -1,6 +1,8 @@
-# NFS
+# Linux Application Installations
 
-## client
+## NFS
+
+### client
 
     mkdir /mnt/vmsrv
 
@@ -14,7 +16,7 @@ edit `/etc/fstab` example:
     service nfs start
     mount -a
 
-## server
+### server
 
     yum install nfs-utils
     mount -t rpc_pipefs sunpc /var/lib/nfs/rpc_pipefs
