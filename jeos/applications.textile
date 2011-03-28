@@ -329,7 +329,7 @@ cd ~; mkdir projects; cd projects
 git clone git@linux1.hk.oracle.com:gitosis-admin.git
 cd gitosis-admin/
 
-You are pretty much done now...see: "GIT":/training/git.html for more instructions
+You are pretty much done now...see: "GIT":/git.html for more instructions
 
 source: "http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1":http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1
 

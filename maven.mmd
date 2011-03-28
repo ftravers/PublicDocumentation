@@ -289,13 +289,16 @@ automate the setting up of a project with a maven archetype this is
 what you'd use.
 
 ref: 
-[http://maven.apache.org/guides/mini/guide-creating-archetypes.html](http://maven.apache.org/guides/mini/guide-creating-archetypes.html)
+
+* [http://maven.apache.org/guides/mini/guide-creating-archetypes.html](http://maven.apache.org/guides/mini/guide-creating-archetypes.html)
+* [more...](http://stackoverflow.com/questions/2786966/how-to-create-empty-folders-with-maven-archetype)
+* [more...](http://blogs.mikeci.com/2010/01/14/working-with-custom-maven-archetypes-part-1/)
 
 #### Step 1: Quickstart.
 
 Get into a test directory:
 
-    cd ~/tmp
+    cd ~/projects/archetypes
 
 Execute the following command.  Note: change the `groupId` and
 `artifactId` to be what you want your archetype to be called.
@@ -304,7 +307,7 @@ Execute the following command.  Note: change the `groupId` and
 
 Once you’ve created the sample edit the pom.xml at:
 
-     ~/tmp/addTesting-archetype/src/main/resources/archetype-resource/pom.xml
+     ~/projects/archetypes/addTesting-archetype/src/main/resources/archetype-resource/pom.xml
 
 it should be modified to look like:
 
@@ -324,7 +327,7 @@ for Archetype 1.0.X, the later is for Archetype 2.0.X).
 
 Our folder structure now looks like:
 
-    ~/tmp/addTesting-archetype$ tree .
+    ~/projects/archetypes/addTesting-archetype$ tree .
     .
     |-- pom.xml
     `-- src
@@ -346,7 +349,7 @@ Our folder structure now looks like:
 
 Change directory back to your project root
 
-    cd ~/tmp/addTesting-archetype
+    cd ~/projects/archetypes/addTesting-archetype
 
 Install your archetype so it can be used
 
@@ -355,7 +358,7 @@ Install your archetype so it can be used
 Then you can build a new project based on this archetype.  Change back
 to a temp folder
 
-    cd ~/tmp
+    cd ~/projects/archetypes
 
 Run the archetype:generate maven command:
 
@@ -367,8 +370,15 @@ Say we want to create an archetype that sets up logback logging for
 us.  There are two config files we'll want added in our project, so
 lets add them in the following locations:
 
-    cd ~/tmp/addTesting-archetype/src/main/resources/archetype-resources/src/
-    mkdir main/resources; mkdir test/resources
+    cd ~/projects/archetypes/addTesting-archetype/src/main/resources/archetype-resources/src/
+    mkdir main/resources; touch main/resources/logback.xml
+    mkdir test/resources; touch test/resources/logback-test.xml
+
+Edit the contents of the logback.xml files as per:
+[java](java.html#Logging).  Finally update the pom.xml to include a
+reference to the logging library dependencies.
+
+    cd ~/projects/archetypes/addTesting-archetype/src/main/resources/archetype-resources/
 
 
 
