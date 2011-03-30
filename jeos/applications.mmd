@@ -320,3 +320,17 @@ source:
     chkconfig --level 345 httpd on
 
 service httpd start
+
+## Jenkins
+
+[Ref:](http://pkg.jenkins-ci.org/redhat/)
+
+    wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+    rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+
+If you've previously imported the key from Hudson, the "rpm --import"
+will fail because you already have a key. Please ignore that and move
+on.
+
+    yum install jenkins
+
