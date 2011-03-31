@@ -38,6 +38,14 @@ Test this works by logging into the server, and ensure it DOESN'T ask you for a 
 
 bc. [root@del ~]# ssh ftravers@spicevan.com
 
+bc.. 
+[oracle@linux1 u02]$ ssh-copy-id oracle@myhelpstage.sg.oracle.com
+/usr/bin/ssh-copy-id: ERROR: No identities found
+[oracle@linux1 u02]$ ssh-agent $SHELL
+[oracle@linux1 u02]$ ssh-add
+Identity added: /home/oracle/.ssh/id_rsa (/home/oracle/.ssh/id_rsa)
+[oracle@linux1 u02]$ ssh-copy-id oracle@myhelpstage.sg.oracle.com
+
 h1. have sshd run on another port
 
 Add line like: 
