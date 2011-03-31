@@ -1,0 +1,382 @@
+[home](/index.html) > Emacs
+
+## Files
+
+Key Stroke
+Effect
+C-x C-f
+Open a new file
+C-x s
+Save buffer(s)
+C-x C-w
+Save As
+C-x C-c
+Close emacs
+C-x C-r
+Open file read only
+C-x C-c
+Exit Emacs
+## Navigation, Search & Replace
+
+Key Stroke
+Effect
+A->
+Go to the beginning of the file
+A-<
+Go to the end of the file
+A-g A-g
+Goto line #
+A-(L/R) arrows
+Move word forward/backwards
+A-f, A-b
+Move word forward/backwards
+C-s
+Incremental Search Forward
+C-A-s
+Regular Expression incremental search
+C-r
+Incremental Search Backwards
+A-%
+Replace
+A-x query-replace-regexp
+Regex Replace
+C-q C-j
+Keystroke for Carriage Return
+C-q
+Keystroke for space character
+C-x (, C-x ), C-x e, C-u 25 C-x e
+Start, stop, playback macro, replay macro 25 times
+Name
+ASCII Code
+string notation
+Caret Notation
+Input method
+horizontal tab
+9
+\t
+I
+Ctrl+q Ctrl+i or Ctrl+q Tab
+line feed
+10
+\n
+J
+Ctrl+q Ctrl+j
+carriage return
+13
+\r
+M
+Ctrl+q Ctrl+m or Ctrl+q Enter
+## Buffers, Regions, & Windows
+
+Key Stroke
+Effect
+C-x 1
+Unsplit window (keep this)
+C-x 0
+Unsplit window (keep others)
+C-x 2
+Split window horizontal
+C-x 3
+Split window vertical
+C-x o
+Move to the next window
+C-x 1
+Collapse other window
+C-x 0
+Collapse this window
+C-x b
+Load previous buffer
+C-x C-b
+List all buffers. e to edit buffer
+C-x k
+Close buffer
+C-x C-v Ret
+Reload buffer from file system
+C-x b **scratch** RET
+re-open scratch buffer
+d
+In buffer list, mark buffer for deletion, happens when hit x
+A-^
+Join this line to previous and fix up whitespace at join. If there
+is a fill prefix, delete it from the beginning of this line.
+## Edit, Selection, Cut & Paste
+
+Key Stroke
+Effect
+C-x u
+Undo
+A-q
+Reformat Paragraph, take first line to 0 indent, then A-q, rest of
+paragraph is now 0 indent
+C-A-\
+Auto indent selected region
+A-^
+Remove indentation, brings current line up one
+C-c C-c, M-x comment-region
+Comment out a marked region
+C-u C-c C-c
+Un-comment out the marked region
+C-x h
+Select wHole buffer
+C-x 0
+Delete the current window
+A-w
+Copy
+C-w
+Cut
+C-y, Esc-y
+Yank (paste), successive Esc-y get clipboard history
+A-x cua-mode
+Column Edit, C-Ret. begin selection, Ret. for text before block
+selection, Ret. for text after block selection
+In sgml-mode, a built-in pretty printing function called
+(sgml-pretty-print ...)
+
+## Keymaps & Function bindings
+
+Command
+Meaning
+A-x describe-key
+and hit the key (or key combination) in
+question. This will reveal the name of the key as well as the
+function it is currently bound to.
+C-h f
+Display documentation on the Lisp
+function named function (describe-function). Since commands are
+Lisp
+functions, a command name may be used.
+## Diff
+
+-   [Reference](http://www.gnu.org/software/emacs/manual/html_node/emacs/Diff-Mode.html)
+
+Command
+Meaning
+C-c C-n
+Restrict the view to the current hunk (diff-restrict-view). See
+Narrowing. With a prefix argument of C-u, restrict the view to the
+current file of a multiple-file patch. To widen again, use C-x n w
+(widen).
+A-n
+Move to the next hunk-start (diff-hunk-next).
+A-p
+Move to the previous hunk-start (diff-hunk-prev).
+## Latex
+
+Key Stroke
+Effect
+C-c C-c
+to compile to **.dvi/**.pdf, again to view
+C-c C-t C-p
+to toggle into PDF mode.
+C-c =
+show TOC
+# Programming
+
+## Cheatsheet
+
+Key Stroke
+Effect
+C-h v
+variable-name>
+display the contents of a variable
+C-x C-e
+evaluate an expression: position the cursor after a list and type
+## Variables
+
+Variable
+Definition
+load-path
+The variable load-path lists all the directories where Emacs should
+look for Elisp files.
+[Reference](http://www.gnu.org/software/emacs/emacs-lisp-intro/html_node/index.html)
+
+## Overview
+
+Put your code into *.el files. Then put *.el into a directory on
+your load-path, /usr/local/share/emacs/site-lisp or
+/usr/share/emacs/site-lisp/, are reasonable locations. Then you can
+put a line like the following into your .emacs file:
+
+    (require 'textile-mode)
+
+Put following into .emacs file, so you can reload your .emacs file
+without closing and reopenning emacs.
+
+    ;; Reload .emacs file by typing: A-x reload.
+    (defun reload () "Reloads .emacs interactively."
+    (interactive)
+    (load "~/.emacs"))
+
+## To create a function
+
+A function definition has up to five parts following the word
+defun:
+
+-   The name of the symbol to which the function definition should
+    be attached.
+-   A list of the arguments that will be passed to the function. If
+    no arguments will be passed to the function, this is an empty list,
+    ().
+-   Documentation describing the function. (Technically optional,
+    but strongly recommended.)
+-   Optionally, an expression to make the function interactive so
+    you can use it by typing M-x and then the name of the function; or
+    by typing an appropriate key or keychord.
+-   The code that instructs the computer what to do: the body of
+    the function definition.
+
+It is helpful to think of the five parts of a function definition
+as being organized in a template, with slots for each part:
+
+    (defun function-name (arguments...)
+      "optional-documentation..."
+      (interactive argument-passing-info)     ; optional
+      body...)
+
+As an example, here is the code for a function that multiplies its
+argument by 7. (This example is not interactive. See Making a
+Function Interactive, for that information.)
+
+    (defun multiply-by-seven (number)
+      "Multiply NUMBER by seven."
+      (* 7 number))
+
+## Install the function
+
+Install the function by putting the cursor at the end of the
+function and typing C-x C-e. This will install the function for the
+life of your current emacs session. To install more permanently put
+it in your ~/.emacs file.
+
+To make the above function interactive do:
+
+    (defun multiply-by-seven (number)
+      "Multiply NUMBER by seven."
+      (interactive "p")
+      (message "The result is %d" (* 7 number)))
+
+Invoke with `C-u` some number `A-x multiply-by-seven`.
+
+## Installing *.el files
+
+### One time
+
+Ensure you have the following in your ~/.emacs file:
+
+    (add-to-list 'load-path "~/projects/elisp")
+
+### For each new *.el file
+
+Ensure you have the following in your ~/.emacs file:
+
+    (require 'foo)
+
+where foo means foo.el
+
+And put your foo.el file in: `~/projects/elisp`
+
+# Reference
+
+    C-SP     set-mark-command         C-q      quoted-insert
+    C-a      beginning-of-line       C-r      isearch-backward
+    C-b      backward-char           C-s      isearch-forward
+    C-c      exit-recursive-edit         C-t      transpose-chars
+    C-d      delete-char             C-u      universal-argument
+    C-e      end-of-line             C-v      scroll-up
+    C-f      forward-char            C-w      kill-region
+    C-h      help-command            C-x      Control-X-prefix
+    TAB      indent-for-tab-command      C-y      yank
+    LFD      newline-and-indent      C-z      suspend-emacs
+    C-k      kill-line           ESC      ESC-prefix
+    C-l      recenter            C-]      abort-recursive-edit
+    RET      newline             C-_      undo
+    C-n      next-line           SPC .. ~        self-insert-command
+    C-o      open-line           DEL      delete-backward-char
+    C-p      previous-line
+    
+    C-h v    describe-variable       C-h d    describe-function
+    C-h w    where-is            C-h k    describe-key
+    C-h t    help-with-tutorial      C-h c    describe-key-briefly
+    C-h s    describe-syntax         C-h b    describe-bindings
+    C-h n    view-emacs-news         C-h a    command-apropos
+    C-h C-n  view-emacs-news         C-h C-d  describe-distribution
+    C-h m    describe-mode           C-h C-c  describe-copying
+    C-h l    view-lossage            C-h ?    help-for-help
+    C-h i    info                C-h C-h  help-for-help
+    C-h f    describe-function
+    
+    C-x C-a  add-mode-abbrev         C-x 5    split-window-horizontally
+    C-x C-b  list-buffers            C-x ;    set-comment-column
+    C-x C-c  save-buffers-kill-emacs     C-x <    scroll-left
+    C-x C-d  list-directory          C-x =    what-cursor-position
+    C-x C-e  eval-last-sexp          C-x >    scroll-right
+    C-x C-f  find-file           C-x [    backward-page
+    C-x C-h  inverse-add-mode-abbrev     C-x ]    forward-page
+    C-x TAB  indent-rigidly          C-x ^    enlarge-window
+    C-x C-l  downcase-region         C-x `    next-error
+    C-x C-n  set-goal-column         C-x a    append-to-buffer
+    C-x C-o  delete-blank-lines      C-x b    switch-to-buffer
+    C-x C-p  mark-page           C-x d    dired
+    C-x C-q  toggle-read-only        C-x e    call-last-kbd-macro
+    C-x C-r  find-file-read-only         C-x f    set-fill-column
+    C-x C-s  save-buffer             C-x g    insert-register
+    C-x C-t  transpose-lines         C-x h    mark-whole-buffer
+    C-x C-u  upcase-region           C-x i    insert-file
+    C-x C-v  find-alternate-file         C-x j    register-to-dot
+    C-x C-w  write-file          C-x k    kill-buffer
+    C-x C-x  exchange-dot-and-mark       C-x l    count-lines-page
+    C-x C-z  suspend-emacs           C-x m    mail
+    C-x ESC  repeat-complex-command      C-x n    narrow-to-region
+    C-x $    set-selective-display       C-x o    other-window
+    C-x (    start-kbd-macro         C-x p    narrow-to-page
+    C-x )    end-kbd-macro           C-x q    kbd-macro-query
+    C-x +    add-global-abbrev       C-x r    copy-rectangle-to-register
+    C-x -    inverse-add-global-abbrev   C-x s    save-some-buffers
+    C-x .    set-fill-prefix         C-x u    advertised-undo
+    C-x /    dot-to-register         C-x w    widen
+    C-x 0    delete-window           C-x x    copy-to-register
+    C-x 1    delete-other-windows        C-x {    shrink-window-horizontally
+    C-x 2    split-window-vertically     C-x }    enlarge-window-horizontally
+    C-x 4    ctl-x-4-prefix          C-x DEL  backward-kill-sentence
+    
+    Alt C-SP mark-sexp           Alt =    count-lines-region
+    Alt C-a  beginning-of-defun      Alt >    end-of-buffer
+    Alt C-b  backward-sexp           Alt @    mark-word
+    Alt C-c  exit-recursive-edit         Alt O    ??
+    Alt C-d  down-list           Alt [    backward-paragraph
+    Alt C-e  end-of-defun            Alt \    delete-horizontal-space
+    Alt C-f  forward-sexp            Alt ]    forward-paragraph
+    Alt C-h  mark-defun          Alt ^    delete-indentation
+    Alt LFD  indent-new-comment-line     Alt a    backward-sentence
+    Alt C-k  kill-sexp           Alt b    backward-word
+    Alt C-n  forward-list            Alt c    capitalize-word
+    Alt C-o  split-line          Alt d    kill-word
+    Alt C-p  backward-list           Alt e    forward-sentence
+    Alt C-s  isearch-forward-regexp      Alt f    forward-word
+    Alt C-t  transpose-sexps         Alt g    fill-region
+    Alt C-u  backward-up-list        Alt h    mark-paragraph
+    Alt C-v  scroll-other-window         Alt i    tab-to-tab-stop
+    Alt C-w  append-next-kill        Alt j    indent-new-comment-line
+    Alt Alt  ??              Alt k    kill-sentence
+    Alt C-\  indent-region           Alt l    downcase-word
+    Alt SPC  just-one-space          Alt m    back-to-indentation
+    Alt !    shell-command           Alt q    fill-paragraph
+    Alt $    spell-word          Alt r    move-to-window-line
+    Alt %    query-replace           Alt t    transpose-words
+    Alt '    abbrev-prefix-mark      Alt u    upcase-word
+    Alt (    insert-parentheses      Alt v    scroll-down
+    Alt )    move-past-close-and-reindent    Alt w    copy-region-as-kill
+    Alt ,    tags-loop-continue      Alt x    execute-extended-command
+    Alt -    negative-argument       Alt y    yank-pop
+    Alt .    find-tag            Alt z    zap-to-char
+    Alt 0 .. Alt 9  digit-argument       Alt |    shell-command-on-region
+    Alt ;    indent-for-comment      Alt ~    not-modified
+    Alt <    beginning-of-buffer      Alt DEL  backward-kill-word
+    
+    
+    C-x 4 C-f       find-file-other-window   C-x 4 d  dired-other-window
+    C-x 4 .  find-tag-other-window       C-x 4 f  find-file-other-window
+    C-x 4 b  pop-to-buffer           C-x 4 m  mail-other-window
+
+
+
