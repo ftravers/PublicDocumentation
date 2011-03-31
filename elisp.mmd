@@ -100,10 +100,28 @@ setq means set quoted (which quotes auto-mode-list for you), otherwise
 instead of assigning to the symbol auto-mode-alist, you will assign to
 the results of evaluating that symbol...not what you want ;)
 
-I'm not sure what the dot '.' between the extension and the mode is
-for though.
 
-# car, cdr, cons
+
+# cons cell, car, cdr, cons
+
+A cons cell is an object that consists of two slots, called the car
+slot and the cdr slot. Each slot can hold or refer to any Lisp
+object. We also say that “the car of this cons cell is” whatever
+object its car slot currently holds, and likewise for the cdr.
+
+_A note to C programmers: in Lisp, we do not distinguish between
+“holding” a value and “pointing to” the value, because pointers in
+Lisp are implicit._
+
+A list is a series of cons cells, linked together
+so that the cdr slot of each cons cell holds either the next cons cell
+or the empty list. The empty list is actually the symbol nil. See
+Lists, for functions that work on lists. Because most cons cells are
+used as part of lists, the phrase list structure has come to refer to
+any structure made out of cons cells.
+
+Because cons cells are so central to Lisp, we also have a word for “an
+object which is not a cons cell.” These objects are called atoms.
 
 ## car
 
