@@ -1,0 +1,61 @@
+Install Files:
+	V18592-01_wls_11gR1_10.3.2_Linux_x86
+
+OVM Template:
+	OS: OEL5U3 32bit
+	System: 8192M
+	RAM: 1536M
+	Swap: 1536M
+
+Install Dir: /u01/middleware
+
+Put the installation sources on a shared disk that you mount later.
+
+Do the install as a user you create
+
+	[root@bpel wls_10.3.1]# chmod 777 /u01; useradd soa; passwd soa
+	[root@bpel u01]# 
+	[root@bpel u01]# 
+	...
+	[root@bpel u01]# su - soa
+
+INSTALL:
+
+	[soa@bpel ~]$ cd /u02/wls_10.3.1/; ./wls1032_linux32.bin -mode=console
+
+CONFIGURE:
+
+	[root@wls bin]# /u01/middleware/wlserver_10.3/common/bin/config.sh -mode=console
+
+* Choose all defaults.  
+* Set administrator password.  
+* Add an Administration Server in the Optional Components section.  
+* port: 7001
+
+START/STOP:
+
+	[root@wls base_domain]# /u01/middleware/user_projects/domains/base_domain/bin/startWebLogic.sh
+	[root@wls base_domain]# /u01/middleware/user_projects/domains/base_domain/bin/stopWebLogic.sh
+
+DELETE:
+
+To delete a WebLogic Domain is to just delete the folder. No additional steps need to be taken. 
+
+ACCESS:
+	
+    http://wls1032.ftravers.com:7001/console
+    username:weblogic password:welcome1 (or whatever you set above)
+
+patience, took about 3 minutes for the console to come up in mysetup!
+
+
+
+
+
+
+
+
+
+
+
+
