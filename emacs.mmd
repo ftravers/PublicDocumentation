@@ -2,199 +2,129 @@
 
 ## Files
 
-Key Stroke
-Effect
-C-x C-f
-Open a new file
-C-x s
-Save buffer(s)
-C-x C-w
-Save As
-C-x C-c
-Close emacs
-C-x C-r
-Open file read only
-C-x C-c
-Exit Emacs
+| Key Stroke | Effect                           |
+| ---------- | -------------------------------- |
+C-x C-f      | Open a new file
+C-x s        | Save buffer(s)
+C-x C-w      | Save As
+C-x C-c      | Close emacs
+C-x C-r      | Open file read only
+C-x C-c      | Exit Emacs
+
 ## Navigation, Search & Replace
 
-Key Stroke
-Effect
-A->
-Go to the beginning of the file
-A-<
-Go to the end of the file
-A-g A-g
-Goto line #
-A-(L/R) arrows
-Move word forward/backwards
-A-f, A-b
-Move word forward/backwards
-C-s
-Incremental Search Forward
-C-A-s
-Regular Expression incremental search
-C-r
-Incremental Search Backwards
-A-%
-Replace
-A-x query-replace-regexp
-Regex Replace
-C-q C-j
-Keystroke for Carriage Return
-C-q
-Keystroke for space character
-C-x (, C-x ), C-x e, C-u 25 C-x e
-Start, stop, playback macro, replay macro 25 times
-Name
-ASCII Code
-string notation
-Caret Notation
-Input method
-horizontal tab
-9
-\t
-I
-Ctrl+q Ctrl+i or Ctrl+q Tab
-line feed
-10
-\n
-J
-Ctrl+q Ctrl+j
-carriage return
-13
-\r
-M
-Ctrl+q Ctrl+m or Ctrl+q Enter
+| Key Stroke    | Effect                           |
+| ----------    | -------------------------------- |
+A->             | Go to the beginning of the file
+A-<             | Go to the end of the file
+A-g A-g         | Goto line #
+A-(L/R) arrows  | Move word forward/backwards
+A-f, A-b        | Move word forward/backwards
+C-s             | Incremental Search Forward
+C-A-s           | Regular Expression incremental search
+C-r             | Incremental Search Backwards
+A-%             | Replace
+A-x             | query-replace-regexp Regex Replace
+C-q C-j         | Keystroke for Carriage Return
+C-q             | Keystroke for space character
+C-x, C-x, C-x e | Start, stop, playback macro
+C-u 25 C-x e    | Replay macro 25 times
+
+## Special Characters
+
+| Name             | ASCII Code | string notation | Caret Notation | Input method |
+| ---------------- | ---------- | --------------- | -------------- | ------------ |
+horizontal tab     | 9          | \t              | I              | Ctrl+q Ctrl+i or Ctrl+q Tab
+line feed          | 10         | \n              | J              | Ctrl+q Ctrl+j
+carriage return    | 13         | \r              | M              | Ctrl+q Ctrl+m or Ctrl+q Enter
+
 ## Buffers, Regions, & Windows
 
-Key Stroke
-Effect
-C-x 1
-Unsplit window (keep this)
-C-x 0
-Unsplit window (keep others)
-C-x 2
-Split window horizontal
-C-x 3
-Split window vertical
-C-x o
-Move to the next window
-C-x 1
-Collapse other window
-C-x 0
-Collapse this window
-C-x b
-Load previous buffer
-C-x C-b
-List all buffers. e to edit buffer
-C-x k
-Close buffer
-C-x C-v Ret
-Reload buffer from file system
-C-x b **scratch** RET
-re-open scratch buffer
-d
-In buffer list, mark buffer for deletion, happens when hit x
-A-^
-Join this line to previous and fix up whitespace at join. If there
-is a fill prefix, delete it from the beginning of this line.
+| Key Stroke          | Effect                           |
+| ----------          | -------------------------------- |
+C-x 1                 | Unsplit window (keep this)
+C-x 0                 | Unsplit window (keep others)
+C-x 2                 | Split window horizontal
+C-x 3                 | Split window vertical
+C-x o                 | Move to the next window
+C-x 1                 | Collapse other window
+C-x 0                 | Collapse this window
+C-x b                 | Load previous buffer
+C-x C-b               | List all buffers. e to edit buffer
+C-x k                 | Close buffer
+C-x C-v Ret           | Reload buffer from file system
+C-x b **scratch** RET | re-open scratch buffer
+d                     | In buffer list, mark buffer for deletion, happens when hit x
+A-^                   | Join this line to previous and fix up whitespace at join. If there is a fill prefix, delete it from the beginning of this line.
+
 ## Edit, Selection, Cut & Paste
 
-Key Stroke
-Effect
-C-x u
-Undo
-A-q
-Reformat Paragraph, take first line to 0 indent, then A-q, rest of
-paragraph is now 0 indent
-C-A-\
-Auto indent selected region
-A-^
-Remove indentation, brings current line up one
-C-c C-c, M-x comment-region
-Comment out a marked region
-C-u C-c C-c
-Un-comment out the marked region
-C-x h
-Select wHole buffer
-C-x 0
-Delete the current window
-A-w
-Copy
-C-w
-Cut
-C-y, Esc-y
-Yank (paste), successive Esc-y get clipboard history
-A-x cua-mode
-Column Edit, C-Ret. begin selection, Ret. for text before block
-selection, Ret. for text after block selection
-In sgml-mode, a built-in pretty printing function called
+| Key Stroke                 | Effect                           |
+| ----------                 | -------------------------------- |
+C-x u                        | Undo
+A-q                          | Reformat Paragraph, take first line to 0 indent, then A-q, rest of paragraph is now 0 indent
+C-A-\                        | Auto indent selected region
+A-^                          | Remove indentation, brings current line up one
+C-c C-c, M-x comment-region  | Comment out a marked region
+C-u C-c C-c                  | Un-comment out the marked region
+C-x h                        | Select wHole buffer
+C-x 0                        | Delete the current window
+A-w                          | Copy
+C-w                          | Cut
+C-y, Esc-y                   | Yank (paste), successive Esc-y get clipboard history
+A-x cua-mode                 | Column Edit, C-Ret. begin selection
+
+ In sgml-mode, a built-in pretty printing function called
 (sgml-pretty-print ...)
 
 ## Keymaps & Function bindings
 
-Command
-Meaning
-A-x describe-key
-and hit the key (or key combination) in
-question. This will reveal the name of the key as well as the
-function it is currently bound to.
-C-h f
-Display documentation on the Lisp
-function named function (describe-function). Since commands are
-Lisp
-functions, a command name may be used.
+| Command         | Meaning                           |
+| ----------      | -------------------------------- |
+A-x describe-key  | and hit the key (or key combination) in question. This will reveal the name of the key as well as the function it is currently bound to.
+C-h f             | Display documentation on the Lisp function named function (describe-function). Since commands are Lisp functions, a command name may be used.
+
 ## Diff
 
 -   [Reference](http://www.gnu.org/software/emacs/manual/html_node/emacs/Diff-Mode.html)
 
-Command
-Meaning
-C-c C-n
-Restrict the view to the current hunk (diff-restrict-view). See
-Narrowing. With a prefix argument of C-u, restrict the view to the
-current file of a multiple-file patch. To widen again, use C-x n w
-(widen).
-A-n
-Move to the next hunk-start (diff-hunk-next).
-A-p
-Move to the previous hunk-start (diff-hunk-prev).
+| Command  | Meaning                           |
+| -------- | -------------------------------- |
+C-c C-n    | Restrict the view to the current hunk (diff-restrict-view). See Narrowing. With a prefix argument of C-u, restrict the view to the current file of a multiple-file patch. 
+C-x n w    | To widen again
+A-n        | Move to the next hunk-start (diff-hunk-next).
+A-p        | Move to the previous hunk-start (diff-hunk-prev).
+
 ## Latex
 
-Key Stroke
-Effect
-C-c C-c
-to compile to **.dvi/**.pdf, again to view
-C-c C-t C-p
-to toggle into PDF mode.
-C-c =
-show TOC
+| Key Stroke  | Effect                           |
+| ----------  | -------------------------------- |
+C-c C-c       | to compile to **.dvi/**.pdf, again to view
+C-c C-t C-p   | to toggle into PDF mode.
+C-c =         | show TOC
+
 # Programming
 
 ## Cheatsheet
 
-Key Stroke
-Effect
-C-h v
-variable-name>
-display the contents of a variable
-C-x C-e
-evaluate an expression: position the cursor after a list and type
+| Key Stroke          | Effect                           |
+| ----------          | -------------------------------- |
+C-h v <variable-name> | display the contents of a variable
+C-x C-e               | evaluate an expression: position the cursor after a list and type
+
 ## Variables
 
-Variable
-Definition
-load-path
-The variable load-path lists all the directories where Emacs should
-look for Elisp files.
+| Variable | Definition |
+| -------- | ---------- |
+load-path  | The variable load-path lists all the directories where Emacs should look for Elisp files.
+
 [Reference](http://www.gnu.org/software/emacs/emacs-lisp-intro/html_node/index.html)
 
 ## Overview
 
-Put your code into *.el files. Then put *.el into a directory on
-your load-path, /usr/local/share/emacs/site-lisp or
-/usr/share/emacs/site-lisp/, are reasonable locations. Then you can
+Put your code into `*.el` files. Then put `*.el` into a directory on
+your load-path, `/usr/local/share/emacs/site-lisp` or
+`/usr/share/emacs/site-lisp/`, are reasonable locations. Then you can
 put a line like the following into your .emacs file:
 
     (require 'textile-mode)
@@ -369,7 +299,7 @@ And put your foo.el file in: `~/projects/elisp`
     Alt ,    tags-loop-continue      Alt x    execute-extended-command
     Alt -    negative-argument       Alt y    yank-pop
     Alt .    find-tag            Alt z    zap-to-char
-    Alt 0 .. Alt 9  digit-argument       Alt |    shell-command-on-region
+    Alt 0 .. Alt 9  digit-argument       Alt    |    shell-command-on-region
     Alt ;    indent-for-comment      Alt ~    not-modified
     Alt <    beginning-of-buffer      Alt DEL  backward-kill-word
     
