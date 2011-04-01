@@ -1,0 +1,675 @@
+[Home](/index.html)
+
+# Ubuntu
+
+Clean Install Setup
+
+## USB Thumbdrive install
+
+-   source:
+    [https://help.ubuntu.com/community/Installation/FromUSBStick](https://help.ubuntu.com/community/Installation/FromUSBStick)
+
+-   From an ubuntu machine do:
+
+    $ sudo apt-get install usb-creator
+    $ usb-creator-gtk
+
+-   Select the ubuntu iso you downloaded
+-   You can delete usb contents first if u want
+-   Select discard saved files
+-   CREATE your bootable usb disk!
+-   Boot other computer from this usb disk drive...follow install
+    instructions.
+
+### Packages
+
+    sudo apt-get update
+
+Applications > Ubuntu Software Center > Edit > Software Sources... >
+Other Software > select the other two partner repositories
+
+setup google chrome preferences > personal stuff ( to sync everything )
+
+sudo apt-get install compiz compizconfig-settings-manager
+compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do
+gnome-do-plugins texlive-full emacs clisp slime latexdiff git-core
+git-gui gitosis gitweb ant maven2 pidgin meld apache2 auctex
+libtiff-tools openoffice.org transmission cups-pdf gimp xmlcopyeditor
+shutter vlc rar acroread p7zip-full dia virtualbox-ose bzr bzr-explorer
+bugzilla3 lighttpd curl
+
+some vnc’s r good to add too.
+
+set gnome-do to be alt-space, and hide on first startup.
+
+get the git stuff...
+
+    ~$ git config --global user.name "Fenton Travers"
+    ~$ git config --global user.email fenton.travers@gmail.com
+
+-   email id_rsa.pub to computer that can add you to gitosis-admin.
+
+    ~$ mkdir projects
+    ~$ cd projects/
+    ~/projects$ git clone ft_git3@spicevan.com:documentation.git
+    ~/projects$ git clone ft_git3@spicevan.com:crmod-ws-wrapper.git
+    ~/projects$ git clone ft_git3@spicevan.com:rtbDispute.git
+    ~/projects$ git clone ft_git3@spicevan.com:lisp.git
+    ~/projects$ git clone ft_git3@spicevan.com:myConfig.git
+    ~/projects$ git clone ft_git3@spicevan.com:SesReader.git
+    ~/projects$ git clone ft_git3@spicevan.com:gitosis-admin.git
+    ~/projects$ git clone ft_git3@spicevan.com:CRMOD_WS_Writer.git
+    ~/projects$ git clone ft_git3@spicevan.com:ngsp-doco.git
+    ~/projects$ git clone ft_git3@spicevan.com:elisp.git
+    ~/projects$ git clone ft_git3@spicevan.com:pdit.git
+    ~/projects$ cd myConfig/
+    ~/projects/myConfig$ sudo ./setConfigRsync.sh 
+
+-   ~$ mkdir ~/.emacs.d/cache
+
+-   Import Compiz profile
+
+-   System > Preferences > Keyboard Shortcuts >
+    -   Desktop >
+        -   Lock screen (disable (BACKSPACE))
+        -   Home Folder = Super-e (Mod4+E)
+
+    -   Window Management > Activate the window Menu = Disabled
+
+-   Web Downloads
+
+Eclipse, SQLDeveloper, Skype, Adobe Acrobat Reader
+
+## Evolution setup
+
+-   backup and import all data from old computer
+-   Edit > Preferences > Composer Preferences > Forward/Reply Style
+    > Inline
+
+## Set Open DSN Servers
+
+set /etc/resolv.conf
+
+    nameserver 208.67.222.222 
+    nameserver 208.67.220.220
+
+## Printers
+
+-   PDF’s can be found in ~/PDF, can view with `xdg-open <pdf_name>`
+-   Add a printer from `http://localhost:631`, local username password.
+    -   CUPS for Administrators > Adding Printers and Classes >
+        Printers > Find New Printers > Add This Printer: Canon iR
+        6800c EUR 12.02 (...) > Continue > Make: Canon > Continue >
+        Model: Canon imageRunner C6800 Foomatic/Postscript (recommended
+        ) (en) > Add Printer > Page Size: A4 > Set Default Options
+
+-   -   HP LaserJet P2015 Series Postscript (recommended) (en, da, de,
+        es, fi, fr, it, ja, ko, nl, nb, pt, sv, zh_CN, zh_TW)
+    -   Connection:
+        dnssd://HP%20LaserJet%20P2015%20Series%20(0D9452)._pdl-datastream._tcp.local/
+
+hostnames for printers:
+
+-   p2015.hk.oracle.com – 10.179.252.21
+
+connection string
+
+-   Connection: socket://p2015.hk.oracle.com:9100
+
+## Pidgin
+
+-   Tools > Preferences > Show system tray icon: Always
+
+-   Oracle Account
+
+-   -   Basic
+
+protocol: xmpp
+username: fenton.travers
+domain: oracle.com
+
+-   -   Advanced
+
+require ssl/tsl = checked
+force old (port 5223) ssl = checked
+connect port = 5223
+connect server = stbeehive.oracle.com
+
+-   Gmail Account
+    -   Basic
+
+username = fenton.travers
+domain = gmail.com
+
+-   -   Advanced
+
+require ssl/tsl = checked
+
+## SQLDeveloper & Eclipse
+
+See [here](#ubuntuInstall) for specific details.
+
+    cd projects/myConfig/
+    desktop-file-validate Eclipse.desktop
+    desktop-file-validate SQLDeveloper.desktop 
+    sudo desktop-file-install Eclipse.desktop
+    sudo desktop-file-install SQLDeveloper.desktop
+
+Run SQLDeveloper once by hand to set the JDK path.
+
+/bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
+
+set your jvm home to: /usr/lib/jvm/java-6-sun
+
+Now you should find the icons to launch the apps under: Applications >
+Programming.
+
+## Startup Programs
+
+System > Preferences > Startup Applications ... add
+
+-   pidgin, tomboy
+
+## VPN
+
+-   `https://myaccess.oraclevpn.com`
+-   Oracle VPN username (with the 8 character_cc)
+-   Click AnyConnect, download & run shell script.
+-   Server to connect to: `rmdc-twvpn-2.oraclevpn.com`
+
+## Config
+
+-   [Generate your ssh key pair](/secure.html#keypair)
+
+-   Add plugin downthemall to firefox.
+
+## Netbeans
+
+    ~/Downloads$ chmod 755 netbeans-6.9.1-ml-java-linux.sh 
+    ~/Downloads$ ./netbeans-6.9.1-ml-java-linux.sh 
+
+## Clojure
+
+see: [Clojure Install](clojure.html)
+
+## Package Management – Debian Systems
+
+### Package Details
+
+#### List all available packages in repos
+
+Sample below searches for Java 5.
+
+    cd /var/lib/apt/lists
+    grep Package * | grep java | grep 5
+
+#### List all installed packages
+
+    dpkg --get-selections > installed-software
+
+#### Re-install based on above list
+
+    dpkg --set-selections < installed-software; dselect
+
+#### Package info
+
+To determine info about a given package do:
+
+    dpkg -p <package_name>
+    dpkg -p clisp
+
+#### List files installed to your system from package.
+
+    dpkg -L package-Name
+
+#### List contents of a deb package.
+
+    dpkg -c filename
+
+#### re-install
+
+apt-get --reinstall install
+
+#### purge
+
+apt-get --purge remove
+
+can also do: `dpkg --purge <package>` then try re-install
+
+## Package Management – Redhat
+
+list package files:
+
+    rpm -ql
+
+## Setting up Lisp
+
+### Install clisp
+
+    sudo apt-get install clisp
+
+### slime
+
+[Slime Documentation](http://common-lisp.net/project/slime/doc/html/)
+
+installation just requires a few lines in your .emacs:
+
+    (setq inferior-lisp-program "/usr/bin/clisp") ; your Lisp system
+    (add-to-list 'load-path "~/bin/slime-2010-11-09/")  ; your SLIME directory
+    (require 'slime)
+    (slime-setup)
+
+Run it in emacs with: `Alt-x slime`
+
+## Restart Network
+
+Debian systems:
+
+    sudo /etc/init.d/networking restart
+
+## Startup, Shutdown, Scripts
+
+To make it usable, and make possible it’s automatic startup on server
+boot change its permissions and update-rc.d
+
+    sudo chmod +x /etc/init.d/git-daemon
+    sudo update-rc.d git-daemon defaults
+
+The daemon can be started or stoped by accesing:
+
+    sudo /etc/init.d/git-daemon start
+    sudo /etc/init.d/git-daemon stop
+
+To remove the file, just replace the word default with remove:
+
+    update-rc.d git-daemon remove
+
+## Java JDK
+
+Set the JAVA_HOME variable in /etc/environment. Sample:
+
+    sudo vi /etc/environment 
+    JAVA_HOME="/opt/java/java-6-oracle;"
+
+## Screen Capture
+
+Shutter
+
+## Web Server
+
+    sudo /etc/init.d/apache2 restart
+    /etc/apache2/apache2.conf
+
+### SSL Web Server
+
+    sudo a2enmod ssl
+    sudo nano /etc/apache2/sites-available/default-ssl # set DocumentRoot etc
+    sudo a2ensite default-ssl
+    sudo service apache2 restart
+
+## SQLDeveloper, Eclipse, IntelliJ
+
+See [here](#ubuntuInstall) for specific details.
+
+    cd projects/myConfig/
+    desktop-file-validate Eclipse.desktop
+    desktop-file-validate SQLDeveloper.desktop 
+    sudo desktop-file-install Eclipse.desktop
+    sudo desktop-file-install SQLDeveloper.desktop
+
+Run SQLDeveloper once by hand to set the JDK path.
+
+/bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
+
+set your jvm home to: /usr/lib/jvm/java-6-sun
+
+Now you should find the icons to launch the apps under: Applications >
+Programming.
+
+## Installing Programs
+
+you can create a *.desktop file like:
+
+    [Desktop Entry]
+    Name=Eclipse - Helios
+    Comment=Eclipse - Helios, IDE
+    Exec=/home/ftravers/bin/eclipse_helios/eclipse/eclipse
+    Icon=/home/ftravers/bin/eclipse_helios/eclipse/icon.xpm
+    Type=Application
+    Categories=Development;IDE;
+    Path=/home/ftravers/bin/eclipse_helios/eclipse/
+
+format description can be found here:
+
+    http://www.freedesktop.org/wiki/Howto_desktop_files
+
+valid categories can be found here:
+
+    http://standards.freedesktop.org/menu-spec/latest/apa.html
+
+You may want to pass $ `desktop-file-validate foo.desktop` to check out
+that your file is OK.
+
+Then, you can install it: `sudo desktop-file-install foo.desktop`
+
+In the above example we’ll now find the Eclipse icon in the folder:
+Applications > Programming.
+
+You can add it to the menu bar by right-clicking and choosing add to
+panel.
+
+### Uninstall
+
+If you mess up, delete the *.desktop file from
+`/usr/share/applications`
+
+# General Unix Commands
+
+## find
+
+Find all files accessed in the last minute
+
+    find . -mmin 1
+
+## grep
+
+Find all files (recurse into subdirectories ®) that have the word
+‘fenton’ in them (ignore case (i)). Only search files ending in
+“*.java” (--include).
+
+    grep -iR fenton --include="*.java" .
+
+## Tiff2Pdf
+
+## xmllint
+
+The following will take an xml file and format it so it’s all properly 
+indented.
+
+    xmllint --format fenton.xml > cleanFenton.xml
+
+## rsync
+
+### Copy source to destination.
+
+    rsync -avP --stats [source] [destination]
+
+both `[source]` and `[destination]` can be like the following formats:
+
+    [user_name]@[host_name]:[host_folder]
+
+The following example copies a local folder `c:fenton_dir` to a remote
+server `spicevan.com`, logging in as the `root` user. The files get
+copied to the directory: `/home/ftravers/backupdir`
+
+    rsync -avP --stats c:\fenton_dir root@spicevan.com:/home/ftravers/backupdir
+
+The beauties of rsync are:
+
+-   it will pick up where it left off. Good for big files and slow
+    network links.
+-   if you change a large file and re-run rsync it will not transfer the
+    whole file only the sections of the file that have changed
+-   you can use it on a whole directory structure and it will only send
+    the files that have changed.
+-   ... and a whole lot of other more technical details that I won’t
+    bother getting into here...
+
+## Environment Variables
+
+Edit the file:
+
+debian linux: `~/.bashrc` 
+red hat: `~/.bash_profile`
+
+set an environment variable like the following:
+
+    export [variable_name]=[variable_value]
+
+The example below sets two environment variables: `PATH` and
+`JAVA_HOME`. Notice with the `PATH` example I reuse the existing value
+of the `PATH` variable to extend it. This way I’m *adding* to the path
+not *replacing* it.
+
+    export PATH=$PATH:/home/ft/bin/apache-maven-2.2.1/bin:/home/ft/bin/jdk1.6.0_18/bin
+    export JAVA_HOME=/home/ft/bin/jdk1.6.0_18
+
+-   Global Environment Variables
+
+On debian linux: `/etc/bash.bashrc`
+
+On redhat linux: `/etc/profile`
+
+## Aliasing
+
+Oftentimes we want to create shortcuts to commands that are arduous to
+type over and over. An alias is your friend in these cases. Just like
+Environment Variables, put these in `~/.bashrc`. The way to do it is:
+
+    alias [new_short_name]='[long_painful_to_type_command]'
+
+example below allows me to type *vms* instead of *ssh root@vms.lab.com*.
+Notice the use of single quotes (') around the command.
+
+    alias vms='ssh root@vms.lab.com'
+
+## Misc Commands
+
+### Grep
+
+Remove found files with either the png or the jpg string in them...the
+trick is the | part.
+
+    find . | grep -v "png|jpg"
+
+Search recursively in current directory on down for files ending in
+*.java for string Wiki
+
+    grep -R Wiki --include "*.java" .
+
+### Linking
+
+Create a soft link:
+
+    ln -s <existing_file> <new_link_name>
+
+### Date / Time
+
+    hwclock --set --date='08/18/07 14:40:40' --localtime
+
+### CPU info, Distro info
+
+#### Distro Info
+
+rpm variants:
+
+    cat /etc/*release
+
+ubunut
+
+    cat /etc/debian_version
+    cat /etc/lsb-release
+
+other
+
+    cat /etc/*version
+
+#### CPU Info
+
+    cat /proc/cpuinfo
+
+ref:
+[http://www.brunolinux.com/05-Configuring_Your_System/CPU_Info.html](http://www.brunolinux.com/05-Configuring_Your_System/CPU_Info.html)
+
+## NFS
+
+### Server
+
+On exporting server, `/etc/exports`, the format of the entry is:
+
+    <share_folder> <authorized_hosts_list> <share_settings>
+
+example:
+
+    /OVS/sharedDisk * (rw,sync,all_squash,anonuid=500,anongid=500)
+
+    [root@vl-vmsrv2 jeos]# service nfs restart
+
+The following is how to mount another machines NFS exports:
+
+### Client
+
+:
+
+    [root@vl-vmsrv2 ~]# cat /etc/fstab
+    jpbox:/u01/Shared   /mount/jpbox        nfs defaults    0 0
+    [root@vl-vmsrv2 ~]# mount -a
+
+## Compiz Settings
+
+Add the following:
+
+-   -   (Add) Effects > Wobbly Windows
+
+-   -   (Remove) Desktop > Viewport Switcher
+
+-   -   (Edit) Desktop > Expo
+        -   Bindings
+            -   Expo Button = Ctrl – Button5
+            -   Drag&Drop = Ctrl – Button1
+            -   Exit Expo = Ctrl – Button4
+
+        -   Appearance
+
+Viewport Distance = .15
+Hide panels/docs in expo = checked
+Mipmaps = checked
+Brightness = 71
+Saturation = 62
+
+-   -   (Edit) Desktop > Desktop Wall
+        -   Viewport Switch Preview
+
+Preview Scale = 100
+Background Gradient = All Black
+Others = All white
+
+-   -   -   Bindings
+
+Move Up/Down/Next/Prev = Ctrl - <direction arrow>
+
+-   -   (Edit) Window Management > Grid
+
+Remove Alt from all key bindings
+
+-   -   (Remove) Static Application Switcher
+
+-   -   (Add) Application Switcher
+        -   Next Window = Ctrl-Super-KPRight
+        -   Prev Window = Ctrl-Super-KPLeft
+
+-   -   (Add) Shift Switcher (resolve conflict by setting dont set
+        terminiate)
+        -   Bindings
+            -   Next Window = Alt-Tab
+            -   Prev Window = Alt-Shift-Tab
+
+-   -   (Edit) Scale
+        -   Bindings
+            -   Initiate Window Picker = Super-KP5(begin)
+            -   Initiate Window Picker for all Windows =
+                Ctrl-Super-KP5(begin)
+
+    oracle@oracle-laptop:~/projects/myConfig$ cat SQLDeveloper.desktop 
+    [Desktop Entry]
+    Name=SQL Developer
+    Comment=SQL Developer Program
+    Exec=/bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
+    Icon=/home/oracle/bin/sqldeveloper/icon.png
+    Type=Application
+    Categories=Development;Database;
+    Path=/home/oracle/bin/sqldeveloper/
+
+    [Desktop Entry]
+    Name=Eclipse - Helios
+    Comment=Eclipse - Helios, IDE
+    Exec=/home/ftravers/bin/eclipse_3.6.1/eclipse
+    Icon=/home/ftravers/bin/eclipse_3.6.1/icon.xpm
+    Type=Application
+    Categories=Development;IDE;
+    Path=/home/ftravers/bin/eclipse_3.6.1/
+
+## screen
+
+To keep a shell session on a remote server in its state, there is a
+little utility that can do that for you.
+It can be useful to let a long script running like an rsync backup over
+the network.
+A session of screen can also be “detached” and used by another user,
+making it easy to collaborate on a project.
+
+To install screen (as root):
+
+    yum -y install screen
+
+Then you can just start a screen session:
+
+    screen -S MyTitle
+
+To exit this session and go back to the regular shell press *ctrl+a*
+then *d*
+*ctrl+a* then *k* will kill the session.
+
+To list the active screen sessions:
+
+    screen -ls
+
+to reattach a screen, use `screen -r` if there is only one session open.
+If there are more, use `screen -r NNNN.SessionTitle`
+
+# Redhat derivatives
+
+## rpm
+
+For installing a software package, you use the rpm command with -i
+option (which stands for “install”). For example, to install an RPM
+package called software-2.3.4.rpm:
+
+    # rpm -i software-2.3.4.rpm
+
+## accelerated web downloads
+
+There is a nice utility `aget` that you can install on Redhat
+distributions. Add the following to: `/etc/yum.repos.d/dries.repo`:
+
+    # cat /etc/yum.repos.d/dries.repo 
+    [dries]
+    name=dries
+    enabled=1
+    gpgcheck=1
+    gpgkey=http://dries.ulyssis.org/rpm/RPM-GPG-KEY.dries.txt
+    baseurl=http://ftp.belnet.be/packages/dries.ulyssis.org/redhat/el5/en/i386/dries/RPMS
+
+you *may* need to also do:
+
+    wget http://dries.ulyssis.org/rpm/RPM-GPG-KEY.dries.txt
+    rpm --import RPM-GPG-KEY.dries.txt
+
+but I think the dries.repo entries should take care of that.
+
+Then just do:
+
+    yum install aget
+
+Run aget to see how it is used:
+
+    # aget
+    usage: aget [options] url
+        options:
+            -p port number
+            -l local file name
+            -n suggested number of threads
+            -f force using suggested number of threads
+            -h this screen
+            -v version info
+    http//www.enderunix.org/aget/
