@@ -196,7 +196,7 @@ dl {
 dt {
     float: left;
     clear: left;
-    width: 100px;
+    width: 150px;
     text-align: right;
     font-weight: bold;
     color: green;
@@ -205,6 +205,6 @@ dt:after {
     content: ":";
 }
 dd {
-    margin: 0 0 0 110px;
+    margin: 0 0 0 175px;
     padding: 0 0 0.5em 0;
 }
