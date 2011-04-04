@@ -1,0 +1,40 @@
+# Shell Scripting
+
+* (Shell Dorado)[http://shelldorado.com/]
+
+
+## General
+
+| Category      | Comments                                              |
+| ------------- | ----------------------------------------------------- |
+Comments        | Comments begin with a hash `#` symbol
+
+
+## Command Line Arguments
+
+| Variable      | Meaning                            |
+| ------------- | ---------------------------------- |
+$0              | is the name of the command
+$1, $2, ...     | first, second, etc... param
+$#              | number of params
+$@              | list of all parameters
+
+## Shell Commands
+
+| Command       | Effect                             |
+| ------------- | ---------------------------------- |
+shift           | shift command line arguments to the left, ie $1 becomes the value of $2, $3 shifts into $2, etc. The command, "shift 2" will shift 2 places meaning the new value of $1 will be the old value of $3 and so forth.
+
+## Iteration, control and if statements
+
+       case $NUM of
+       1)
+          echo The number is 1
+             ;;
+             2)
+                echo The number is 2
+                   ;;
+                   *)
+                      echo The number is not 1 or 2
+                         ;;
+                         esac

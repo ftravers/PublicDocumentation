@@ -467,9 +467,10 @@ cookie. So do the following:
 -   scp this up to the machine where you want to download from
 -   run wget as follows:
 
-    wget --load-cookies=cookies.txt "http://edelivery.oracle.com/EPD/Download/process_download/V18419-01.zip?file_id=28676878&aru=11865636&userid=890087&egroup_aru_number=12550529&email=fenton.travers@oracle.com&country_id=344&patch_file=V18419-01.zip"
+    wget --load-cookies=cookies.txt 'http://edelivery.oracle.com/EPD/Download/process_download/V18419-01.zip?file_id=28676878&aru=11865636&userid=890087&egroup_aru_number=12550529&email=fenton.travers@oracle.com&country_id=344&patch_file=V18419-01.zip'
 
-Note I have the URL in quotes so the `&` don’t screw things up.
+
+Note I have the URL in single quotes so the `&` don’t screw things up.
 Also this is just a sample url.
 
 hostname should be resolved in file “/etc/hosts” please check the  

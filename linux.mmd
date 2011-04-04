@@ -440,16 +440,26 @@ On debian linux: `/etc/bash.bashrc`
 
 On redhat linux: `/etc/profile`
 
+### Unset
+
+    unset <variable>
+    unset http_proxy
+
 ## Aliasing
 
-Oftentimes we want to create shortcuts to commands that are arduous to
-type over and over. An alias is your friend in these cases. Just like
-Environment Variables, put these in `~/.bashrc`. The way to do it is:
+Put in:
+
+    ~/.bashrc
+
+or
+
+    ~/.bash_aliases
+
+Alias format:
 
     alias [new_short_name]='[long_painful_to_type_command]'
 
-example below allows me to type *vms* instead of *ssh root@vms.lab.com*.
-Notice the use of single quotes (') around the command.
+example:
 
     alias vms='ssh root@vms.lab.com'
 

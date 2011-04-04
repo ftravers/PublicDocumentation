@@ -13,8 +13,34 @@ function, `set`, takes only two arguments and evaluates both of them
 before setting the value returned by its first argument to the value
 returned by its second argument.
 
+# Functions
+
+| Point                 | Explanation                      |
+| --------------------- | -------------------------------- |
+`C-h f <function-name>` | You can get help for a command by typing
+`C-h w <function-name>` | where the key is, not the full documentation. 
+`M-x describe-function` | Location of function definition
+`M-.` aka `find-tag`    | see a function in its original source file
+
+* The prompt for describe-function will offer you the symbol under or preceding
+the cursor
+* Put point into the name of the file that contains the function and press the RET
+key. In this case, RET means push-button rather than ‘return’ or ‘enter’. Emacs
+will take you directly to the function definition.
+
+To create a tags-table from source code see: [^An Introduction to Programming in Emacs Lisp. Page 44, Section 4.1 Finding More Information]
+
 ## defun
 
+    (defun function-name (arguments...)
+     "optional-documentation..."
+     (interactive argument-passing-info) ; optional
+     body...)
+
+    (defun multiply-by-seven (number)
+     "Multiply NUMBER by seven."
+     (* 7 number))
+   
 The argument list is followed by the documentation string that
 describes the function. This is what you see when you type `C-h f` and
 the name of a function.
@@ -34,13 +60,24 @@ Then, you can use this code by typing `C-u` and a number and then
 typing `M-x multiply-by-seven` and pressing RET. The phrase `The
 result is ...` followed by the product will appear in the echo area.
 
+    (defun simplified-beginning-of-buffer ()
+    "Move point to the beginning of the buffer;
+    leave mark at previous position."
+    (interactive)
+    (push-mark)
+    (goto-char (point-min)))
+
+The interactive expression tells Emacs that the function is intended to be used
+interactively. In this example, interactive does not have an argument because
+simplified-beginning-of-buffer does not require one.
+
 ## if 
 
     (if (= 22 emacs-major-version)
       (message "This is version 22 Emacs")    
       (message "This is not version 22 Emacs"))
 
-## let
+## let, let*
 
 let is used to attach or bind a symbol to a value in such a way that
 the Lisp interpreter will not confuse the variable with a variable of
@@ -61,6 +98,13 @@ temporary and local.
 
     (if (> 5 4)
         (message "5 is greater than 4!"))
+
+The `let*` function is different. It has a ‘*’ in its name. It enables
+Emacs to set each variable in its varlist in sequence, one after
+another.
+
+Its critical feature is that variables later in the varlist can make
+use of the values to which Emacs set variables earlier in the varlist.
 
 ## Keyboard shortcuts
 
@@ -83,6 +127,13 @@ the mode-specific keymaps override the global map that is shared by
 all buffers.
 
     (global-set-key "\C-x\C-b" ’buffer-menu)
+
+| Point                 | Explanation                      |
+| --------------------- | -------------------------------- |
+C-h f <function-name>   | You can get help for a command by typing
+C-h k <key-sequence>    | To get the command that would run
+C-h w <function-name>   | where the key is, not the full documentation. 
+C-h c <key sequence>    | what function is bound to a key sequence
 
 # File Associations
 
@@ -162,4 +213,32 @@ After evaluating this list, you will see
 
      (pine fir oak maple)
 
+# Comparison Operators
 
+
+
+
+# Adventures in eLisp
+
+So lately I'm doing a lot of documentation and I've chosen to do it in
+the multi-markdown language.  Since my documentation is always about
+technology, I have a lot of code snippets that must be indented 4
+spaces or a tab.  Also, originally, I had `fill-paragraph` turned on
+which auto-wrapped lines that extended beyond `fill-column` in width.
+That was great and desireable for text like this, but absolutely
+undersirable with code fragments.
+
+So my goal is to modify the `fill-paragraph` function so that it works
+only when the text is not indented by 4 spaces.  I asked the question
+on stackoverflow, and got the following 2 tips:
+
+> You are going to need `fill-paragraph`, `if`, probably `progn`,
+  probably `string=`, `save-excursion`, `forward-paragraph`,
+  `backward-paragraph` and perhaps a few more. All of these can be
+  read up if you do `M-x describe-function` and supply it the name.
+
+> Do you know about `advice`
+
+So first off lets have a look at `fill-paragraph` to see if we can understand how it works
+
+* `C-h f fill-paragraph` will bring up it's definition
