@@ -202,6 +202,7 @@ dt {
     color: green;
 }
 dt:after {
+    display: inline;
     content: ":";
 }
 dd {
