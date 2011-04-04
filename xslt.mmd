@@ -65,6 +65,7 @@ Must know xpath to use xslt!  Sample doc:
 When trying to reach a specific element in your XML document, you
 often have to string together many elements to get there.
 
+
 ## Absolute Paths
 
 * the price of pop:
@@ -198,5 +199,42 @@ element, we can eliminate the unwanted text, "Mr. Bean".
     </xsl:template>
     </xsl:stylesheet>
 
-xsl:apply-templates select="student" | To have the teacher element, "Mr. Bean," ignored, we use the select attribute of xsl:apply-templates to specify only student children.
+
+ To have the teacher element, "Mr. Bean," ignored, we use the select
+ attribute of xsl:apply-templates to specify only student children.
+
+    xsl:apply-templates select="student" 
+
+The XSLT processor then goes searching templates that only match
+student elements.
+
+    xsl:template match="student"
+
+## Make it well formed
+
+    <?xml version="1.0" ?>
+    <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="class">
+        <html>
+        <body>
+        <xsl:apply-templates select="student"/>
+        </body>
+        </html>
+    </xsl:template>
+    <xsl:template match="student">
+        <p>
+        Found a learner!
+        </p>
+    </xsl:template>
+    </xsl:stylesheet>
+
+output:
+
+    <html>
+      <body>
+        <p>Found a learner!</p>
+        <p>Found a learner!</p>
+        <p>Found a learner!</p>
+      </body>
+    </html>
 
