@@ -25,6 +25,7 @@
 				<include name="**/*.jpg" />
 				<include name="**/*.gif" />
 				<include name="**/*.jpeg" />
+                <include name="**/*.js" />
 			</fileset>
 		</copy>
 	</target>
