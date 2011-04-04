@@ -4,6 +4,198 @@ Take an xml (xhtml) document and create some output (html, xhtml, text, etc...).
 
 # Step by step
 
-Input XML file contents:
+Input XML file: `source.xml`, contents:
 
-    <?xml version="1.0"?>
+    <source>
+      <title>XSL</title> 
+      <author>John Smith</author> 
+    </source>
+
+XSLT: `simple.xslt`, contents:
+
+    <xsl:stylesheet version = '1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
+    <xsl:template match="/"> 
+         <h1> 
+              <xsl:value-of select="//title"/> 
+         </h1> 
+         <h2> 
+              <xsl:value-of select="//author"/> 
+         </h2> 
+    </xsl:template>
+    </xsl:stylesheet>
+
+Run command: 
+
+    xsltproc -nonet -novalid simple.xslt source.xml > out.html
+
+Output
+
+    <h1>XSL</h1>
+    <h2>John Smith</h2>
+
+# xpath
+
+[ref](http://www.tizag.com/xmlTutorial/xpathattribute.php)
+
+Must know xpath to use xslt!  Sample doc:
+
+    <Inventory>
+        <drink>
+        	<lemonade supplier="mother" id="1">
+        		<price>$2.50</price>
+        		<amount>20</amount>
+        	</lemonade>
+        	<pop supplier="store" id="2">
+        		<price>$1.50</price>
+        		<amount>10</amount>
+        	</pop>
+        </drink>
+        <snack>
+        	<chips supplier="store" id="3">
+        		<price>$4.50</price>
+        		<amount>60</amount>
+        		<calories>180</calories>
+        	</chips>
+        </snack>
+    </inventory>
+
+
+When trying to reach a specific element in your XML document, you
+often have to string together many elements to get there.
+
+## Absolute Paths
+
+* the price of pop:
+
+    inventory/drink/pop/price
+
+* select the supplier attribute of chips:
+
+    inventory/snack/chips@supplier
+
+## Relative Paths
+
+XPath expressions can also be created using relative location
+paths. Instead of starting at the root element, you can simply
+reference the element you want and go from there.
+
+* to select every amount element
+
+    amount
+
+* select every price element that had a chips parent
+
+    chips/price
+
+## Decendents
+
+Two slashes are used to select the descendants of an element.
+
+* select each price element that was a descendant of drink (select
+  every price element that has a drink ancestor):
+
+    drink//price
+
+## Parent
+
+The element to the left of the double period will have its parent
+selected.
+
+* to select all of the product elements, lemonade, pop, and chips:
+
+    amount/..
+
+## Wildcard
+
+* select each child element of chips:
+
+    inventory/snack/chips/*
+
+with the wildcard we could instead decide to select every child of
+inventory: drink and snack. Then select every child of those two
+elements: lemonade, pop and chips. And finally we could select each
+child of those three elements: price x 3, amount x 3 and calories x 1.
+
+    inventory/*/*/*
+
+## Combining Expressions
+
+* select the children of chips and the children of pop
+
+    inventory/snack/chips/* | inventory/drink/pop/*
+
+## Predicates
+
+* select all the products from lemonade2.xml that had an amount
+  greater than 15
+
+    inventory/drink/lemonade[amount>15]
+
+### predicates with attributes
+
+* all the products that were purchased from the store
+
+    inventory/*/*[@supplier='store']
+
+### predicate current element
+
+* select the amount of pop where the amount was less than 20
+
+    inventory/drink/pop/amount[. < 20]
+
+
+# Back to XSLT
+
+## xsl:template `match` attribute
+
+To find information in an XML document you will need to use
+xsl:template's match attribute.
+
+xml: 
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <?xml-stylesheet type="text/xsl" href="class.xsl"?>
+    <class>
+        <student>Jack</student>
+        <student>Harry</student>
+        <student>Rebecca</student>
+        <teacher>Mr. Bean</teacher>
+    </class>
+
+xslt:
+
+    <?xml version="1.0" ?>
+    <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+        <xsl:template match="student">
+        	Found a learner!
+        </xsl:template>
+    </xsl:stylesheet>
+
+output:
+
+    Found a learner! Found a learner! Found a learner! Mr. Bean
+
+Notice that this output doesn't have a root element, which is a
+requirement for a well-formed XML document. Our XML document had three
+students and one teacher, so our XSLT printed out, "Found a learner!"
+three times, followed by the unmatched teacher element's text
+"Mr. Bean".
+
+## xsl:apply-templates
+
+By making use of the select attribute and the xsl:apply-templates
+element, we can eliminate the unwanted text, "Mr. Bean".
+
+    <?xml version="1.0" ?>
+    <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="class">
+        <xsl:apply-templates select="student"/>
+    </xsl:template>
+    <xsl:template match="student">
+        Found a learner!
+    </xsl:template>
+    </xsl:stylesheet>
+
+xsl:apply-templates select="student"
+: To have the teacher element, "Mr. Bean," ignored, we use the select
+attribute of xsl:apply-templates to specify only student children.
