@@ -205,6 +205,7 @@ dt:after {
     content: ":";
 }
 dd {
+    display: inline
     margin: 0 0 0 175px;
     padding: 0 0 0.5em 0;
 }
