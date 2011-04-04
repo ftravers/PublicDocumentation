@@ -241,4 +241,32 @@ on stackoverflow, and got the following 2 tips:
 
 So first off lets have a look at `fill-paragraph` to see if we can understand how it works
 
-* `C-h f fill-paragraph` will bring up it's definition
+* `C-h f fill-paragraph` will bring up it's documentation.  
+
+So what I quickly realize is this is NOT bringing up the source for
+the function, just it's documentation.  NOT what I want!
+
+So I happened upon 
+
+> look at the source (using `M-x find-function`)
+
+Which flashes: 
+
+    find-library-name: Can't find library/usr/share/emacs/23.1/lisp/textmodes/fill.el
+
+in the minibuffer or status line at the bottom of the screen.  Trying
+to highlight it is hopeless as it disappears quickly.  Just open the
+`*Messages*` buffer and you can cut and paste any messages that were
+flashed in the minibuffer.
+
+So I'll do a find in my filesystem to see if **I** can find the file!
+`C-x m` brings up an `*eshell*` on my system, which is just a terminal
+window.
+
+
+
+> Also, describe-function will tell you the location of the function definition.
+
+
+`M-x describe-function` | Location of function definition
+`M-.` aka `find-tag`    | see a function in its original source file
