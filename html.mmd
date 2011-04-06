@@ -1,0 +1,94 @@
+[home](../index.html) \> [Training](index.html) \> HTML 5
+
+Great web page about HTML5: http://apirocks.com/html5/html5.html
+
+# Canvas
+
+The following is boiler plate code to simply load up an image named:
+`blue.jpg` into the canvas
+
+sample.html
+
+    <html>
+      <head>
+        <title>Canvas tutorial</title>
+        <script type="text/javascript" src="canvas.js"></script>
+        <style type="text/css">
+          canvas { border: 1px solid black; }
+        </style>
+      </head>
+      <body onload="draw();">
+        <canvas id="tutorial" width="300" height="300"></canvas>
+      </body>
+    </html>
+
+canvas.js
+
+    function draw(){
+      var canvas = document.getElementById('tutorial');
+      if (canvas.getContext){
+        var ctx = canvas.getContext('2d');
+        var img = new Image();
+        img.onload = function(){
+              ctx.drawImage(img,0,0);
+        }
+        img.src = "blue.jpg";
+      }
+    }
+
+# Geolocation
+
+[Reference](http://dev.w3.org/geo/api/spec-source.html)
+
+    <script>
+        function showMap(position) {
+          alert( "Latitude: " + position.coords.latitude + "\nLongitude: " + position.coords.longitude );
+        }
+        navigator.geolocation.getCurrentPosition(showMap);
+    </script>
+
+# Local Storage
+
+This storage only lasts for the user session period. `localStorage` is
+the HTML5 object(API) to operate on.
+
+    localStorage.setItem(key, value);
+    localStorage.getItem(key);
+    localStorage.removeItem(key);
+    localStorage.length;  // tells you how long the array is
+    localStorage.key(index);  // gets you the key at a given integer index position
+
+# Video
+
+## Play Video
+
+[Good
+reference](https://developer.mozilla.org/En/Using_audio_and_video_in_Firefox)
+
+    <video src="TestVideo.ogg" controls/>  
+
+## Record Video
+
+following is not tested and I don’t think works...
+
+    <input type=�file� accept=�video/*�/>.
+
+# Audio
+
+## Play Audio
+
+[Reference](https://developer.mozilla.org/En/HTML/Element/Audio)
+
+    <audio src="TestSong.ogg" autoplay/>
+
+## Record Audio
+
+following is not tested and I don’t think works...
+
+    <input type=�file� accept=�audio/*�/>
+
+# Firefogg
+
+You can use the javascript firefogg api to [simultaneously upload and
+transcode to ogg](http://www.firefogg.org/dev/chunk_post_example.html)
+format.
