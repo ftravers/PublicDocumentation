@@ -1,8 +1,16 @@
-[home](../index.html) \> [Training](index.html) \> HTML 5
+## span
+
+When you want to markup something inline, i.e. not creating a new
+block level element with `div`, use the `span` tag.
+
+    This text is black. <span style="color:blue">This text is blue.</span>
+
+
+# HTML5
 
 Great web page about HTML5: http://apirocks.com/html5/html5.html
 
-# Canvas
+## Canvas
 
 The following is boiler plate code to simply load up an image named:
 `blue.jpg` into the canvas
@@ -36,7 +44,7 @@ canvas.js
       }
     }
 
-# Geolocation
+## Geolocation
 
 [Reference](http://dev.w3.org/geo/api/spec-source.html)
 
@@ -47,7 +55,7 @@ canvas.js
         navigator.geolocation.getCurrentPosition(showMap);
     </script>
 
-# Local Storage
+## Local Storage
 
 This storage only lasts for the user session period. `localStorage` is
 the HTML5 object(API) to operate on.
@@ -58,36 +66,36 @@ the HTML5 object(API) to operate on.
     localStorage.length;  // tells you how long the array is
     localStorage.key(index);  // gets you the key at a given integer index position
 
-# Video
+## Video
 
-## Play Video
+### Play Video
 
 [Good
 reference](https://developer.mozilla.org/En/Using_audio_and_video_in_Firefox)
 
     <video src="TestVideo.ogg" controls/>  
 
-## Record Video
+### Record Video
 
 following is not tested and I don’t think works...
 
     <input type=�file� accept=�video/*�/>.
 
-# Audio
+## Audio
 
-## Play Audio
+### Play Audio
 
 [Reference](https://developer.mozilla.org/En/HTML/Element/Audio)
 
     <audio src="TestSong.ogg" autoplay/>
 
-## Record Audio
+### Record Audio
 
 following is not tested and I don’t think works...
 
     <input type=�file� accept=�audio/*�/>
 
-# Firefogg
+## Firefogg
 
 You can use the javascript firefogg api to [simultaneously upload and
 transcode to ogg](http://www.firefogg.org/dev/chunk_post_example.html)
