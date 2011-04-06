@@ -20,7 +20,7 @@
  
 <xsl:template match="xhtml:head">
   <xsl:copy>
-    fenton
+    <script type="text/javascript" src="fenton.js">
     <xsl:apply-templates select="@*|node()"/>
   </xsl:copy>
 </xsl:template>
