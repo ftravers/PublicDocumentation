@@ -20,13 +20,14 @@
 pre {
 	background: black;
 }
+<!--
 code {
 	color: lightGreen;%;
 	background: black;
 	margin-top: 0; 
 	margin-bottom: 0;
 }
-
+-->
 .rightsidebox {
     text-align: left; /* depends on element width */
    	background-color : #66FF33;
