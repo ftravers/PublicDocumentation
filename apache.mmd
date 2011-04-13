@@ -1,0 +1,27 @@
+## Named Virtual Hosts
+
+    # Listen for virtual host requests on all IP addresses
+    NameVirtualHost *:80
+     
+    <VirtualHost *:80>
+      ServerName 127.0.0.1
+      DocumentRoot /var/www
+    </VirtualHost>
+     
+    <VirtualHost *:80>
+      ServerName docs
+      DocumentRoot /home/oracle/bin/website   
+    </VirtualHost>
+
+## Include
+
+Instead of putting all your configurations into the `httpd.conf` or
+`apache.conf` file, you can reference an external file with an
+`include` statement.
+
+Providing paths relative to your `ServerRoot` directory:
+
+    Include conf/ssl.conf
+    Include conf/vhosts/*.conf
+
+
