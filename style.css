@@ -209,6 +209,12 @@ dd {
     color: blue;
     font-family: monospace;
     white-space: pre;
+    display: block;
+    margin: 1em 0px;
+    margin-top: 1em;
+    margin-right: 0px;
+    margin-bottom: 1em;
+    margin-left: 0px;
 }
 
 .parameter {
