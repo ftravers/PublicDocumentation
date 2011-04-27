@@ -202,13 +202,14 @@ dd {
     padding: 0 0 0.5em 0;
 }
 .sample {
-    color: blue
+    color: blue;
 }
 
 .sample_code {
-    color: blue
+    color: blue;
+    font-family: monospace;
 }
 
 .parameter {
-    color: red
+    color: red;
 }
