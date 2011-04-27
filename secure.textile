@@ -4,6 +4,14 @@ p(toc). Table of Contents
 
 {toc}
 
+
+h1. Getting a signed security certificate:
+
+* 
+
+* http://my.oracle.com/site/git/2727/11529/11536/11537/index.htm
+
+
 h1. Windows, Linux, OS/X
 
 If you are using a linux or OS/X you probably don't have to do much to make things work here.  

@@ -246,7 +246,11 @@ Cheers.
 
 ### SSL
 
-    keytool -genkey -alias SOME_ALIAS_NAME -validity 1000 -keyalg RSA -keysize 1024 -keystore /opt/......./domain1/config/keystore.jks
+Just check to see if there is already a keystore.jks file in the
+config folder, otherwise you can create a new one.
+
+    keytool -genkey -alias sta00418 -validity 1000 -keyalg RSA -keysize 2048 -keystore /scratch/ngsp/glassfish3/glassfish/domains/domain1/config/keystore.jks
+
 
 ## GIT
 

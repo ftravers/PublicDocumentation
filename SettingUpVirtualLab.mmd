@@ -328,9 +328,15 @@ trick:
 
     ~/Desktop$ scp public-yum-el5.repo root@alm.hk.oracle.com:/etc/yum.repos.d/
 
-Change all the enabled=0 to enabled=1, for: [el5\_ga\_base],
-[el5\_u5\_base], [ol5\_u5\_base], [el5\_addons], and
-[el5\_oracle\_addons]
+Change all the 
+    
+    enabled=0 
+to 
+
+    enabled=1
+for: 
+
+    [el5_ga_base], [el5_u5_base], [ol5_u5_base], [el5_addons], and [el5_oracle_addons]
 
 Test it out:
 
@@ -354,9 +360,8 @@ Now just tar and zip it up with:
     cd /OVS/running_pool
     tar cvfz ovmm_ovmtb.tgz ovmm_ovmtb
 
-The result was a 183MB file...quite small and shareable! Cool!
-Thats  
-an entire, modern OS in 183MB! Fire the image back up, give it a  
+The result was a 183MB file...quite small and shareable! Cool!  Thats
+an entire, modern OS in 183MB! Fire the image back up, give it a
 minute to startup and ssh back into it.
 
 ## Install Template Builder
@@ -370,7 +375,7 @@ Download the JeOS RPM files from eDelivery.oracle.com/linux:
 
 Download:
 
--   Name: JeOS Base x86 and x86\_64 V17420-01
+-   Name: JeOS Base x86 and x86_64 V17420-01
 -   Name: JeOS Oracle Linux 5 Update 5 base image x86 (32 Bit)
     V21114-01
 
@@ -415,22 +420,15 @@ There are two folders that use a lot of space:
 -   `/opt/ovmtb/builds/`
 -   `/opt/ovmtb/tarballs/`
 
-Recommend repointing these to the NFS drive so we can keep the
-OVMTB  
-disk as small as possible. (2GB seems about the limit of small).
-This  
+Recommend repointing these to the NFS drive so we can keep the OVMTB
+disk as small as possible. (2GB seems about the limit of small).  This
 makes backing up much quicker.
 
-Since we don’t have a lot of extra disk space to store the
-templates  
-we’ll create on this image, soft link the `/opt/ovmtb/tarballs`
-folder  
-directly to the NFS mount. That way the templates will be written
-to  
-the large NFS mount and we don’t have to create a large VM just to
-run  
-template builder. Large VM’s are a pain to back up and ship
-around.
+Since we don’t have a lot of extra disk space to store the templates
+we’ll create on this image, soft link the `/opt/ovmtb/tarballs` folder
+directly to the NFS mount. That way the templates will be written to
+the large NFS mount and we don’t have to create a large VM just to run
+template builder. Large VM’s are a pain to back up and ship around.
 
     [root@alm ovmtb]# mv tarballs/ /mnt/vmsrv/
     [root@alm ovmtb]# mv builds/ /mnt/vmsrv/
@@ -439,8 +437,8 @@ NOTE: the above command will throw some permission errors...they
 can  
 be safely ignored.
 
-[root@alm ovmtb]\# ln -s /mnt/vmsrv/tarballs tarballs  
-[root@alm ovmtb]\# ln -s /mnt/vmsrv/builds builds
+[root@alm ovmtb]# ln -s /mnt/vmsrv/tarballs tarballs  
+[root@alm ovmtb]# ln -s /mnt/vmsrv/builds builds
 
 ## OVM Manager
 
@@ -462,7 +460,7 @@ cookie. So do the following:
     https://addons.mozilla.org/en-US/firefox/addon/8154/
 -   Log into edelivery going right up to the place where you
     normally download from.
--   In Firefox \> Tools \> Export Cookies... export the cookie file
+-   In Firefox > Tools > Export Cookies... export the cookie file
     to (say) your desktop.
 -   scp this up to the machine where you want to download from
 -   run wget as follows:
@@ -506,14 +504,14 @@ if you want to make a VM based on an ISO file such as windows xp
 or  
 ubuntu,
 
--   make a directory under /OVS/iso\_pool/, say ‘ubuntu’ and drop
+-   make a directory under /OVS/iso_pool/, say ‘ubuntu’ and drop
 
-your \*.iso file in it.
+your *.iso file in it.
 
 -   might need to restart the server
 
--   resources \> import \> Select from Server Pool (Discover and
-    register) \>
+-   resources > import > Select from Server Pool (Discover and
+    register) >
 
 -   expand search, set iso-label = %, set server pool to your pool
     name, then approve the iso in there.

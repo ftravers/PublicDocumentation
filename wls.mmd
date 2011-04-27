@@ -1,4 +1,7 @@
-Install Files:
+CSS: style.css
+
+## Install Files:
+
 	V18592-01_wls_11gR1_10.3.2_Linux_x86
 
 OVM Template:
@@ -19,11 +22,11 @@ Do the install as a user you create
 	...
 	[root@bpel u01]# su - soa
 
-INSTALL:
+## INSTALL
 
-	[soa@bpel ~]$ cd /u02/wls_10.3.1/; ./wls1032_linux32.bin -mode=console
+    [soa@bpel ~]$ cd /u02/wls_10.3.1/; ./wls1032_linux32.bin -mode=console
 
-CONFIGURE:
+## CONFIGURE
 
 	[root@wls bin]# /u01/middleware/wlserver_10.3/common/bin/config.sh -mode=console
 
@@ -32,24 +35,37 @@ CONFIGURE:
 * Add an Administration Server in the Optional Components section.  
 * port: 7001
 
-START/STOP:
+## START/STOP
 
 	[root@wls base_domain]# /u01/middleware/user_projects/domains/base_domain/bin/startWebLogic.sh
 	[root@wls base_domain]# /u01/middleware/user_projects/domains/base_domain/bin/stopWebLogic.sh
 
-DELETE:
+## DELETE
 
 To delete a WebLogic Domain is to just delete the folder. No additional steps need to be taken. 
 
-ACCESS:
+## ACCESS
+
+[Ensure port is open](firewall_iptables.html)
 	
     http://wls1032.ftravers.com:7001/console
     username:weblogic password:welcome1 (or whatever you set above)
 
 patience, took about 3 minutes for the console to come up in mysetup!
 
+## Deployment
 
+put your war in folder:
 
+    <wls-home>/user_projects/domains/base_domain/autodeploy
+
+## Remote Debug
+
+Copy and edit:
+
+<sample_code>
+<e>WLS_HOME</e>/user_projects/domains/<e>DOMAIN_NAME</e>/bin/startWeblogic.sh
+</sample_code>
 
 
 

@@ -726,6 +726,12 @@ create a CSR, and import certificates. Any root or intermediate
 certificates will need to be imported before importing the primary
 certificate for your domain.
 
+## Notes on flags
+
+    -alias
+
+This is just a nickname for the key, can be anything (I think?)
+
 ## Creating and Importing
 
 Generate a Java keystore and key pair
@@ -746,8 +752,10 @@ Import a signed primary certificate to an existing Java keystore
 
     keytool -import -trustcacerts -alias mydomain -file mydomain.crt -keystore keystore.jks
 
-Generate a keystore and self-signed certificate (see How to Create a
-Self Signed Certificate using Java Keytool for more info)
+Generate a keystore and self-signed certificate (see [How to Create a
+Self Signed Certificate using Java
+Keytool](http://www.sslshopper.com/article-how-to-create-a-self-signed-certificate-using-java-keytool.html)
+for more info)
 
     keytool -genkey -keyalg RSA -alias selfsigned -keystore keystore.jks -storepass password -validity 360 -keysize 2048
 

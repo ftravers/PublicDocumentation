@@ -1,6 +1,6 @@
 h1. Firewalls and IPTables
 
-h2. Quick and Dirty
+h2. Wholesale On/Off
 
 Sometimes you just want to get your firewall turned off, because you
 are testing something else.  Here is how you do it:
@@ -28,8 +28,8 @@ turning off the firewall completely.
 * To add a new port, run the following and
 
 bc. 
-[root@hp2 ~]# /usr/bin/system-config-securitylevel
-[root@ucm3 ~]# /usr/bin/system-config-securitylevel-tui
+[root@ucm3 ~]# /usr/bin/system-config-securitylevel-tui --quiet
+--port=http --port=ssh --port=https --port=138:udp --port=445:tcp
 
 Choose Customize, add a line like: 8888:tcp, to the other ports
 section, OK, OK.  Restart the firewall with:
