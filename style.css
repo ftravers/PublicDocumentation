@@ -212,5 +212,6 @@ dd {
 }
 
 .parameter {
-    color: red;
+    color: black;
+    font-style:italic;
 }
