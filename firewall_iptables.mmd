@@ -24,12 +24,28 @@ be restarted.
 
 <pre><div class="sample_code">/usr/bin/system-config-securitylevel-tui --quiet --port=<span class="parameter">PORT</span></div></pre>
 
+Restart the firewall
+
+    service iptables restart
+
 Where <span class="parameter">PORT</span> could be a name, number, and
 optional adding of `tcp` and `udp` protocols on that port
 
     --port=http 
     --port=138:udp 
     --port=445:tcp
+
+| State      | Meaning                            |
+| ---------- | ---------------------------------- |
+  filtered   | The firewall is blocking this port 
+  closed     | Port is         | go to end of file
+f            | scroll forward one screen
+b            | scroll backwards one screen
+
+### Port Names
+
+Look [here](http://www.iana.org/assignments/port-numbers) to figure
+out port the names of ports.
 
 Choose Customize, add a line like: 8888:tcp, to the other ports
 section, OK, OK.  Restart the firewall with:
