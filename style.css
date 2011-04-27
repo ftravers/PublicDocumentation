@@ -220,12 +220,3 @@ dd {
     color: red;
 }
 
-highlight {
-    color: red;
-}
-
-sample_code {
-    font-family: monospace;
-    margin-left: 2em;
-    white-space: pre;
-}
