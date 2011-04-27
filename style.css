@@ -214,3 +214,7 @@ dd {
     color: black;
     font-style:italic;
 }
+
+.highlight {
+    color: red;
+}
