@@ -208,6 +208,7 @@ dd {
 .sample_code {
     color: blue;
     font-family: monospace;
+    white-space: pre;
 }
 
 .parameter {
