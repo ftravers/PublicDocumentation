@@ -214,6 +214,7 @@ dd {
 .parameter {
     color: black;
     font-style:italic;
+    font-family: monospace;
 }
 
 .highlight {
