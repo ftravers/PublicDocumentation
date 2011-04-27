@@ -207,6 +207,7 @@ dd {
 
 .sample_code {
     font-family: monospace;
+    margin-left: 2em;
     white-space: pre;
 }
 
