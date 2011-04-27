@@ -1,0 +1,43 @@
+CSS: style.css
+
+## Getting Started
+
+At the command prompt type:
+
+    forge
+
+Start a new project
+
+<code_sample>
+new-project --named <e>{name}</e> --topLevelPackage <e>{com.package}</e> --projectFolder <e>{/directory/path}</e>
+<code_sample>
+
+## Scaffolding
+
+Add scaffolding
+
+    scaffold setup
+
+Set up default index files, a default template and home-page. This
+creates the page that users will first see when accessing your
+application.
+
+    scaffold create-indexes --overwrite
+
+## Persistence
+
+Set up persistence (JPA), and press ENTER to confirm installation of
+any required facet dependencies and/or packaging types, and remember
+to press TAB if you are not sure what comes next.
+
+    persistence setup --provider {your JPA implementation} --container {your container}
+
+<side_note>
+If you do not wish to use a Java EE container default data-source, you
+can also specify additional connection parameters such as JNDI
+data-source names, JDBC connection information, and data-source
+types. Note, however, that this means you will probably need configure
+your application server to provide this new data-source and/or
+database connection.
+</side_note>
+
