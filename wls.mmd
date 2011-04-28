@@ -2,56 +2,49 @@ CSS: style.css
 
 ## Install Files:
 
-	V18592-01_wls_11gR1_10.3.2_Linux_x86
-
-OVM Template:
+Suitable OVM Template Sizing:
 	OS: OEL5U3 32bit
 	System: 8192M
 	RAM: 1536M
 	Swap: 1536M
 
-Install Dir: /u01/middleware
+Create a user to do the install as:
 
-Put the installation sources on a shared disk that you mount later.
+	chmod 777 /u01; useradd oracle; passwd oracle
+	su - oracle
 
-Do the install as a user you create
+## Install Base WebLogic Server
 
-	[root@bpel wls_10.3.1]# chmod 777 /u01; useradd soa; passwd soa
-	[root@bpel u01]# 
-	[root@bpel u01]# 
-	...
-	[root@bpel u01]# su - soa
+    $ chmod a+x wls1032_linux32.bin; ./wls1032_linux32.bin -mode=console
 
-## INSTALL
+if you have a *.bin wls, if you have a *.jar wls, then do:
 
-    [soa@bpel ~]$ cd /u02/wls_10.3.1/; ./wls1032_linux32.bin -mode=console
+    $ java -jar wls1032_linux32.jar
 
-## CONFIGURE
+## Configure your install
 
-	[root@wls bin]# /u01/middleware/wlserver_10.3/common/bin/config.sh -mode=console
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>wlserver_10.3/common/bin/config.sh -mode=console</div></pre>
 
 * Choose all defaults.  
 * Set administrator password.  
 * Add an Administration Server in the Optional Components section.  
 * port: 7001
 
-## START/STOP
+## Start / Stop WLS
 
-	[root@wls base_domain]# /u01/middleware/user_projects/domains/base_domain/bin/startWebLogic.sh
-	[root@wls base_domain]# /u01/middleware/user_projects/domains/base_domain/bin/stopWebLogic.sh
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh</div>
+<div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/stopWeblogic.sh</div></pre>
 
-## DELETE
+## Remove
 
 To delete a WebLogic Domain is to just delete the folder. No additional steps need to be taken. 
 
-## ACCESS
+## Admin Access
 
 [Ensure port is open](firewall_iptables.html)
 	
     http://wls1032.ftravers.com:7001/console
     username:weblogic password:welcome1 (or whatever you set above)
-
-patience, took about 3 minutes for the console to come up in mysetup!
 
 ## Deployment
 
@@ -94,10 +87,27 @@ new contents:
 <div class="highlight">export WLS_DIR='/home/oracle/wls/user_projects/domains/base_domain'
 
 alias bin="cd ${WLS_DIR}/bin" 
-alias start="${WLS_DIR}/bin/startWebLogic.sh"
+alias start="nohup ${WLS_DIR}/bin/startWebLogic.sh &"
 alias stop="${WLS_DIR}/bin/stopWebLogic.sh"
 alias debug="${WLS_DIR}/bin/startWebLogicDebug.sh"</div></div></pre>
 
+# Setting up a clustered, load balanced, production ready environment.
 
+## Components & Definitions
 
+| Component               | Role                                  |
+| ----------------------- | ------------------------------------- |
+Apache                    | load balancing, client point of contact
+WebLogic Managed Server   | wls instance that handles actual requests
+WebLogic Admin Server     | coordinates WL Managed Servers
+WebLogic Cluster          | Admin Server and Managed Servers inside same cluster
 
+Initially we'll use just one physical server.  Then we'll show how to
+distribute the load to additional physical (or virtual) machines.
+
+## Installation & Configuration
+
+We assume you have done a [Install Base WebLogic Server][]
+installation.  The next step is to do the configuration.
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh</div></pre>

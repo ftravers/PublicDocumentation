@@ -263,13 +263,7 @@ As root:
 
 ### Setup RPMForge
 
--   On your laptop download:
-
-    http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
-
-upload it to your server
-
-    rsync -avP rpmforge-release-0.3.6-1.el5.rf.i386.rpm root@linux1.hk.oracle.com:/root/
+    export http_proxy=http://www-proxy.sg.oracle.com && wget -c http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
 
 and do:
 
