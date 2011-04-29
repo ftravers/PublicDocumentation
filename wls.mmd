@@ -23,14 +23,14 @@ if you have a *.bin wls, if you have a *.jar wls, then do:
 
 ## Configure your install
 
-<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>wlserver_10.3/common/bin/config.sh -mode=console</div></pre>
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/wlserver_10.3/common/bin/config.sh -mode=console</div></pre>
 
 * Choose all defaults.  
 * Set administrator password.  
 * Add an Administration Server in the Optional Components section.  
 * port: 7001
 
-## Start / Stop WLS
+## Start and Stop WLS
 
 <pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh</div>
 <div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/stopWeblogic.sh</div></pre>
@@ -90,7 +90,11 @@ alias start="nohup ${WLS_DIR}/bin/startWebLogic.sh"
 alias stop="${WLS_DIR}/bin/stopWebLogic.sh"
 alias debug="${WLS_DIR}/bin/startWebLogicDebug.sh"</div></div></pre>
 
-# Setting up a clustered, load balanced, production ready environment.
+# Setting up a clustered, load balanced, production ready environment
+
+Credit: I have to note that this whole section was patiently
+demonstrated to by by Jean-Philipe (JP) Gal, my friend, colleague, and
+mentor.
 
 ## Components & Definitions
 
@@ -111,4 +115,70 @@ installation.  The next step is to do the configuration.
 
 <pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh</div></pre>
 
-Start to [Configure your install][].
+Start to [Configure your install][], choose all defaults except for when you get to the section: 
+
+    Select Optional Configuration:
+    ------------------------------
+       1|Administration Server [x]
+       2|Managed Servers, Clusters and Machines [x]
+       3|RDBMS Security Store [ ]
+
+    Configure the Administration Server:
+    ------------------------------------
+        |       Name       |        Value        |
+       _|__________________|_____________________|
+       1|      *Name:      |     AdminServer     |
+       2| *Listen address: | All Local Addresses |
+       3|   Listen port:   |        2080         |
+       4| SSL listen port: |        2443         |
+       5|   SSL enabled:   |        true         |
+
+I've got non-standard port 2080 instead of 7001 and 2443 instead of
+7002.  Choose whichever ports you want for your WLS to listen to.
+
+    Configure Managed Servers:
+    --------------------------
+        |   Name*    | Listen address*  |Listen port|SSL listen port|SSL enabled|
+       _|____________|__________________|___________|_______________|___________|
+       1|autosr2_srv1|All Local Addre...|   10501   |      N/A      |   false   |
+     2->|autosr2_srv2|All Local Addre...|   10502   |      N/A      |   false   |
+
+You can choose whatever names/ports you want for you managed servers,
+above is just an example.
+
+Create a cluster, my cluster is called: `autosr2_cluster`
+
+     |    Name*    |Cluster messagi...|Multicast a...|Multicast...|Cluster ad...|   
+    _|_____________|__________________|______________|____________|_____________|   
+    1|autosr2_cl...|     unicast      |     N/A      |    N/A     |             |
+
+In sections: 
+     
+    Configure Machines:
+
+and
+
+    Configure Unix Machines:
+
+we don't need to add any machines, since there are no remote hosts
+hosting any WLS instances that are part of this cluster yet.  Finish
+the configuration with defaults.
+
+Now that the domain has been created, lets start up the Admin Server,
+see section: [Start and Stop WLS][], for how to do this.
+
+Connect to the admin console in our case:
+
+    https://amtv1062.us.oracle.com:2443/console
+
+## Startup scripts for servers
+
+Now we'll make startup scripts for our servers.  Create the file:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/<span class="highlight">startServer1.sh</span></div></pre>
+
+that contains the following contents:
+
+<pre><div class="sample_code">bin/startManagedWebLogic.sh <span class="highlight">server1 http://amtv1062.us.oracle.com:7010 > server1.log</span> &amp;
+sleep 1 
+tail -f <span class="highlight">server1.log</span></div></pre>
