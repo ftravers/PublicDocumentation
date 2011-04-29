@@ -223,7 +223,7 @@ the following to the end of the `LoadModule` section in `httpd.conf`:
 Then add the following at the end of the file:
 
     <IfModule mod_weblogic.c>
-            WebLogicCluster amtv1062.us.oracle.com:,amtv1062.us.oracle.com:8002,amtv1062.us.oracle.com:8003
+            WebLogicCluster amtv1062.us.oracle.com:10501,amtv1062.us.oracle.com:10502
             Debug ON
             DebugConfigInfo ON
             WLLogFile       /tmp/mod_weblogic.log
@@ -240,3 +240,15 @@ you've forgotten the port numbers of the hosts you can find them at:
 
 <pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/config/config.xml</div></pre>
 
+Here the Location `/load` can be whatever you want.  The `WLLogFile`
+param also has an arbitrary value which you can change to suite your
+needs.
+
+Copy over the `mod_wl_22.so` file from
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/wlserver_10.3/server/plugin/<span class="parameter">PLATFORM</span>/mod_wl_22.so
+
+to
+
+
+<pre><div class="sample_code"><span class="parameter">APACHE_HOME</span>/modules
