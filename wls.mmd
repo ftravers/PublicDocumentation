@@ -189,6 +189,11 @@ give it execute permissions:
 
 Do the same for `autosr2_srv2`.
 
+Attempt to start both of these servers.  It will fail, but it will
+create the folders under `servers`, which we'll need when we do the
+next steps for setting `username` and `password` in the
+`boot.properties` file.
+
 put a file called `boot.properties` at the locations (NOTE: you will
 have to create each security folder under each server yourself):
 
@@ -207,3 +212,31 @@ example:
 
 <pre><div class="sample_code">username=<span class="highlight">weblogic</span>
 password=<span class="highlight">welcome1</span></div></pre>
+
+## Apache Load Balancer
+
+Now setup and install apache2.  Once installed with a basic setup add
+the following to the end of the `LoadModule` section in `httpd.conf`:
+
+    LoadModule weblogic_module modules/mod_wl_22.so
+
+Then add the following at the end of the file:
+
+    <IfModule mod_weblogic.c>
+            WebLogicCluster amtv1062.us.oracle.com:,amtv1062.us.oracle.com:8002,amtv1062.us.oracle.com:8003
+            Debug ON
+            DebugConfigInfo ON
+            WLLogFile       /tmp/mod_weblogic.log
+    </IfModule>
+     
+    <Location /load>
+            SetHandler weblogic-handler
+            WLCookieName    LOADCOOKIE
+    </Location>
+
+Where the parameter `WebLogicCluster` has the correct hosts and port
+numbers for each of your servers, excluding your AdminServer.  If
+you've forgotten the port numbers of the hosts you can find them at:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/config/config.xml</div></pre>
+
