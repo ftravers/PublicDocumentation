@@ -252,23 +252,57 @@ to
 
 <pre><div class="sample_code"><span class="parameter">APACHE_HOME</span>/modules/</div></pre>
 
+At this point we have three servers.  Admin(2080:http, 2443:https),
+srv1(10501:http), and srv2(10502:http).  Lets deploy an app, so we can
+test that the load balancing is working.
 
 ## Deployment
+
+There are many ways to deploy.  Initially we'll just use the admin
+console for expediency, later we may look at doing this from the
+command line for future automation.
+
+Upload your *.war, *.ear to your domain home.
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/</div></pre>
+
+Click `Lock & Edit`. Click: Deployments (leftnav) > Install (button).
+Navigate and select the *.war (*.ear), Next.  Keep following all the
+prompts and finally when done, click: `Release Configuration`.
+
+On the left nav there is a section called: `How do I`, with a
+sub-section called: `Install a Web application`.  You can use these as
+reference.
+
+## Moving to SSL
+
+The first thing we'll want to do is setup SSL on the apache load
+balancer (LB), so our communication between the client and the LB will
+be encrypted.
+
+
+
+
+
+
+
+
+# Unfinished / untested:
 
 ### weblogic.deployer
 
 You need to have weblogic installed in the machine you are deploying
 from, even if you are deploying to another machine.
 
-Set your environment (CLASSPATH, PATH) etc with:
+Running the following command will output two variables CLASSPATH,
+PATH, 
 
 <pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/wlserver_10.3/server/bin/setWLSEnv.sh</div></pre>
 
-Get the weblogic.jar file from your weblogic installation at:
+cut and paste these into your `.bashrc`, prepending `export` like:
 
-<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/wlserver_10.3/server/lib/weblogic.jar</div></pre>
+    export PATH=/u01/app/oracle/ngsp/wls/wlserver_10.3/server/bin:/u01/app/oracle/ngsp/wls/modules/org.apache.ant_1.7.1/bin:/u01/app/oracle/ngsp/jdk1.6.0_24/jre/bin:/u01/app/oracle/ngsp/jdk1.6.0_24/bin:/u01/app/oracle/ngsp/jdk1.6.0_24/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin
 
-Execute the following:
 
 
 ### Maven Deployment

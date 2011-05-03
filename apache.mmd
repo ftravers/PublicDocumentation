@@ -1,5 +1,22 @@
 ## Installation
 
+<pre><div class="sample_code">./configure --prefix=<span class="parameter">PREFIX</span></div></pre>
+
+Where 
+
+<pre><div class="sample_code"><span class="parameter">PREFIX</span></div></pre>
+
+is the name of the root folder where you want apache to live.
+
+     make
+     make install
+
+<pre><div class="sample_code"><span class="parameter">PREFIX</span>/bin/apachectl start</div></pre>
+
+If you want SSL, change your configuration line to look like:
+
+<pre><div class="sample_code"><span class="parameter">PREFIX</span> <span class="highlight">--enable-ssl</span></div></pre>
+
 ## Named Virtual Hosts
 
     # Listen for virtual host requests on all IP addresses
