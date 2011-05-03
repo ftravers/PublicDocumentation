@@ -33,9 +33,9 @@ h5. Static IPs
 | vl-wciwcm1               | 10.179.252.35 |                                               | 
 | "alm":#alm               | 10.179.252.39 | OVMM, OVMTB, Hudson :dev                      |
 | youtube                  | 10.179.252.38 |                                               |
-| "ipm":#ipm               | 10.179.252.41 | wls :dev                                      |
+| ipm                      | 10.179.252.41 |                                      |
 | "vl-wcfs":#vl-wcfs       | 10.179.252.40 | glassfish :stage                              |
-| vl-urmses                | 10.179.252.42 |                                               |
+| "vl-urmses":#vl-urmses   | 10.179.252.42 | wls :dev                                               |
 | vl-autovue               | 10.179.252.37 |                                               |
 
 h5. Non routable IPs
@@ -63,7 +63,7 @@ h3(#vl-vmsrv1). vl-vmsrv1 :stage
 
 h2. Virtual Machines
 
-h3(#ipm). ipm - wls :dev
+h3(#vl-urmses). vl-urmses - wls :dev
 
 h4. wls
 

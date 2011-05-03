@@ -255,6 +255,24 @@ to
 
 ## Deployment
 
+### weblogic.deployer
+
+You need to have weblogic installed in the machine you are deploying
+from, even if you are deploying to another machine.
+
+Set your environment (CLASSPATH, PATH) etc with:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/wlserver_10.3/server/bin/setWLSEnv.sh</div></pre>
+
+Get the weblogic.jar file from your weblogic installation at:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/wlserver_10.3/server/lib/weblogic.jar</div></pre>
+
+Execute the following:
+
+
+### Maven Deployment
+
 We will use the maven plugin, `weblogic-maven-plugin-10.3.4.jar`, to
 do application deployment to the cluster.
 
@@ -268,5 +286,141 @@ and issue the command:
 
     java -jar wljarbuilder.jar -profile weblogic-maven-plugin
 
-[Deploy the plugin to your repository](maven.html#installingjartolocalrepo)
+* [Deploy the plugin to your local repository](maven.html#installingjartolocalrepo).
+
+#### Create Deployment Project
+
+There are two maven projects you need to be aware of.  The first is
+your application project.  The second is the deployer project.  The
+deployer project deploys your application project into the WebLogic Servers.  
+
+As you'll notice from the pom of the deployer project below, we set the parent project
+of the project, to be the application project.
+
+* [Create a simple Maven project](maven.html#generic)
+
+    mvn archetype:generate -B -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.1 -Dversion=1.0 -DgroupId=com.oracle.git.ngsp -DartifactId=autosr2_deployer
+
+* Now setup your pom.xml to something similar to what is below:
+
+    <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+      <modelVersion>4.0.0</modelVersion>
+      <parent>
+        <groupId>com.oracle.git.ngsp.autosr2</groupId>
+        <artifactId>autoSR2</artifactId>
+        <version>0.5.12</version>
+      </parent>
+      <groupId>com.oracle.git.ngsp</groupId>
+      <artifactId>autosr2_deployer</artifactId>
+      <packaging>pom</packaging>
+      <name>${project.artifactId}</name>
+      <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <app.deploy.version>${project.version}</app.deploy.version>
+        <app.filename>${project.build.directory}\autoSR2-${app.deploy.version}.war</app.filename>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.oracle.git.ngsp.autosr2</groupId>
+          <artifactId>autoSR2</artifactId>
+          <version>0.5.12</version>
+        </dependency>
+      </dependencies>
+      <build>
+         <plugins>
+           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>2.5</version>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+          <plugin>
+             <groupId>com.oracle.weblogicServer</groupId>
+             <artifactId>weblogic-maven-plugin</artifactId>
+             <version>10.3.4</version>
+             <configuration>
+               <adminurl>${wls.admin.url}</adminurl>
+               <user>${wls.admin.username}</user>
+               <password>${wls.admin.password}</password>
+               <upload>true</upload>
+               <action>deploy</action>
+               <remote>true</remote>
+               <verbose>true</verbose>
+               <source>${app.filename}</source>
+               <name>${project.parent.artifactId></name>
+             </configuration>
+           </plugin>
+           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.1</version>
+            <executions>
+              <execution>
+                <id>copy-app</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>${project.parent.groupId}</groupId>
+                      <artifactId>${project.parent.artifactId></artifactId>
+                      <version>${app.deploy.version}</version>
+                      <type>war</type>
+                      <overWrite>true</overWrite>
+                      <outputDirectory>target</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+       </build>
+    </project>
+
+Also, add credential and server parameters to your
+`~/.m2/settings.xml` file.  Note you always want to store your
+passwords to your servers in `settings.xml`, not in your project
+pom.xml, for security sake.
+
+    ...
+    <settings...>
+      ....
+      <profiles>
+        <profile>
+          <id>dev</id>
+          <properties>
+            <wls.admin.url>t3://dev:2443</wls.admin.url>
+            <wls.admin.username>weblogic</wls.admin.username>
+            <wls.admin.password>welcome1</wls.admin.password>
+          </properties>
+        </profile>
+        <profile>
+          <id>prod</id>
+          <properties>
+            <wls.admin.url>t3://prod:2443</wls.admin.url>
+            <wls.admin.username>weblogic</wls.admin.username>
+            <wls.admin.password>SeCuRePaSsWoRd</wls.admin.password>
+          </properties>
+        </profile>
+      </profiles>
+    </settings>
+
+Now deploy your project with:
+
+    mvn com.oracle.weblogic:weblogic-maven-plugin:deploy2
+
+The other commands you have at your disposal are: 
+
+    ndeploy, redeploy, start-app, stop-app, list-app, update-app, help
+
+see the comment at the reference web site above for issues with these
+commands.  Also note the[weblogic.deployer reference
+site](http://download.oracle.com/docs/cd/E13222_01/wls/docs90/deployment/wldeployer.html)
+
 
