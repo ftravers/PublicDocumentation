@@ -16,9 +16,19 @@ is the name of the root folder where you want apache to live.
 
 <pre><div class="sample_code"><span class="parameter">PREFIX</span>/bin/apachectl start</div></pre>
 
-If you want SSL, change your configuration line to look like:
+If you want SSL.  You may have to install openssl.
 
-<pre><div class="sample_code">./configure --prefix=<span class="parameter">PREFIX</span> <span class="highlight">--enable-ssl</span></div></pre>
+Download, and run follow install commands:
+
+<pre><div class="sample_code">./configure --prefix=<span class="parameter">PREFIX</span></div></pre>
+
+     make
+     make install
+
+
+change your configuration line to look like:
+
+<pre><div class="sample_code">./configure --prefix=<span class="parameter">PREFIX</span> <span class="highlight">--enable-ssl</span> <span class="highlight">--with-ssl=<span class="parameter">SSL_INSTALL_DIR</span></div></pre>
 
 ## Named Virtual Hosts
 
