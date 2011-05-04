@@ -23,6 +23,12 @@ Clean Install Setup
 
 ### Packages
 
+First setup your proxy if required for apt-get
+
+    oracle@oracle-laptop:/etc/apt$ cat apt.conf
+    Acquire::http::proxy "http://www-proxy.us.oracle.com:80/";
+
+
     sudo apt-get update
 
 Applications > Ubuntu Software Center > Edit > Software Sources... >
@@ -30,13 +36,13 @@ Other Software > select the other two partner repositories
 
 setup google chrome preferences > personal stuff ( to sync everything )
 
-sudo apt-get install compiz compizconfig-settings-manager
-compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do
-gnome-do-plugins texlive-full emacs clisp slime latexdiff git-core
-git-gui gitosis gitweb ant maven2 pidgin meld apache2 auctex
-libtiff-tools openoffice.org transmission cups-pdf gimp xmlcopyeditor
-shutter vlc rar acroread p7zip-full dia virtualbox-ose bzr bzr-explorer
-bugzilla3 lighttpd curl
+    sudo apt-get install compiz compizconfig-settings-manager
+    compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do
+    gnome-do-plugins texlive-full emacs clisp slime latexdiff git-core
+    git-gui gitosis gitweb ant maven2 pidgin meld apache2 auctex
+    libtiff-tools openoffice.org transmission cups-pdf gimp xmlcopyeditor
+    shutter vlc rar acroread p7zip-full dia virtualbox-ose bzr bzr-explorer
+    bugzilla3 lighttpd curl
 
 some vnc’s r good to add too.
 
