@@ -6,20 +6,24 @@ Clean Install Setup
 
 ## USB Thumbdrive install
 
--   source:
+source
     [https://help.ubuntu.com/community/Installation/FromUSBStick](https://help.ubuntu.com/community/Installation/FromUSBStick)
 
--   From an ubuntu machine do:
+From an ubuntu machine do:
 
     $ sudo apt-get install usb-creator
     $ usb-creator-gtk
 
--   Select the ubuntu iso you downloaded
--   You can delete usb contents first if u want
--   Select discard saved files
--   CREATE your bootable usb disk!
--   Boot other computer from this usb disk drive...follow install
-    instructions.
+Select the ubuntu iso you downloaded
+
+You can delete usb contents first if u want
+
+Select discard saved files
+
+CREATE your bootable usb disk!
+
+Boot other computer from this usb disk drive...follow install
+instructions.
 
 ### Packages
 
@@ -28,13 +32,18 @@ First setup your proxy if required for apt-get
     oracle@oracle-laptop:/etc/apt$ cat apt.conf
     Acquire::http::proxy "http://www-proxy.us.oracle.com:80/";
 
-
-    sudo apt-get update
-
 Applications > Ubuntu Software Center > Edit > Software Sources... >
 Other Software > select the other two partner repositories
 
-setup google chrome preferences > personal stuff ( to sync everything )
+Now update your system too:
+
+    sudo apt-get update
+
+Next export all your installed packages from your existing system
+with: [List all installed packages][].  Follow instructions there to
+install this list on the new system too.
+
+Setup google chrome preferences > personal stuff ( to sync everything )
 
     sudo apt-get install compiz compizconfig-settings-manager
     compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do
