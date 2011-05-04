@@ -36,6 +36,17 @@ I used the follow line for my install:
 
     ./configure --prefix=/u01/app/oracle/ngsp/httpd --enable-ssl --with-ssl=/u01/app/oracle/ngsp/openssl/
 
+### SSL Config
+
+Uncomment the ssl `Include` statement
+
+    # Secure (SSL/TLS) connections
+    Include conf/extra/httpd-ssl.conf
+
+Pick a random seed method, I chose:
+
+    SSLRandomSeed startup file:/dev/urandom 512
+
 ### Create a self-signed certificate
 
 Generate the keys for the Certificate Authority (the key that will do
@@ -71,6 +82,9 @@ Add these lines to your Apache config
     SSLEngine on
     SSLCertificateFile    /www/ssl.crt/server.crt
     SSLCertificateKeyFile /www/ssl.key/server.key
+
+
+
 
 
 ## Named Virtual Hosts

@@ -318,6 +318,10 @@ Download the repo file:
     # cd /etc/yum.repos.d/
     # wget http://public-yum.oracle.com/public-yum-el5.repo
 
+Or you can temporarily set and use the http_proxy for wget in one command:
+
+    export http_proxy=http://your.proxy.server:port && wget -c http://whatever
+
 If you dont have wget installed:  
 In a browser on your local laptop navigate to:
 [http://public-yum.oracle.com/public-yum-el5.repo](http://public-yum.oracle.com/public-yum-el5.repo).

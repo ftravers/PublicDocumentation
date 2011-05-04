@@ -667,6 +667,10 @@ you *may* need to also do:
     wget http://dries.ulyssis.org/rpm/RPM-GPG-KEY.dries.txt
     rpm --import RPM-GPG-KEY.dries.txt
 
+if you need a proxy for your wget use something like:
+
+    export http_proxy=http://your.proxy.server:port && wget -c http://whatever
+
 but I think the dries.repo entries should take care of that.
 
 Then just do:
