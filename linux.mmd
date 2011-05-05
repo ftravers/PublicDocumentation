@@ -224,7 +224,10 @@ Sample below searches for Java 5.
 
 #### Re-install based on above list
 
-    dpkg --set-selections < installed-software; dselect
+    sudo apt-get install dselect;
+    sudo dpkg --set-selections < installed-software; sudo dselect
+
+Choose option [3] Install.
 
 #### Package info
 
@@ -720,6 +723,11 @@ b            | scroll backwards one screen
 
 <pre><div class="sample_code">nmap -PN -p <span class="parameter">PORT SERVER</span></div></pre>
 
+# nohup
+
+send nohup output to a filename of your choice:
+
+    nohup execute receiptLoaderStart > nohup_sumarylogfile 2>&1 &
 
 # cadaver
 

@@ -38,14 +38,36 @@ I used the follow line for my install:
 
 ### SSL Config
 
+If you don't want your server listening on the unsecured port, then comment out the first `Listen 80` in 
+
+<pre><div class="sample_code"><span class="parameter">HTTPD_DIR</span>/conf/httpd.conf</div></pre>
+
+<pre><div class="sample_code"><span class="highlight">#</span> Listen 80</div></pre>
+
 Uncomment the ssl `Include` statement
 
     # Secure (SSL/TLS) connections
     Include conf/extra/httpd-ssl.conf
 
+Now edit file:
+
+<pre><div class="sample_code"><span class="parameter">HTTPD_DIR</span>/conf/extra/httpd-ssl.conf</div></pre>
+
 Pick a random seed method, I chose:
 
     SSLRandomSeed startup file:/dev/urandom 512
+
+### Virtual Hosts
+
+I adjusted the following params:
+
+<pre><div class="sample_code">&lt;VirtualHost _default_:<span class="highlight">1443</span>&gt;
+
+#   General setup for the virtual host
+DocumentRoot <span class="highlight">"/scratch/ngsp/httpd/htdocs"</span>
+ServerName <span class="highlight">myhelpstage.oraclecorp.com:1443</span>
+ServerAdmin <span class="highlight">fenton.travers@oracle.com</span></div></pre>
+
 
 ### Create a self-signed certificate
 
