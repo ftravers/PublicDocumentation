@@ -101,16 +101,15 @@ Sign your csr with the key you made in the first step
 
 Optionally remove the password from your key (if you do this protect your key!!!)
 
-    openssl rsa -in server.key -out server.key.nopass
+    openssl rsa -in server.key -out server.nopass.key
 
 Add these lines to your Apache config
 
-    SSLEngine on
-    SSLCertificateFile    /www/ssl.crt/server.crt
-    SSLCertificateKeyFile /www/ssl.key/server.key
+<pre><div class="sample_code"><span class="parameter">HTTPD_DIR</span>/conf/extra/httpd-ssl.conf</div></pre>
 
-
-
+<pre><div class="sample_code">SSLEngine on
+SSLCertificateFile    <span class="parameter">HTTPD_DIR</span>/server.crt
+SSLCertificateKeyFile <span class="parameter">HTTPD_DIR</span>/server.nopass.key</div></pre>
 
 
 ## Named Virtual Hosts
