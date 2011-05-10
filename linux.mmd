@@ -50,7 +50,11 @@ Set firefox to auto-detect proxy settings.
 
 #### Compiz
 
-Open: CompizConfig Settings Manager.  Preferences > Profile > Export
+On old computer open CompizConfig Settings Manager, from terminal type:
+
+    ccsm
+
+Preferences > Profile > Export
 
 Start `ccsm` from the terminal on the new machine.
 
@@ -60,9 +64,30 @@ Start `ccsm` from the terminal on the new machine.
 Desktop > Lock screen (disable (BACKSPACE))
 Window Management > Activate the window Menu (disable (BACKSPACE))
 
+#### Gnome-Do
+
+Launch `gnome-do` from the terminal.  Top right triangle > preferences > keyboard > Summon GNOME Do > <Alt>space
+
+#### Chrome
+
 Download, install, latest version of Google chrome.
 
 Setup google chrome preferences > personal stuff ( to sync everything )
+
+#### Eclipse
+
+Download, install eclipse to `~/bin/eclipse`.  Create the file `~/bin/Eclipse.desktop` with
+the following contents:
+
+    $ cat Eclipse.desktop 
+    [Desktop Entry]
+    Name=Eclipse Helios
+    Comment=Eclipse Helios IDE
+    Exec=/home/oracle/bin/eclipse/eclipse
+    Icon=/home/oracle/bin/eclipse/icon.xpm
+    Type=Application
+    Categories=Development;IDE;
+
 
     sudo apt-get install compiz compizconfig-settings-manager
     compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do
