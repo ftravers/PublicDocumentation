@@ -29,7 +29,7 @@ instructions.
 
 First setup your proxy if required for apt-get
 
-    oracle@oracle-laptop:/etc/apt$ cat apt.conf
+    $ cat /etc/apt/apt.conf
     Acquire::http::proxy "http://www-proxy.us.oracle.com:80/";
 
 Applications > Ubuntu Software Center > Edit > Software Sources... >
@@ -39,9 +39,28 @@ Now update your system too:
 
     sudo apt-get update
 
-Next export all your installed packages from your existing system
-with: [List all installed packages][].  Follow instructions there to
-install this list on the new system too.
+#### Export/Import Package list
+
+
+Do: [List all installed packages][]
+
+Email to self.
+
+Set firefox to auto-detect proxy settings.
+
+#### Compiz
+
+Open: CompizConfig Settings Manager.  Preferences > Profile > Export
+
+Start `ccsm` from the terminal on the new machine.
+
+#### Keyboard Shortcuts
+
+* System > Preferences > Keyboard Shortcuts >
+Desktop > Lock screen (disable (BACKSPACE))
+Window Management > Activate the window Menu (disable (BACKSPACE))
+
+Download, install, latest version of Google chrome.
 
 Setup google chrome preferences > personal stuff ( to sync everything )
 
@@ -84,12 +103,6 @@ get the git stuff...
 
 -   Import Compiz profile
 
--   System > Preferences > Keyboard Shortcuts >
-    -   Desktop >
-        -   Lock screen (disable (BACKSPACE))
-        -   Home Folder = Super-e (Mod4+E)
-
-    -   Window Management > Activate the window Menu = Disabled
 
 -   Web Downloads
 
