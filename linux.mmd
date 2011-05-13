@@ -164,36 +164,6 @@ Eclipse, SQLDeveloper, Skype, Adobe Acrobat Reader
 -   Edit -> Preferences -> Composer Preferences -> Forward/Reply Style
     -> Inline
 
-## Set Open DSN Servers
-
-set /etc/resolv.conf
-
-    nameserver 208.67.222.222 
-    nameserver 208.67.220.220
-
-## Printers
-
--   PDF’s can be found in ~/PDF, can view with `xdg-open <pdf_name>`
--   Add a printer from `http://localhost:631`, local username password.
-    -   CUPS for Administrators > Adding Printers and Classes >
-        Printers > Find New Printers > Add This Printer: Canon iR
-        6800c EUR 12.02 (...) > Continue > Make: Canon > Continue >
-        Model: Canon imageRunner C6800 Foomatic/Postscript (recommended
-        ) (en) > Add Printer > Page Size: A4 > Set Default Options
-
--   -   HP LaserJet P2015 Series Postscript (recommended) (en, da, de,
-        es, fi, fr, it, ja, ko, nl, nb, pt, sv, zh_CN, zh_TW)
-    -   Connection:
-        dnssd://HP%20LaserJet%20P2015%20Series%20(0D9452)._pdl-datastream._tcp.local/
-
-hostnames for printers:
-
--   p2015.hk.oracle.com – 10.179.252.21
-
-connection string
-
--   Connection: socket://p2015.hk.oracle.com:9100
-
 ## Pidgin
 
 -   Tools > Preferences > Show system tray icon: Always
@@ -213,15 +183,45 @@ force old (port 5223) ssl = checked
 connect port = 5223
 connect server = stbeehive.oracle.com
 
--   Gmail Account
-    -   Basic
+### Notifications
 
-username = fenton.travers
-domain = gmail.com
+Tools > Plugins > Libnotify Popups > Configure Plugin > Uncheck: Buddy signs on
+## Set Open DSN Servers
 
--   -   Advanced
+set /etc/resolv.conf
 
-require ssl/tsl = checked
+    nameserver 208.67.222.222 
+    nameserver 208.67.220.220
+
+## Printers
+
+-   PDF’s can be found in ~/PDF, can view with `xdg-open <pdf_name>`
+-   Add a printer from `http://localhost:631`, local username password.
+    -   CUPS for Administrators > Adding Printers and Classes >
+        Printers > Find New Printers > Add This Printer: 
+
+-   -   HP LaserJet P2015 Series Postscript (recommended) (en, da, de,
+        es, fi, fr, it, ja, ko, nl, nb, pt, sv, zh_CN, zh_TW)
+    -   Connection:
+        
+
+dnssd://HP%20LaserJet%20P2015%20Series%20(0D9452)._pdl-datastream._tcp.local/
+
+hostnames for printers:
+
+-   p2015.hk.oracle.com – 10.179.252.21
+
+connection string
+
+-   Connection: socket://p2015.hk.oracle.com:9100
+
+## Environment, Aliases
+
+Run: `~/myConfig/setConfigRsync.sh`
+
+## Get Things Gnome tasks
+
+    cd ~/projects/myConfig; sudo cp gtg_data.tgz /; cd /; tar xvfz gtg_data.tgz
 
 ## SQLDeveloper & Eclipse
 
@@ -246,7 +246,7 @@ Programming.
 
 System > Preferences > Startup Applications ... add
 
--   pidgin, tomboy
+-   Name: Pidgin, Command: /usr/bin/pidgin
 
 ## VPN
 

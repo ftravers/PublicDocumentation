@@ -27,14 +27,59 @@ shift           | shift command line arguments to the left, ie $1 becomes the va
 
 ## Iteration, control and if statements
 
-       case $NUM of
-       1)
-          echo The number is 1
-             ;;
-             2)
-                echo The number is 2
-                   ;;
-                   *)
-                      echo The number is not 1 or 2
-                         ;;
-                         esac
+    case $NUM of
+    1)
+      echo The number is 1
+      ;;
+    2)
+      echo The number is 2
+      ;;
+    *)
+      echo The number is not 1 or 2
+      ;;
+    esac
+
+## Functions
+
+define function
+
+    myFunc() {
+      echo "Hello World!"
+    }
+
+calling function
+
+    myFunc
+
+passing arguments
+
+    myFunc() {
+      echo "Hello " . $1
+    }
+
+calling function
+
+    myFunc "Fenton"
+
+## Capture command output
+
+    var=`date`
+    echo $var
+
+# Samples
+
+## Copy / Backup files
+
+    timestamp=`date +%s`
+    echo "Setting the timestamp: ${timestamp} into the file timestamp."
+    echo $timestamp > timestamp
+    copyFile() {
+      theDir=$1
+      theFile=$2
+      echo "Backing up the file: ${theDir}/${theFile} -> ${theDir}/${theFile}.${timestamp}"
+      cp $theDir/$theFile $theDir/$theFile.$timestamp
+      echo "Copying file: ${theFile} -> ${theDir}/${theFile}"
+      cp $theFile $theDir/$theFile
+    }
+    copyFile ~ .bashrc
+    copyFile ~ .bash_aliases
