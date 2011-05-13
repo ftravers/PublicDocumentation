@@ -236,23 +236,23 @@ password=<span class="highlight">welcome1</span></div></pre>
 ## Apache Load Balancer
 
 Now setup and install apache2.  Once installed with a basic setup add
-the following to the end of the `LoadModule` section in `httpd.conf`:
+the following to the end of `httpd.conf`:
 
-    LoadModule weblogic_module modules/mod_wl_22.so
+    Include conf/weblogic.conf
 
-Then add the following at the end of the file:
+Create the file `conf/weblogic.conf` and insert the following:
 
-    <IfModule mod_weblogic.c>
-            WebLogicCluster amtv1062.us.oracle.com:10501,amtv1062.us.oracle.com:10502
-            Debug ON
-            DebugConfigInfo ON
-            WLLogFile       /tmp/mod_weblogic.log
-    </IfModule>
-     
-    <Location /load>
-            SetHandler weblogic-handler
-            WLCookieName    LOADCOOKIE
-    </Location>
+<pre><div class="sample_code">LoadModule weblogic_module modules/mod_wl_22.so
+&lt;IfModule mod_weblogic.c&gt;
+        WebLogicCluster <span class="highlight">amtv1062.us.oracle.com:10501,amtv1062.us.oracle.com:10502</span>
+        Debug ON
+        DebugConfigInfo ON
+        WLLogFile /tmp/mod_weblogic.log
+&lt;/IfModule&gt;
+ 
+&lt;Location /<span class="highlight">load&gt;</span>
+        SetHandler weblogic-handler
+&lt;/Location&gt;</div></pre>
 
 Where the parameter `WebLogicCluster` has the correct hosts and port
 numbers for each of your servers, excluding your AdminServer.  If
