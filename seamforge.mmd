@@ -1,5 +1,7 @@
 CSS: style.css
 
+[ref](http://kennardconsulting.blogspot.com/2011/03/grokking-seam-forge-part-2.html)
+
 ## Getting Started
 
 At the command prompt type:
@@ -30,6 +32,8 @@ to press TAB if you are not sure what comes next.
 
     persistence setup --provider {your JPA implementation} --container {your container}
 
+    persistence setup --provider HIBERNATE --container JBOSS_6
+
 <side_note>
 If you do not wish to use a Java EE container default data-source, you
 can also specify additional connection parameters such as JNDI
@@ -38,4 +42,15 @@ types. Note, however, that this means you will probably need configure
 your application server to provide this new data-source and/or
 database connection.
 </side_note>
+
+    new-entity --named Person
+    new-field string --named name
+    new-field string --named phoneNumber
+    ls
+    scaffold from-entity
+
+
+    scaffold from-entity com.palifen.domain.Person.java
+
+Some of the above generates errors...this stuff is in Alpha at the moment...so be it.
 
