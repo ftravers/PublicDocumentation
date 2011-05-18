@@ -205,10 +205,13 @@ To figure out what the test URL should be:
 
 In netbeans goto: Tools > Servers > select your glassfish server there > location.
 
-#### WEBAPP-NAME
+#### WEBAPP-NAME (CONTEXT ROOT)
 
-The web app will be the name of the folder you are doing your
-development in
+If you don't set this in: `src/main/webapp/WEB-INF/sun-web.xml` with something like the following:
+
+    <context-root>/myApp</context-root>
+
+then the context root will be something nasty.
 
 ### Jersey Rest suffix
 
