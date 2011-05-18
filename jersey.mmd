@@ -2,9 +2,9 @@ CSS: style.css
 
 reference:
 
--   [http://blogs.sun.com/japod/entry/building\_simple\_jersey\_web\_app](http://blogs.sun.com/japod/entry/building_simple_jersey_web_app)
+-   [http://blogs.sun.com/japod/entry/building_simple_jersey_web_app](http://blogs.sun.com/japod/entry/building_simple_jersey_web_app)
 
--   [http://blogs.sun.com/enterprisetechtips/entry/jersey\_and\_spring](http://blogs.sun.com/enterprisetechtips/entry/jersey_and_spring)
+-   [http://blogs.sun.com/enterprisetechtips/entry/jersey_and_spring](http://blogs.sun.com/enterprisetechtips/entry/jersey_and_spring)
 
     mvn archetype:create -DgroupId=com.oracle.git.ngsp -DartifactId=crmodRestServer -DarchetypeArtifactId=maven-archetype-webapp
 
@@ -102,14 +102,14 @@ testing it:
 
 Update the java code to:
 
-bc.\
-// The Java class will be hosted at the URI path "/greeting"\
-@Path(“greeting/{name}”)\
-public class CrmodRestServer {\
- @GET\
- @ProduceMime(“text/plain”)\
- public String getGreeting(@PathParam(“name”) String name) {\
- return “Hi there ” + name;\
+bc.
+// The Java class will be hosted at the URI path "/greeting"
+@Path(“greeting/{name}”)
+public class CrmodRestServer {
+ @GET
+ @ProduceMime(“text/plain”)
+ public String getGreeting(@PathParam(“name”) String name) {
+ return “Hi there ” + name;
  }
 
 Test
@@ -158,30 +158,30 @@ test:
 
 # Using Netbeans
 
-Since it is desireable to be able to debug the web services, it’s\
+Since it is desireable to be able to debug the web services, it’s
 helpful if we can run the REST server inside the IDE.
 
     mvn archetype:generate -DgroupId=grp -DartifactId=art -Dversion=1.0-SNAPSHOT -Dpackage=grp -DarchetypeArtifactId=jersey-quickstart-webapp -DarchetypeVersion=1.5 -DarchetypeCatalog=http://download.java.net/maven/2 -DarchetypeGroupId=com.sun.jersey.archetypes --batch-mode
 
--   Right-click project \> Set as Main Project
+-   Right-click project > Set as Main Project
 
--   Open project in Netbeans. Right click project \> Properties \> Run
-    \>
+-   Open project in Netbeans. Right click project > Properties > Run
+    >
 
 Select Glassfish.
 
 -   Create your rest web service class:
 
-Right-click on project \> New \> Category: Web Services, File Types:\
-RESTful Web Services from Patterns \> Simple Root Resource \> put in\
+Right-click on project > New > Category: Web Services, File Types:
+RESTful Web Services from Patterns > Simple Root Resource > put in
 your desired values
 
 1.  I chose my path: Autosr
 
 1.  Note your ‘Rest Resources Path’: resources
 
-\> Radio button select: "Create default REST servlet\
-adaptor in web.xml" \> OK
+> Radio button select: "Create default REST servlet
+adaptor in web.xml" > OK
 
 -   Update the method annotated with @GET to have a one-liner:
 
@@ -203,12 +203,12 @@ To figure out what the test URL should be:
 
 first the port: 8080
 
-In netbeans goto: view \> servers \> select your glassfish server there\
-\> location.
+In netbeans goto: view > servers > select your glassfish server there
+> location.
 
 #### webapp
 
-The web app will be the name of the folder you are doing your\
+The web app will be the name of the folder you are doing your
 development in
 
 #### resource
@@ -222,7 +222,7 @@ servlet in `src/main/webapp/WEB-INF/web.xml`
 
 #### path
 
-the final part comes your java class you made into a Jersey rest\
+the final part comes your java class you made into a Jersey rest
 service
 
     import java.util.Map;
@@ -233,7 +233,7 @@ service
 
 The `Path` annotation is what you are looking for
 
-### Deployed to app server as \*.war
+### Deployed to app server as *.war
 
 #### port
 
@@ -325,7 +325,7 @@ reference:
                 <scope>test</scope>
             </dependency>
 
-## \*.java
+## *.java
 
     import com.oracle.git.ngsp.crmodRestServer.ICrmodServer;
     import com.oracle.git.ngsp.crmodRestServer.RestUtils;
@@ -353,7 +353,7 @@ reference:
         public String getHtml() throws ServiceException {
     ...
 
-in the above case the ServiceProxy has an external dependency that we\
+in the above case the ServiceProxy has an external dependency that we
 will mock out with FakeCrmodServer during testing.
 
 ## file structure
