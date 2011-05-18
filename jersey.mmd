@@ -102,15 +102,15 @@ testing it:
 
 Update the java code to:
 
-bc.
-// The Java class will be hosted at the URI path "/greeting"
-@Path(“greeting/{name}”)
-public class CrmodRestServer {
- @GET
- @ProduceMime(“text/plain”)
- public String getGreeting(@PathParam(“name”) String name) {
- return “Hi there ” + name;
- }
+
+    // The Java class will be hosted at the URI path "/greeting"
+    @Path(“greeting/{name}”)
+    public class CrmodRestServer {
+     @GET
+     @ProduceMime(“text/plain”)
+     public String getGreeting(@PathParam(“name”) String name) {
+     return “Hi there ” + name;
+     }
 
 Test
 
