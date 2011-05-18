@@ -197,21 +197,24 @@ Debug Main Project: Ctrl-F5
 
 To figure out what the test URL should be:
 
-### Determine webapp url
+### Determine webapp url prefix
 
-#### port
+<pre><div class="sample_code">http://<span class="parameter">HOST</span>:<span class="parameter">PORT</span>/<span class="parameter">WEBAPP-NAME</span>/</div></pre>
 
-first the port: 8080
+#### HOST & PORT
 
-In netbeans goto: Tools > Servers > select your glassfish server there
-> location.
+In netbeans goto: Tools > Servers > select your glassfish server there > location.
 
-#### webapp
+#### WEBAPP-NAME
 
 The web app will be the name of the folder you are doing your
 development in
 
-#### resource
+### Jersey Rest suffix
+
+<pre><div class="sample_code"><span class="parameter">RESOURCE</span>/<span class="parameter">PATH</span></div></pre>
+
+#### RESOURCE
 
 the next part comes from looking at the url-pattern for the Jersey
 servlet in `src/main/webapp/WEB-INF/web.xml`
@@ -220,7 +223,7 @@ servlet in `src/main/webapp/WEB-INF/web.xml`
       <url-pattern>/webresources/*</url-pattern>
     </servlet-mapping>
 
-#### path
+#### PATH
 
 the final part comes your java class you made into a Jersey rest
 service
