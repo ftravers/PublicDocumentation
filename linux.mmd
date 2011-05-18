@@ -74,6 +74,30 @@ Download, install, latest version of Google chrome.
 
 Setup google chrome preferences > personal stuff ( to sync everything )
 
+#### Git Projects
+
+email id_rsa.pub to computer that can add you to gitosis-admin
+
+    mkdir projects
+    cd projects/
+    git clone git@linux1.hk.oracle.com:myConfig.git
+
+Also clone project(s): `documentation`.  Setup your info:
+
+    ~$ git config --global user.name "Fenton Travers"
+    ~$ git config --global user.email fenton.travers@gmail.com
+
+#### Emacs
+
+    cd ~/projects/myConfig/
+    cp -rp emacs.d/* ~/.emacs.d/
+    cp -rp emacs ~
+
+Check the http proxy in `~/.emacs.d/init.el`, if required put it in:
+
+    (setq url-proxy-services '(("no_proxy" . "work\\.com")
+                               ("http" . "www-proxy.us.oracle.com")))
+
 #### Eclipse
 
 Download, install eclipse to `~/bin/eclipse`.  Create the file `~/bin/Eclipse.desktop` with
@@ -88,29 +112,30 @@ the following contents:
     Type=Application
     Categories=Development;IDE;
 
+Install with:
 
-    sudo apt-get install compiz compizconfig-settings-manager
-    compiz-fusion-plugins-extra simple-ccsm sun-java6-jdk gnome-do
-    gnome-do-plugins texlive-full emacs clisp slime latexdiff git-core
-    git-gui gitosis gitweb ant maven2 pidgin meld apache2 auctex
-    libtiff-tools openoffice.org transmission cups-pdf gimp xmlcopyeditor
-    shutter vlc rar acroread p7zip-full dia virtualbox-ose bzr bzr-explorer
-    bugzilla3 lighttpd curl
+    desktop-file-validate Eclipse.desktop
+    sudo desktop-file-install Eclipse.desktop
 
-some vnc’s r good to add too.
+#### Maven
 
-set gnome-do to be alt-space, and hide on first startup.
+Copy `settings.xml` file into `~/.m2/` folder
 
-get the git stuff...
+    cp ~/projects/myConfig/settings.xml ~/.m2/
 
-    ~$ git config --global user.name "Fenton Travers"
-    ~$ git config --global user.email fenton.travers@gmail.com
+#### Thunderbird
 
--   email id_rsa.pub to computer that can add you to gitosis-admin.
+On old machine:
 
-    ~$ mkdir projects
-    ~$ cd projects/
-    ~/projects$ git clone ft_git3@spicevan.com:documentation.git
+    cd ~/.thunderbird
+    tar cvfz mail.tgz *
+
+Extract on new machine:
+
+    cd ~/.thunderbird
+    tar xvfz mail.tgz *
+  
+
     ~/projects$ git clone ft_git3@spicevan.com:crmod-ws-wrapper.git
     ~/projects$ git clone ft_git3@spicevan.com:rtbDispute.git
     ~/projects$ git clone ft_git3@spicevan.com:lisp.git
@@ -139,36 +164,6 @@ Eclipse, SQLDeveloper, Skype, Adobe Acrobat Reader
 -   Edit -> Preferences -> Composer Preferences -> Forward/Reply Style
     -> Inline
 
-## Set Open DSN Servers
-
-set /etc/resolv.conf
-
-    nameserver 208.67.222.222 
-    nameserver 208.67.220.220
-
-## Printers
-
--   PDF’s can be found in ~/PDF, can view with `xdg-open <pdf_name>`
--   Add a printer from `http://localhost:631`, local username password.
-    -   CUPS for Administrators > Adding Printers and Classes >
-        Printers > Find New Printers > Add This Printer: Canon iR
-        6800c EUR 12.02 (...) > Continue > Make: Canon > Continue >
-        Model: Canon imageRunner C6800 Foomatic/Postscript (recommended
-        ) (en) > Add Printer > Page Size: A4 > Set Default Options
-
--   -   HP LaserJet P2015 Series Postscript (recommended) (en, da, de,
-        es, fi, fr, it, ja, ko, nl, nb, pt, sv, zh_CN, zh_TW)
-    -   Connection:
-        dnssd://HP%20LaserJet%20P2015%20Series%20(0D9452)._pdl-datastream._tcp.local/
-
-hostnames for printers:
-
--   p2015.hk.oracle.com – 10.179.252.21
-
-connection string
-
--   Connection: socket://p2015.hk.oracle.com:9100
-
 ## Pidgin
 
 -   Tools > Preferences > Show system tray icon: Always
@@ -188,15 +183,45 @@ force old (port 5223) ssl = checked
 connect port = 5223
 connect server = stbeehive.oracle.com
 
--   Gmail Account
-    -   Basic
+### Notifications
 
-username = fenton.travers
-domain = gmail.com
+Tools > Plugins > Libnotify Popups > Configure Plugin > Uncheck: Buddy signs on
+## Set Open DSN Servers
 
--   -   Advanced
+set /etc/resolv.conf
 
-require ssl/tsl = checked
+    nameserver 208.67.222.222 
+    nameserver 208.67.220.220
+
+## Printers
+
+-   PDF’s can be found in ~/PDF, can view with `xdg-open <pdf_name>`
+-   Add a printer from `http://localhost:631`, local username password.
+    -   CUPS for Administrators > Adding Printers and Classes >
+        Printers > Find New Printers > Add This Printer: 
+
+-   -   HP LaserJet P2015 Series Postscript (recommended) (en, da, de,
+        es, fi, fr, it, ja, ko, nl, nb, pt, sv, zh_CN, zh_TW)
+    -   Connection:
+        
+
+dnssd://HP%20LaserJet%20P2015%20Series%20(0D9452)._pdl-datastream._tcp.local/
+
+hostnames for printers:
+
+-   p2015.hk.oracle.com – 10.179.252.21
+
+connection string
+
+-   Connection: socket://p2015.hk.oracle.com:9100
+
+## Environment, Aliases
+
+Run: `~/myConfig/setConfigRsync.sh`
+
+## Get Things Gnome tasks
+
+    cd ~/projects/myConfig; sudo cp gtg_data.tgz /; cd /; tar xvfz gtg_data.tgz
 
 ## SQLDeveloper & Eclipse
 
@@ -221,7 +246,7 @@ Programming.
 
 System > Preferences > Startup Applications ... add
 
--   pidgin, tomboy
+-   Name: Pidgin, Command: /usr/bin/pidgin
 
 ## VPN
 
