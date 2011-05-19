@@ -886,6 +886,141 @@ for formating tables while iterating the data
         <f:validateLongRange minimum = "10" maximum = "15"/>
     </h:inputText>
 
+# Deployment
+
+You will deploy either to: Glassfish, Tomcat, Weblogic Server, or JBoss.
+
+## Packaging
+
+The first step will be to package your webapp.
+
+Probably do: 
+
+<pre><div class="sample_code">mvn clean; mvn package -P<span class="parameter">PROFILE</span></div></pre>
+
+where 
+
+<pre><div class="sample_code"><span class="parameter">PROFILE</span></div></pre>
+
+might be something like `dev`, `stage`, or `prod`.  Please see [Profiles](/maven.html#profiles) for a disussion on how 
+to create profiles for your project.
+
+In my example I'll do:
+
+<pre><div class="sample_code">mvn clean; mvn package -P<span class="highlight">prod</span></div></pre>
+    
+## Copy to Server
+
+The next step will be to copy to the server.  I usually use `scp`.  If
+the upload is large and the connection poor, you can use: `rsync`.
+
+I'll usually copy over my public key so this step can happen without
+the need for me to enter a password.  See [Setup automatic login to
+ssh server](/secure.html#sshAutoLogin) for how to do this.
+
+### Where to copy to?
+
+* Weblogic Server:
+
+Make sure server is installed as a development server.
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/autodeploy</div>
+
+For more information see: [Deployment](/wls.html#deployment)
+
+* Glassfish:
+
+<pre><div class="sample_code"><span class="parameter">GF_HOME</span>glassfish/domains/domain1/autodeploy</div>
+
+* Tomcat, JBoss: sorry no info right now.
+
+Here is a sample `deploy.sh` file that I put in the root of my project as a reference:
+
+    #!/bin/bash -x
+
+    ARTIFACT_ID=MyWebApp
+    ARTIFACT_EXTENSION=war
+    USER=ftravers
+    EXE='scp'
+    DOMAIN=us.oracle.com
+    INSTANCE=$1
+     
+    case "${INSTANCE}" in
+        dev)
+            HOST=sta00418
+            DIR=/scratch/ngsp/glassfish3/glassfish/domains/domain1/autodeploy
+            ;;
+        stage)
+            HOST=adc2100913
+            DIR=/scratch/ngsp/wls/user_projects/domains/domain2
+            ;;
+        prod)
+            HOST=amtv1062
+            DIR=/u01/app/oracle/ngsp/wls/user_projects/domains/base_domain
+            ;;
+        *)
+            echo $"Usage: ./deploy.sh {dev|stage|prod}"
+            exit
+    esac
+     
+    mvn clean
+    # I add the -o because some checks were taking too long ( o = offline ).
+    mvn package -o -P${INSTANCE}
+    ${EXE} target/${ARTIFACT_ID}.${ARTIFACT_EXTENSION} ${USER}@${HOST}.${DOMAIN}:${DIR}
+     
+
+# Misc
+
+## Javascript and Component IDs
+
+The below doesn't work...yet.
+
+    <html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:f="http://java.sun.com/jsf/core">
+        <head>
+           <title>Input Name Page</title>
+            <script type="javascript" >
+              function myFunc() {
+                // how can I get the contents of the inputText component below		    
+        	    alert("Your email address is: " + document.getElementById("emailAddress").value);
+              }
+           </script>
+        </head>
+        <h:body>
+            <f:view>
+                <h:form>
+                    Please enter your email address:<br/>
+                    <h:inputText id="emailAddresses" value="#{emailAddresses.emailAddressesStr}"/>
+                    <h:commandButton onclick="myFunc()" action="results" value="Next"/>
+                </h:form>
+            </f:view>
+        </h:body>
+    </html>
+
+
+    <script type="javascript" >
+      function myFunc() {
+        alert("Your email address is: " + document.getElementById("#{myInptTxtId.clientId}").value);
+      }
+    </script>
+     
+    <h:inputText id="myInptTxtId" value="backingBean.emailAddress"/>
+    <h:commandButton onclick="myFunc()" action="results" value="Next"/>
+
+Suggesting that the attribute `id` on the `inputText` component
+creates an object that can be accessed with EL using `#{myInptTxtId}`,
+in the above example.  The article goes on to state that JSF 2.0 adds
+the zero-argument `getClientId()` method to the `UIComponent` class.
+Thereby allowing the `#{myInptTxtId.clientId}` construct suggested
+above to get the actual generated id of the component.
+
+Though in my tests this doesn't work.  Can anyone else confirm/deny.
+The answers suggested below suffer from drawback that the above
+technique doesn't.  So it would be good to know if the above technique
+actually works.
+
+
 # Glossary
 
 JSF
