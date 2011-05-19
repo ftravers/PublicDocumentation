@@ -77,6 +77,16 @@ to the other ports section, OK, OK.
 	> ssh into the host then do: 
 cd /root/.ssh; cat ../id_rsa.pub >> authorized_keys; chmod 600 authorized_keys; rm -f ../id_rsa.pub
 
+h1. SSL 
 
+To display certificate request information.
 
+bc. openssl req -in server.csr -noout -text
 
+Display certificate info:
+
+bc. openssl x509 -in cert.cer -noout -text
+
+Display private key information.
+
+bc. openssl rsa -in key.pem -noout -text

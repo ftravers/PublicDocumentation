@@ -342,3 +342,34 @@ on.
 
     yum install jenkins
 
+## JBoss 
+
+[ref](http://www.surajitray.com/coders-corner/jboss-5-1-on-ubuntu-10-04/)
+
+(on Ubuntu)
+
+extract in folder: `/usr/local`
+
+create soft link: `cd /usr/local; ln -s jboss-6.0.0.Final/ jboss`, so when you upgrade, only need to change symbolic link
+
+create a jboss user: `sudo useradd -d /usr/local/jboss jboss`
+
+modify `/usr/local/jboss/bin/jboss_init_redhat.sh` so `JAVAPTH` points to a similar location to the output of `which java`
+
+set perms: `sudo chown -R jboss:jboss /usr/local/jboss`
+
+start server: `sudo ./jboss_init_ubuntu.sh start`
+
+stop server: `sudo ./jboss_init_ubuntu.sh stop`
+
+`goto: http://localhost:8080/`, username/password: `admin/admin`
+
+add `jboss` group to your user: 
+
+<pre><div class="sample_code">sudo usermod -a -G jboss <span class="parameter">USERNAME</span></div></pre>
+
+requires a logout/login (or reboot if that doesn't work)
+
+Update perms on folder
+
+    sudo chmod g+w /usr/local/jboss/server/all/deploy
