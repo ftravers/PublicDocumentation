@@ -227,9 +227,9 @@ that contains the following contents:
 
 give it execute permissions:
 
-    chmod ug+x startAutosr2_srv1.sh
+    chmod ug+x startsrv1.sh
 
-Do the same for `autosr2_srv2`.
+Do the same for `startsrv2.sh`.
 
 Attempt to start both of these servers.  It will fail, but it will
 create the folders under `servers`, which we'll need when we do the
@@ -238,8 +238,6 @@ next steps for setting `username` and `password` in the
 
 put a file called `boot.properties` at the locations (NOTE: you will
 have to create each security folder under each server yourself):
-
-<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/<span class="highlight">AdminServer</span>/security/boot.properties</div></pre>
 
 <pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/<span class="highlight">autosr2_srv1</span>/security/boot.properties</div></pre>
 
