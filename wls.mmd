@@ -32,6 +32,10 @@ if you have a *.bin wls, if you have a *.jar wls, then do:
 
 ## Start and Stop WLS
 
+### First Time Prod
+
+In production you must add the boot.properties files as per: 
+
 <pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh -Dweblogic.ProductionModeEnabled=true</div>
 <div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/stopWeblogic.sh</div></pre>
 
@@ -166,6 +170,22 @@ the configuration with defaults.
 
 ### Start Admin Server
 
+#### If Production Mode:
+
+Edit file:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/<span class="highlight">AdminServer</span>/security/boot.properties</div></pre>
+
+put the following into the file:
+
+<pre><div class="sample_code">username=<span class="parameter">USERNAME</span>
+password=<span class="parameter">PASSWORD</span></div></pre>
+
+example:
+
+<pre><div class="sample_code">username=<span class="highlight">weblogic</span>
+password=<span class="highlight">welcome1</span></div></pre>
+
 Now that the domain has been created, lets start up the Admin Server,
 see section: [Start and Stop WLS][], for how to do this.
 
@@ -203,7 +223,7 @@ Now we'll make startup scripts for our servers.  Create the file:
 
 that contains the following contents:
 
-<pre><div class="sample_code">nohup ${WLS_HOME}/bin/startManagedWebLogic.sh autosr2_srv1 <span class="highlight">https://amtv1062.us.oracle.com:2443</span> &gt; ${WLS_LOGS}/autosr2_srv1.log 2&gt;&amp;1 &amp;</div></pre>
+<pre><div class="sample_code">nohup ${WLS_HOME}/bin/startManagedWebLogic.sh -Dweblogic.ProductionModeEnabled=true autosr2_srv1 <span class="highlight">https://amtv1062.us.oracle.com:2443</span> &gt; ${WLS_LOGS}/autosr2_srv1.log 2&gt;&amp;1 &amp;</div></pre>
 
 give it execute permissions:
 
