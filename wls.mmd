@@ -206,8 +206,8 @@ aliases, here is a sample:
     alias home="cd ${WLS_HOME}"
     alias starta="nohup ${WLS_HOME}/bin/startWebLogic.sh > ${WLS_LOGS}/adminServerLog.txt 2>&1 &"
     alias stopa="${WLS_HOME}/bin/stopWebLogic.sh"
-    alias srv1="${WLS_HOME}/startAutosr2_srv1.sh"
-    alias srv2="${WLS_HOME}/startAutosr2_srv2.sh"
+    alias srv1="${WLS_HOME}/startsrv1.sh"
+    alias srv2="${WLS_HOME}/startsrv2.sh"
      
     export APC_ROOT="${APP_ROOT}/httpd"
     alias apache="${APC_ROOT}/bin/apachectl restart"
@@ -219,7 +219,7 @@ aliases, here is a sample:
 
 Now we'll make startup scripts for our servers.  Create the file:
 
-<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/<span class="highlight">startAutosr2_srv1.sh</span></div></pre>
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/<span class="highlight">startsrv1.sh</span></div></pre>
 
 that contains the following contents:
 
