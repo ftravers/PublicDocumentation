@@ -55,6 +55,19 @@ If required change listen port
 
 <pre><div class="sample_code">Listen <span class="highlight">1443</span></div></pre>
 
+#### Update Certificate References
+
+Update the following params to point to your private key, public
+certificate, CA certificate signing chain
+
+What                   | Param Name
+---------------------- | ------------------------
+public certificate     | SSLCertificateFile 
+private key            | SSLCertificateKeyFile
+signing chain          | SSLCertificateChainFile
+
+
+
 ### Virtual Hosts
 
 I adjusted the following params:
