@@ -170,8 +170,10 @@ the configuration with defaults.
 
 #### If Production Mode:
 
-First **try** to start server, although this will **fail**, it creates
-a folder structure that we need for the next steps.
+The next steps allow us to setup the admin server so it can start
+without having to supply a username and password each time.First start
+admin server.  This creates a folder structure that we need for the
+next steps.
 
 see section: [Start and Stop WLS][]
 
@@ -258,8 +260,14 @@ password=<span class="highlight">welcome1</span></div></pre>
 
 ## Apache Load Balancer
 
-Now setup and install apache2.  Once installed with a basic setup add
-the following to the end of the `LoadModule` section in `httpd.conf`:
+Now setup and install apache2.  
+
+Copy the wls module into apache modules dir:
+
+<pre><div class="sample_code">cp <span class="parameter">WLS_HOME</span>/wlserver_10.3/server/plugin/<span class="parameter">PLATFORM</span>/mod_wl_22.so <span class="parameter">APACHE_HOME</span>/modules/</div></pre>
+
+Once installed with a basic setup add the following to the end of the
+`LoadModule` section in `httpd.conf`:
 
     LoadModule weblogic_module modules/mod_wl_22.so
 
