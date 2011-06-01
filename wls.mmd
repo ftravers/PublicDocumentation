@@ -198,6 +198,12 @@ Connect to the admin console in our case:
 
 <pre><div class="sample_code">https://<span class="parameter">HOSTNAME:PORT</span>/console</div></pre>
 
+Try to startup your managed servers:
+
+    ${WLS_HOME}/bin/startManagedWebLogic.sh srv1 https://sta00418.us.oracle.com:2443
+
+    ${WLS_HOME}/bin/startManagedWebLogic.sh srv2 https://sta00418.us.oracle.com:2443
+
 ## Startup scripts for servers
 
 It's handy to have an environment file that sets up some useful
@@ -229,6 +235,8 @@ Now we'll make startup scripts for our servers.  Create the file:
 that contains the following contents:
 
 <pre><div class="sample_code">nohup ${WLS_HOME}/bin/startManagedWebLogic.sh -Dweblogic.ProductionModeEnabled=true autosr2_srv1 <span class="highlight">https://amtv1062.us.oracle.com:2443</span> &gt; ${WLS_LOGS}/autosr2_srv1.log 2&gt;&amp;1 &amp;</div></pre>
+
+nohup ${WLS_HOME}/bin/startManagedWebLogic.sh srv1 https://sta00418.us.oracle.com:2443 > ${WLS_LOGS}/srv1.log 2>&1 &
 
 give it execute permissions:
 
