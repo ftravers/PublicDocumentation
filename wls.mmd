@@ -198,56 +198,13 @@ Connect to the admin console in our case:
 
 <pre><div class="sample_code">https://<span class="parameter">HOSTNAME:PORT</span>/console</div></pre>
 
-Try to startup your managed servers:
+Try to start and stop your managed servers:
 
-    ${WLS_HOME}/bin/startManagedWebLogic.sh srv1 https://sta00418.us.oracle.com:2443
+    cd ${WLS_HOME}/user_projects/domains/DOMAIN_NAME/bin/
+    ./startManagedWebLogic.sh srv1 https://sta00418.us.oracle.com:2443
+    ./stopManagedWebLogic.sh srv1
 
-    ${WLS_HOME}/bin/startManagedWebLogic.sh srv2 https://sta00418.us.oracle.com:2443
-
-## Startup scripts for servers
-
-It's handy to have an environment file that sets up some useful
-aliases, here is a sample:
-
-    export APP_ROOT=/u01/app/oracle/ngsp
-    export WLS_ROOT=${APP_ROOT}/wls
-    export WLS_HOME="${WLS_ROOT}/user_projects/domains/base_domain"
-    export WLS_LOGS="${WLS_HOME}/logs"
-    alias root="cd ${WLS_ROOT}"
-    alias home="cd ${WLS_HOME}"
-    alias starta="nohup ${WLS_HOME}/bin/startWebLogic.sh > ${WLS_LOGS}/adminServerLog.txt 2>&1 &"
-    alias stopa="${WLS_HOME}/bin/stopWebLogic.sh"
-    alias srv1="${WLS_HOME}/startsrv1.sh"
-    alias srv2="${WLS_HOME}/startsrv2.sh"
-     
-    export APC_ROOT="${APP_ROOT}/httpd"
-    alias apache="${APC_ROOT}/bin/apachectl restart"
-    alias apachestop="${APC_ROOT}/bin/apachectl stop"
-     
-    alias p='pushd'
-    alias o='popd'
-
-
-Now we'll make startup scripts for our servers.  Create the file:
-
-<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/<span class="highlight">startsrv1.sh</span></div></pre>
-
-that contains the following contents:
-
-<pre><div class="sample_code">nohup ${WLS_HOME}/bin/startManagedWebLogic.sh -Dweblogic.ProductionModeEnabled=true autosr2_srv1 <span class="highlight">https://amtv1062.us.oracle.com:2443</span> &gt; ${WLS_LOGS}/autosr2_srv1.log 2&gt;&amp;1 &amp;</div></pre>
-
-nohup ${WLS_HOME}/bin/startManagedWebLogic.sh srv1 https://sta00418.us.oracle.com:2443 > ${WLS_LOGS}/srv1.log 2>&1 &
-
-give it execute permissions:
-
-    chmod ug+x startsrv1.sh
-
-Do the same for `startsrv2.sh`.
-
-Attempt to start both of these servers.  It will fail, but it will
-create the folders under `servers`, which we'll need when we do the
-next steps for setting `username` and `password` in the
-`boot.properties` file.
+Do the same for each managed server.
 
 put a file called `boot.properties` at the locations (NOTE: you will
 have to create each security folder under each server yourself):
