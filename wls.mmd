@@ -223,6 +223,12 @@ example:
 <pre><div class="sample_code">username=<span class="highlight">weblogic</span>
 password=<span class="highlight">welcome1</span></div></pre>
 
+Startup the servers to run even after you log off now:
+
+    mkdir ../logs
+    nohup ./startManagedWebLogic.sh srv1 https://sta00418.us.oracle.com:2443 > ${WLS_LOGS}/srv1.log 2>&1 &
+
+
 ## Apache Load Balancer
 
 Now setup and install apache2.  
@@ -290,18 +296,17 @@ On the left nav there is a section called: `How do I`, with a
 sub-section called: `Install a Web application`.  You can use these as
 reference.
 
+### Rollback
+
+Check
+[here](http://download.oracle.com/docs/cd/E12840_01/wls/docs103/deployment/redeploy.html#revert)
+for application rollback information.
+
 ## Moving to SSL
 
 The first thing we'll want to do is setup SSL on the apache load
 balancer (LB), so our communication between the client and the LB will
 be encrypted.
-
-
-
-
-
-
-
 
 # Unfinished / untested:
 
