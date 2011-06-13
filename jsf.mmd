@@ -924,13 +924,13 @@ ssh server](/secure.html#sshAutoLogin) for how to do this.
 
 Make sure server is installed as a development server.
 
-<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/autodeploy</div>
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/autodeploy</div></pre>
 
 For more information see: [Deployment](/wls.html#deployment)
 
 * Glassfish:
 
-<pre><div class="sample_code"><span class="parameter">GF_HOME</span>glassfish/domains/domain1/autodeploy</div>
+<pre><div class="sample_code"><span class="parameter">GF_HOME</span>glassfish/domains/domain1/autodeploy</div></pre>
 
 * Tomcat, JBoss: sorry no info right now.
 
@@ -973,52 +973,31 @@ Here is a sample `deploy.sh` file that I put in the root of my project as a refe
 
 ## Javascript and Component IDs
 
-The below doesn't work...yet.
+Sometimes you will want to access a component from javascript with
+`getElementById`, but id's are generated dynamically in JSF, so you
+need a method of getting an objects id.  The technique below can be
+used for this.
 
-    <html xmlns="http://www.w3.org/1999/xhtml"
-          xmlns:h="http://java.sun.com/jsf/html"
-          xmlns:f="http://java.sun.com/jsf/core">
-        <head>
-           <title>Input Name Page</title>
-            <script type="javascript" >
-              function myFunc() {
-                // how can I get the contents of the inputText component below		    
-        	    alert("Your email address is: " + document.getElementById("emailAddress").value);
-              }
-           </script>
-        </head>
-        <h:body>
-            <f:view>
-                <h:form>
-                    Please enter your email address:<br/>
-                    <h:inputText id="emailAddresses" value="#{emailAddresses.emailAddressesStr}"/>
-                    <h:commandButton onclick="myFunc()" action="results" value="Next"/>
-                </h:form>
-            </f:view>
-        </h:body>
-    </html>
+Two components:
 
+*.xhtml page
 
-    <script type="javascript" >
+    <script>
       function myFunc() {
-        alert("Your email address is: " + document.getElementById("#{myInptTxtId.clientId}").value);
+        var inputText = document.getElementById("#{backBean.emailAddyInputText.clientId}")                 
+        alert("The email address is: " + inputText.value );
       }
     </script>
      
-    <h:inputText id="myInptTxtId" value="backingBean.emailAddress"/>
+    <h:inputText binding="#{backBean.emailAddyInputText}" value="#{backBean.emailAddyStr}"/>
     <h:commandButton onclick="myFunc()" action="results" value="Next"/>
 
-Suggesting that the attribute `id` on the `inputText` component
-creates an object that can be accessed with EL using `#{myInptTxtId}`,
-in the above example.  The article goes on to state that JSF 2.0 adds
-the zero-argument `getClientId()` method to the `UIComponent` class.
-Thereby allowing the `#{myInptTxtId.clientId}` construct suggested
-above to get the actual generated id of the component.
+BackBean.java
 
-Though in my tests this doesn't work.  Can anyone else confirm/deny.
-The answers suggested below suffer from drawback that the above
-technique doesn't.  So it would be good to know if the above technique
-actually works.
+    UIInput emailAddyInputText = null;
+    protected String emailAddressesStr;
+
+Make sure to create your getters/setters for these two properties too.
 
 
 # Glossary
