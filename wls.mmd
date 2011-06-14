@@ -35,7 +35,8 @@ configuration steps.
 
 ## Start and Stop WLS
 
-<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/base_domain/bin/startWebLogic.sh -Dweblogic.ProductionModeEnabled=true</div></pre>
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh</div>
+<div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/stopWeblogic.sh</div></pre>
 
 ## Remove
 
@@ -231,30 +232,24 @@ Startup the servers to run even after you log off now:
 
 ## Apache Load Balancer
 
-Now setup and install apache2.  
+Now setup and install apache2.  Once installed with a basic setup add
+the following to the end of `httpd.conf`:
 
-Copy the wls module into apache modules dir:
+    Include conf/weblogic.conf
 
-<pre><div class="sample_code">cp <span class="parameter">WLS_HOME</span>/wlserver_10.3/server/plugin/<span class="parameter">PLATFORM</span>/mod_wl_22.so <span class="parameter">APACHE_HOME</span>/modules/</div></pre>
+Create the file `conf/weblogic.conf` and insert the following:
 
-Once installed with a basic setup add the following to the end of the
-`LoadModule` section in `httpd.conf`:
-
-    LoadModule weblogic_module modules/mod_wl_22.so
-
-Then add the following at the end of the file:
-
-    <IfModule mod_weblogic.c>
-            WebLogicCluster amtv1062.us.oracle.com:10501,amtv1062.us.oracle.com:10502
-            Debug ON
-            DebugConfigInfo ON
-            WLLogFile       /tmp/mod_weblogic.log
-    </IfModule>
-     
-    <Location /load>
-            SetHandler weblogic-handler
-            WLCookieName    LOADCOOKIE
-    </Location>
+<pre><div class="sample_code">LoadModule weblogic_module modules/mod_wl_22.so
+&lt;IfModule mod_weblogic.c&gt;
+        WebLogicCluster <span class="highlight">amtv1062.us.oracle.com:10501,amtv1062.us.oracle.com:10502</span>
+        Debug ON
+        DebugConfigInfo ON
+        WLLogFile /tmp/mod_weblogic.log
+&lt;/IfModule&gt;
+ 
+&lt;Location /<span class="highlight">load&gt;</span>
+        SetHandler weblogic-handler
+&lt;/Location&gt;</div></pre>
 
 Where the parameter `WebLogicCluster` has the correct hosts and port
 numbers for each of your servers, excluding your AdminServer.  If
