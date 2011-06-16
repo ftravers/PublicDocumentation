@@ -358,3 +358,23 @@ link to a methond in another class
 
 bc. {@link Contact#getId(Map)}
 
+h2. Decompiling
+
+This command decompiles all .class files located in all 
+subdirectories of 'tree' and creates output files in subdirectories
+of 'src' according to package names of classes. For example, if file 
+'tree/a/b/c.class' contains class 'c' from package 'a.b', then 
+output file will have a name 'src/a/b/c.java'.
+
+Note the use of the "two stars" wildcard ('**') in the previous
+command. It is handled by Jad rather than the command shell, so on
+UNIX the last argument should be single-quoted:
+
+bc.
+jad -r -sjava -dsrc 'tree/**/*.class' 
+
+
+
+   
+
+
