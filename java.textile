@@ -89,6 +89,24 @@ bc.
 Object[] paramArray = {newVal, below, above};
 logger.debug("Value {} was inserted between {} and {}.", paramArray);
 
+h2. Error Log File
+
+bc. 
+	<appender name="ERROR-LOG" class="ch.qos.logback.core.FileAppender">
+		<file>logs/HRMS-CRMOD-DataIntegration-ERRORS.log</file>
+		<append>true</append>
+		<encoder>
+            <pattern>%-5level %date{MMM dd yy ;HH:mm:ss} %msg \(%logger{0}.java:%line\)%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+	</appender>
+	<root level="${log.level}">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="ERROR-LOG" />
+	</root>
 
 h1. Application Configuration
 
