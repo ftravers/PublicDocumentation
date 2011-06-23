@@ -1,6 +1,4 @@
-# Python
-
-## Command line arguments
+# Command line arguments
 
     import sys
     for arg in sys.argv:
@@ -8,7 +6,28 @@
 
 sys.argv is just a list
 
-## Switch / Case statements
+# Convert String -> Int
+
+    age = "12"
+    birthday = int(age) + 1
+    print "After your birthday you'll be: " + str(birthday)
+
+# Files
+
+## Reading
+
+    f = open("../resources/htmlInputTestStrings.properties", 'r')
+    for line in f:
+        parts = string.split(line, '=')
+        print parts
+
+## Writing
+
+    f = open("../resources/htmlInputTestStrings.properties", 'w')
+    f.write("test")
+    f.close()
+
+# Switch / Case statements
 
     options = {0 : zero,
                 1 : sqr,
@@ -38,15 +57,20 @@ can use the functions as the values of the dictionary and then call
 them via dictionary lookup.
 
 
-## Data Types
+# Data Types
 
-### Lists
+## Lists
 
 Empty list initialization
     
     myList = []
 
-#### List functions
+* The in operator can be used to check if an item is present in the list:
+
+    if value in L:
+        print "list contains", value
+
+### List functions
 
 * size
 
@@ -61,11 +85,11 @@ denote that the parameter is optional, not that you should type square
 brackets at that position. You will see this notation frequently in
 the Python Library Reference.)
 
-### Dictionary
+## Dictionary
 
     tel = {'jack': 4098, 'sape': 4139}
 
-#### Looping over Dictionaries
+### Looping over Dictionaries
 
      hosts = { 'dev':'123', 'stg':'456' }
      for k, v in hosts.iteritems():
