@@ -14,24 +14,24 @@ On an SR
 
 The following:
 
-JoinFieldValue('<Contact>', [<ContactId>],'<AlternateCity>')
-
-Joins to the '<Contact>' object using the [<ContactId>] foreign key, pulling back the '<AlternateCity>' value.
-
-JoinFieldValue('<ServiceRequest>',[<ServiceRequestId>],'<OwnerId>')
-
-JoinFieldValue('<User>',JoinFieldValue('<ServiceRequest>',[<ServiceRequestId>],'<OwnerId>'),'<EMailAddr>')
-
-JoinFieldValue('<User>', [<OwnerId>], '<EMailAddr>')
-
-JoinFieldValue('<Contact>', [<ContactId>],'<AlternateCountry>')
-
-JoinFieldValue('<Contact>', [<ContactId>],'<AlternateCountry>')
-
-[<OwnerId>]
-[<OwnerId>]
-
-JoinFieldValue('<User>', [<OwnerId>], '<EMailAddr>')
+    JoinFieldValue('<Contact>', [<ContactId>],'<AlternateCity>')
+     
+    Joins to the '<Contact>' object using the [<ContactId>] foreign key, pulling back the '<AlternateCity>' value.
+     
+    JoinFieldValue('<ServiceRequest>',[<ServiceRequestId>],'<OwnerId>')
+     
+    JoinFieldValue('<User>',JoinFieldValue('<ServiceRequest>',[<ServiceRequestId>],'<OwnerId>'),'<EMailAddr>')
+     
+    JoinFieldValue('<User>', [<OwnerId>], '<EMailAddr>')
+     
+    JoinFieldValue('<Contact>', [<ContactId>],'<AlternateCountry>')
+     
+    JoinFieldValue('<Contact>', [<ContactId>],'<AlternateCountry>')
+     
+    [<OwnerId>]
+    [<OwnerId>]
+     
+    JoinFieldValue('<User>', [<OwnerId>], '<EMailAddr>')
 
 Create a new field on the SR Object called: 'Owner Email', make long text.
 
