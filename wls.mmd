@@ -30,6 +30,9 @@ if you have a *.bin wls, if you have a *.jar wls, then do:
 * Add an Administration Server in the Optional Components section.  
 * port: 7001
 
+Skip to [Start Admin Server], for the rest of the installation
+configuration steps.
+
 ## Start and Stop WLS
 
 <pre><div class="sample_code">nohup <span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh &gt; log.txt 2&gt;&amp;1 &amp;</div>
@@ -176,60 +179,48 @@ we don't need to add any machines, since there are no remote hosts
 hosting any WLS instances that are part of this cluster yet.  Finish
 the configuration with defaults.
 
+### Start Admin Server
+
+#### If Production Mode:
+
+The next steps allow us to setup the admin server so it can start
+without having to supply a username and password each time.First start
+admin server.  This creates a folder structure that we need for the
+next steps.
+
+see section: [Start and Stop WLS][]
+
+Create file: (note you may have to create the folder called `security` in that location)
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/<span class="highlight">AdminServer</span>/security/boot.properties</div></pre>
+
+put the following into the file:
+
+<pre><div class="sample_code">username=<span class="parameter">USERNAME</span>
+password=<span class="parameter">PASSWORD</span></div></pre>
+
+example:
+
+<pre><div class="sample_code">username=<span class="highlight">weblogic</span>
+password=<span class="highlight">welcome1</span></div></pre>
+
 Now that the domain has been created, lets start up the Admin Server,
 see section: [Start and Stop WLS][], for how to do this.
 
 Connect to the admin console in our case:
 
-    https://amtv1062.us.oracle.com:2443/console
+<pre><div class="sample_code">https://<span class="parameter">HOSTNAME:PORT</span>/console</div></pre>
 
-## Startup scripts for servers
+Try to start and stop your managed servers:
 
-It's handy to have an environment file that sets up some useful
-aliases, here is a sample:
+    cd ${WLS_HOME}/user_projects/domains/DOMAIN_NAME/bin/
+    ./startManagedWebLogic.sh srv1 https://sta00418.us.oracle.com:2443
+    ./stopManagedWebLogic.sh srv1
 
-    export APP_ROOT=/u01/app/oracle/ngsp
-    export WLS_ROOT=${APP_ROOT}/wls
-    export WLS_HOME="${WLS_ROOT}/user_projects/domains/base_domain"
-    export WLS_LOGS="${WLS_HOME}/logs"
-    alias root="cd ${WLS_ROOT}"
-    alias home="cd ${WLS_HOME}"
-    alias starta="nohup ${WLS_HOME}/bin/startWebLogic.sh > ${WLS_LOGS}/adminServerLog.txt 2>&1 &"
-    alias stopa="${WLS_HOME}/bin/stopWebLogic.sh"
-    alias srv1="${WLS_HOME}/startAutosr2_srv1.sh"
-    alias srv2="${WLS_HOME}/startAutosr2_srv2.sh"
-     
-    export APC_ROOT="${APP_ROOT}/httpd"
-    alias apache="${APC_ROOT}/bin/apachectl restart"
-    alias apachestop="${APC_ROOT}/bin/apachectl stop"
-     
-    alias p='pushd'
-    alias o='popd'
-
-
-Now we'll make startup scripts for our servers.  Create the file:
-
-<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/<span class="highlight">startAutosr2_srv1.sh</span></div></pre>
-
-that contains the following contents:
-
-<pre><div class="sample_code">nohup ${WLS_HOME}/bin/startManagedWebLogic.sh autosr2_srv1 <span class="highlight">https://amtv1062.us.oracle.com:2443</span> &gt; ${WLS_LOGS}/autosr2_srv1.log 2&gt;&amp;1 &amp;</div></pre>
-
-give it execute permissions:
-
-    chmod ug+x startAutosr2_srv1.sh
-
-Do the same for `autosr2_srv2`.
-
-Attempt to start both of these servers.  It will fail, but it will
-create the folders under `servers`, which we'll need when we do the
-next steps for setting `username` and `password` in the
-`boot.properties` file.
+Do the same for each managed server.
 
 put a file called `boot.properties` at the locations (NOTE: you will
 have to create each security folder under each server yourself):
-
-<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/<span class="highlight">AdminServer</span>/security/boot.properties</div></pre>
 
 <pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/<span class="highlight">autosr2_srv1</span>/security/boot.properties</div></pre>
 
@@ -244,6 +235,12 @@ example:
 
 <pre><div class="sample_code">username=<span class="highlight">weblogic</span>
 password=<span class="highlight">welcome1</span></div></pre>
+
+Startup the servers to run even after you log off now:
+
+    mkdir ../logs
+    nohup ./startManagedWebLogic.sh srv1 https://sta00418.us.oracle.com:2443 > ${WLS_LOGS}/srv1.log 2>&1 &
+
 
 ## Apache Load Balancer
 
@@ -306,18 +303,17 @@ On the left nav there is a section called: `How do I`, with a
 sub-section called: `Install a Web application`.  You can use these as
 reference.
 
+### Rollback
+
+Check
+[here](http://download.oracle.com/docs/cd/E12840_01/wls/docs103/deployment/redeploy.html#revert)
+for application rollback information.
+
 ## Moving to SSL
 
 The first thing we'll want to do is setup SSL on the apache load
 balancer (LB), so our communication between the client and the LB will
 be encrypted.
-
-
-
-
-
-
-
 
 # Unfinished / untested:
 
