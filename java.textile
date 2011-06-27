@@ -110,6 +110,47 @@ bc.
 
 h1. Application Configuration
 
+h2. External Config
+
+There may be information that is specific to the environment you are
+deploying your web applications to.  Like database URL, username,
+password.  Use the following Spring formula to deal with this.
+
+in: @src/main/resources/applicationContext.xml@ put:
+
+bc. 
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	<context:property-placeholder location="file:${user.dir}/application.properties" />
+	<bean id="crmodServer" class="com.oracle.git.ngsp.crmodRestServer.isExternDep.CrmodServer">
+		<property name="companyId" value="${crmod.companyId}" />
+		<property name="serverUrl" value="${crmod.password}" />
+		<property name="username" value="${crmod.username}" />
+		<property name="password" value="${crmod.serverUrl}" />
+	</bean>
+</beans>
+
+have a file called: @application.properties@ with the following
+contents:
+
+bc. 
+crmod.companyId=ONGS
+crmod.password=mySecretPassword
+crmod.username=ftravers
+crmod.serverUrl=secure-ausomxfca.crmondemand.com
+
+ensure class:
+@com.oracle.git.ngsp.crmodRestServer.isExternDep.CrmodServer@
+
+has appropriate properties/getters/setters to be a bean:
+
+bc. 
+private String companyId;
+public String getCompanyId() { return companyId; }
+public void setCompanyId(String companyId) { this.companyId = companyId; }
+
 h2. Resource Files
 
 These are okay if you want hard package a properties file with your jar.  However, if you want the end user to configure your application then you should use a properties file like the next section recommends.

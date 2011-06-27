@@ -35,12 +35,24 @@ configuration steps.
 
 ## Start and Stop WLS
 
-<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh &gt; admin.log 2&gt;&amp;1 &amp;</div>
+<pre><div class="sample_code">nohup <span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh > log.txt 2>&1 &</div>
 <div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/stopWeblogic.sh</div></pre>
+
+It is safe to restart the Admin server, it won't affect managed
+servers.
+
+Managed Servers can always function without the presence a running
+Administration Server. When a Managed Server starts, it contacts the
+Administration Server to retrieve its configuration information. If a
+Managed Server is unable to connect to the specified Administration
+Server during startup, it can retrieve its configuration directly by
+reading a copy of the config.xml file and other files located on the
+Managed Server's own file system.
 
 ## Remove
 
-To delete a WebLogic Domain is to just delete the folder. No additional steps need to be taken. 
+To delete a WebLogic Domain is to just delete the folder. No
+additional steps need to be taken.
 
 ## Admin Access
 
