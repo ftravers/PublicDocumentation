@@ -6,20 +6,28 @@ p(toc). Table of Contents
 
 h1. Overview
 
-This document will describe in broad strokes the steps you need to go through to establish an Oracle Virtual Machine Lab.  It assumes that you have 1 dedicated 'server'.  This should be any old desktop with as much RAM as possible, 4GB is considered a minimum.
+This document will describe in broad strokes the steps you need to go
+through to establish an Oracle Virtual Machine Lab.  It assumes that
+you have 1 dedicated 'server'.  This should be any old desktop with as
+much RAM as possible, 4GB is considered a minimum.
 
 h2. Install OVMS
 
-OVMS(Oracle Virtual Machine Server).  You can download the iso from "eDelivery":http://edelivery.oracle.com/linux
+OVMS(Oracle Virtual Machine Server).  You can download the iso from
+"eDelivery":http://edelivery.oracle.com/linux
 
 bc. 
 Select a Product Pack: Oracle VM
 Platform: x86 32 bit
 Oracle VM 2.2.1 Media Pack 	2.2.1.0.0 	B58990-04 	OCT-22-2010 	
 
-This is your base system now.  Hopefully you setup a static IP address.  Lets just say it is: @192.168.8.2@.  Lets call the machine @vmsrv.mydomain.com@.
+This is your base system now.  Hopefully you setup a static IP
+address.  Lets just say it is: @192.168.8.2@.  Lets call the machine
+@vmsrv.mydomain.com@.
 
-Once you have OVMS laid down.  You need to download the OVMTB(Oracle Virtual Machine Template Builder).  This is also located on "eDelivery":http://edelivery.oracle.com/linux.
+Once you have OVMS laid down.  You need to download the OVMTB(Oracle
+Virtual Machine Template Builder).  This is also located on
+"eDelivery":http://edelivery.oracle.com/linux.
 
 bc. 
 Select a Product Pack: Oracle VM
@@ -50,24 +58,29 @@ vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']
 vif = ['type=netfront']
 [root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]#
 
-Notice the changes I've made from the default vm.cfg.  The location of the file images (System.img & data.img) will need updating.  Launch the vm with:
+Notice the changes I've made from the default vm.cfg.  The location of
+the file images (System.img & data.img) will need updating.  Launch
+the vm with:
 
 bc. 
 [root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]# xm create vm.cfg
 
 h3. Configure Template Builder Template
 
-Follow all the steps in the following documentation section to setup a static ip and hostname for the TBT.
+Follow all the steps in the following documentation section to setup a
+static ip and hostname for the TBT.
 
 * "Setup a static IP and ...":/jeos/oel_detail_setup.html#staticIp
 
 h3. TB Web Interface
 
-Now that the network is properly setup, we can SSH(Secure Shell) into the machine and 
-abandon our VNC(Virtual Network Client) client from now on in.  Lets assume that the machine name 
-is: @tb@ and that it's IP Address is: @192.168.8.3@.
+Now that the network is properly setup, we can SSH(Secure Shell) into
+the machine and abandon our VNC(Virtual Network Client) client from
+now on in.  Lets assume that the machine name is: @tb@ and that it's
+IP Address is: @192.168.8.3@.
 
-Rebooting this machine we can then open a browser on your laptop and put the following URL in:
+Rebooting this machine we can then open a browser on your laptop and
+put the following URL in:
 
 bc. http://tb/ovmtb
 
@@ -76,7 +89,8 @@ be the password.
 
 h3. Getting the JeOS Template
 
-Again from: "eDelivery":http://edelivery.oracle.com/linux we can grab the JeOS(Just enough Operating System) templates we want.
+Again from: "eDelivery":http://edelivery.oracle.com/linux we can grab
+the JeOS(Just enough Operating System) templates we want.
 
 bc. 
 Select a Product Pack: Oracle Linux
@@ -90,7 +104,8 @@ Select a Product Pack: Oracle Linux
 Platform: x86 32 bit
 JeOS Base x86 and x86_64
 
-You'll eventually end up with the following files after you've downloaded the above and unzipped them:
+You'll eventually end up with the following files after you've
+downloaded the above and unzipped them:
 
 bc. 
 [root@vl-vmsrv2 jeos]# ls
@@ -108,192 +123,20 @@ Preparing...                ########################################### [100%]
    1:ovm-el5u5-xvm-jeos     ########################################### [100%]
 [root@linux1 jeos]# 
 
-h3. Build first template
+h2. Using OVM TB
 
-Now we can build our first template.  The first template we'll build is one that will contain several useful functions.  We'll put our own Template Builder on it...this way we can throw away the one we downloaded.  Lets get started with that, and we can add more software onto the image later.
-
-h4. Setup New Template
-
-* In the web ui @http://tb/ovmtb@ you can select the ''New Template Project'' button on the top right.  
-
-* We can name this template after the size of the system disk we will allocate to it and the OS it will be running.  Lets choose: @sys6gb_swp1gb_oel5u5@, meaning we'll assign a 6144MB system disk and install OEL(Oracle Enterprise Linux) 5 update 5 into it.
-
-* Choose @EL55_i386_PVM_jeos@, as the JeOS Image, and hit next.  PVM(Para-Virtualized Machine) is _WAY_ faster than a HVM(Hosted Virtual Machine).  This is fine for OEL(Oracle Enterprise Linux), but if we want a Windows VM, we are stuck using HVM.  (Note: there are PVM drivers for windows which we can install to minimize the slowness of HVM)
-
-* We simply don't care about VCPUs and Memory as these are trivial to change after the fact.  System disk size and Swap space, however are harder to change.  The general rule of thumb for swap space is that it should be twice the RAM.  For our purposes, I want this template to have a SLIM memory footprint, so 512 RAM should be okay, and we'll set the swap to be 1024.  We can set the System disk size to be 6GB, which is: 6144MB.  Hit next.
-
-* Use the OEL 5U3 repo. Next.  Add the @wget@ package. Next. Skip Additional Packages. Next. Click @Save and Build@.  It will take some time (maybe ~5-10 minutes) so relax and have a beer! :)
-
-h2. Using the new template
-
-The new template will be saved to:
-
-bc. /opt/ovmtb/tarballs
-
-as it reports in the status window.  Lets copy that to our VM server, which is easy because of the NFS mount we'll create next:
-
-h3. Easy Disk Access
-
-Export /OVS/downloads on server, import it to /mnt/vmsrv on client.  Please follow: "these instructions":applications.html#nfs to get it setup.
-
-h3. copy, extract, launch
-
-bc. # cp project_3.tgz /mnt/vmsrv/
-
-Login to the VM server and extract it.
-
-bc. 
-# mv  /OVS/downloads/project_3.tgz /OVS/running_pool/
-# tar xvfz /OVS/running_pool/project_3.tgz
-
-Cleanup the vm.cfg file, in a "similar way to the TBT above":#tbt.
-
-I'm gonna use this template for Oracle Virtual Machine Manager, and Oracle Virtual Machine Template Builder...so I rename the folder to reflect that.
-
-bc. 
-mv sys6gb_swp1gb_oel5u5/ ovmm_ovmtb/
-
-Here is a look at my new vm.cfg file:
-
-bc. 
-# cat vm.cfg
-bootloader = '/usr/bin/pygrub'
-disk = ['file:/OVS/running_pool/ovmm_ovmtb/System.img,xvda,w']
-memory = '512'
-name = 'ovmm_ovmtb'
-vcpus = 1
-on_crash = 'restart'
-on_reboot = 'restart'
-vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']
-vif = ['bridge=xenbr0,mac=00:16:3e:00:00:01']
-
-make sure the vif has a mac address set.
-
-Lets fire it up...
-
-bc. # xm create vm.cfg
-
-h2. configure VNC
-
-It's handy to understand the line: @vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']@ 
-
-Actually, vncunused=1 says use the first unused vnc port. vncunused=0 shuts 
-off that behavior.
-
-bc. 
-# The backend listens on 127.0.0.1 port 5900+N by default, where N is 
-# the domain ID.  You can override both address and N: 
-# 
-# vfb = [ 'type=vnc,vnclisten=127.0.0.1,vncdisplay=1' ] 
-# 
-# Or you can bind the first unused port above 5900: 
-# 
-# vfb = [ 'type=vnc,vnclisten=0.0.0.0,vnunused=1' ] 
-
-So we don't need to use trial and error to find the right port, lets hard set the port to be: @vncdisplay=10@, lets modify the vm.cfg to reflect this and restart it.  The line now looks like: @vfb = ['type=vnc,vncdisplay=10,vnclisten=0.0.0.0']@.  We can reboot with:
-
-bc. # xm reboot ovmm_ovmtb
-
-h2(#vncin). VNC in
-
-Once it is running you'll need to @VNC@ into machine to update it's IP address,
-hostname, etc...
-
-* Ubuntu: Out of the box: Applications > Internet > Remote Desktop Viewer
-* Mac: Chicken of the VNC
-* Windows: Tight VNC
-
-You set the IP address of the VNC Server to be the IP Address of your OVMS.  The port you use depends on the number of VM's you have running.  Start at port 0 (aka 5900) and work your way up until you find the VM you are interested in.  Or if you have set a static port, VNC into that.
-
-h2. Configure VM
-
-Now that you are VNC'd into the VM.  
-
-* Login with @root/ovsroot@.
-* Determine the IP address with: @ifconfig -a@ you are looking for the entry next to @eth0@ that says @inet addr@.
-* Open port SSH and Web ports:
-
-bc. system-config-securitylevel-tui --quiet --port=http --port=ssh --port=https
-
-* Setup an "SSH trust":/secure.html#sshAutoLogin
-
-* Static IP: To convert a dhcp OEL to Static IP address edit file:
-
-bc. 
-[root@localhost network-scripts]# vi /etc/sysconfig/network-scripts/ifcfg-eth0
-DEVICE=eth0
-ONBOOT=yes
-BOOTPROTO=static
-IPADDR=192.168.8.118
-NETMASK=255.255.255.0
-GATEWAY=192.168.8.1
-TYPE=Ethernet
-
-Make sure there is NO HWADDR setting in here.
-
-
-* Hostname: Change the hostname here:
-
-bc. 
-[root@localhost network-scripts]# vi /etc/sysconfig/network
-
-* Hostname: set for this session with:
-
-bc. 
-[root@localhost ~]# hostname ucm
-
-* Now you can restart your network services with the following command:
-
-bc. 
-[root@localhost ~]# service network restart
-
-Your terminal session should die here and you can now setup a new "SSH trust":/secure.html#sshAutoLogin, as trusts are based on IP addresses and you've changed IP Address.
-
-Finally update your name servers, and root passwords
-
-bc. 
-[root@db11g ~]# cat > /etc/resolv.conf
-search hk.oracle.com
-nameserver 10.179.253.14
-nameserver 146.56.237.50
-nameserver 140.83.70.155
-
-bc. [root@db11g ~]# passwd
-
-h2. Install Software
-
-Most software install will be done via YUM(Yellowdog Update Manager), which is the default for Redhat based systems.  First thing we need to do is get a decent yum repo file going.  So lets download a latest version.  You might need to set your web proxy, so that step is listed first.  
-
-Put the export http_proxy line at the bottom of @/etc/profile@ so all users get this environment variable set.
-
-bc. 
-# vi /etc/profile
-export http_proxy=http://www-proxy.sg.oracle.com
-
-Download the repo file:
-
-bc. 
-# cd /etc/yum.repos.d/
-# wget http://public-yum.oracle.com/public-yum-el5.repo
-
-If you dont have wget installed:
-In a browser on your local laptop navigate to: "http://public-yum.oracle.com/public-yum-el5.repo":http://public-yum.oracle.com/public-yum-el5.repo.  Save the file as: @public-yum-el5.repo@ to your desktop, and transfer it to the VM you are setting up into the folder: @/etc/yum.repos.d/@.  A command like the following should do the trick:
-
-bc. ~/Desktop$ scp public-yum-el5.repo root@alm.hk.oracle.com:/etc/yum.repos.d/
-
-Change all the enabled=0 to enabled=1, for: [el5_ga_base], [el5_u5_base], [ol5_u5_base], [el5_addons], and [el5_oracle_addons]
-
-Test it out:
-
-bc. yum install wget
+see: "Prepping an OVM":/preppingAnOvm.mmd
 
 h2. Backup
 
-Since we've put quite a bit of work into this image already and don't want to repeat ourselves, lets take a backup of it.  From the VM server, shutdown the VM.
+Since we've put quite a bit of work into this image already and don't
+want to repeat ourselves, lets take a backup of it.  From the VM
+server, shutdown the VM.
 
 bc. xm shutdown ovmm_ovmtb
 
-Ensure that the vm is not longer listed with the following command, you may need to wait a few seconds for the VM to shutdown.
+Ensure that the vm is not longer listed with the following command,
+you may need to wait a few seconds for the VM to shutdown.
 
 bc. xm list
 
@@ -319,13 +162,15 @@ Download:
 * Name: JeOS Base x86 and x86_64  V17420-01
 * Name: JeOS Oracle Linux 5 Update 5 base image x86 (32 Bit)	V21114-01	
 
-The first one has an RPM we need next, and the second one has the OEL5U5 images we'll be using to stamp out new OEL5U5 images.
+The first one has an RPM we need next, and the second one has the
+OEL5U5 images we'll be using to stamp out new OEL5U5 images.
 
 untar/unzip, then copy to the VM
 
 bc. scp ovm-modify-jeos-1.1.0-2.el5.noarch.rpm root@alm.hk.oracle.com:/tmp
 
-Go back onto the server and install the RPM.  But first we need to install some pre-requisits, then we can install ovmtb
+Go back onto the server and install the RPM.  But first we need to
+install some pre-requisits, then we can install ovmtb
 
 bc. 
 yum install -y bzip2 createrepo parted perl
@@ -343,7 +188,8 @@ We can now go install these as well:
 bc. 
 rpm -ivh ovm-el5u5-xvm-jeos-1.1.0-1.el5.i386.rpm
 
-That should do the trick.  Lets restart a couple of services for good measure and see if our web UI for TB is ready for us.
+That should do the trick.  Lets restart a couple of services for good
+measure and see if our web UI for TB is ready for us.
 
 bc. 
 service httpd restart; service ovmtb restart
@@ -388,7 +234,11 @@ h2. OVM Manager
 * Click on link: Description/Release/Part Number: Oracle VM 2.2.1 Media Pack / 2.2.1.0.0	/ B58990-04
 * Download: Name: Oracle VM Manager 2.2.0
 
-Now it can be a pain to download once to your desktop and then up to your server.  You can download directly from edelivery to your server with a cute little trick.  You can't just use @wget <url>@ because we need to login to edelivery and it gives our browser a cookie.  So do the following:
+Now it can be a pain to download once to your desktop and then up to
+your server.  You can download directly from edelivery to your server
+with a cute little trick.  You can't just use @wget <url>@ because we
+need to login to edelivery and it gives our browser a cookie.  So do
+the following:
 
 * Use firefox.
 * Install the Export Cookies plugin: https://addons.mozilla.org/en-US/firefox/addon/8154/

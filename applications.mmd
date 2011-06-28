@@ -23,6 +23,7 @@ edit `/etc/fstab` example:
     service portmap start
     system-config-securitylevel-tui --quiet --port=111 --port=2049
     service nfs start
+    /usr/sbin/exportfs -a
 
 server: /etc/mounts example:
 
@@ -43,7 +44,7 @@ Select the .bin download, not .rpm.bin
 as root:
 
     chmod 755 jdk-6u23-linux-i586.bin
-    ./jdk-6u23-linux-i586.bin
+    ./jdk-6u23-linux-i586.bin/
     mv jdk1.6.0_23/ /usr/lib/jvm/
 
 in the
