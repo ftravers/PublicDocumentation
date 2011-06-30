@@ -43,12 +43,12 @@ readTemplate("/scratch/ngsp/wls/wlserver_10.3/common/templates/domains/wls.jar")
 
 cd('Servers/AdminServer')
 set('ListenAddress','')
-set('ListenPort', 7001)
+set('ListenPort', 2080)
 
 create('AdminServer','SSL')
 cd('SSL/AdminServer')
 set('Enabled', 'True')
-set('ListenPort', 7002)
+set('ListenPort', 2443)
 
 #=======================================================================================
 # Define the user password for weblogic.
@@ -56,13 +56,14 @@ set('ListenPort', 7002)
 
 cd('/')
 cd('Security/base_domain/User/weblogic')
-# Please set password here before using this script, e.g. cmo.setPassword('value')
+# Please set password here before using this script, e.g. 
+cmo.setPassword('welcome1')
 
 #=======================================================================================
 # Create a JMS Server.
 #=======================================================================================
 
-cd('/')
+cmd('/')
 create('myJMSServer', 'JMSServer')
 
 #=======================================================================================

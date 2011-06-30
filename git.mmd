@@ -291,14 +291,17 @@ the branch you want to push up.
 
 ## Pull a remote branch
 
-First update your local repo so it is aware of new branches on  
-‘origin’.
+Check the remote branches
 
-    git pull origin master
+    git remote show origin
+
+update your local repo so it is aware of new branches on ‘origin’.
+    
+    git fetch
 
 create a local tracking branch:
 
-    $ git checkout -b experimental origin/experimental
+    git checkout -b local-branch-name origin/remote-branch-name
 
 where the first experimental is the name of your local branch
 that  
@@ -340,10 +343,22 @@ like the following in it.
 ## Compare Branches
 
 Often you’ll be working on a branch, then switch back to the
-master...and would like to   
-know what is the difference between the two branches.
+master...and would like to know what is the difference between the two
+branches.  The following shows files and how changed.
 
     git diff --name-status master..npe
+
+# How to create and apply a patch with Git
+
+## Create a patch file
+
+You are on branch.
+
+    git format-patch master --stdout > file.patch
+
+Take a look at what changes are in the patch
+
+    git apply --stat file.patch
 
 ## Compare working directory against latest commit (HEAD)
 
