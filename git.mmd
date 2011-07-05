@@ -303,10 +303,16 @@ create a local tracking branch:
 
     git checkout -b local-branch-name origin/remote-branch-name
 
-where the first experimental is the name of your local branch
-that  
-maps to the branch name on the remote (origin) named (experimental)
-as well.
+where the first experimental is the name of your local branch that
+maps to the branch name on the remote (origin) named (experimental) as
+well.
+
+## Delete a remote tracking branch
+
+    git branch -d -r origin/<remote branch name>
+
+origin/master is a remote tracking branch for
+the master branch in the origin repo
 
 ### Deleting remote branch
 
@@ -382,35 +388,27 @@ tags: diff two files
 
 ## Bring down remote changes
 
-Say the branch we are interested in bring remote changes down into
-is  
-‘master’. The first thing we do is ensure locally we are on the  
-master branch. If you are not on the master branch commit or
-stash  
-your local changes on the branch you are on and switch to the
-master  
-branch.
+Say the branch we are interested in bring remote changes down into is
+‘master’. The first thing we do is ensure locally we are on the master
+branch. If you are not on the master branch commit or stash your local
+changes on the branch you are on and switch to the master branch.
 
     git checkout master
 
-Now pull down the remote changes into your remote-tracking
-branch.  
-You can see your local branches and your remote-tracking branches
-by  
-doing: `git branch` and `git branch -r` respectively. When I do a  
-`git branch -r` I see that I have a branch called `origin/master`.
+Now pull down the remote changes into your remote-tracking branch.
+You can see your local branches and your remote-tracking branches by
+doing: `git branch` and `git branch -r` respectively. When I do a `git
+branch -r` I see that I have a branch called `origin/master`.
 
     $ git branch -r
       origin/master
 
-So to safetly update my remote-tracking branch origin/master I
-simply  
+So to safetly update my remote-tracking branch origin/master I simply
 do:
 
     git fetch origin
 
-Now I can compare the differences between my version of master and
-the  
+Now I can compare the differences between my version of master and the
 remote version. I simply do:
 
     $ git diff --name-status master origin/master
@@ -633,8 +631,7 @@ following:
 
 ## Move remote repo
 
-Say I want to start using a new remote repository. Say also that
-this  
+Say I want to start using a new remote repository. Say also that this
 remote repository doesn’t have the code there yet.
 
 -   Change Origin
