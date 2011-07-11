@@ -15,11 +15,14 @@ Push up your change
     $ git commit -am"."; git push
 
 ### Prep the Project
+
+
+In the folder you want setup as a git repo
+
 <code><pre>
-cd <span class="sample">~/projects/; mkdir testProject; cd testProject; touch testfile.txt</span>
 git init
-git remote add origin <span class="sample">ft_git3@spicevan.com:testProject.git</span>
-</pre></code>
+git remote add origin <span class="sample">git@linux1.hk.oracle.com:testProject.git</span></pre></code>
+
 You must add at least one file...git doesn't do empty directories! :)
 
     git add .; git commit -m"Initial Commit"
@@ -545,9 +548,17 @@ Then you can commit it with:
 In the selection "how would you like to user Git from the command
 line?", the default is "use Git bash only", which is ok
 
-* Send me your public key generated from [Setup SSH](/secure.html#keypair)
+* Generate your public/private key pair.
 
-Then you can do the rest of the commands for Git specified above.
+    ssh-keygen
+
+Just hit enter for all the prompts, don't use a passphrase.
+
+The public key is the file:
+
+    ~/.ssh/id_rsa.pub
+
+Email me your public key.
 
 # Change your routing
 
