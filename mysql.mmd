@@ -1,0 +1,139 @@
+[home](../../index.html) \> [training](../index.html) \> MySQL
+
+Table of Contents
+
+1.  [Basic Commands](mysql.html#BasicCommands)
+    1.  [Start server](mysql.html#Startserver)
+    2.  [Set root password](mysql.html#Setrootpassword)
+        1.  [first time](mysql.html#firsttime)
+        2.  [reset root password](mysql.html#resetrootpassword)
+
+    3.  [Login](mysql.html#Login)
+    4.  [Show databases and tables](mysql.html#Showdatabasesandtables)
+        1.  [Dump Database](mysql.html#DumpDatabase)
+        2.  [Create Table](mysql.html#CreateTable)
+        3.  [Drop Table](mysql.html#DropTable)
+        4.  [See the columns in a table](mysql.html#Seethecolumnsinatable)
+        5.  [Add column to table](mysql.html#Addcolumntotable)
+
+
+2.  [Common Use Cases](mysql.html#CommonUseCases)
+    1.  [Create new db and give user rights to it](mysql.html#Createnewdbandgiveuserrightstoit)
+    2.  [Who has access to what](mysql.html#Whohasaccesstowhat)
+
+3.  [Maven](mysql.html#Maven)
+
+# Basic Commands
+
+## Start server
+
+on mac:
+
+`sudo mysqld_safe`
+
+on ubuntu:
+
+    sudo /etc/init.d/mysql start
+
+Thow into background after you start, then you can kill the
+terminal window you started it in.
+
+## Set root password
+
+### first time
+
+`mysqladmin -u root password supersecretpasswd`
+
+### reset root password
+
+`$ mysqladmin -u root -p'supersecretpasswd' password newsupersecretpasswd`
+
+## Login
+
+`mysql -u root -p` or if no password is defined for the root user,
+just: `mysql -u root` will work.
+
+## Show databases and tables
+
+Show all databases, use a database, see which tables are defined in
+that DB, then quit.
+
+    mysql> show databases;
+    mysql> use test;
+    mysql> show tables;
+
+### Dump Database
+
+    mysqldump -h localhost DATABASE > DATABASE.sql
+
+### Create Table
+
+    mysql> CREATE TABLE example ( id INT, data VARCHAR(100));
+
+### Drop Table
+
+    mysql> DROP TABLE example;
+
+### See the columns in a table
+
+    describe DocMeta;
+
+### Add column to table
+
+    ALTER TABLE contacts ADD email VARCHAR(60);
+
+# Common Use Cases
+
+## Create new db and give user rights to it
+
+-   In the following example we log in as root.
+
+    $ mysql -u root -p
+
+-   Create a db called: `amarokdb`.
+
+    mysql> create database amarokdb;
+
+-   We allow user amarokuser to connect to the server from
+    localhost using the password amarokpasswd:
+
+-   Side note you may want to give an existing user access versus
+    creating the user. To see a list of users do:
+
+    mysql> select host, user from mysql.user;
+
+Otherwise create a new user.
+
+    mysql> grant usage on *.* to amarokuser@localhost identified by 'amarokpasswd';
+
+-   And finally we grant all privileges on the amarok database (\*
+    means all tables) to this user:
+
+    mysql> grant all privileges on amarokdb.* to amarokuser@localhost ;
+
+-   And that’s it. You can now check that you can connect to the
+    MySQL server using this command:
+
+    $ mysql -u amarokuser -p'amarokpasswd' amarokdb
+
+-   Drop a user:
+
+    drop user 'amarokuser'@'localhost';
+
+## Who has access to what
+
+The following command will show which users have access to which
+databases:
+
+    mysql> select user, host, db from mysql.db;
+
+# Maven
+
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>5.1.9</version>
+    </dependency>
+
+
+
