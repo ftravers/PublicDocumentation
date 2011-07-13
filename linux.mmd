@@ -967,6 +967,30 @@ Start and stop X:
     sudo /etc/init.d/gdm stop
 
 
+* Getting Modeline
+
+want 1920x1080 (HD) resolution.
+
+    gtf 1920 1080 60
+
+or
+
+    cvt 1920 1080
+
+* Example:
+
+    $ cvt 1920 1080
+    # 1920x1080 59.96 Hz (CVT 2.07M9) hsync: 67.16 kHz; pclk: 173.00 MHz
+    Modeline "1920x1080_60.00"  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
+
+    $ xrandr --newmode "1920x1080_60.00"  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
+
+* Toggle between two resolutions
+
+    $ xrandr --output DFP1 --mode 1600x900
+    $ xrandr --output DFP1 --mode 1600x1200
+
+
 Samsung 23"
 
 For xrandr use DFP1 for the 'output' parameters.

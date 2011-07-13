@@ -23,19 +23,19 @@ h4. All Hosts
 
 h5. Static IPs
 
-|| Name                    || IP Address   || Notes                                        || 
-| vl-ucm1                  | 10.179.252.30 |                                               |
-| vl-db1                   | 10.179.252.29 |                                               |
-| xps                      | 10.179.252.34 |                                               |
-| "vl-wlp1":vl-wlp1        | 10.179.252.31 | glassfish :dev                                |
-| "linux1":#linux1         | 10.179.252.32 | git :stage                                    |
-| vl-wciwcm1               | 10.179.252.35 |                                               | 
-| "alm":#alm               | 10.179.252.39 | OVMM, OVMTB, Hudson :dev                      |
-| youtube                  | 10.179.252.38 |                                               |
-| ipm                      | 10.179.252.41 |                                      |
-| "vl-wcfs":#vl-wcfs       | 10.179.252.40 | glassfish :stage                              |
-| "vl-urmses":#vl-urmses   | 10.179.252.42 | wls :dev                                               |
-| vl-autovue               | 10.179.252.37 |                                               |
+|| Name                    || IP Address   || Notes                               
+| vl-ucm1                  | 10.179.252.30 |                                      
+| vl-db1                   | 10.179.252.29 |                                      
+| xps                      | 10.179.252.34 |                                      
+| "vl-wlp1":vl-wlp1        | 10.179.252.31 | glassfish :dev                       
+| "linux1":#linux1         | 10.179.252.32 | git :stage                           
+| vl-wciwcm1               | 10.179.252.35 |                                      
+| "alm":#alm               | 10.179.252.39 | OVMM, OVMTB, Hudson :dev             
+| youtube                  | 10.179.252.38 |                                      
+| ipm                      | 10.179.252.41 |                                      
+| "vl-wcfs":#vl-wcfs       | 10.179.252.40 | glassfish :stage                     
+| "vl-urmses":#vl-urmses   | 10.179.252.42 | wls :dev                             
+| vl-autovue               | 10.179.252.37 |                                      
 
 h5. Non routable IPs
 
