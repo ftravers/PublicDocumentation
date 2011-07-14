@@ -1,19 +1,6 @@
-"home":/index.html > Virtual Machines
-
-p(toc). Table of Contents
-
-{toc:style=disc}
-
-h1. Physical
-
-|| Connection Info                   || Specs                                   || Notes ||
-| oracle@vl-vmsrv2.hk.oracle.com | *CPU:* CoreDUO *DISK:* 500GB *RAM:* 8GB  |
-| oracle@jpbox.hk.oracle.com     | *CPU:* CoreDUO *DISK:* 1.5TB *RAM:* 16GB |
-| Man Kiet's machines too            | | 
-
 h1. Virtual
 
-h4. All Hosts
+All Hosts
 
 * Network: 10.179.252.0, Netmask: 255.255.255.0, Default Gateway: 10.179.252.1
 * DNS Servers: 10.179.253.14, 146.56.237.50, 140.83.70.155
@@ -21,11 +8,11 @@ h4. All Hosts
 * Go to [this page|http://iprequest.oraclecorp.com/] to request additional *Static IP* addresses.
 * All running VM's are located in the directory: */OVS/running_pool*
 
-h5. Static IPs
+Static IPs
 
 || Name                    || IP Address   || Notes                               
 | vl-ucm1                  | 10.179.252.30 |                                      
-| vl-db1                   | 10.179.252.29 |                                      
+| vl-db1                   | 10.179.252.29 | DB for Nitesh & categorization                                     
 | xps                      | 10.179.252.34 |                                      
 | "vl-wlp1":vl-wlp1        | 10.179.252.31 | glassfish :dev                       
 | "linux1":#linux1         | 10.179.252.32 | git :stage                           
@@ -37,16 +24,13 @@ h5. Static IPs
 | "vl-urmses":#vl-urmses   | 10.179.252.42 | wls :dev                             
 | vl-autovue               | 10.179.252.37 |                                      
 
-h5. Non routable IPs
 
-|| Name              || IP Address   || Notes                                        || 
-| ovmtbman            | 192.168.186.3 | [ovm_tb_man_2] smaller disk for easy backup   |
+h1. Physical Machines
 
-h1. Details
+h2(#vl-vmsrv2). vl-vmsrv2 :dev
 
-h2. Physical Machines
-
-h3(#vl-vmsrv2). vl-vmsrv2 :dev
+|| Connection Info                   || Specs                                   || Notes ||
+ oracle@vl-vmsrv2.hk.oracle.com      | *CPU:* CoreDUO *DISK:* 500GB *RAM:* 8GB  |
 
 
 || Description     || Folder            || Notes         |
@@ -55,12 +39,11 @@ h3(#vl-vmsrv2). vl-vmsrv2 :dev
 | NFS mounts       | /mount/jpbox       | 100/917GB Free |
 
 
-h3(#vl-vmsrv1). vl-vmsrv1 :stage
+h1. Virtual Machines
 
-|| Description     || Folder            || Notes         |
-| Virtual Machines | /OVS/running_pool/ |                |
+h3(#vl-db1). vl-db1
 
-h2. Virtual Machines
+Oracle DB 11g for Nitesh and Categorization. 
 
 h3(#vl-urmses). vl-urmses - wls :dev
 

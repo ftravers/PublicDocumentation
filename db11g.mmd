@@ -65,12 +65,12 @@ To install x-windows:
      
     [root@db11g ~]# su - oracle  
     [oracle@db11g ~]$ cat >> ~/.bash_profile   
-ORACLE_BASE=/u01/app/oracle  
-ORACLE_SID=orcl  
-ORACLE_HOME=/u01/app/oracle/product/11.1.0/db_1  
-ORACLE_HOSTNAME=db112  
-PATH=$PATH:$ORACLE_HOME/bin  
-export ORACLE_BASE ORACLE_SID ORACLE_HOME ORACLE_HOSTNAME PATH
+    ORACLE_BASE=/u01/app/oracle  
+    ORACLE_SID=orcl  
+    ORACLE_HOME=/u01/app/oracle/product/11.1.0/db_1  
+    ORACLE_HOSTNAME=db112  
+    PATH=$PATH:$ORACLE_HOME/bin  
+    export ORACLE_BASE ORACLE_SID ORACLE_HOME ORACLE_HOSTNAME PATH
      
     [oracle@db11g ~]$ unset ORACLE_HOME; unset TNS_ADMIN; exit
  
