@@ -1,21 +1,6 @@
-[home](../index.html) \> [jeos](index.html) \> DNS Server Setup
-
-Table of Contents
-
-1.  [Reference](dns_server.html#Reference)
-2.  [Intro](dns_server.html#Intro)
-3.  [Steps](dns_server.html#Steps)
-4.  [Restart Servers](dns_server.html#RestartServers)
-5.  [Cookbook](dns_server.html#Cookbook)
-    1.  [Inside Oracle](dns_server.html#InsideOracle)
-        1.  [Restart Servers](dns_server.html#RestartServers2)
-
-
-6.  [Old Stuff](dns_server.html#OldStuff)
-
 # Reference
 
-https://www.redhat.com/docs/en-US/Red\_Hat\_Enterprise\_Linux/5.2/html/Deployment\_Guide/s2-bind-useful-websites.html  
+https://www.redhat.com/docs/en-US/Red_Hat_Enterprise_Linux/5.2/html/Deployment_Guide/s2-bind-useful-websites.html  
 http://www.redhat.com/mirrors/LDP/HOWTO/DNS-HOWTO.html  
 http://tldp.org/HOWTO/DNS-HOWTO.html
 
@@ -31,7 +16,7 @@ use DNS.
 
     yum -y install bind* caching-nameserver
 
-three files: named.conf and <forward and reverse zone files\>.
+three files: named.conf and <forward and reverse zone files>.
 
 /var/named/chroot/etc/named.conf file sample:
 
@@ -140,6 +125,10 @@ server1.example.com and server2.example.com.
 # Restart Servers
 
     service named restart
+
+# Using this nameserver
+
+From ubuntu goto `/etc/resolv.conf`
 
 # Cookbook
 
@@ -267,83 +256,83 @@ IP address.
 
 # Old Stuff
 
-[root@dns \~]\# cat lab  
-; Zone File for lab.com  
-$TTL 14400  
-@ IN SOA dns.lab.com. hostmast.lab.com. (  
-2006102400 ; serial, todays date + todays serial \#  
-14400 ; refresh, seconds  
-7200 ; retry, seconds  
-3600000 ; expire, seconds  
-86400 ; minimum, seconds  
-)  
-;
-
-lab.com. 14400 IN NS dns  
-;  
-op5 14400 IN A 192.168.9.100  
-xp2 14400 IN A 192.168.9.101  
-ucmel 14400 IN A 192.168.9.102
-
-dbel 14400 IN A 192.168.9.103  
-lab.com. 14400 IN MX 10 dbel.lab.com.  
-opel 14400 IN A 192.168.9.104  
-dns 14400 IN A 192.168.9.133  
-ovsoracle 14400 IN A 192.168.9.56  
-vms 14400 IN CNAME ovsoracle.lab.com.  
-nas 14400 IN A 192.168.9.105  
-kerapu.mohe.gov.my 14400 IN A 192.168.9.31  
-opelstg 14400 IN A 192.168.9.107  
-cvs 14400 IN A 192.168.9.20  
-dbrh64 14400 IN A 192.168.9.131  
-amran 14400 IN A 192.168.9.188  
-db10 14400 IN A 192.168.9.116  
-database 14400 IN A 192.168.9.113  
-bala 14400 IN A 192.168.9.171  
-anil 14400 IN A 192.168.9.172  
-fenton 14400 IN A 192.168.9.173  
-oracleucm 14400 IN A 192.168.9.176  
-oracleportal 14400 IN A 192.168.9.177  
-baizura 14400 IN A 192.168.9.179  
-oracledb 14400 IN A 192.168.9.187  
-oidrh 14400 IN A 192.168.9.134  
-ucmel2 14400 IN A 192.168.9.174  
-vms2 14400 IN A 192.168.9.57  
-[root@dns \~]\#   
-[root@dns \~]\# cat revlab   
-; Reverse Zone File for lab.com – 9.168.192.in-addr.arpa.  
-$TTL 14400  
-@ 14440 IN SOA dns.lab.com. hostmaster.lab.com. ( 2006102400  
-14400  
-7200  
-3600000  
-86400  
-)  
-;  
-IN NS dns.lab.com.  
-20 IN PTR cvs.lab.com.  
-31 IN PTR kerapu.mohe.gov.my.  
-101 IN PTR xp2.lab.com.  
-100 IN PTR op5.lab.com.  
-102 IN PTR ucmel.lab.com.  
-103 IN PTR dbel.lab.com.  
-104 IN PTR opel.lab.com.  
-105 IN PTR nas.lab.com.  
-133 IN PTR dns.lab.com.  
-107 IN PTR opelstg.lab.com.  
-131 IN PTR dbrh64.lab.com.  
-188 IN PTR amran.lab.com.  
-116 IN PTR db10.lab.com.  
-113 IN PTR database.lab.com.  
-171 IN PTR bala.lab.com.  
-172 IN PTR anil.lab.com.  
-173 IN PTR fenton.lab.com.  
-176 IN PTR oracleucm.lab.com.  
-177 IN PTR baizura.lab.com.  
-187 IN PTR oracledb.lab.com.  
-134 IN PTR oidrh.lab.com.  
-174 IN PTR ucmel2.lab.com.  
-[root@dns \~]\#
+    [root@dns ~]# cat lab  
+    ; Zone File for lab.com  
+    $TTL 14400  
+    @ IN SOA dns.lab.com. hostmast.lab.com. (  
+    2006102400 ; serial, todays date + todays serial #  
+    14400 ; refresh, seconds  
+    7200 ; retry, seconds  
+    3600000 ; expire, seconds  
+    86400 ; minimum, seconds  
+    )  
+    ;
+     
+    lab.com. 14400 IN NS dns  
+    ;  
+    op5 14400 IN A 192.168.9.100  
+    xp2 14400 IN A 192.168.9.101  
+    ucmel 14400 IN A 192.168.9.102
+     
+    dbel 14400 IN A 192.168.9.103  
+    lab.com. 14400 IN MX 10 dbel.lab.com.  
+    opel 14400 IN A 192.168.9.104  
+    dns 14400 IN A 192.168.9.133  
+    ovsoracle 14400 IN A 192.168.9.56  
+    vms 14400 IN CNAME ovsoracle.lab.com.  
+    nas 14400 IN A 192.168.9.105  
+    kerapu.mohe.gov.my 14400 IN A 192.168.9.31  
+    opelstg 14400 IN A 192.168.9.107  
+    cvs 14400 IN A 192.168.9.20  
+    dbrh64 14400 IN A 192.168.9.131  
+    amran 14400 IN A 192.168.9.188  
+    db10 14400 IN A 192.168.9.116  
+    database 14400 IN A 192.168.9.113  
+    bala 14400 IN A 192.168.9.171  
+    anil 14400 IN A 192.168.9.172  
+    fenton 14400 IN A 192.168.9.173  
+    oracleucm 14400 IN A 192.168.9.176  
+    oracleportal 14400 IN A 192.168.9.177  
+    baizura 14400 IN A 192.168.9.179  
+    oracledb 14400 IN A 192.168.9.187  
+    oidrh 14400 IN A 192.168.9.134  
+    ucmel2 14400 IN A 192.168.9.174  
+    vms2 14400 IN A 192.168.9.57  
+    [root@dns ~]#   
+    [root@dns ~]# cat revlab   
+    ; Reverse Zone File for lab.com – 9.168.192.in-addr.arpa.  
+    $TTL 14400  
+    @ 14440 IN SOA dns.lab.com. hostmaster.lab.com. ( 2006102400  
+    14400  
+    7200  
+    3600000  
+    86400  
+    )  
+    ;  
+    IN NS dns.lab.com.  
+    20 IN PTR cvs.lab.com.  
+    31 IN PTR kerapu.mohe.gov.my.  
+    101 IN PTR xp2.lab.com.  
+    100 IN PTR op5.lab.com.  
+    102 IN PTR ucmel.lab.com.  
+    103 IN PTR dbel.lab.com.  
+    104 IN PTR opel.lab.com.  
+    105 IN PTR nas.lab.com.  
+    133 IN PTR dns.lab.com.  
+    107 IN PTR opelstg.lab.com.  
+    131 IN PTR dbrh64.lab.com.  
+    188 IN PTR amran.lab.com.  
+    116 IN PTR db10.lab.com.  
+    113 IN PTR database.lab.com.  
+    171 IN PTR bala.lab.com.  
+    172 IN PTR anil.lab.com.  
+    173 IN PTR fenton.lab.com.  
+    176 IN PTR oracleucm.lab.com.  
+    177 IN PTR baizura.lab.com.  
+    187 IN PTR oracledb.lab.com.  
+    134 IN PTR oidrh.lab.com.  
+    174 IN PTR ucmel2.lab.com.  
+    [root@dns ~]#
 
 
 
