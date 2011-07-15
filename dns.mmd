@@ -18,7 +18,7 @@ use DNS.
 
 three files: named.conf, forward and reverse zone files.
 
-/var/named/chroot/etc/named.conf file sample:
+    vi /var/named/chroot/etc/named.conf
 
     acl good-hosts {
             192.168.8.0/24;
@@ -61,7 +61,7 @@ three files: named.conf, forward and reverse zone files.
             allow-query { 192.168.8.0/24; };
     };
 
-Zone file example: /var/named/chroot/var/named/ftravers.com.zone
+Zone file example: vi /var/named/chroot/var/named/ftravers.com.zone
 
     ; Zone File for ftravers.com
     $TTL 14400
