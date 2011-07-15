@@ -328,27 +328,6 @@ That will delete the newfeature branch on the origin remote, but
 you’ll still need to delete the branch locally with git branch -d
 newfeature.
 
-## Unstaging a file
-
-To unstage the file: `src/site/apt/build.apt~`
-
-    git reset HEAD src/site/apt/build.apt~
-
-## Git Ignore file
-
-Create a file called `.gitignore` in the project root and put lines
-like the following in it.
-
-    # a comment - this is ignored
-    *.a       # no .a files
-    !lib.a    # but do track lib.a, even though you're ignoring .a files above
-    /TODO     # only ignore the root TODO file, not subdir/TODO
-    build/    # ignore all files in the build/ directory
-    doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
-    target/
-    *.diff
-    *~
-
 ## Compare Branches
 
 Often you’ll be working on a branch, then switch back to the
@@ -356,6 +335,62 @@ master...and would like to know what is the difference between the two
 branches.  The following shows files and how changed.
 
     git diff --name-status master..npe
+
+# Branching, Merging best practices
+
+Normally when you've created a branch you want to regularly do:
+
+    git rebase master
+
+This gets all the changes that have occurred on master while you are
+on your branch and puts them *under* your commits.
+
+When you are ready to merge back to master, you want to squash all
+your commits into a single commit.
+
+First find out which commits have occurred since you were on master
+with either of the following:
+
+    git log master..HEAD
+    git log master..HEAD --oneline
+
+Here is an example:
+
+    $ git log master..HEAD --oneline
+    0da7acd .
+    574f56c .
+    $
+
+So I can see there have been two commits, and I want to squish these
+into one.  These are listed most recent at top.
+
+Next run an interactive rebase with:
+
+    git rebase -i HEAD~2
+
+Since I only have two commits, I use HEAD~2, if you have more commits,
+change the number after HEAD~.  Now your editor will pop up allowing
+you to start your rebase.  Now we will squish the newer commits into
+the oldest commit.  During rebase the commits are listed in reverse
+order to git log, with newest at the bottom.  My editor has the
+following two lines at the top:
+
+    pick 574f56c . <--- older commit
+    pick 0da7acd . <--- newer commit
+
+I change this to:
+
+    pick 574f56c .
+    squash 0da7acd .
+
+This will merge the two commits into a single new commit.  Then just
+save and exit out of your editor to go to the next step.  Another
+editor window will popup where you can adjust the commit message for
+this new single commit.
+
+Now we are in a good position to create a proper patch file which we
+can give to the code base owner, so they can easily see what you've
+changed in the code.
 
 # How to create and apply a patch with Git
 
@@ -507,6 +542,29 @@ you:
 Now type:
 
     git mergetool
+
+
+## Unstaging a file
+
+To unstage the file: `src/site/apt/build.apt~`
+
+    git reset HEAD src/site/apt/build.apt~
+
+## Git Ignore file
+
+Create a file called `.gitignore` in the project root and put lines
+like the following in it.
+
+    # a comment - this is ignored
+    *.a       # no .a files
+    !lib.a    # but do track lib.a, even though you're ignoring .a files above
+    /TODO     # only ignore the root TODO file, not subdir/TODO
+    build/    # ignore all files in the build/ directory
+    doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+    target/
+    *.diff
+    *~
+
 
 ## Committing
 
