@@ -60,6 +60,34 @@ three files: named.conf, forward and reverse zone files.
             allow-update { none; };
             allow-query { 192.168.8.0/24; };
     };
+    logging{
+      channel simple_log {
+        file "/var/log/bind.log" versions 3 size 5m;
+        severity info;
+        print-time yes;
+        print-severity yes;
+        print-category yes;
+      };
+      category default{
+        simple_log;
+      };
+    };
+
+bind.log file will be found in: /var/named/chroot/var/log/bind.log
+
+tail -f /var/log/messages
+
+then
+
+tail -f /var/named/chroot/var/log/bind.log
+
+Ensure permissions are correct:
+
+    # ls -l | grep ftravers.com.
+    -rw-r----- 1 root  named 1115 Jan 29  2010 ftravers.com.rev.zone
+    -rw-r----- 1 root  named 1109 Jan 29  2010 ftravers.com.zone
+
+
 
 Zone file example: vi /var/named/chroot/var/named/ftravers.com.zone
 
