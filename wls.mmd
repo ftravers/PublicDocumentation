@@ -486,3 +486,27 @@ commands.  Also note the[weblogic.deployer reference
 site](http://download.oracle.com/docs/cd/E13222_01/wls/docs90/deployment/wldeployer.html)
 
 
+# Change Password for Admin Console
+
+    export CLASSPATH=$CLASSPATH:/u01/app/oracle/ngsp/stage/wls1/wlserver_10.3/server/lib/weblogic.jar
+    java weblogic.security.utils.AdminAccount weblogic welcome1 .
+
+This will create the file: `DefaultAuthenticatorInit.ldift`, wherever
+you execute the above command from.  Replace the existing file with
+the new one at the following location:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/AdminServer/security</div></pre>
+
+Rename the ldap directory at:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/AdminServer/data</div></pre>
+
+Delete the `boot.properties` file at:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/AdminServer/security</div></pre>
+
+Now you can put a new boot.properties file here with the new username
+and password, like so:
+
+    username=newUsername
+    password=newPassword

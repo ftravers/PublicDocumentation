@@ -28,6 +28,39 @@ You must add at least one file...git doesn't do empty directories! :)
     git add .; git commit -m"Initial Commit"
     git push origin master:refs/heads/master
 
+# Go back in time
+
+First find the hash of the commit you want to go to with:
+
+    git log --oneline
+
+Then just do:
+
+    git checkout <hash>
+
+# Finding when a problem was introduced
+
+Sometimes a problem gets introduced into the code and you want to find
+out when it got introduced.  You can use the `git bisect` command to
+find the offending commit.
+
+    git bisect start
+    git bisect good 61d20a3
+    git bisect bad master
+    
+assuming the last known good commit was `61d20a3`.  You will then be
+put on a commit halfway between `master` and `61d20a3`.  Then run
+whatever it is that you'll do to find the problem, a grep, a compile,
+etc...  
+
+If the problem still persists, type:
+
+    git bisect bad
+
+So git will give you a commit 1/2 way between `61d20a3` and the
+current commit.  Otherwise `git bisect good` will move you to a commit
+in the opposite direction.
+
 ## In more detail...
 
 ### Edit config file
