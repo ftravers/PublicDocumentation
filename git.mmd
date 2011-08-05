@@ -817,7 +817,11 @@ be executed.  A simple file will be used to demonstrate how these
 things work.  The file is called `testBranch.mmd` and only has the
 following line in it to start with.  It is on the master branch.
 
-    Test file, line 1.    
+    Starting file in _master_ branch.
+
+Commit this file on master like so:
+
+    git commit -am'Starting commit on _master_'
 
 ## Branch
 
@@ -825,19 +829,19 @@ The first step is to make a branch, we'll call it `branch1`.
 
     git checkout -b branch1
 
-Now lets add an additional line, and commit our change on `branch1`.
+Now lets add an additional line:
+
+    Starting file in _master_ branch. 
+    First commit on branch1.
+
+and commit our change on `branch1`.
 
     git commit -am'First commit on branch1'
 
-The new file looks like:
+Lets modify the second line and add another line
 
-    Test file, line 1.
-    Second line. First commit on branch1.    
-
-Lets add another line
-
-    Test file, line 1.
-    Second line. First commit on branch1.
+    Starting file in _master_ branch. 
+    First commit on branch1, modified.
     2nd commit on branch1.
 
 and do another commit:
@@ -846,6 +850,16 @@ and do another commit:
 
 Now lets switch back to master:
 
+    git checkout master
+
+Insert a line at the top of the file:
+
+    Came back to master and change original file.
+    Starting file in _master_ branch. 
+
+and commit the change:
+
+    git commit -am'back on master'
 
 
 
