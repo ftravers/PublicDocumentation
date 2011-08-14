@@ -1,19 +1,57 @@
-## Normal Development Workflow
+## Normal Development Workflow Tutorial
 
-The following example demonstrates how a normal coding workflow should
-be executed.  A simple file will be used to demonstrate how these
-things work.  The file is called `testBranch.mmd` and only has the
-following line in it to start with.  It is on the master branch.
+Lets imagine that you've asked a fellow coder to fix or enhance some
+code that you wrote.  You would like to understand the changes that
+they are making.  In an ideal world they would submit a patch file to
+you that demonstrates the fix/enhancement that they made, in an easy
+to understand format.
+
+Lets say you are now the coder doing the fix/enhancement, how can you
+ensure that your work is presented in a nice patch file for the
+'owner' of the code?  The following tutorial aims to teach you the
+concepts and steps you would take to create the patch file.
+
+First we will be using GIT to manage the code and help us create the
+patch file.  This tutorial will teach you the following concepts:
+
+* branching
+* rebasing/squashing
+* creating a patch file
+
+In short, branching is the process of creating something like a copy
+of the code base where your changes are isolated from the master/main
+branch of code.  This way if you make a disaster of things, its
+relatively harmless to the code base.
+
+Rebasing/Squashing, in the following context, means taking several
+commits and combining them into a single commit.
+
+Finally, creating a patch file, means creating a file that shows the
+difference between the original code and your new code, only
+highlighting the parts of the code you changed.
+
+After you have completed the following tutorial, you can use the next
+section called recipe to help you remember the commands and steps that
+you should use in your coding workflow.  
+
+## Tutorial
+
+A simple file will be used to demonstrate how branching, squashing and
+patch file creation work. We'll look at a single file, with just a
+couple lines in it, to keep the tutorial material as brief and
+instructive as possible.  However, the exact same process applies
+equally well for any number of files and changes. The file is called
+`testBranch.mmd` and to start with only has the following line in it.
 
     Starting file in _master_ branch.
 
-Commit this file on master like so:
+Commit this file on the master/main branch like so:
 
     $ git commit -am'Starting commit on _master_'
     [master 62e2f60] Starting commit on _master_
      1 files changed, 1 insertions(+), 2 deletions(-)
 
-## Branch
+### Branch
 
 The first step is to make a branch, we'll call it `branch1`.
 
@@ -31,7 +69,11 @@ and commit our change on `branch1`.
     [branch1 36a404f] First commit on branch1
      1 files changed, 1 insertions(+), 0 deletions(-)
 
-Lets modify the second line and add another line
+Lets modify the second line and add another line.  This is significant
+because we are not only *adding* a line but we are also *modifying* an
+existing line.  Be sure to look at what that line looks like in the
+patch file, so you can see how modifying a line gets represented in a
+patch file.
 
     Starting file in _master_ branch. 
     First commit on branch1, modified.
@@ -52,33 +94,53 @@ output to just the essentials:
     commit 36a404f968a74302cdca5ec8cc81aa078a237ade
         First commit on branch1
 
-## Patch File
+### Patch File
 
 Lets look at what a patch file looks like now:
 
-    git format-patch master --stdout > ~/Desktop/file.patch
+    $ git format-patch master --stdout > ~/Desktop/file.patch
+    1      Subject: [PATCH 1/2] First commit on branch1
+    2      testBranch.mmd |    1 +
+    3      1 files changed, 1 insertions(+), 0 deletions(-)
+    4      ---
+    5      Starting file in _master_ branch.
+    6     +First commit on branch1.
+    7      
+    8     Subject: [PATCH 2/2] 2nd commit on branch1
+    9      testBranch.mmd |    3 ++-
+    10    1 files changed, 2 insertions(+), 1 deletions(-)
+    11    ---
+    12    Starting file in _master_ branch.
+    13   -First commit on branch1.
+    14   +First commit on branch1, modified.
+    15   +2nd commit on branch1.
 
-    Subject: [PATCH 1/2] First commit on branch1
-     testBranch.mmd |    1 +
-     1 files changed, 1 insertions(+), 0 deletions(-)
-     ---
-     Starting file in _master_ branch.
-    +First commit on branch1.
+As you can see, a line that is modified is represented as a line that
+is removed (original) and then added (new line).  The only two
+concepts in a patch file are added and removed lines. + and -.  There
+are no *modified* lines.
 
-    Subject: [PATCH 2/2] 2nd commit on branch1
-     testBranch.mmd |    3 ++-
-     1 files changed, 2 insertions(+), 1 deletions(-)
-     ---
-     Starting file in _master_ branch.
-    -First commit on branch1.
-    +First commit on branch1, modified.
-    +2nd commit on branch1.
+However, the really important thing to note here is that as the owner
+of the code, if I have to read this patch file, there is a nasty
+problem with it.  (I've number the lines of the patch file so they can
+be referred to.)  The whole first patch file is redundant!  Lines 1 ->
+7 are completely useless.  The reason being is that line 6 tells me
+than a line has been added.  But then lines 13 and 14 tell me this
+line has been modified.  All I really should have is line 14, just
+telling me that a line has been added, but instead I have also lines
+6, and 13 which don't help me in the slightest!  And actually the
+whole first patch file is useless, so 50% of the information in this
+patchfile is crap, and just makes my job of a reviewer harder.
+
+So how can we fix this situation?  This is where squashing commits
+comes in handy using the `rebase` command.
 
 ## Squash/Rebase
 
-Now this is the important point to remember.  This is an ugly patch
-file.  A patch file should squash all the commits into a single
-commit.  So lets do that.
+A patch file should represent a single commit, not several commits, as
+you can have situations like the above where changes made in earlier
+commits actually get superceded in subsequent commits.  We need to
+squash all the commits into a single commit.  So lets do that.
 
     git rebase -i HEAD~2
 
@@ -92,8 +154,12 @@ Change this to:
     pick 36a404f First commit on branch1
     s 5dae0ab 2nd commit on branch1
 
+Notice we've simply changed the word `pick` to the letter `s` meaning
+squash this commit.
+
 Save and exit your editor, this will pop open another editor with the
-following contents (edited slightly):
+following contents (edited slightly), allowing you to adjust your
+commit comments:
 
     # This is a combination of 2 commits.
     # The first commit's message is:
@@ -115,38 +181,47 @@ Now lets look at the log history (slightly edited):
         First commit on branch1
         2nd commit on branch1
 
+Compare this to the last time we looked at the log history, now we
+only have one single commit (albeit with a two line comment in it),
+but the important part is, is that this is just one commit *not* two!
+
 Lets see what the patch file looks like now too:
 
-    Subject: [PATCH] First commit on branch1
-    2nd commit on branch1
-     testBranch.mmd |    2 ++
-     1 files changed, 2 insertions(+), 0 deletions(-)
-     ---
-     Starting file in _master_ branch.
-    +First commit on branch1, modified.
-    +2nd commit on branch1.
+    1  Subject: [PATCH] First commit on branch1
+    2  2nd commit on branch1
+    3   testBranch.mmd |    2 ++
+    4   1 files changed, 2 insertions(+), 0 deletions(-)
+    5   ---
+    6   Starting file in _master_ branch.
+    7  +First commit on branch1, modified.
+    8  +2nd commit on branch1.
 
 This is 8 lines long instead of 14, and this is just for a trivial
-edit, it just gets worse the more commits you have!
+edit, it just gets worse the more commits you have!  As you can see on
+line 7, we now have just the information that is necessary, and that
+is that a line was added.  Not the whole nasty previous patch file
+with two commits, with the first commit not giving *any* meaningful
+information.
 
-Now often, master would have moved forward on its own, so lets do just
-that now.  Switch back to master branch.
+Now sometimes you are working on your code for a long time, and the
+owner of the code has made their own changes to the master branch in
+the mean time.  I'll demonstrate how we can deal with this situation
+now too.  Lets simulate this situation with master moving forward
+while we are still working on our branch, so lets do just that now.
+Switch back to master branch.
 
     $ git checkout master
     Switched to branch 'master'
-
-
-
-Now lets switch back to master:
-
-    $ git checkout master
 
 Insert a line at the top of the file:
 
     Came back to master and change original file.
     Starting file in _master_ branch. 
 
-and commit the change:
+Notice on master we don't see the changes that were made on `branch1`
+we simply see the file how is was at the time of the branching.
+
+Now lets commit the change:
 
     $ git commit -am'moving master forward 1'
 
@@ -165,14 +240,15 @@ looks like.
     +First commit on branch1, modified.
     +2nd commit on branch1.
 
+Interesting, the patch file doesn't show us the new stuff on master.
 So this is really just a patch of whats on `branch1` compared to where
 it branched from `master`, NOT where `master` is at the moment.  So at
 some point you need to bring your branch back to master, but now our
-patch file is only going to help with where we branched from.  What we
-want to always do is have our branch be able to patch where `master`
-is now, not where it was.  So what we need to do is `rebase` our
-branch over where master is now, and we can do that with the following
-command, while on our branch:
+patch file is only going to help with where we branched from, *not*
+where master is *now*!!!  What we want to always do is have our branch
+be able to patch where `master` is now, not where it was.  So what we
+need to do is `rebase` our branch over where master is now, and we can
+do that with the following command, while on our branch:
 
     $ git rebase master
     First, rewinding head to replay your work on top of it...
@@ -192,11 +268,7 @@ So lets see what a patch file looks like now:
 
 As we can see, now we have that first line from the latest, moved
 forward `master`.  Now when we supply the patch file to the *owner* of
-the master branch, they'll be able to trivially merge your changes
+the master branch, they'll be able to trivially merge the changes
 onto the latest master.
 
-## When rebasing fails
-
-Sometimes you'll have a conflicting edit on your branch with something
-that happened on master...lets simulate that now.
 
