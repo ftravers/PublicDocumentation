@@ -271,4 +271,36 @@ forward `master`.  Now when we supply the patch file to the *owner* of
 the master branch, they'll be able to trivially merge the changes
 onto the latest master.
 
+## Cookbook Recipies
 
+### Branching
+
+    checkout -b branch1
+
+where `branch1` is the name of the new branch, choose a name
+appropriate for your fix/enhancement
+
+### Counting your commits
+
+    git log master..HEAD
+
+This will tell you the number of commits you have done.  If you have
+more than one, then you need to do some squashing.
+
+### Squashing
+
+while on your branch (note the ~2 should be change to the number of
+commits you have, if you have 3 commits, type ~3)
+
+    git rebase -i HEAD~2
+
+just change `pick` to `s` leaving the top `pick`, save and exit from
+your editor in the normal way, and then your comments will pop up for
+editing, edit them and save and quit again.
+
+### Creating a Patch File
+
+    git format-patch master --stdout > ~/Desktop/file.patch
+
+You can obviously change the name of the patch file from `file.patch`
+to something more descriptive if you want.
