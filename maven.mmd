@@ -105,6 +105,14 @@ p(#release)
     mvn release:prepare
     mvn release:perform
 
+If your release:prepare fails, you may need to issue something like:
+
+    mvn release:prepare -Dresume=false
+
+If you want release numbers to be automatically chosen add a `-B` flag:
+
+    mvn release:prepare -B
+
 ## Cargo
 
 You can use cargo to deploy to your app server...like tomcat.

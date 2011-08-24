@@ -38,6 +38,39 @@ Then just do:
 
     git checkout <hash>
 
+# Detached Head issues
+
+## Changes on a detached head
+
+If you have changes on a detached head do the following:
+
+* Create a new branch with:
+
+    git checkout -b <branchName>
+
+* Switch to master
+
+    git checkout master
+
+* Merge changes from branch
+
+    git merge <branchName>
+
+* Delete old branch
+
+    git branch -d <branchName>
+
+## Commits on a detached head
+
+If you accidently committed some changes on a detached head and say
+switched to master do the following:
+
+* Switch back to the detached head, (say it had a commit hash = e0a5a84):
+
+    git checkout e0a5a84
+
+* Then do the steps from above.
+
 # Finding when a problem was introduced
 
 Sometimes a problem gets introduced into the code and you want to find
@@ -149,7 +182,9 @@ after the copy do the following:
 
 # References
 
--   [Git Reference](http://git.or.cz/course/svn.html)
+[Git Reference](http://git.or.cz/course/svn.html)
+
+[Visual Git](http://marklodato.github.com/visual-git-guide/index-en.html)
 
 # Install gitosis on Dreamhost
 
