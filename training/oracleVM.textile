@@ -134,9 +134,9 @@ adding a line like:
 bc. 
 disk = ['file:/OVS/running_pool/db11g/System.img,xvda,w','file:/OVS/running_pool/disks/disk2.img,xvdb,w']
 
-On VM Guest edit /etc/fstab
+On VM Guest add following line to: @/etc/fstab@
 
-bc. /dev/xvdb		/u05			ext3	defaults	1 2
+bc. /dev/xvdb		/u02			ext3	defaults	1 2
 
 
 
