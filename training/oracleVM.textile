@@ -129,7 +129,7 @@ mkdir /u02
 mount -t ext3 /dev/xvdb /u02
 
 To make the above persist for next reboot on vm server edit vm.cfg
-adding a line like:
+adjusting the *disk* line to have the second entry below:
 
 bc. 
 disk = ['file:/OVS/running_pool/db11g/System.img,xvda,w','file:/OVS/running_pool/disks/disk2.img,xvdb,w']
