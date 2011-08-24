@@ -113,7 +113,7 @@ bc. # mount -a
 
 DONE!!!
 
-* Create a hot mounted ext3 disk
+h3. Create a hot mounted ext3 disk
 
 On the VM server do:
 
@@ -138,10 +138,7 @@ On VM Guest add following line to: @/etc/fstab@
 
 bc. /dev/xvdb		/u02			ext3	defaults	1 2
 
-
-
-
-* Remove a Disk (LVM)
+h3. Remove a Disk (LVM)
 
 Remove /etc/fstab entry
 
