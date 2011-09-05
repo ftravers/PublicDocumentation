@@ -10,6 +10,10 @@ h1. Installation Considerations
 
 Mac JVMs are installed to here: @/System/Library/Frameworks/JavaVM.framework/Versions@
 
+h1. VisualVM
+
+To see the memory profile of a running java process...can use VisualVM.
+
 h1. Logging
 
 "Reference":http://logback.qos.ch/manual/layouts.html

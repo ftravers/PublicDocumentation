@@ -4,7 +4,7 @@ CSS: style.css
 
 jar project:
 
-<pre><div class="sample_code">mvn archetype:generate -B -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.1 -Dversion=0.0.1-SNAPSHOT -DgroupId=<span class="parameter">com.oracle.git.ngsp</span> -DartifactId=<span class="parameter">ossoCrmodTester</span></div></pre>
+<pre><div class="sample_code">mvn archetype:generate -B -DarchetypeArtifactId=maven-archetype-quickstart -Dversion=0.0.1-SNAPSHOT -DgroupId=<span class="parameter">com.oracle.git.ngsp</span> -DartifactId=<span class="parameter">ossoCrmodTester</span></div></pre>
 
 war project:
 
@@ -104,6 +104,14 @@ p(#release)
 
     mvn release:prepare
     mvn release:perform
+
+If your release:prepare fails, you may need to issue something like:
+
+    mvn release:prepare -Dresume=false
+
+If you want release numbers to be automatically chosen add a `-B` flag:
+
+    mvn release:prepare -B
 
 ## Cargo
 
