@@ -14,10 +14,23 @@ setup start/stop scripts "here":http://download.oracle.com/docs/cd/B28359_01/ser
 
 h3. stop / start Database
 
+Identify the SID:
+
+bc. 
+cat /u01/app/oracle/product/11.1.0/db_1/network/admin/tnsnames.ora
+...
+(SERVICE_NAME = <SID>)
+...
+
+Where <SID> is your SID.
+
 STOP: To identify the SID and Oracle home directory for the instance that you want to shut down...
 
 bc. 
 $ cat /etc/oratab
+
+last line will be of format: <SID>:<ORACLE_HOME>
+
 $ . /usr/local/bin/oraenv; sqlplus "/ as sysdba"
 SQL> SHUTDOWN NORMAL;
 

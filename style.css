@@ -211,7 +211,7 @@ dd {
 }
 
 .parameter {
-    color: black;
+    color: grey;
     font-style:italic;
     font-family: monospace;
 }

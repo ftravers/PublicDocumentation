@@ -1,0 +1,366 @@
+# Reference
+
+https://www.redhat.com/docs/en-US/Red_Hat_Enterprise_Linux/5.2/html/Deployment_Guide/s2-bind-useful-websites.html  
+http://www.redhat.com/mirrors/LDP/HOWTO/DNS-HOWTO.html  
+http://tldp.org/HOWTO/DNS-HOWTO.html
+
+# Intro
+
+This document shows how to setup a basic DNS server for your own
+private lab. This is *very* important for anyone running a lab and
+especially important for any one running a ‘private cloud’, as you
+will be creating many hosts and keeping track of them requires you
+use DNS.
+
+# Steps
+
+    yum -y install bind* caching-nameserver
+
+three files: named.conf, forward and reverse zone files.
+
+    vi /var/named/chroot/etc/named.conf
+
+    acl good-hosts {
+            192.168.8.0/24;
+    };
+    
+    options {
+       directory "/var/named";
+       dump-file "/var/named/data/cache_dump.db";
+       statistics-file "/var/named/data/named_stats.txt";
+       listen-on port 53 { 127.0.0.1; any; };
+            allow-query { good-hosts; };
+            allow-recursion { good-hosts; };
+    };
+    
+    //
+    // a caching only nameserver config
+    //
+    controls {
+       inet 127.0.0.1 allow { localhost; } keys { rndckey; };
+    };
+    
+    zone "." IN {
+       type hint;
+       file "named.ca";
+    };
+    
+    include "/etc/rndc.key";
+    
+    zone "ftravers.com" {
+            type master;
+            allow-query { 192.168.8.0/24; };
+            allow-update { none; };
+            file "ftravers.com.zone";
+    };
+    
+    zone "8.168.192.in-addr.arpa" IN {
+            type master;
+            file "ftravers.com.rev.zone";
+            allow-update { none; };
+            allow-query { 192.168.8.0/24; };
+    };
+    logging{
+      channel simple_log {
+        file "/var/log/bind.log" versions 3 size 5m;
+        severity info;
+        print-time yes;
+        print-severity yes;
+        print-category yes;
+      };
+      category default{
+        simple_log;
+      };
+    };
+
+bind.log file will be found in: /var/named/chroot/var/log/bind.log
+
+tail -f /var/log/messages
+
+then
+
+tail -f /var/named/chroot/var/log/bind.log
+
+Ensure permissions are correct:
+
+    # ls -l | grep ftravers.com.
+    -rw-r----- 1 root  named 1115 Jan 29  2010 ftravers.com.rev.zone
+    -rw-r----- 1 root  named 1109 Jan 29  2010 ftravers.com.zone
+
+
+
+Zone file example: vi /var/named/chroot/var/named/ftravers.com.zone
+
+    ; Zone File for ftravers.com
+    $TTL 14400
+    @               IN      SOA     dns.ftravers.com. hostmast.ftravers.com. (
+                                    2006102400 ; serial, todays date + todays serial #
+                                    14400 ; refresh, seconds
+                                    7200 ; retry, seconds
+                                    3600000 ; expire, seconds
+                                    86400 ; minimum, seconds
+                                    )
+    ;
+    
+    ftravers.com.   14400   IN      NS      dns
+    ;
+    xp              14400   IN      A       192.168.8.119
+    man             14400   IN      A       192.168.8.120
+    ucm3            14400   IN      A       192.168.8.122
+    wls             14400   IN      A       192.168.8.125
+    wls1032         14400   IN      A       192.168.8.126
+    bpel            14400   IN      A       192.168.8.127
+    proddb          14400   IN      A       192.168.8.129
+    db112           14400   IN      A       192.168.8.130
+    oas             14400   IN      A       192.168.8.132
+    dns             14400   IN      A       192.168.8.133
+    wlsdev          14400   IN      A       192.168.8.136
+    x61             14400   IN      A       192.168.8.99
+    hp2             14400   IN      A       192.168.8.98
+    hp4             14400   IN      A       192.168.8.104
+    nas             14400   IN      A       192.168.8.200
+    ftp             14400   IN      CNAME   nas.ftravers.com.
+
+Zone file example:
+/var/named/chroot/var/named/ftravers.com.rev.zone
+
+    ; Reverse Zone File for ftravers.com - 8.168.192.in-addr.arpa.
+    $TTL 14400
+    @               14440   IN      SOA     dns.ftravers.com. hostmaster.ftravers.com. ( 2006102400
+                                            14400
+                                            7200
+                                            3600000
+                                            86400
+                                            )
+    ;
+                    IN      NS      dns.ftravers.com.
+    119             IN      PTR     xp.ftravers.com.
+    120             IN      PTR     man.ftravers.com.
+    122             IN      PTR     ucm3.ftravers.com.
+    129             IN      PTR     proddb.ftravers.com.
+    130             IN      PTR     db112.ftravers.com.
+    132             IN      PTR     oas.ftravers.com.
+    133             IN      PTR     dns.ftravers.com.
+    99              IN      PTR     x61.ftravers.com.
+    98              IN      PTR     hp2.ftravers.com.
+    104             IN      PTR     hp4.ftravers.com.
+    200             IN      PTR     nas.ftravers.com.
+
+Since the server1 and server2 names do not end in a trailing period
+(.), the $ORIGIN domain is placed after them, expanding them to
+server1.example.com and server2.example.com.
+
+# Restart Servers
+
+    service named restart
+
+# Using this nameserver
+
+From ubuntu goto `/etc/resolv.conf`
+
+# Cookbook
+
+## Inside Oracle
+
+The following describes how to setup a DNS server inside of Oracle.
+This example is the hong kong office. The first thing you need to
+do is understand about getting IP Addresses. In most cases you’ll
+need to understand that you are working in an environment where IP
+addresses are given out by a DHCP server. That is they are dynamic.
+However, you can just plug your machine in, find out what IP
+address it got, then take that info and use it in your DNS server.
+So for example, on my laptop, I’m plugged into the network, and my
+ipaddress is:
+
+    oracle@oracle-laptop:~$ ifconfig
+    eth0      Link encap:Ethernet  HWaddr 00:1f:16:21:93:76  
+              inet addr:10.179.252.142  Bcast:10.179.252.255  Mask:255.255.255.0
+    ...
+
+So I see it is: `10.179.252.142` since this was freely handed out
+by DHCP, I can also take that IP and just give it to one of my
+servers.
+
+Establish the following: gateway, netmask.
+
+for gateway do: `traceroute google.com`, the firts line returned
+(starts with a one ) has an ipaddress...thats your gateway
+address.
+
+ifconfig will return your netmask, its the ip address following
+`Mask:` above.
+
+You’ll need these when you are setting up the static networking for
+the servers you add to your DNS setup.
+
+Now when you 7
+
+The second thing I need to do is make up a domain. Lets call it
+githklab for GIT-HK-Lab, so the full domain can be: githklab, not
+githklab.com or githklab.oracle.com, or
+githklab.hk.oracle.com...simply githklab
+
+So our first file, `/var/named/chroot/etc/named.conf`, will look
+like:
+
+    acl good-hosts {
+            any;
+    };
+    options {
+       directory "/var/named";
+       dump-file "/var/named/data/cache_dump.db";
+       statistics-file "/var/named/data/named_stats.txt";
+       listen-on port 53 { 127.0.0.1; any; };
+            allow-query { good-hosts; };
+            allow-recursion { good-hosts; };
+    };
+    //
+    // a caching only nameserver config
+    //
+    controls {
+       inet 127.0.0.1 allow { localhost; } keys { rndckey; };
+    };
+    zone "." IN {
+       type hint;
+       file "named.ca";
+    };
+    include "/etc/rndc.key";
+    zone "githklab" {
+            type master;
+            allow-query { any; };
+            allow-update { none; };
+            file "githklab.zone";
+    };
+    zone "252.179.10.in-addr.arpa" IN {
+            type master;
+            file "githklab.rev.zone";
+            allow-update { none; };
+            allow-query { any; };
+    };
+
+Zone file example: `/var/named/chroot/var/named/githklab.zone`
+
+    ; Zone File for githklab
+    $TTL 14400
+    @               IN      SOA     linux1.hk.oracle.com. hostmast.githklab. (
+                                    2006102400 ; serial, todays date + todays serial #
+                                    14400 ; refresh, seconds
+                                    7200 ; retry, seconds
+                                    3600000 ; expire, seconds
+                                    86400 ; minimum, seconds
+                                    )
+    ;
+    
+    hk.oracle.com.  14400   IN      NS      linux1
+    ;
+    ovmtbman        14400   IN      A       10.179.252.142
+
+
+
+Zone file example: `/var/named/chroot/var/named/githklab.rev.zone`
+
+    ; Reverse Zone File for ftravers.com - 252.179.10.in-addr.arpa.
+    $TTL 14400
+    @               14440   IN      SOA     dns.ftravers.com. hostmaster.ftravers.com. ( 2006102400
+                                            14400
+                                            7200
+                                            3600000
+                                            86400
+                                            )
+    ;
+                    IN      NS      linux1.hk.oracle.com
+    142             IN      PTR     ovmtbman.githklab.
+
+### Restart Servers
+
+    service named restart
+
+Next you’ll want to give one of your VM’s this IP address. Then  
+restart your laptop’s network connection, DHCP, should notice that
+the  
+IP address is already used by another machine and give you a
+different  
+IP address.
+
+# Old Stuff
+
+    [root@dns ~]# cat lab  
+    ; Zone File for lab.com  
+    $TTL 14400  
+    @ IN SOA dns.lab.com. hostmast.lab.com. (  
+    2006102400 ; serial, todays date + todays serial #  
+    14400 ; refresh, seconds  
+    7200 ; retry, seconds  
+    3600000 ; expire, seconds  
+    86400 ; minimum, seconds  
+    )  
+    ;
+     
+    lab.com. 14400 IN NS dns  
+    ;  
+    op5 14400 IN A 192.168.9.100  
+    xp2 14400 IN A 192.168.9.101  
+    ucmel 14400 IN A 192.168.9.102
+     
+    dbel 14400 IN A 192.168.9.103  
+    lab.com. 14400 IN MX 10 dbel.lab.com.  
+    opel 14400 IN A 192.168.9.104  
+    dns 14400 IN A 192.168.9.133  
+    ovsoracle 14400 IN A 192.168.9.56  
+    vms 14400 IN CNAME ovsoracle.lab.com.  
+    nas 14400 IN A 192.168.9.105  
+    kerapu.mohe.gov.my 14400 IN A 192.168.9.31  
+    opelstg 14400 IN A 192.168.9.107  
+    cvs 14400 IN A 192.168.9.20  
+    dbrh64 14400 IN A 192.168.9.131  
+    amran 14400 IN A 192.168.9.188  
+    db10 14400 IN A 192.168.9.116  
+    database 14400 IN A 192.168.9.113  
+    bala 14400 IN A 192.168.9.171  
+    anil 14400 IN A 192.168.9.172  
+    fenton 14400 IN A 192.168.9.173  
+    oracleucm 14400 IN A 192.168.9.176  
+    oracleportal 14400 IN A 192.168.9.177  
+    baizura 14400 IN A 192.168.9.179  
+    oracledb 14400 IN A 192.168.9.187  
+    oidrh 14400 IN A 192.168.9.134  
+    ucmel2 14400 IN A 192.168.9.174  
+    vms2 14400 IN A 192.168.9.57  
+    [root@dns ~]#   
+    [root@dns ~]# cat revlab   
+    ; Reverse Zone File for lab.com – 9.168.192.in-addr.arpa.  
+    $TTL 14400  
+    @ 14440 IN SOA dns.lab.com. hostmaster.lab.com. ( 2006102400  
+    14400  
+    7200  
+    3600000  
+    86400  
+    )  
+    ;  
+    IN NS dns.lab.com.  
+    20 IN PTR cvs.lab.com.  
+    31 IN PTR kerapu.mohe.gov.my.  
+    101 IN PTR xp2.lab.com.  
+    100 IN PTR op5.lab.com.  
+    102 IN PTR ucmel.lab.com.  
+    103 IN PTR dbel.lab.com.  
+    104 IN PTR opel.lab.com.  
+    105 IN PTR nas.lab.com.  
+    133 IN PTR dns.lab.com.  
+    107 IN PTR opelstg.lab.com.  
+    131 IN PTR dbrh64.lab.com.  
+    188 IN PTR amran.lab.com.  
+    116 IN PTR db10.lab.com.  
+    113 IN PTR database.lab.com.  
+    171 IN PTR bala.lab.com.  
+    172 IN PTR anil.lab.com.  
+    173 IN PTR fenton.lab.com.  
+    176 IN PTR oracleucm.lab.com.  
+    177 IN PTR baizura.lab.com.  
+    187 IN PTR oracledb.lab.com.  
+    134 IN PTR oidrh.lab.com.  
+    174 IN PTR ucmel2.lab.com.  
+    [root@dns ~]#
+
+
+

@@ -25,9 +25,14 @@ edit `/etc/fstab` example:
     service nfs start
     /usr/sbin/exportfs -a
 
-server: /etc/mounts example:
+server: /etc/exports example:
 
     /OVS/downloads *(rw,sync,all_squash,anonuid=500,anongid=500)
+
+When this is changed we need to do:
+
+    exportfs -va
+    service nfs restart
 
 ## Java
 
@@ -294,22 +299,22 @@ on server
     cd gitosis
     python setup.py install
 
--   Create a user called git, and set the password.
+Create a user called git, and set the password.
 
     useradd git
     passwd git
 
--   Copy your laptop public key to server
+Copy your laptop public key to server
 
     scp /home/oracle/.ssh/id_rsa.pub git@linux1.hk.oracle.com:/home/git
 
--   On server AS git USER!!!
+On server AS git USER!!!
 
     gitosis-init < id_rsa.pub
     rm id_rsa.pub
     chmod 755 /home/git; chmod 700 /home/git/.ssh; chmod 644 /home/git/.ssh/authorized_keys
 
--   On client (laptop)
+On client (laptop)
 
     cd ~; mkdir projects; cd projects
     git clone git@linux1.hk.oracle.com:gitosis-admin.git

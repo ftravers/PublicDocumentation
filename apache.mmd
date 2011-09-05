@@ -3,38 +3,32 @@ CSS: style.css
 
 ## Installation
 
+### No SSL
+
 <pre><div class="sample_code">./configure --prefix=<span class="parameter">PREFIX</span></div></pre>
+
+### With SSL
+
+Install openssl if you don't have it.  Change the `configure` line to:
+
+<pre><div class="sample_code">./configure --prefix=<span class="parameter">PREFIX</span> <span class="highlight">--enable-ssl</span> <span class="highlight">--with-ssl=</span><span class="parameter">SSL_INSTALL_DIR</span></div></pre>
+
+example:
+
+    ./configure --prefix=/u01/app/oracle/ngsp/httpd --enable-ssl --with-ssl=/u01/app/oracle/ngsp/openssl/
 
 Where 
 
 <pre><div class="sample_code"><span class="parameter">PREFIX</span></div></pre>
 
-is the name of the folder where you want apache installed into.
+is the name of the folder where you want apache installed into.  Then do the following:
 
      make
      make install
+
+Start apache:
 
 <pre><div class="sample_code"><span class="parameter">PREFIX</span>/bin/apachectl start</div></pre>
-
-## SSL
-
-If you want SSL.  You may have to install openssl.
-
-Download, and run follow install commands:
-
-<pre><div class="sample_code">./configure --prefix=<span class="parameter">PREFIX</span></div></pre>
-
-     make
-     make install
-
-
-change your configuration line to look like:
-
-<pre><div class="sample_code">./configure --prefix=<span class="parameter">PREFIX</span> <span class="highlight">--enable-ssl</span> <span class="highlight">--with-ssl=</span><span class="parameter">SSL_INSTALL_DIR</span></div></pre>
-
-I used the follow line for my install:
-
-    ./configure --prefix=/u01/app/oracle/ngsp/httpd --enable-ssl --with-ssl=/u01/app/oracle/ngsp/openssl/
 
 ### SSL Config
 
@@ -61,13 +55,26 @@ If required change listen port
 
 <pre><div class="sample_code">Listen <span class="highlight">1443</span></div></pre>
 
+#### Update Certificate References
+
+Update the following params to point to your private key, public
+certificate, CA certificate signing chain
+
+What                   | Param Name
+---------------------- | ------------------------
+public certificate     | SSLCertificateFile 
+private key            | SSLCertificateKeyFile
+signing chain          | SSLCertificateChainFile
+
+
+
 ### Virtual Hosts
 
 I adjusted the following params:
 
 <pre><div class="sample_code">&lt;VirtualHost _default_:<span class="highlight">1443</span>&gt;
 
-#   General setup for the virtual host
+#### General setup for the virtual host
 DocumentRoot <span class="highlight">"/scratch/ngsp/httpd/htdocs"</span>
 ServerName <span class="highlight">myhelpstage.oraclecorp.com:1443</span>
 ServerAdmin <span class="highlight">fenton.travers@oracle.com</span></div></pre>

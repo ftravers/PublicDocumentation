@@ -1,0 +1,8 @@
+download driver from here:
+
+http://support.amd.com/us/gpudownload/linux/Pages/radeon_linux.aspx
+
+Run the following from the console:
+
+chmod u+x ati-driver-installer-11-6-x86.x86_64.run
+./ati-driver-installer-11-6-x86.x86_64.run

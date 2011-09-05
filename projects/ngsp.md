@@ -47,8 +47,8 @@ In production we can replace Glassfish with the latest version of WebLogic
 
 ### Mass Update of Master Incident
 
-* Design Document
-* Deployment Guide
+* [Design Document] (http://linux1.hk.oracle.com/massUpdate/design.html)
+* [Deployment Guide] (http://linux1.hk.oracle.com/massUpdate/)
 
 ### HRMS to CRMOD user data integration
 
