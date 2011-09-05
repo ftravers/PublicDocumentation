@@ -432,6 +432,26 @@ UNIX the last argument should be single-quoted:
 bc.
 jad -r -sjava -dsrc 'tree/**/*.class' 
 
+h2. Visual VM
+
+Can show you realtime heap usage info.
+
+bc. 
+cd ${JDK_HOME}/bin
+vi jstatd.all.policy
+
+Add the following:
+
+bc. 
+grant codebase "file:${java.home}/../lib/tools.jar" {
+permission java.security.AllPermission;
+};
+
+launch jstatd
+
+bc. ./jstatd -J-Djava.security.policy=jstatd.all.policy &
+
+Fire up Visual VM and connect to host.
 
 
    

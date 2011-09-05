@@ -1,6 +1,6 @@
-# Overview
+CSS: style.css
 
-Masaki!!!
+# Overview
 
 This document will describe in broad strokes the steps you need to
 go through to establish an Oracle Virtual Machine Lab. It assumes
@@ -308,7 +308,7 @@ need to set your web proxy, so that step is listed first.
 Put the export http\_proxy line at the bottom of `/etc/profile` so
 all users get this environment variable set.
 
-    # vi /etc/profile
+    # cat >> /etc/profile
     export http_proxy=http://www-proxy.sg.oracle.com
 
 Download the repo file:
@@ -333,6 +333,8 @@ Change all the enabled=0 to enabled=1, for: [el5\_ga\_base],
 Test it out:
 
     yum install wget
+
+[Add rpmforge repo too.](setupVMLab.html#setuprpmforge)
 
 ## Backup
 

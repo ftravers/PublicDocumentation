@@ -1,4 +1,4 @@
-[Home](/index.html)
+CSS: style.css
 
 # Ubuntu
 
@@ -846,6 +846,10 @@ send nohup output to a filename of your choice:
 
 command line put/get (like ftp) access for webdav servers (i.e. over http)
 
+    cadaver --proxy=www-proxy.us.oracle.com:80 http://files.spicevan.com/share
+
+use put/get to transfer files.
+
 # keytool
 
 A keystore is a password-protected file which stores the keys and
@@ -953,3 +957,73 @@ more information, check out the [Java Keytool
 documentation](http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/keytool.html)
 or check out our [Tomcat SSL Installation Instructions which use Java
 Keytool](http://www.sslshopper.com/tomcat-ssl-installation-instructions.html).
+
+
+# Screen Resolutions
+
+CTRL-ALT-F1 -> F6 give you 6 tty terminals.  CTRL-ATL-F7 will give you
+the GUI terminal (i.e. take you back).
+
+Start and stop X:
+
+    sudo /etc/init.d/gdm stop
+
+
+* Getting Modeline
+
+want 1920x1080 (HD) resolution.
+
+    gtf 1920 1080 60
+
+or
+
+    cvt 1920 1080
+
+* Example:
+
+    $ cvt 1920 1080
+    # 1920x1080 59.96 Hz (CVT 2.07M9) hsync: 67.16 kHz; pclk: 173.00 MHz
+    Modeline "1920x1080_60.00"  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
+
+    $ xrandr --newmode "1920x1080_60.00"  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
+
+* Toggle between two resolutions
+
+    $ xrandr --output DFP1 --mode 1600x900
+    $ xrandr --output DFP1 --mode 1600x1200
+
+
+Samsung 23"
+
+For xrandr use DFP1 for the 'output' parameters.
+
+Section "Monitor"
+        Identifier   "aticonfig-Monitor[0]-0"
+        Option      "VendorName" "ATI Proprietary Driver"
+        Option      "ModelName" "Generic Autodetecting Monitor"
+        Option      "DPMS" "true"
+EndSection
+
+Section "Screen"
+        Identifier "aticonfig-Screen[0]-0"
+        Device     "aticonfig-Device[0]-0"
+        Monitor    "aticonfig-Monitor[0]-0"
+        DefaultDepth     24
+        SubSection "Display"
+                Viewport   0 0
+                Depth     24
+                Modes   "1920x1080"
+                Virtual 2944 1080
+        EndSubSection
+EndSection
+
+Section "ServerLayout"
+        Identifier     "aticonfig Layout"
+        Screen      0  "aticonfig-Screen[0]-0" 0 0
+EndSection
+
+Section "Device"
+        Identifier  "aticonfig-Device[0]-0"
+        Driver      "fglrx"
+        BusID       "PCI:0:1:0"
+EndSection

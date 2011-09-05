@@ -1,15 +1,4 @@
-Table of Contents
-
-1.  [Commands](dbCommands.html#Commands)
-    1.  [Start/Stop](dbCommands.html#StartStop)
-        1.  [Start/Stop Scripts](dbCommands.html#StartStopScripts)
-        2.  [stop / start Database](dbCommands.html#stopstartDatabase)
-        3.  [stop / start Enterprise Manager Database
-            Control](dbCommands.html#stopstartEnterpriseManagerDatabaseControl)
-        4.  [stop and start
-            listener:](dbCommands.html#stopandstartlistener)
-
-    2.  [Misc Commands](dbCommands.html#MiscCommands)
+CSS: style.css
 
 # Commands
 
@@ -224,6 +213,35 @@ Update the line like:
 
 to have the IP address you want.
 
+Ensure the file: `/etc/hosts` reflects this same IP Address too.
+
 Restart the server.
  
     [root@db4 network-scripts]# shutdown -r now
+
+Trouble Shooting:
+
+SQL Developer give this error:
+
+"Listener refused the connection with the following error: ORA-12505..."
+
+Google, says this has to do with timing of startup of listener and DB.
+So I check the status of the lsnrctl with:
+
+    $ORACLE_HOME/bin/lsnrctl status
+
+and I see the log file is:
+
+    /u01/app/oracle/diag/tnslsnr/db112/listener/alert/log.xml
+
+which I check and see errors like:
+
+    <msg time='2010-01-28T02:29:00.777-05:00' org_id='oracle' comp_id='tnslsnr'
+     type='UNKNOWN' level='16' host_id='db112'
+     host_addr='192.168.8.130'>
+
+Now I changed the IP address, and this is the old one.  So I'm
+rebooting to see if this has any effect.
+
+Soln:
+The IP address was in the /etc/hosts file, I updated that and rebooted.
