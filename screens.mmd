@@ -16,7 +16,15 @@ p                       | (p)rev window
 k                       | (k)ill a window
 d                       | (d)etach from a window.  You can re-attach later.
 screen -ls              | list running screens
-screen -r <screen name> | (r)e-attach.  Use screen name from screen -ls command
+screen -r [screen name] | (r)e-attach.  Use screen name from screen -ls command
 H                       | create a running log of session
 M                       | Monitor screen for activity
+_                       | Monitor a screen for silence
 
+# Details
+
+## Monitoring
+
+This function will tell you when activity on a `screen` has either
+started or stopped.  This could be very useful if you have a long
+running process and would like to be alerted when it is finished.
