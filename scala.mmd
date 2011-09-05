@@ -1,0 +1,94 @@
+## Reference:
+
+[First Steps](http://www.artima.com/scalazine/articles/steps.html)
+[Eclipse and Scala](http://www.vogella.de/articles/Scala/article.html)
+
+
+## Maven
+
+    mvn org.apache.maven.plugins:maven-archetype-plugin:1.0-alpha-7:create -DarchetypeGroupId=org.scala-tools.archetypes -DarchetypeArtifactId=scala-archetype-simple -DarchetypeVersion=1.1 -DremoteRepositories=http://scala-tools.org/repo-releases -DgroupId=your.proj.gid -DartifactId=your-proj-id
+
+I updated the scala version in the properties section like so:
+
+    <scala.version>2.9.0-1</scala.version>
+
+## Running Scala
+
+Create a class that looks like the following:
+
+    package secondScala;
+     
+    object App extends Application {
+      override def main(args : Array[String]) { println( "Hello World!" )}
+    }
+
+    mvn compile; cd target/classes; scala secondScala.App
+
+## Calling scala code from java project
+
+
+
+## Functions/Methods
+
+    def: myFunc( argName: String ) {
+       ...
+    }
+
+    def max(x: Int, y: Int): Int = if (x < y) y else x
+
+max: (Int,Int)Int
+
+Formula:
+
+## Unit (java: void)
+
+scala.Unit, is Scala's analogue to void in Java. The main difference
+between Scala's Unit and Java's void is that Scala lets you write down
+a value of type Unit, namely (), whereas in Java there is no value of
+type void.
+
+## vals & vars
+
+Scala differentiates between vals, variables that are assigned once
+and never change, and vars, variables that may change over their
+lifetime.
+
+## Defining Variables/Values
+
+<val|var> <variable name> : <type> = <value to assign>
+
+    val name : java.lang.String = "Fenton Travers"
+
+Type comes *AFTER* variable/value name.
+
+## Static Methods
+
+Static members (methods or ﬁelds) do not exist in Scala. Rather than
+deﬁning static members, the Scala programmer declares these members in
+singleton objects
+
+
+    object HelloWorld {
+      def main(args: Array[String]) {
+        println("Hello, world!")
+      }
+    } 
+
+## Classes
+
+One important difference is that classes in Scala can have parameters. This
+is illustrated in the following deﬁnition of complex numbers.
+
+    class Complex(real: Double, imaginary: Double) {
+      def re() = real
+      def im() = imaginary
+    }
+
+These arguments must be passed when creating an instance of class
+Complex, as follows: 
+
+    new Complex(1.5, 2.3). 
+
+The class contains two methods, called re and im, which give access to
+these two parts.
+
