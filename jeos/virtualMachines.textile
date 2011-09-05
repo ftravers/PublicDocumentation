@@ -16,6 +16,7 @@ Static IPs
 | xps                      | 10.179.252.34 |                                      
 | "vl-wlp1":vl-wlp1        | 10.179.252.31 | glassfish :dev                       
 | "linux1":#linux1         | 10.179.252.32 | git :stage                           
+| vl-vmsrv2                | 10.179.252.33 | OVM Server
 | vl-wciwcm1               | 10.179.252.35 |                                      
 | "alm":#alm               | 10.179.252.39 | OVMM, OVMTB, Hudson :dev             
 | youtube                  | 10.179.252.38 |                                      

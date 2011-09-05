@@ -1,0 +1,299 @@
+"home":/index.html > Virtual Lab
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Overview
+
+This document will describe in broad strokes the steps you need to go
+through to establish an Oracle Virtual Machine Lab.  It assumes that
+you have 1 dedicated 'server'.  This should be any old desktop with as
+much RAM as possible, 4GB is considered a minimum.
+
+h2. Install OVMS
+
+OVMS(Oracle Virtual Machine Server).  You can download the iso from
+"eDelivery":http://edelivery.oracle.com/linux
+
+bc. 
+Select a Product Pack: Oracle VM
+Platform: x86 32 bit
+Oracle VM 2.2.1 Media Pack 	2.2.1.0.0 	B58990-04 	OCT-22-2010 	
+
+This is your base system now.  Hopefully you setup a static IP
+address.  Lets just say it is: @192.168.8.2@.  Lets call the machine
+@vmsrv.mydomain.com@.
+
+Once you have OVMS laid down.  You need to download the OVMTB(Oracle
+Virtual Machine Template Builder).  This is also located on
+"eDelivery":http://edelivery.oracle.com/linux.
+
+bc. 
+Select a Product Pack: Oracle VM
+Platform: x86 32 bit
+Oracle VM Templates for Oracle VM Manager 2.1.5 Media Pack for x86 (32 bit)
+
+h2(#tbt). Template Builder Template
+
+In the previous step you downloaded the TBT(Template Builder Template).  
+This is a virtual machine that you will untar on your OVMS.  
+Then you will launch it.  Steps:
+
+* Untar to folder: @/OVS/running_pool/OVM_EL5U2_X86_64_TMPLBUILDER_PVM/@
+
+bc. 
+[root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]# ls
+data.img  README  System.img  vm.cfg
+[root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]# cat vm.cfg
+bootloader = '/usr/bin/pygrub'
+disk = ['file:/OVS/running_pool/OVM_EL5U2_X86_64_TMPLBUILDER_PVM/System.img,xvda,w',
+        'file:/OVS/running_pool/OVM_EL5U2_X86_64_TMPLBUILDER_PVM/data.img,xvdb,w']
+memory = '1024'
+name = 'OVM_EL5U2_X86_64_TMPLBUILDER_PVM'
+vcpus = 1
+on_crash = 'restart'
+on_reboot = 'restart'
+vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']
+vif = ['type=netfront']
+[root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]#
+
+Notice the changes I've made from the default vm.cfg.  The location of
+the file images (System.img & data.img) will need updating.  Launch
+the vm with:
+
+bc. 
+[root@vmsrv OVM_EL5U2_X86_64_TMPLBUILDER_PVM]# xm create vm.cfg
+
+h3. Configure Template Builder Template
+
+Follow all the steps in the following documentation section to setup a
+static ip and hostname for the TBT.
+
+* "Setup a static IP and ...":/jeos/oel_detail_setup.html#staticIp
+
+h3. TB Web Interface
+
+Now that the network is properly setup, we can SSH(Secure Shell) into
+the machine and abandon our VNC(Virtual Network Client) client from
+now on in.  Lets assume that the machine name is: @tb@ and that it's
+IP Address is: @192.168.8.3@.
+
+Rebooting this machine we can then open a browser on your laptop and
+put the following URL in:
+
+bc. http://tb/ovmtb
+
+Select the @register@ link, choosing @oracle@ to be the username and @welcome1@ to 
+be the password.
+
+h3. Getting the JeOS Template
+
+Again from: "eDelivery":http://edelivery.oracle.com/linux we can grab
+the JeOS(Just enough Operating System) templates we want.
+
+bc. 
+Select a Product Pack: Oracle Linux
+Platform: x86 32 bit
+JeOS Oracle Linux 5 Update 5 base image x86 (32 Bit) 	V21114-01 	135M
+
+and
+
+bc. 
+Select a Product Pack: Oracle Linux
+Platform: x86 32 bit
+JeOS Base x86 and x86_64
+
+You'll eventually end up with the following files after you've
+downloaded the above and unzipped them:
+
+bc. 
+[root@vl-vmsrv2 jeos]# ls
+ovm-el5u5-xvm-jeos-1.1.0-1.el5.i386.rpm  ovm-template-config-1.1.0-1.el5.noarch.rpm
+ovm-modify-jeos-1.1.0-2.el5.noarch.rpm
+
+h3. Install JeOS Images
+
+bc. 
+[root@linux1 jeos]# rpm -ivh ovm-modify-jeos-1.1.0-2.el5.noarch.rpm 
+Preparing...                ########################################### [100%]
+	file /usr/bin/modifyjeos from install of ovm-modify-jeos-1.1.0-2.el5 conflicts with file from package ovm-modify-jeos-1.1.0-1.el5
+[root@linux1 jeos]# rpm -ivh ovm-el5u5-xvm-jeos-1.1.0-1.el5.i386.rpm
+Preparing...                ########################################### [100%]
+   1:ovm-el5u5-xvm-jeos     ########################################### [100%]
+[root@linux1 jeos]# 
+
+h2. Using OVM TB
+
+see: "Prepping an OVM":/preppingAnOvm.mmd
+
+h2. Backup
+
+Since we've put quite a bit of work into this image already and don't
+want to repeat ourselves, lets take a backup of it.  From the VM
+server, shutdown the VM.
+
+bc. xm shutdown ovmm_ovmtb
+
+Ensure that the vm is not longer listed with the following command,
+you may need to wait a few seconds for the VM to shutdown.
+
+bc. xm list
+
+Now just tar and zip it up with:
+
+bc. cd /OVS/running_pool
+tar cvfz ovmm_ovmtb.tgz ovmm_ovmtb
+
+The result was a 183MB file...quite small and shareable!  Cool!  Thats
+an entire, modern OS in 183MB!  Fire the image back up, give it a
+minute to startup and ssh back into it.
+
+h2. Install Template Builder
+
+Download the JeOS RPM files from eDelivery.oracle.com/linux: 
+
+* Product Pack: Oracle Linux
+* Platform: x86 32 bit 
+* Description: Oracle Linux JeOS for Building Oracle VM templates for x86 (32 bit)
+
+Download:
+
+* Name: JeOS Base x86 and x86_64  V17420-01
+* Name: JeOS Oracle Linux 5 Update 5 base image x86 (32 Bit)	V21114-01	
+
+The first one has an RPM we need next, and the second one has the
+OEL5U5 images we'll be using to stamp out new OEL5U5 images.
+
+untar/unzip, then copy to the VM
+
+bc. scp ovm-modify-jeos-1.1.0-2.el5.noarch.rpm root@alm.hk.oracle.com:/tmp
+
+Go back onto the server and install the RPM.  But first we need to
+install some pre-requisits, then we can install ovmtb
+
+bc. 
+yum install -y bzip2 createrepo parted perl
+rpm -ivh ovm-modify-jeos-1.1.0-2.el5.noarch.rpm
+yum install -y ovmtb ovmtb-images
+
+Lets unzip the second download, and send it over to the VM:
+
+bc. 
+unzip V21114-01.zip
+scp ovm-el5u5-xvm-jeos-1.1.0-1.el5.i386.rpm root@alm.hk.oracle.com:/tmp
+
+We can now go install these as well:
+
+bc. 
+rpm -ivh ovm-el5u5-xvm-jeos-1.1.0-1.el5.i386.rpm
+
+That should do the trick.  Lets restart a couple of services for good
+measure and see if our web UI for TB is ready for us.
+
+bc. 
+service httpd restart; service ovmtb restart
+
+Navigate to: "http://alm.hk.oracle.com/ovmtb":http://alm.hk.oracle.com/ovmtb
+
+Choose register, put in a @username/password@ combo such as @oracle/welcome1@.
+
+h3. folder linking
+
+There are two folders that use a lot of space:
+
+* @/opt/ovmtb/builds/@
+* @/opt/ovmtb/tarballs/@
+
+Recommend repointing these to the NFS drive so we can keep the OVMTB
+disk as small as possible. (2GB seems about the limit of small).  This
+makes backing up much quicker.
+
+Since we don't have a lot of extra disk space to store the templates
+we'll create on this image, soft link the @/opt/ovmtb/tarballs@ folder
+directly to the NFS mount.  That way the templates will be written to
+the large NFS mount and we don't have to create a large VM just to run
+template builder.  Large VM's are a pain to back up and ship around.
+
+bc. 
+[root@alm ovmtb]# mv tarballs/ /mnt/vmsrv/
+[root@alm ovmtb]# mv builds/ /mnt/vmsrv/
+
+NOTE: the above command will throw some permission errors...they can
+be safely ignored.
+
+[root@alm ovmtb]# ln -s /mnt/vmsrv/tarballs tarballs
+[root@alm ovmtb]# ln -s /mnt/vmsrv/builds builds
+
+
+h2. OVM Manager
+
+* Go to: "edelivery.oracle.com/linux":edelivery.oracle.com/linux
+* Select a product pack: Oracle VM
+* Platform: x86 32 bit.  Click Go
+* Click on link: Description/Release/Part Number: Oracle VM 2.2.1 Media Pack / 2.2.1.0.0	/ B58990-04
+* Download: Name: Oracle VM Manager 2.2.0
+
+Now it can be a pain to download once to your desktop and then up to
+your server.  You can download directly from edelivery to your server
+with a cute little trick.  You can't just use @wget <url>@ because we
+need to login to edelivery and it gives our browser a cookie.  So do
+the following:
+
+* Use firefox.
+* Install the Export Cookies plugin: https://addons.mozilla.org/en-US/firefox/addon/8154/
+* Log into edelivery going right up to the place where you normally download from.
+* In Firefox > Tools > Export Cookies... export the cookie file to (say) your desktop.
+* scp this up to the machine where you want to download from
+* run wget as follows:
+
+bc. wget --load-cookies=cookies.txt "http://edelivery.oracle.com/EPD/Download/process_download/V18419-01.zip?file_id=28676878&aru=11865636&userid=890087&egroup_aru_number=12550529&email=fenton.travers@oracle.com&country_id=344&patch_file=V18419-01.zip"
+
+Note I have the URL in quotes so the @&@ don't screw things up.  Also this is just a sample url.
+
+hostname should be resolved in file "/etc/hosts" please check the
+result of the command 'hostname' returned and make sure it is the same
+as the hostname in "/etc/hosts"
+
+bc. 
+cat /etc/hosts
+127.0.0.1       localhost alm.hk.oracle.com alm
+
+bc. 
+yum install -y libaio bc 
+mkdir /mnt/disk
+mount -o loop OracleVM-Manager-2.2.0.iso /mnt/disk
+cd /mnt/disk; sh runInstaller.sh
+
+NOTE: make sure to answer the following question with 'n'
+
+bc. Do you want to use HTTPS access for Oracle VM Manager (Y|n)?n
+
+note: It can take a bit...so be patient.
+
+* restart
+
+* test with URL:
+
+http://alm.hk.oracle.com:8888/OVS/
+
+login: (admin/password)
+
+h3. Using
+
+if you want to make a VM based on an ISO file such as windows xp or
+ubuntu, 
+
+* make a directory under /OVS/iso_pool/, say 'ubuntu' and drop
+your *.iso file in it.
+
+* might need to restart the server
+
+* resources > import > Select from Server Pool (Discover and register) >
+
+* expand search, set iso-label = %, set server pool to your pool name, then approve the iso in there.
+
+
+h1. Glossary
+
+{glossary}

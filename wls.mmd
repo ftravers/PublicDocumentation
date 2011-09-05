@@ -25,13 +25,29 @@ if you have a *.bin wls, if you have a *.jar wls, then do:
 
 <pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/wlserver_10.3/common/bin/config.sh -mode=console</div></pre>
 
-* Choose all defaults.  
-* Set administrator password.  
-* Add an Administration Server in the Optional Components section.  
+* Choose all defaults, except for:
+* Choose production mode
+* Set administrator password
+* Add an Administration Server in the Optional Components section.
 * port: 7001
 
-Skip to [Start Admin Server], for the rest of the installation
-configuration steps.
+## Finalize setup
+
+Start the admin server (you'll need to supply username and password:
+
+    $ bin/startWeblogic.sh
+
+Stop the server and create a `boot.properties` file.
+
+    $ mkdir servers/AdminServer/security
+    $ cat > servers/AdminServer/security/boot.properties
+    username=weblogic
+    password=gumnuts8
+
+For each managed server repeat the above process, except start the server like so (in this case the server name is `srv1`):
+
+    $ bin/startManagedServer.sh srv1
+
 
 ## Start and Stop WLS
 
@@ -486,3 +502,27 @@ commands.  Also note the[weblogic.deployer reference
 site](http://download.oracle.com/docs/cd/E13222_01/wls/docs90/deployment/wldeployer.html)
 
 
+# Change Password for Admin Console
+
+    export CLASSPATH=$CLASSPATH:/u01/app/oracle/ngsp/stage/wls1/wlserver_10.3/server/lib/weblogic.jar
+    java weblogic.security.utils.AdminAccount weblogic welcome1 .
+
+This will create the file: `DefaultAuthenticatorInit.ldift`, wherever
+you execute the above command from.  Replace the existing file with
+the new one at the following location:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/AdminServer/security</div></pre>
+
+Rename the ldap directory at:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/AdminServer/data</div></pre>
+
+Delete the `boot.properties` file at:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/AdminServer/security</div></pre>
+
+Now you can put a new boot.properties file here with the new username
+and password, like so:
+
+    username=newUsername
+    password=newPassword

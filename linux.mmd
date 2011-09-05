@@ -274,10 +274,15 @@ System > Preferences > Startup Applications ... add
 
 ## VPN
 
--   `https://myaccess.oraclevpn.com`
--   Oracle VPN username (with the 8 character_cc)
--   Click AnyConnect, download & run shell script.
--   Server to connect to: `rmdc-twvpn-2.oraclevpn.com`
+* `https://myaccess.oraclevpn.com`
+
+* Oracle VPN username (with the 8 character_cc)
+
+* Click AnyConnect, download & run shell script.
+
+* Server to connect to: `rmdc-twvpn-2.oraclevpn.com,
+  au-enc.oracle.com, rm-enc.oracle.com, hq-enc.oracle.com,
+  jp-enc.oracle.com`
 
 ## Config
 
@@ -835,6 +840,10 @@ b            | scroll backwards one screen
 <a name="portScan">check to see if a port is open on a machine</a>
 
 <pre><div class="sample_code">nmap -PN -p <span class="parameter">PORT SERVER</span></div></pre>
+
+To see if port 80 is open on 143.234.11.34 do:
+
+    nmap -PN -p 80 143.234.11.34
 
 # nohup
 
