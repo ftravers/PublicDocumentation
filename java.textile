@@ -50,6 +50,8 @@ bc.
         `-- resources
             `-- logback-test.xml
 
+Ensure src/test/resources is a source folder in eclipse
+
 Config files: logback.xml:  You use this for production.  Notice there
 is an added Date to the Timestamp.
 
