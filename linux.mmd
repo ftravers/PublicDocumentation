@@ -118,6 +118,13 @@ Install with:
     desktop-file-validate Eclipse.desktop
     sudo desktop-file-install Eclipse.desktop
 
+Uninstall:
+
+If you mess up, delete the *.desktop file from
+`/usr/share/applications`
+
+
+
 Add: `pydev` from the eclipse marketplace
 
 
@@ -161,6 +168,11 @@ Extract on new machine:
 -   Web Downloads
 
 Eclipse, SQLDeveloper, Skype, Adobe Acrobat Reader
+
+## VNC
+
+You would like to be able to VNC into your machine.  Follow [setup
+instructions](https://help.ubuntu.com/community/VNC)
 
 ## Evolution setup
 
@@ -248,24 +260,59 @@ Run: `~/myConfig/setConfigRsync.sh`
 
     cd ~/projects/myConfig; sudo cp gtg_data.tgz /; cd /; tar xvfz gtg_data.tgz
 
-## SQLDeveloper & Eclipse
+## SQLDeveloper
+
+    $ cat SQLDeveloper.desktop 
+    [Desktop Entry]
+    Name=SQL Developer
+    Comment=SQL Developer Program
+    Exec=/bin/sh /home/f/bin/sqldeveloper/sqldeveloper.sh
+    Icon=/home/f/bin/sqldeveloper/icon.png
+    Type=Application
+    Categories=Development;Database;
+    Path=/home/f/bin/sqldeveloper/
 
 See [here](#ubuntuInstall) for specific details.
 
-    cd projects/myConfig/
-    desktop-file-validate Eclipse.desktop
     desktop-file-validate SQLDeveloper.desktop 
-    sudo desktop-file-install Eclipse.desktop
     sudo desktop-file-install SQLDeveloper.desktop
 
 Run SQLDeveloper once by hand to set the JDK path.
 
-/bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
+    /bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
 
-set your jvm home to: /usr/lib/jvm/java-6-sun
+set your jvm home to: `/usr/lib/jvm/java-6-sun`
 
 Now you should find the icons to launch the apps under: Applications >
 Programming.
+
+## Eclipse
+
+Unzip the eclipse download into: `~/bin/eclipse-jee-indigo` 
+
+Create a file, `EclipseJee.desktop`, with the following contents: 
+
+    [Desktop Entry]
+    Name=Eclipse Indigo JEE
+    Comment=Eclipse Indigo JEE - IDE
+    Exec=/home/oracle/bin/eclipse-jee-indigo/eclipse
+    Icon=/home/oracle/bin/eclipse-jee-indigo/icon.xpm
+    Type=Application
+    Categories=Development;IDE;
+    Path=/home/oracle/bin/eclipse-jee-indigo/
+
+Run:
+
+    desktop-file-validate EclipseJee.desktop 
+    sudo desktop-file-install EclipseJee.desktop
+
+to install it.
+
+Uninstall
+
+If you mess up, delete the *.desktop file from
+`/usr/share/applications`
+
 
 ## Startup Programs
 
