@@ -8,7 +8,7 @@ Drop the sbt-launcher.jar file into `~/bin/`
 
 Create the file: `~/bin/sbt`:
 
-```
+```shell
 java -Xmx512M -jar `dirname $0`/sbt-launch.jar "$@"
 ```
 
