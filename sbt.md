@@ -1,4 +1,4 @@
-Learning to use sbt (Simple Build Tool)
+Learning to use sbt (Simple Build Tool) with IDEA IntelliJ
 
 # Setup
 
@@ -14,7 +14,7 @@ java -Xmx512M -jar `dirname $0`/sbt-launch.jar "$@"
 
 Create the file: `~/.sbt/plugins/build.sbt`:
 
-```
+```scala
 resolvers += "sbt-idea-repo" at "http://mpeltonen.github.com/maven/"
 
 libraryDependencies += "com.github.mpeltonen" %% "sbt-idea" % "0.10.0"
@@ -22,4 +22,5 @@ libraryDependencies += "com.github.mpeltonen" %% "sbt-idea" % "0.10.0"
 
 # Usage
 
-Go into an empty folder and type: `sbt`
+Go into an empty folder that you intend to be your project folder and
+type: `sbt`
