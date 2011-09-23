@@ -513,6 +513,14 @@ the new one at the following location:
 
 <pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/AdminServer/security</div></pre>
 
+Even after the above command, password change for admin console 
+didn't work and admin server wouldn't start. 
+
+Solution: Creating the `DefaultAuthenticatorInit.ldift` file 
+in the following folder molder made the server to start:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/security</div></pre>
+
 Rename the ldap directory at:
 
 <pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/AdminServer/data</div></pre>
