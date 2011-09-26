@@ -74,6 +74,31 @@ singleton objects
       }
     } 
 
+
+# Data Structures
+
+## Arrays
+
+Access an element in an array by specifying an index in parentheses.
+
+    // Say hello to the first argument
+    println("Hello, "+ args(0) +"!")
+
+# Misc
+
+## Incrementing integers
+
+Java's ++i and i++ don't work in Scala. To increment an integer in
+Scala, you need to say either i = i + 1 or i += 1.
+
+## Function Literals
+
+The syntax for a function literal is a list of named parameters, in
+parentheses, a right arrow, and then the body of the function.
+
+![Image depicting a function literal and its parts](images/functionLiteral60.jpg "The syntax of a function literal in Scala")
+
+
 ## Classes
 
 One important difference is that classes in Scala can have parameters. This
@@ -98,6 +123,148 @@ Simply untar and add [scala-home]/bin to your path.
 
 # Start a project
 
-Open IntelliJIDEA.
+Create a blank folder, cd into it and start `xsbt` and run:
+
+    gen-idea
+
+to make the project compatible with IDEA IntelliJ.
+
+Import it into IntelliJ.  Here are some *Learning Scala* references:
+
+## References
+
+[O'Reilley Book: Programming Scala](http://ofps.oreilly.com/titles/9780596155957/IntroducingScala.html)
+
+[List of Scala resources](http://www.scala-lang.org/node/1305)
+
+[Another good ONLINE scala reference by Martin Odersky](http://www.artima.com/pins1ed/)
+
+## Start Coding
+
+Turn on *Triggered Execution* in sbt to watch for code changes that it will then automatically compile.
+
+    > ~ watch-sources
 
 
+# Emacs and Scala
+
+[ref](http://thegreylensmansview.blogspot.com/2009/02/stone-tools-and-scala-development-part.html)
+
+# sbt
+
+## Continuous Compiling
+
+To monitor your source files in `src/main/scala` to recompile on change do:
+
+    ~compile
+
+## Log Levels
+
+Temporarily change the logging level and configure how stack traces
+are displayed by modifying the log-level or trace-level settings:
+
+    > set logLevel := Level.Warn
+
+Valid Level values are Debug, Info, Warn, Error.
+
+## Scala Repl
+
+To drop into a scala shell do:
+
+    > console-project
+
+
+
+
+# Misc
+
+Setup sbt to publish to your maven repository: 
+
+* [ref1](http://brizzled.clapper.org/id/100/)
+* [ref2](http://code.google.com/p/simple-build-tool/wiki/Publishing)
+* [ref3](https://github.com/harrah/xsbt/wiki/Publishing)
+* [ref4](https://github.com/harrah/xsbt/wiki/Resolvers)
+* [ref5](http://code.google.com/p/simple-build-tool/wiki/Publishing)
+* [Build File Example](https://github.com/harrah/xsbt/wiki/Full-Configuration)
+
+## setup
+
+Setup xsbt first:
+
+[ref](https://github.com/harrah/xsbt)
+
+    git clone git://github.com/harrah/xsbt.git
+    cd xsbt
+
+setup latest android-plugin
+
+    git clone https://github.com/jberkel/android-plugin.git 
+    cd android-plugin 
+    xsbt 
+    update 
+    publish-local 
+
+
+
+[ref1](http://nevercertain.com/2011/02/03/scala-android-intellij-win-part-1-prerequisites.html)
+[ref2](http://nevercertain.com/2011/02/03/scala-android-intellij-win-part-2-simple-build-tool.html)
+
+    android-sdk-linux_x86/tools
+
+    Click 'Available Packages'
+    Expand 'Android Repository'
+    Check the box that says 'Android SDK Tools, revision 7'
+    Click 'Install Selected'
+    Click 'Accept All' to accept all licenses
+    Click 'Install'
+
+
+
+# Garbage
+
+the rest below is preserved as it might be useful in the future:
+
+List the different templates you can use with `giter8` aka: `g8`
+
+    g8 --list
+
+This one looks good for starting off:
+
+    chrislewis/simple-scala-project         g8 template for a simple scala project
+
+So run:
+
+    g8 chrislewis/simple-scala-project
+
+Accept the defaults.
+
+[ref](https://github.com/mpeltonen/sbt-idea)
+
+In your project created by giter8,
+
+
+This will build a basic android app shell project:
+
+    g8 jberkel/android-app
+
+accept all defaults
+
+    cd my-android-project/
+
+## Build File Garbage
+
+
+
+
+  override def managedStyle = ManagedStyle.Maven
+
+  lazy val publishTo = Resolver.sftp("linux1", "linux1.hk.oracle.com", "/var/www/html/maven2")
+ credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+
+object Resolvers {
+  val sunrepo    = "Sun Maven2 Repo" at "http://download.java.net/maven/2"
+  val sunrepoGF  = "Sun GF Maven2 Repo" at "http://download.java.net/maven/glassfish"
+  val oraclerepo = "Oracle Maven2 Repo" at "http://download.oracle.com/maven"
+
+  val oracleResolvers = Seq (sunrepo, sunrepoGF, oraclerepo)
+}
