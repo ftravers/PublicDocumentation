@@ -310,9 +310,26 @@ And put your foo.el file in: `~/projects/elisp`
     Alt <    beginning-of-buffer      Alt DEL  backward-kill-word
     
     
-    C-x 4 C-f       find-file-other-window   C-x 4 d  dired-other-window
-    C-x 4 .  find-tag-other-window       C-x 4 f  find-file-other-window
-    C-x 4 b  pop-to-buffer           C-x 4 m  mail-other-window
+    C-x 4 C-f   find-file-other-window   C-x 4 d  dired-other-window
+    C-x 4 .     find-tag-other-window    C-x 4 f  find-file-other-window
+    C-x 4 b     pop-to-buffer            C-x 4 m  mail-other-window
 
 
+Dos to unix
+
+    M-x set-buffer-file-coding-system RET undecided-unix
+
+save the file (`C-x C-s`), or
+
+    C-x RET f undecided-unix
+    C-x C-f
+
+Unix to dos
+
+    M-x set-buffer-file-coding-system RET undecided-dos
+
+save the file (`C-x C-s`), or
+
+    C-x RET f undecided-dos
+    C-x C-f
 
