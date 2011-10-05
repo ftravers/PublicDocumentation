@@ -1,19 +1,52 @@
 # Start a project
 
-Create a blank folder, cd into it and start `xsbt` and run:
+* Launch xsbt
+
+Create a blank folder, create project folders, cd into it and start `xsbt`.  Example:
+
+    cd ..;rm -rf scalaProj1/; mkdir -p scalaProj1/src/main/resources scalaProj1/src/main/scala scalaProj1/src/test/resources scalaProj1/src/test/scala scalaProj1/project/build; cd scalaProj1/; xsbt
+
+* Create beginning files
+
+From a text editor *OTHER* than IntelliJ, create a project file
+`project/build/Project.scala` with the following contents:
+
+    import sbt._ 
+    class Project(info: ProjectInfo) extends DefaultProject(info) with IdeaProject {}  
+
+* Make the project suitable for importing into IntelliJ
 
     gen-idea
 
-to make the project compatible with IDEA IntelliJ.  Don't worry about the 
+to make the project compatible with IDEA IntelliJ.  Don't worry about
+the warnings.  They are just trying to download javadocs & sources for
+the dependent libraries, not all of which have those items...thus the
+warning messages.
 
-Import it into IntelliJ.  
+Import it into IntelliJ.  Close any projects if you have one open.
+Then do:
+
+    File > Open Project
+
+Navigate to your project folder, and click `OK`.
 
 
-## Start Coding
+* Start Coding
 
 Turn on *Triggered Execution* in sbt to watch for code changes that it will then automatically compile.
 
     > ~ watch-sources
+
+* Create new scala class HelloWorld in `Tutorial1/src/main/scala`
+
+    object HelloWorld {
+      def main(args: Array[String]){
+        println(hello)
+      } 
+      def hello:String = {
+        return "Hello World!";
+      }
+    }  
 
 
 # Emacs and Scala
