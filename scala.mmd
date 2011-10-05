@@ -1,161 +1,13 @@
-# Reference:
-
-* [First Steps](http://www.artima.com/pins1ed/first-steps-in-scala.html)
-* [First Steps](http://www.artima.com/scalazine/articles/steps.html)
-* [Eclipse and Scala](http://www.vogella.de/articles/Scala/article.html)
-
-## Maven
-
-    mvn org.apache.maven.plugins:maven-archetype-plugin:1.0-alpha-7:create -DarchetypeGroupId=org.scala-tools.archetypes -DarchetypeArtifactId=scala-archetype-simple -DarchetypeVersion=1.1 -DremoteRepositories=http://scala-tools.org/repo-releases -DgroupId=your.proj.gid -DartifactId=your-proj-id
-
-I updated the scala version in the properties section like so:
-
-    <scala.version>2.9.0-1</scala.version>
-
-## Running Scala
-
-Create a class that looks like the following:
-
-    package secondScala;
-     
-    object App extends Application {
-      override def main(args : Array[String]) { println( "Hello World!" )}
-    }
-
-    mvn compile; cd target/classes; scala secondScala.App
-
-## Calling scala code from java project
-
-
-
-## Functions/Methods
-
-    def: myFunc( argName: String ) {
-       ...
-    }
-
-    def max(x: Int, y: Int): Int = if (x < y) y else x
-
-max: (Int,Int)Int
-
-Formula:
-
-A Scala function definition looks like this:
-
-    def [function-name] ([parameter-name]: [parameter-type]) : [return-type] = [function-body]
-    
-so
-
-    def taste (food: Consumable) : Opinion = evaluate(food)
-
-defines a function called `taste` that takes a `Consumable` as a
-parameter named `food` and returns an `Opinion`. It calls `evaluate` and
-returns the result, which must be an `Opinion`
-
-The last value is returned - no explicit return is required, but since
-the language is strongly typed there is protection against
-accidentally returning meaningless values of the wrong type
-
-
-## Unit (java: void)
-
-scala.Unit, is Scala's analogue to void in Java. The main difference
-between Scala's Unit and Java's void is that Scala lets you write down
-a value of type Unit, namely (), whereas in Java there is no value of
-type void.
-
-## vals & vars
-
-Scala differentiates between vals, variables that are assigned once
-and never change, and vars, variables that may change over their
-lifetime.
-
-## Defining Variables/Values
-
-[val|var] [variable name] : [type] = [value to assign]
-
-    val name : java.lang.String = "Fenton Travers"
-
-Type comes *AFTER* variable/value name.
-
-## Static Methods
-
-Static members (methods or ﬁelds) do not exist in Scala. Rather than
-deﬁning static members, the Scala programmer declares these members in
-singleton objects
-
-
-    object HelloWorld {
-      def main(args: Array[String]) {
-        println("Hello, world!")
-      }
-    } 
-
-
-# Data Structures
-
-## Arrays
-
-Access an element in an array by specifying an index in parentheses.
-
-    // Say hello to the first argument
-    println("Hello, "+ args(0) +"!")
-
-# Misc
-
-## Incrementing integers
-
-Java's ++i and i++ don't work in Scala. To increment an integer in
-Scala, you need to say either i = i + 1 or i += 1.
-
-## Function Literals
-
-The syntax for a function literal is a list of named parameters, in
-parentheses, a right arrow, and then the body of the function.
-
-![Image depicting a function literal and its parts](images/functionLiteral60.jpg "The syntax of a function literal in Scala")
-
-
-## Classes
-
-One important difference is that classes in Scala can have parameters. This
-is illustrated in the following deﬁnition of complex numbers.
-
-    class Complex(real: Double, imaginary: Double) {
-      def re() = real
-      def im() = imaginary
-    }
-
-These arguments must be passed when creating an instance of class
-Complex, as follows: 
-
-    new Complex(1.5, 2.3). 
-
-The class contains two methods, called re and im, which give access to
-these two parts.
-
-<<<<<<< HEAD
-# Installation
-
-Simply untar and add [scala-home]/bin to your path.
-
 # Start a project
 
 Create a blank folder, cd into it and start `xsbt` and run:
 
     gen-idea
 
-to make the project compatible with IDEA IntelliJ.
+to make the project compatible with IDEA IntelliJ.  Don't worry about the 
 
-Import it into IntelliJ.  Here are some *Learning Scala* references:
+Import it into IntelliJ.  
 
-## References
-
-[O'Reilley Book: Programming Scala](http://ofps.oreilly.com/titles/9780596155957/IntroducingScala.html)
-
-[List of Scala resources](http://www.scala-lang.org/node/1305)
-
-[Another good ONLINE scala reference by Martin Odersky](http://www.artima.com/pins1ed/)
 
 ## Start Coding
 
@@ -191,7 +43,33 @@ To drop into a scala shell do:
 
     > console-project
 
+# Reference:
 
+* [First Steps](http://www.artima.com/pins1ed/first-steps-in-scala.html)
+* [First Steps](http://www.artima.com/scalazine/articles/steps.html)
+* [Eclipse and Scala](http://www.vogella.de/articles/Scala/article.HTML)
+
+Here are some *Learning Scala* references:
+
+* [O'Reilley Book: Programming Scala](http://ofps.oreilly.com/titles/9780596155957/IntroducingScala.html)
+* [List of Scala resources](http://www.scala-lang.org/node/1305)
+* [Another good ONLINE scala reference by Martin Odersky](http://www.artima.com/pins1ed/)
+
+# Installation
+
+Simply untar and add [scala-home]/bin to your path.
+
+## Running Scala
+
+Create a class that looks like the following:
+
+    package secondScala;
+     
+    object App extends Application {
+      override def main(args : Array[String]) { println( "Hello World!" )}
+    }
+
+    mvn compile; cd target/classes; scala secondScala.App
 
 
 # Misc
@@ -237,6 +115,112 @@ setup latest android-plugin
     Click 'Install'
 
 
+# SCALA LANGUAGE REFERENCE
+
+## Functions/Methods
+
+    def: myFunc( argName: String ) {
+       ...
+    }
+
+    def max(x: Int, y: Int): Int = if (x < y) y else x
+
+max: (Int,Int)Int
+
+Formula:
+
+A Scala function definition looks like this:
+
+    def [function-name] ([parameter-name]: [parameter-type]) : [return-type] = [function-body]
+    
+so
+
+    def taste (food: Consumable) : Opinion = evaluate(food)
+
+defines a function called `taste` that takes a `Consumable` as a
+parameter named `food` and returns an `Opinion`. It calls `evaluate` and
+returns the result, which must be an `Opinion`
+
+The last value is returned - no explicit return is required, but since
+the language is strongly typed there is protection against
+accidentally returning meaningless values of the wrong type
+
+## Unit (java: void)
+
+scala.Unit, is Scala's analogue to void in Java. The main difference
+between Scala's Unit and Java's void is that Scala lets you write down
+a value of type Unit, namely (), whereas in Java there is no value of
+type void.
+
+## vals & vars
+
+Scala differentiates between vals, variables that are assigned once
+and never change, and vars, variables that may change over their
+lifetime.
+
+## Defining Variables/Values
+
+[val|var] [variable name] : [type] = [value to assign]
+
+    val name : java.lang.String = "Fenton Travers"
+
+Type comes *AFTER* variable/value name.
+
+## Static Methods
+
+Static members (methods or ﬁelds) do not exist in Scala. Rather than
+deﬁning static members, the Scala programmer declares these members in
+singleton objects
+
+    object HelloWorld {
+      def main(args: Array[String]) {
+        println("Hello, world!")
+      }
+    } 
+
+# Data Structures
+
+## Arrays
+
+Access an element in an array by specifying an index in parentheses.
+
+    // Say hello to the first argument
+    println("Hello, "+ args(0) +"!")
+
+# Misc
+
+## Incrementing integers
+
+Java's ++i and i++ don't work in Scala. To increment an integer in
+Scala, you need to say either i = i + 1 or i += 1.
+
+## Function Literals
+
+The syntax for a function literal is a list of named parameters, in
+parentheses, a right arrow, and then the body of the function.
+
+![Image depicting a function literal and its parts](images/functionLiteral60.jpg "The syntax of a function literal in Scala")
+
+
+## Classes
+
+One important difference is that classes in Scala can have parameters. This
+is illustrated in the following deﬁnition of complex numbers.
+
+    class Complex(real: Double, imaginary: Double) {
+      def re() = real
+      def im() = imaginary
+    }
+
+These arguments must be passed when creating an instance of class
+Complex, as follows: 
+
+    new Complex(1.5, 2.3). 
+
+The class contains two methods, called re and im, which give access to
+these two parts.
+
+
 
 # Garbage
 
@@ -271,9 +255,6 @@ accept all defaults
 
 ## Build File Garbage
 
-
-
-
   override def managedStyle = ManagedStyle.Maven
 
   lazy val publishTo = Resolver.sftp("linux1", "linux1.hk.oracle.com", "/var/www/html/maven2")
@@ -286,7 +267,8 @@ object Resolvers {
 
   val oracleResolvers = Seq (sunrepo, sunrepoGF, oraclerepo)
 }
-=======
+
+
 # Lift Web Framework
 
 ## Ref
@@ -326,4 +308,12 @@ no extension is provided on the template name to allow flexibility for
 localization suffixes, file types, etc.  hidden-templates is not
 required in the path.  if only the filename (without extension) is
 specified, the whole view path will be searched.
->>>>>>> 7a0eeb323dd0b272b854a00b6515b3a744783932
+
+
+## Maven
+
+    mvn org.apache.maven.plugins:maven-archetype-plugin:1.0-alpha-7:create -DarchetypeGroupId=org.scala-tools.archetypes -DarchetypeArtifactId=scala-archetype-simple -DarchetypeVersion=1.1 -DremoteRepositories=http://scala-tools.org/repo-releases -DgroupId=your.proj.gid -DartifactId=your-proj-id
+
+I updated the scala version in the properties section like so:
+
+    <scala.version>2.9.0-1</scala.version>
