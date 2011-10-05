@@ -1,43 +1,29 @@
 # Start a project
 
-* Launch xsbt
+## Launch xsbt
 
 Create a blank folder, create project folders, cd into it and start `xsbt`.  Example:
 
     cd ..;rm -rf scalaProj1/; mkdir -p scalaProj1/src/main/resources scalaProj1/src/main/scala scalaProj1/src/test/resources scalaProj1/src/test/scala scalaProj1/project/build; cd scalaProj1/; xsbt
 
-* Create beginning files
+## Create beginning files
 
 From a text editor *OTHER* than IntelliJ, create a project file
 `project/build/Project.scala` with the following contents:
 
     import sbt._ 
-    class Project(info: ProjectInfo) extends DefaultProject(info) with IdeaProject {}  
+    class Project(info: ProjectInfo) extends DefaultProject(info) {}  
 
-* Make the project suitable for importing into IntelliJ
-
-    gen-idea
-
-to make the project compatible with IDEA IntelliJ.  Don't worry about
-the warnings.  They are just trying to download javadocs & sources for
-the dependent libraries, not all of which have those items...thus the
-warning messages.
-
-Import it into IntelliJ.  Close any projects if you have one open.
-Then do:
-
-    File > Open Project
-
-Navigate to your project folder, and click `OK`.
-
-
-* Start Coding
+## Start Coding
 
 Turn on *Triggered Execution* in sbt to watch for code changes that it will then automatically compile.
 
     > ~ watch-sources
 
-* Create new scala class HelloWorld in `Tutorial1/src/main/scala`
+## Create new scala object 
+
+Create new scala object `HelloWorld` in
+`Tutorial1/src/main/scala/HelloWorld.scala`
 
     object HelloWorld {
       def main(args: Array[String]){
@@ -48,18 +34,51 @@ Turn on *Triggered Execution* in sbt to watch for code changes that it will then
       }
     }  
 
+The argument of the scala command has to be a top-level object. If
+that object is followed by the clause extends Application, then all
+statements contained in that object will be executed; otherwise you
+have to add a method main which will act as the entry point of your
+program.  Here is how an object that extends Application looks like
+(note this is just an FYI don't put it in your scala file yet):
 
-# Emacs and Scala
+    object HelloWorld2 extends Application {
+      println("Hello, world!")
+    }
 
-[ref](http://thegreylensmansview.blogspot.com/2009/02/stone-tools-and-scala-development-part.html)
+## Run it
 
-# sbt
+As you saved the above file you should have seen it get compiled.
+Lets run it, open a terminal and go to your project directory and
+type:
 
-## Continuous Compiling
+    $ cd target/scala-2.8.1.final/classes/
+    $ scala HelloWorld
+    Hello World!
 
-To monitor your source files in `src/main/scala` to recompile on change do:
+## Add a class and use it
 
-    ~compile
+Create new scala class `Second` in
+`Tutorial1/src/main/scala/Second.scala`
+
+    class Second {
+      def func1 = {
+        return "Hello World!";
+      }
+    }  
+
+
+
+
+
+
+
+
+## Scala Repl
+
+To drop into a scala shell do:
+
+    > console-project
+
 
 ## Log Levels
 
@@ -70,11 +89,10 @@ are displayed by modifying the log-level or trace-level settings:
 
 Valid Level values are Debug, Info, Warn, Error.
 
-## Scala Repl
 
-To drop into a scala shell do:
+# Emacs and Scala
 
-    > console-project
+[ref](http://thegreylensmansview.blogspot.com/2009/02/stone-tools-and-scala-development-part.html)
 
 # Reference:
 
@@ -103,6 +121,7 @@ Create a class that looks like the following:
     }
 
     mvn compile; cd target/classes; scala secondScala.App
+
 
 
 # Misc
@@ -178,6 +197,31 @@ The last value is returned - no explicit return is required, but since
 the language is strongly typed there is protection against
 accidentally returning meaningless values of the wrong type
 
+## Function Literals
+
+The syntax for a function literal is a list of named parameters, in
+parentheses, a right arrow, and then the body of the function.
+
+![Image depicting a function literal and its parts](images/functionLiteral60.jpg "The syntax of a function literal in Scala")
+
+## Functions as Arguments
+
+In the following code, the function oncePerSecond is defined with one
+argument of type: `() => Unit`.  A function with *NO* arguments and
+returns `Unit`.  Exactly what `timeFlies` is.
+ 
+    object Timer {
+      def oncePerSecond(callback: () => Unit) {
+        while (true) { callback(); Thread sleep 1000 }
+      }
+      def timeFlies() {
+        println("time flies like an arrow...")
+      }
+      def main(args: Array[String]) {
+        oncePerSecond(timeFlies)
+      }
+    }
+
 ## Unit (java: void)
 
 scala.Unit, is Scala's analogue to void in Java. The main difference
@@ -226,13 +270,6 @@ Access an element in an array by specifying an index in parentheses.
 
 Java's ++i and i++ don't work in Scala. To increment an integer in
 Scala, you need to say either i = i + 1 or i += 1.
-
-## Function Literals
-
-The syntax for a function literal is a list of named parameters, in
-parentheses, a right arrow, and then the body of the function.
-
-![Image depicting a function literal and its parts](images/functionLiteral60.jpg "The syntax of a function literal in Scala")
 
 
 ## Classes
@@ -350,3 +387,21 @@ specified, the whole view path will be searched.
 I updated the scala version in the properties section like so:
 
     <scala.version>2.9.0-1</scala.version>
+
+
+
+* Make the project suitable for importing into IntelliJ
+
+    gen-idea
+
+to make the project compatible with IDEA IntelliJ.  Don't worry about
+the warnings.  They are just trying to download javadocs & sources for
+the dependent libraries, not all of which have those items...thus the
+warning messages.
+
+Import it into IntelliJ.  Close any projects if you have one open.
+Then do:
+
+    File > Open Project
+
+Navigate to your project folder, and click `OK`.
