@@ -41,6 +41,23 @@ max: (Int,Int)Int
 
 Formula:
 
+A Scala function definition looks like this:
+
+    def [function-name] ([parameter-name]: [parameter-type]) : [return-type] = [function-body]
+    
+so
+
+    def taste (food: Consumable) : Opinion = evaluate(food)
+
+defines a function called `taste` that takes a `Consumable` as a
+parameter named `food` and returns an `Opinion`. It calls `evaluate` and
+returns the result, which must be an `Opinion`
+
+The last value is returned - no explicit return is required, but since
+the language is strongly typed there is protection against
+accidentally returning meaningless values of the wrong type
+
+
 ## Unit (java: void)
 
 scala.Unit, is Scala's analogue to void in Java. The main difference
@@ -118,6 +135,7 @@ Complex, as follows:
 The class contains two methods, called re and im, which give access to
 these two parts.
 
+<<<<<<< HEAD
 # Installation
 
 Simply untar and add [scala-home]/bin to your path.
@@ -269,3 +287,44 @@ object Resolvers {
 
   val oracleResolvers = Seq (sunrepo, sunrepoGF, oraclerepo)
 }
+=======
+# Lift Web Framework
+
+## Ref
+
+[Lift Framework](http://scalalift.com/)
+
+## Intro
+
+A simple example:
+
+hidden-templates/fancy.html
+
+    <html><body class="fancy">
+        <lift:bind name="contents"/>
+    </body><html>
+
+fish/tropical.html
+
+    <lift:surround with="hidden-templates/fancy" at="contents">
+        Floating above tropical fish is like being in a colorful cartoonland.
+    </lift:surround>
+
+Results in:
+
+    <html class="fancy"><body class="fancy">
+        Floating above tropical fish is like being in a colorful cartoonland.
+    </body></html>
+
+You can also simply embed a template inside another one using the
+*embed tag:
+
+    <lift:embed what="hidden-templates/footer"/>
+
+Second Pass Notes:
+
+no extension is provided on the template name to allow flexibility for
+localization suffixes, file types, etc.  hidden-templates is not
+required in the path.  if only the filename (without extension) is
+specified, the whole view path will be searched.
+>>>>>>> 7a0eeb323dd0b272b854a00b6515b3a744783932

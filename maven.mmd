@@ -2,6 +2,8 @@ CSS: style.css
 
 # Quick Cookbooks
 
+## Creating Maven Projects
+
 jar project:
 
 <pre><div class="sample_code">mvn archetype:generate -B -DarchetypeArtifactId=maven-archetype-quickstart -Dversion=0.0.1-SNAPSHOT -DgroupId=<span class="parameter">com.oracle.git.ngsp</span> -DartifactId=<span class="parameter">ossoCrmodTester</span></div></pre>
@@ -9,6 +11,20 @@ jar project:
 war project:
 
 <pre><div class="sample_code">mvn archetype:generate -B -DarchetypeArtifactId=maven-archetype-webapp -DgroupId=<span class="parameter">com.mycompany.app</span> -DartifactId=<span class="parameter">my-app</span></div></pre>
+
+## Processing Resources
+
+    mvn resources:resources -P<env>
+    mvn resources:testResources -P<env>
+
+* Attach the source and javadoc to an installation or deployment
+
+    mvn clean javadoc:jar source:jar install
+
+* Set up Maven to automatically also get the source and javadoc attachments and register them properly with Eclipse?
+
+    mvn eclipse:eclipse -DdownloadSources -DdownloadJavadocs
+
 
 # Download & Extract
 

@@ -7,6 +7,7 @@ Clean Install Setup
 ## USB Thumbdrive install
 
 source
+
     [https://help.ubuntu.com/community/Installation/FromUSBStick](https://help.ubuntu.com/community/Installation/FromUSBStick)
 
 From an ubuntu machine do:
@@ -117,6 +118,13 @@ Install with:
     desktop-file-validate Eclipse.desktop
     sudo desktop-file-install Eclipse.desktop
 
+Uninstall:
+
+If you mess up, delete the *.desktop file from
+`/usr/share/applications`
+
+
+
 Add: `pydev` from the eclipse marketplace
 
 
@@ -160,6 +168,11 @@ Extract on new machine:
 -   Web Downloads
 
 Eclipse, SQLDeveloper, Skype, Adobe Acrobat Reader
+
+## VNC
+
+You would like to be able to VNC into your machine.  Follow [setup
+instructions](https://help.ubuntu.com/community/VNC)
 
 ## Evolution setup
 
@@ -247,24 +260,59 @@ Run: `~/myConfig/setConfigRsync.sh`
 
     cd ~/projects/myConfig; sudo cp gtg_data.tgz /; cd /; tar xvfz gtg_data.tgz
 
-## SQLDeveloper & Eclipse
+## SQLDeveloper
+
+    $ cat SQLDeveloper.desktop 
+    [Desktop Entry]
+    Name=SQL Developer
+    Comment=SQL Developer Program
+    Exec=/bin/sh /home/f/bin/sqldeveloper/sqldeveloper.sh
+    Icon=/home/f/bin/sqldeveloper/icon.png
+    Type=Application
+    Categories=Development;Database;
+    Path=/home/f/bin/sqldeveloper/
 
 See [here](#ubuntuInstall) for specific details.
 
-    cd projects/myConfig/
-    desktop-file-validate Eclipse.desktop
     desktop-file-validate SQLDeveloper.desktop 
-    sudo desktop-file-install Eclipse.desktop
     sudo desktop-file-install SQLDeveloper.desktop
 
 Run SQLDeveloper once by hand to set the JDK path.
 
-/bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
+    /bin/sh /home/oracle/bin/sqldeveloper/sqldeveloper.sh
 
-set your jvm home to: /usr/lib/jvm/java-6-sun
+set your jvm home to: `/usr/lib/jvm/java-6-sun`
 
 Now you should find the icons to launch the apps under: Applications >
 Programming.
+
+## Eclipse
+
+Unzip the eclipse download into: `~/bin/eclipse-jee-indigo` 
+
+Create a file, `EclipseJee.desktop`, with the following contents: 
+
+    [Desktop Entry]
+    Name=Eclipse Indigo JEE
+    Comment=Eclipse Indigo JEE - IDE
+    Exec=/home/oracle/bin/eclipse-jee-indigo/eclipse
+    Icon=/home/oracle/bin/eclipse-jee-indigo/icon.xpm
+    Type=Application
+    Categories=Development;IDE;
+    Path=/home/oracle/bin/eclipse-jee-indigo/
+
+Run:
+
+    desktop-file-validate EclipseJee.desktop 
+    sudo desktop-file-install EclipseJee.desktop
+
+to install it.
+
+Uninstall
+
+If you mess up, delete the *.desktop file from
+`/usr/share/applications`
+
 
 ## Startup Programs
 
@@ -510,6 +558,64 @@ panel.
 
 If you mess up, delete the *.desktop file from
 `/usr/share/applications`
+
+# Multiple Network Interfaces
+
+Here I have an internal (company) ethernet connection, behind a
+corporate firewall, eth0.  I also have a network connection through my
+usb with my phone tethered on it, i.e. a 3G network.  This is on
+network interface: usb0.
+
+I have some servers on the internet that I like to `ssh` to, but my
+corporate firewall blocks this, so I'd like to setup a static route to
+these servers that goes over the usb0 network interface, which doesn't
+block these types of connections.
+
+The server I want to connect to is at IP address: `208.113.135.25`, so
+I issued the following command:
+
+    sudo route add -net 208.113.135.0 netmask 255.255.255.0 dev usb0
+
+which means send any packets that are destined for the 208.113.135/24
+network out over the usb0 network interface.  This doesn't work *yet*!
+First lets look at the routing table with `netstat -r`:
+
+    $ netstat -r
+    Kernel IP routing table
+    Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+    10.179.252.0    *               255.255.255.0   U         0 0          0 eth0
+    208.113.135.0   *               255.255.255.0   U         0 0          0 usb0
+    192.168.42.0    *               255.255.255.0   U         0 0          0 usb0
+    link-local      *               255.255.0.0     U         0 0          0 eth0
+    default         leegarden-swi-1 0.0.0.0         UG        0 0          0 eth0
+
+Lets switch over to using only the usb0 interface 
+
+    sudo ifconfig eth0 down
+
+and grab the routing table when using it, using: `route -e` or
+`netstat -r` gives the following info:
+
+    $ netstat -r
+    Kernel IP routing table
+    Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+    208.113.135.0   *               255.255.255.0   U         0 0          0 usb0
+    192.168.42.0    *               255.255.255.0   U         0 0          0 usb0
+    default         192.168.42.129  0.0.0.0         UG        0 0          0 usb0
+
+Adding the static route did not help, so I remove it.
+
+    $ sudo route delete -net 208.113.135.0 netmask 255.255.255.0
+    oracle@oracle:/etc/iproute2$ netstat -r
+    Kernel IP routing table
+    Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+    10.179.252.0    *               255.255.255.0   U         0 0          0 eth0
+    192.168.42.0    *               255.255.255.0   U         0 0          0 usb0
+    link-local      *               255.255.0.0     U         0 0          0 eth0
+    default         leegarden-swi-1 0.0.0.0         UG        0 0          0 eth0
+
+
+
 
 # General Unix Commands
 
