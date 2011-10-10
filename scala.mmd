@@ -4,21 +4,41 @@
 
 Create a blank folder, create project folders, cd into it and start `xsbt`.  Example:
 
-    cd ..;rm -rf scalaProj1/; mkdir -p scalaProj1/src/main/resources scalaProj1/src/main/scala scalaProj1/src/test/resources scalaProj1/src/test/scala scalaProj1/project/build; cd scalaProj1/; xsbt
+    cd ..;rm -rf scalaProj1/; mkdir -p scalaProj1; cd scalaProj1/; mkdir -p src/{main,test}/{scala,java,resources} project/build; xsbt
 
-## Create beginning files
+## Project File
 
-From a text editor *OTHER* than IntelliJ, create a project file
+### Type 1
+
+From a text editor, create a project file
 `project/build/Project.scala` with the following contents:
 
     import sbt._ 
-    class Project(info: ProjectInfo) extends DefaultProject(info) {}  
+    class Project(info: ProjectInfo) extends DefaultProject(info) {
+      override def artifactID = "MyProj1"
+    }  
+
+[some
+samples](http://code.google.com/p/simple-build-tool/wiki/ProjectDefinitionExamples)
+
+### Type 2
+
+At `project/Build.scala` put:
+
+    import sbt._
+    object MyBuild extends Build {
+      lazy val root = Project("root", file("."))
+    }
+
+This project doesn't give you the `package` and `deploy` tasks, so I
+won't recommend or use it at this point.
 
 ## Start Coding
 
-Turn on *Triggered Execution* in sbt to watch for code changes that it will then automatically compile.
+Turn on *Triggered Execution* for the `compile` command, so updated
+source files will be automatically compiled.
 
-    > ~ watch-sources
+    > ~ compile
 
 ## Create new scala object 
 
@@ -51,8 +71,7 @@ As you saved the above file you should have seen it get compiled.
 Lets run it, open a terminal and go to your project directory and
 type:
 
-    $ cd target/scala-2.8.1.final/classes/
-    $ scala HelloWorld
+    $ scala -cp target/scala-2.8.1.final/classes HelloWorld
     Hello World!
 
 ## Add a class and use it
@@ -65,6 +84,30 @@ Create new scala class `Second` in
         return "Hello World!";
       }
     }  
+
+Update your HelloWorld.scala file to be:
+
+    object HelloWorld {
+      def main(args: Array[String]){
+        println(hello)
+      }
+      def hello:String = {
+        val s = new Second
+        return s.func1;
+      }
+    }
+
+## Package
+
+Make a jar out of your work
+
+    > package
+
+## Setup Maven Repository
+
+I currently have a corporate Maven repo I publish to, and I'd like to
+continue with that so here is how to setup that in SBT/Scala.  In your
+`project/build/Project.scala`
 
 
 
