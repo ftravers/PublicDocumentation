@@ -1,0 +1,67 @@
+Command                         | Meaning
+------------------------------- | -------------------------------------------------
+screen                          | Start `screen`
+Ctrl-A                          | To send a command to `screen` and not the shell
+
+Command                         | Meaning
+------------------------------- | -------------------------------------------------
+screen -ls                      | list running screens
+:multiuser on[RET] :acladd[RET] | Turn a screen into a multi user screen (shareable)
+screen -x [screen name]         | Join a shareable screen 
+H                               | create a running log of session
+:quit                           | Kill/Exit screen
+c                               | create a new window
+n                               | (n)ext window
+p                               | (p)rev window
+k                               | (k)ill a window
+d                               | (d)etach from a window.  You can re-attach later.
+screen -r [screen name]         | (r)e-attach.  Use screen name from screen -ls command
+M                               | Monitor screen for activity
+_                               | Monitor a screen for silence
+
+
+# Details
+
+## Monitoring
+
+This function will tell you when activity on a `screen` has either
+started or stopped.  This could be very useful if you have a long
+running process and would like to be alerted when it is finished.
+
+When the monitor detects activity or silence, you will get an alert at
+the bottom with the window number. To quickly go to that window, use
+“Ctrl-A” “ (thats a quote mark, ctrl-a then a “)
+
+To stop monitoring, go to that window and undo the monitor with the
+same command. For example, to stop monitoring for activity you would
+use “Ctrl-A” “M” again.
+
+## Sharing a Screen
+
+You can use screen to share your session.
+
+The first user in his screen session does the following:
+
+    [Ctrl-A]:multiuser on[RET]
+    [Ctrl-A]:acladd[RET]
+
+The second user then can get then get the name of the above session
+with `screen -ls`.  Below is a sample:
+
+    $ screen -ls
+    There are screens on:
+        13009.pts-2.oracle	(Attached)
+        12809.pts-0.oracle	(Multi, attached)
+        13843.pts-5.oracle	(Detached)
+    3 Sockets in /tmp/screens/S-oracle.
+
+Now the one we care about is the one that has: `(Multi, attached)`,
+ i.e.: `12809.pts-0.oracle`.  Now the second user starts their own
+ screen session with the command:
+
+    $ screen -x 12809.pts-0.oracle
+
+# Tutorials
+
+[Screens Tutorial](http://www.rackaid.com/resources/linux-screen-tutorial-and-how-to/)
+
