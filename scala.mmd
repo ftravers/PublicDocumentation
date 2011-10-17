@@ -8,30 +8,12 @@ Create a blank folder, create project folders, cd into it and start `xsbt`.  Exa
 
 ## Project File
 
-### Type 1
-
-From a text editor, create a project file
-`project/build/Project.scala` with the following contents:
-
-    import sbt._ 
-    class Project(info: ProjectInfo) extends DefaultProject(info) {
-      override def artifactID = "MyProj1"
-    }  
-
-[some
-samples](http://code.google.com/p/simple-build-tool/wiki/ProjectDefinitionExamples)
-
-### Type 2
-
 At `project/Build.scala` put:
 
     import sbt._
     object MyBuild extends Build {
       lazy val root = Project("root", file("."))
     }
-
-This project doesn't give you the `package` and `deploy` tasks, so I
-won't recommend or use it at this point.
 
 ## Start Coding
 
@@ -43,7 +25,7 @@ source files will be automatically compiled.
 ## Create new scala object 
 
 Create new scala object `HelloWorld` in
-`Tutorial1/src/main/scala/HelloWorld.scala`
+`PROJECT_ROOT/src/main/scala/HelloWorld.scala`
 
     object HelloWorld {
       def main(args: Array[String]){

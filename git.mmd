@@ -1196,9 +1196,17 @@ commits you have, if you have 3 commits, type ~3)
 
     git rebase -i HEAD~2
 
-just change `pick` to `s` leaving the top `pick`, save and exit from
-your editor in the normal way, and then your comments will pop up for
-editing, edit them and save and quit again.
+Change: 
+
+    pick 3ee3e6b .
+    pick f875a3c .
+    pick 5eeec57 .
+
+to:
+
+    pick 3ee3e6b .
+    s f875a3c .
+    s 5eeec57 .
 
 ### Creating a Patch File
 
