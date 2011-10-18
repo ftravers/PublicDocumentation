@@ -12,7 +12,7 @@ At `project/Build.scala` put:
 
     import sbt._
     object MyBuild extends Build {
-      lazy val root = Project("root", file("."))
+      lazy val root = Project("MyProject", file("."))
     }
 
 ## Start Coding
@@ -56,6 +56,46 @@ type:
     $ scala -cp target/scala-2.8.1.final/classes HelloWorld
     Hello World!
 
+As an alternative, open a second terminal window and launch `xsbt`
+there.  Then run your program from there by typing:
+
+    > run
+
+## Package
+
+Make a jar out of your work
+
+    > package
+
+    $ find target -name "*.jar"
+    target/scala-2.8.1.final/myproject_2.8.1-0.1.jar
+
+## Deploy
+
+### Local Ivy
+
+First lets deploy to our local ivy repository, so other projects
+locally can use this jar.
+
+    > publish-local
+
+### Maven Repository
+
+Lets setup publishing to a maven repository.
+
+
+******** TO BE FIGURED OUT ************
+
+
+
+
+
+## Setup Maven Repository
+
+I currently have a corporate Maven repo I publish to, and I'd like to
+continue with that so here is how to setup that in SBT/Scala.  In your
+`project/build/Project.scala`
+
 ## Add a class and use it
 
 Create new scala class `Second` in
@@ -79,19 +119,6 @@ Update your HelloWorld.scala file to be:
       }
     }
 
-## Package
-
-Make a jar out of your work
-
-    > package
-
-## Setup Maven Repository
-
-I currently have a corporate Maven repo I publish to, and I'd like to
-continue with that so here is how to setup that in SBT/Scala.  In your
-`project/build/Project.scala`
-
-
 
 
 
@@ -113,6 +140,137 @@ are displayed by modifying the log-level or trace-level settings:
     > set logLevel := Level.Warn
 
 Valid Level values are Debug, Info, Warn, Error.
+
+
+# COOKBOOK
+
+## Create XML
+
+This project will create a SOAP message to query Service Requests from
+CRMOD.  There is a current Java implementation, that I'd like to
+rewrite in Scala.  Currently the Java method signature looks like:
+
+    String getSoapQueryBody(
+      String template, 
+      String requestType, 
+      int startRow, 
+      int pageSize,
+      List<Field> fields, 
+      List<String> sortFields, 
+      List<String> sortOrders, 
+      String soapVersion) {
+        String sortClauseV2 = getSortClauseV2(sortFields, sortOrders);
+		String fieldsSoap = getQueryBody(requestType, fields, soapVersion, sortClauseV2);
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("requestTypeLowerCase", requestType.toLowerCase());
+		parameters.put("requestType", requestType);
+		parameters.put("fields", fieldsSoap);
+		parameters.put("pageSize", Integer.toString(pageSize));
+		parameters.put("startRow", Integer.toString(startRow));
+		String soapQueryBodyV2 = TemplateParser.populateTemplate(templates, template, parameters, TemplateParser.ALL);
+		return soapQueryBodyV2;
+	  }
+
+Here is the first method inside the above method:
+
+    String getSortClauseV2(List<String> sortFields, List<String> sortOrders) throws ServiceException {
+        	Map<String, String> parameters = new HashMap<String, String>();
+        	StringBuffer sortClauses = new StringBuffer();
+        	if (sortOrders.size() != sortFields.size())
+        		throw new ServiceException("Sort Fields and Sort Orders are different sizes");
+        	if (sortFields != null && sortOrders != null) {
+        		for (int ii = 0; ii < sortFields.size(); ii++) {
+        			parameters.put("fieldName", sortFields.get(ii));
+        			parameters.put("sortOrder", sortOrders.get(ii));
+        			parameters.put("sortSequence", Integer.toString(ii + 1));
+        			String fieldEntry = TemplateParser.populateTemplate(templates, "soapV2SortClause", parameters,
+        					TemplateParser.ALL);
+        			sortClauses.append(fieldEntry);
+        		}
+        	}
+        	return sortClauses.toString();
+        }
+
+Basically this method is expecting two lists: sortFields, and
+sortOrders.  So valid data might look like (in pseudo code):
+
+    sortFields = { 'firstname', 'lastname' }
+    sortOrders = { 'asc', 'desc' }
+
+So this means sort first on `firstname` in an ascending (`asc`)
+manner, then on `lastname` in a descending (`desc`) manner.
+
+This data then gets converted into an XML fragment of the form:
+
+    soapV2SortClause=<ns1:$fieldName$ sortorder="$sortOrder$" sortsequence="$sortSequence$"></ns1:$fieldName$>
+
+So an output XML given the data specified above might look like:
+
+    <ns1:firstname sortorder="asc" sortsequence="1"></ns1:firstname>
+
+So this could be viewed as our first function.  Input: 
+
+* a field name,
+* sort order {'asc','desc'}, and 
+* a sort sequence {int}, 
+* return some XML that looks like the fragment above.  
+
+So lets get started with the Scala.
+
+    class SrQuerySoap {
+      def singleSortClause( fieldName : String, sortOrder : String, sortSequence : String )
+        = <ns1:{fieldName} sortorder="{sortOrder}" sortsequence="{sortSequence}"></ns1:{fieldName}>
+
+Now we'll want to iterate over a list of field names and sort orders,
+so lets see what that Scala might look like:
+
+      def entireSortClause( sortFields : List[String], sortOrders : List[String] ) : String =
+
+
+This might produce XML like the following:
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <soapenv:Body>
+        <ServiceRequestQueryPage_Input xmlns="urn:crmondemand/ws/ecbs/servicerequest/10/2004">
+          <ns1:ListOfServiceRequest xmlns:ns1="urn:/crmondemand/xml/ServiceRequest/Query" pagesize="10" recordcountneeded="true" startrownum="0">
+            <ns1:ServiceRequest>
+              <ns1:SRNumber/>
+              <ns1:AccountName sortorder="ASC" sortsequence="1"/>
+            </ns1:ServiceRequest>
+          </ns1:ListOfServiceRequest>
+        </ServiceRequestQueryPage_Input>
+      </soapenv:Body>
+    </soapenv:Envelope>
+
+Basically, we'd like to pass in the following parameters:
+
+
+
+
+Create the follow file: `src/main/scala/SrQuerySoap.scala`
+
+    class SrQuerySoap {
+/*  
+    soapQueryV10=<?xml version="1.0"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAPSDK1="urn:crmondemand/ws/$requestTypeLowerCase$/10/2004" xmlns:SOAPSDK2="urn:/crmondemand/xml/$requestTypeLowerCase$"><SOAP-ENV:Body><SOAPSDK1:$requestType$WS_$requestType$QueryPage_Input><UseChildAnd>false</UseChildAnd><PageSize>$pageSize$</PageSize><SOAPSDK2:ListOf$requestType$>$fields$</SOAPSDK2:ListOf$requestType$><StartRowNum>$startRow$</StartRowNum></SOAPSDK1:$requestType$WS_$requestType$QueryPage_Input></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    body=<$object$>$fields$$sortClause$</$object$>
+    fieldEntry=<$fieldName$>$fieldValue$</$fieldName$>
+    soapQueryV2=<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><$requestType$QueryPage_Input xmlns="urn:crmondemand/ws/ecbs/$requestTypeLowerCase$/10/2004"><ns1:ListOfServiceRequest pagesize="$pageSize$" recordcountneeded="true" startrownum="$startRow$" xmlns:ns1="urn:/crmondemand/xml/$requestType$/Query">$fields$</ns1:ListOf$requestType$></$requestType$QueryPage_Input></soapenv:Body></soapenv:Envelope>
+    soapV2FieldEntry=<ns1:$fieldName$>$fieldValue$</ns1:$fieldName$>
+    soapV2SortClause=<ns1:$fieldName$ sortorder="$sortOrder$" sortsequence="$sortSequence$"></ns1:$fieldName$>
+    soapV2Action="document/urn:crmondemand/ws/ecbs/$objectNameLowerCase$/10/2004:$objectName$$method$"
+
+
+    String soapBody = soapIoHelper.getSoapQueryBody3(SoapIoHelper.SOAP_QUERY_V2, requestType, startRow, pageSize, fields, sortFields, sortOrders, SoapIoHelper.V2);
+
+
+			throws ServiceException 
+*/
+
+      def func1 = {
+        return "Hello World!";
+      }
+    }  
 
 
 # Emacs and Scala
@@ -315,6 +473,39 @@ Complex, as follows:
 The class contains two methods, called re and im, which give access to
 these two parts.
 
+## Looping
+
+Say we want to iterate over two lists, using successive values in the
+lists somehow.  What does this look like in an imperative language? In
+pseduo-code:
+
+    list1 = "a", "b", "c"
+    list2 = "1", "2", "3"
+
+    for ( int i = 0; i < 3; i++ ) 
+      print list1[i] + list2[i]
+
+would yield the output:
+
+    a1
+    b2
+    c3
+
+So how do we do a similar thing in Scala?  Lets first define a couple
+of lists:
+
+    val alphaList = List("a", "b", "c")
+    val numericList = List("1", "2", "3")
+
+Next we'd want to `zip` these two lists together, that is produce a
+single list of pairs:
+
+    val alphaNumericList = alphaList zip numericList
+
+Now we have a single list, lets create a function that will use this
+list, printing out successive pairs:
+
+    for ( (alpha,numeric) <- alphaNumericList ) yield println alpha + numeric
 
 
 # Garbage
