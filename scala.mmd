@@ -252,14 +252,18 @@ Create the follow file: `src/main/scala/SrQuerySoap.scala`
 
     class SrQuerySoap {
 
-/*  
-
-    soapQueryV10=<?xml version="1.0"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAPSDK1="urn:crmondemand/ws/$requestTypeLowerCase$/10/2004" xmlns:SOAPSDK2="urn:/crmondemand/xml/$requestTypeLowerCase$"><SOAP-ENV:Body><SOAPSDK1:$requestType$WS_$requestType$QueryPage_Input><UseChildAnd>false</UseChildAnd><PageSize>$pageSize$</PageSize><SOAPSDK2:ListOf$requestType$>$fields$</SOAPSDK2:ListOf$requestType$><StartRowNum>$startRow$</StartRowNum></SOAPSDK1:$requestType$WS_$requestType$QueryPage_Input></SOAP-ENV:Body></SOAP-ENV:Envelope>
+     soapQueryV10=<?xml version="1.0"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAPSDK1="urn:crmondemand/ws/$requestTypeLowerCase$/10/2004" xmlns:SOAPSDK2="urn:/crmondemand/xml/$requestTypeLowerCase$"><SOAP-ENV:Body><SOAPSDK1:$requestType$WS_$requestType$QueryPage_Input><UseChildAnd>false</UseChildAnd><PageSize>$pageSize$</PageSize><SOAPSDK2:ListOf$requestType$>$fields$</SOAPSDK2:ListOf$requestType$><StartRowNum>$startRow$</StartRowNum></SOAPSDK1:$requestType$WS_$requestType$QueryPage_Input></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    
     body=<$object$>$fields$$sortClause$</$object$>
+    
     fieldEntry=<$fieldName$>$fieldValue$</$fieldName$>
+    
     soapQueryV2=<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><$requestType$QueryPage_Input xmlns="urn:crmondemand/ws/ecbs/$requestTypeLowerCase$/10/2004"><ns1:ListOfServiceRequest pagesize="$pageSize$" recordcountneeded="true" startrownum="$startRow$" xmlns:ns1="urn:/crmondemand/xml/$requestType$/Query">$fields$</ns1:ListOf$requestType$></$requestType$QueryPage_Input></soapenv:Body></soapenv:Envelope>
+    
     soapV2FieldEntry=<ns1:$fieldName$>$fieldValue$</ns1:$fieldName$>
+    
     soapV2SortClause=<ns1:$fieldName$ sortorder="$sortOrder$" sortsequence="$sortSequence$"></ns1:$fieldName$>
+    
     soapV2Action="document/urn:crmondemand/ws/ecbs/$objectNameLowerCase$/10/2004:$objectName$$method$"
 
 
@@ -267,7 +271,6 @@ Create the follow file: `src/main/scala/SrQuerySoap.scala`
 
 
 			throws ServiceException 
-*/
 
       def func1 = {
         return "Hello World!";
