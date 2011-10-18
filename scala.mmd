@@ -220,11 +220,14 @@ So lets get started with the Scala.
     class SrQuerySoap {
       def singleSortClause( fieldName : String, sortOrder : String, sortSequence : String )
         = <ns1:{fieldName} sortorder="{sortOrder}" sortsequence="{sortSequence}"></ns1:{fieldName}>
+    }
 
-Now we'll want to iterate over a list of field names and sort orders,
-so lets see what that Scala might look like:
+Now in Java we'd want to iterate over a list of field names and sort
+orders, so lets see what that Scala might look like:
 
-      def entireSortClause( sortFields : List[String], sortOrders : List[String] ) : String =
+      def entireSortClause( sortFields : List[String], sortOrders : List[String] ) : String = {
+        
+      }
 
 
 This might produce XML like the following:
@@ -503,6 +506,8 @@ of lists:
 
     val alphaList = List("a", "b", "c")
     val numericList = List("1", "2", "3")
+
+### zipping two lists
 
 Next we'd want to `zip` these two lists together, that is produce a
 single list of pairs:
