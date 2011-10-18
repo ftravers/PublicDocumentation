@@ -251,7 +251,9 @@ Basically, we'd like to pass in the following parameters:
 Create the follow file: `src/main/scala/SrQuerySoap.scala`
 
     class SrQuerySoap {
+
 /*  
+
     soapQueryV10=<?xml version="1.0"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAPSDK1="urn:crmondemand/ws/$requestTypeLowerCase$/10/2004" xmlns:SOAPSDK2="urn:/crmondemand/xml/$requestTypeLowerCase$"><SOAP-ENV:Body><SOAPSDK1:$requestType$WS_$requestType$QueryPage_Input><UseChildAnd>false</UseChildAnd><PageSize>$pageSize$</PageSize><SOAPSDK2:ListOf$requestType$>$fields$</SOAPSDK2:ListOf$requestType$><StartRowNum>$startRow$</StartRowNum></SOAPSDK1:$requestType$WS_$requestType$QueryPage_Input></SOAP-ENV:Body></SOAP-ENV:Envelope>
     body=<$object$>$fields$$sortClause$</$object$>
     fieldEntry=<$fieldName$>$fieldValue$</$fieldName$>
