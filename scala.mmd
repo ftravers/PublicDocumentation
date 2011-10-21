@@ -505,15 +505,14 @@ pseduo-code:
 
     list1 = "a", "b", "c"
     list2 = "1", "2", "3"
+    combinedList = new List
 
     for ( int i = 0; i < 3; i++ ) 
-      print list1[i] + list2[i]
+      combinedList.add( list1[i] + list2[i] )
 
-would yield the output:
+would yield a list with the following elements:
 
-    a1
-    b2
-    c3
+    a1, b2, c3
 
 So how do we do a similar thing in Scala?  Lets first define a couple
 of lists:
@@ -534,10 +533,10 @@ alphaNumericList is
     List[(java.lang.String,java.lang.String)]
 
 Now we have a single list, lets create a function that will use this
-list, printing out successive pairs.  Here is a signature for the
-function:
+list, concatenating successive pairs:
 
-    val
+    val pairFunction( (firstPart:String,secondPart:String) : List[String]
+
     for ( (alpha,numeric) <- alphaNumericList ) yield println alpha + numeric
 
 
