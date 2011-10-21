@@ -151,15 +151,12 @@ Start the scala REPL and cut and paste these into it
     val fname = "Fenton"
     val lname = "Travers"
     val fullName = fname + " " + lname
-    
-
-    val alphaList = List("a", "b")
-
-    val numList = List("1", "2")
-
-    val zipList = alphaList zip numList
-
     def fun1( arg1 : String, arg2 :String) : String = arg1 + ":" + arg2
+    fun1(fname, lname)
+    val alphaList = List("a", "b")
+    val numList = List("1", "2")
+    val zipList = alphaList zip numList
+    def fun2( pair : List[(java.lang.String, java.lang.String)] ) : String = pair(0) + ":" + pair(1)
 
 ## Create XML
 
