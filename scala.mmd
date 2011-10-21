@@ -142,7 +142,24 @@ are displayed by modifying the log-level or trace-level settings:
 Valid Level values are Debug, Info, Warn, Error.
 
 
-# COOKBOOK
+# COOKBOOK & Tutorial
+
+## Play with lists and functions
+
+Start the scala REPL and cut and paste these into it
+
+    val fname = "Fenton"
+    val lname = "Travers"
+    val fullName = fname + " " + lname
+    
+
+    val alphaList = List("a", "b")
+
+    val numList = List("1", "2")
+
+    val zipList = alphaList zip numList
+
+    def fun1( arg1 : String, arg2 :String) : String = arg1 + ":" + arg2
 
 ## Create XML
 
@@ -514,9 +531,16 @@ single list of pairs:
 
     val alphaNumericList = alphaList zip numericList
 
-Now we have a single list, lets create a function that will use this
-list, printing out successive pairs:
+When we put the above on the Scala REPL we see the type
+alphaNumericList is 
 
+    List[(java.lang.String,java.lang.String)]
+
+Now we have a single list, lets create a function that will use this
+list, printing out successive pairs.  Here is a signature for the
+function:
+
+    val
     for ( (alpha,numeric) <- alphaNumericList ) yield println alpha + numeric
 
 
