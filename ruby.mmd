@@ -1,0 +1,27 @@
+# Reference
+
+* Installing
+
+http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you/
+
+* Define a method
+
+```ruby
+irb(main):019:0> def h(name = "World")
+irb(main):020:1> puts "Hello #{name.capitalize}!"
+irb(main):021:1> end
+=> nil
+irb(main):022:0> h "chris"
+Hello Chris!
+=> nil
+irb(main):023:0> h
+Hello World!
+=> nil
+```
+
+Highlights: 
+
+* default parameter value: "World", if method called without a param.
+
+* #{} is string interpolation
+

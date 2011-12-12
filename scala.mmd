@@ -10,10 +10,12 @@ Create a blank folder, create project folders, cd into it and start `xsbt`.  Exa
 
 At `project/Build.scala` put:
 
-    import sbt._
-    object MyBuild extends Build {
-      lazy val root = Project("MyProject", file("."))
-    }
+```scala
+import sbt._
+object MyBuild extends Build {
+  lazy val root = Project("MyProject", file("."))
+}
+```
 
 ## Start Coding
 
@@ -27,14 +29,16 @@ source files will be automatically compiled.
 Create new scala object `HelloWorld` in
 `PROJECT_ROOT/src/main/scala/HelloWorld.scala`
 
-    object HelloWorld {
-      def main(args: Array[String]){
-        println(hello)
-      } 
-      def hello:String = {
-        return "Hello World!";
-      }
-    }  
+```scala
+object HelloWorld {
+  def main(args: Array[String]){
+    println(hello)
+  } 
+  def hello:String = {
+    return "Hello World!";
+  }
+}  
+```
 
 The argument of the scala command has to be a top-level object. If
 that object is followed by the clause extends Application, then all
@@ -43,9 +47,11 @@ have to add a method main which will act as the entry point of your
 program.  Here is how an object that extends Application looks like
 (note this is just an FYI don't put it in your scala file yet):
 
-    object HelloWorld2 extends Application {
-      println("Hello, world!")
-    }
+```scala
+object HelloWorld2 extends Application {
+  println("Hello, world!")
+}
+```
 
 ## Run it
 
@@ -53,8 +59,10 @@ As you saved the above file you should have seen it get compiled.
 Lets run it, open a terminal and go to your project directory and
 type:
 
-    $ scala -cp target/scala-2.8.1.final/classes HelloWorld
-    Hello World!
+```bash
+$ scala -cp target/scala-2.8.1.final/classes HelloWorld
+Hello World!
+```
 
 As an alternative, open a second terminal window and launch `xsbt`
 there.  Then run your program from there by typing:
@@ -67,8 +75,10 @@ Make a jar out of your work
 
     > package
 
-    $ find target -name "*.jar"
-    target/scala-2.8.1.final/myproject_2.8.1-0.1.jar
+```bash
+$ find target -name "*.jar"
+target/scala-2.8.1.final/myproject_2.8.1-0.1.jar
+```
 
 ## Deploy
 
