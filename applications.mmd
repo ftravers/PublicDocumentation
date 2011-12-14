@@ -328,10 +328,17 @@ source:
 
 ## HTTP
 
-    yum install -y httpd
-    chkconfig --level 345 httpd on
-
+```bash
+yum install -y httpd
+chkconfig --level 345 httpd on
 service httpd start
+```
+
+variable                       | meaning
+------------------------------ | ---------------------------
+`/etc/httpd/conf/httpd.conf`   | config file
+`DocumentRoot`                 | is where your web pages go, by default at: `/var/www/html`
+`ServerRoot`                   | default: `/etc/httpd` 
 
 More on [apache](apache.html).
 

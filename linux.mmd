@@ -1,5 +1,3 @@
-CSS: style.css
-
 # Ubuntu
 
 Clean Install Setup
@@ -8,12 +6,14 @@ Clean Install Setup
 
 source
 
-    [https://help.ubuntu.com/community/Installation/FromUSBStick](https://help.ubuntu.com/community/Installation/FromUSBStick)
+[https://help.ubuntu.com/community/Installation/FromUSBStick](https://help.ubuntu.com/community/Installation/FromUSBStick)
 
 From an ubuntu machine do:
 
-    $ sudo apt-get install usb-creator
-    $ usb-creator-gtk
+```bash
+$ sudo apt-get install usb-creator
+$ usb-creator-gtk
+```
 
 Select the ubuntu iso you downloaded
 
@@ -53,7 +53,7 @@ Set firefox to auto-detect proxy settings.
 
 One by one:
 
-    sudo apt-get install -y gnome-do git-core curl emacs
+    sudo apt-get install --force-yes -y gnome-do git-core curl emacs
 
 #### Compiz
 
@@ -304,17 +304,36 @@ set your jvm home to: `/usr/lib/jvm/java-6-sun`
 Now you should find the icons to launch the apps under: Applications >
 Programming.
 
-## Mint Specific
+# Mint Specific
+
+## Ruby
+
+```bash
+$ sudo apt-get install build-essential git-core curl
+$ bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
+$ echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc; . ~/.bashrc
+$ sudo apt-get install -y --force-yes build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion
+$ rvm install 1.9.2; rvm use 1.9.2; rvm --default use 1.9.2
+```
+
+
+## Compiz
 
 In version 11 can switch from metacity to compiz with:
 
-    compiz --replace &
+```bash
+compiz --replace &
+```
 
 if u wanted to go back u could with:
 
-    metacity --replace &
+```bash
+metacity --replace &
+```
 
 then log out.
+
+
 
 ## Eclipse
 
@@ -379,20 +398,24 @@ I have documentation that I publish to a local webserver.
 
 ### Multimarkdown
 
-    cd ~/bin/; 
-    wget --user=spiceman --password=<PASSWORD> http://software.spicevan.com/linux/fletcher-MultiMarkdown-ef1038d.tar.gz
-    tar xvfz fletcher-MultiMarkdown-ef1038d.tar.gz
-    ln -s fletcher-MultiMarkdown-ef1038d/ mmd
+```bash
+$ cd ~/bin/; 
+$ wget --user=spiceman --password=<PASSWORD> http://software.spicevan.com/linux/fletcher-MultiMarkdown-ef1038d.tar.gz
+$ tar xvfz fletcher-MultiMarkdown-ef1038d.tar.gz
+$ ln -s fletcher-MultiMarkdown-ef1038d/ mmd
 
-    wget --user=spiceman --password=<PASSWORD> http://software.spicevan.com/linux/mylynWikitext.tgz
-    tar xvfz mylynWikitext.tgz
+$ wget --user=spiceman --password=<PASSWORD> http://software.spicevan.com/linux/mylynWikitext.tgz
+$ tar xvfz mylynWikitext.tgz
+```
 
 Add following to end of: /etc/apache2/apache2.conf
 
-    <VirtualHost *:80>
-      ServerName docs
-      DocumentRoot /home/f/bin/website
-    </VirtualHost>
+```apache
+<VirtualHost *:80>
+  ServerName docs
+  DocumentRoot /home/f/bin/website
+</VirtualHost>
+```
 
 Then you can run command: `lochtml`
 
@@ -1196,3 +1219,22 @@ Section "Device"
         Driver      "fglrx"
         BusID       "PCI:0:1:0"
 EndSection
+
+## awk
+
+```bash
+$ ls ~/projects/documentation/*.textile
+/home/fenton/projects/documentation/dia.textile
+/home/fenton/projects/documentation/java.textile
+/home/fenton/projects/documentation/secure.textile
+/home/fenton/projects/documentation/virtualMachines.textile
+$
+$ ls ~/projects/documentation/*.textile | awk -F"/" '{print $(NF)}'
+dia.textile
+java.textile
+secure.textile
+virtualMachines.textile
+$
+
+Here `-F` means this is the field delimiter, and $(NF), where NF is a
+special variable that holds the *number of fields*.
