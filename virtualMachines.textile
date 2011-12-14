@@ -1,0 +1,99 @@
+h1. Virtual
+
+All Hosts
+
+* Network: 10.179.252.0, Netmask: 255.255.255.0, Default Gateway: 10.179.252.1
+* DNS Servers: 10.179.253.14, 146.56.237.50, 140.83.70.155
+* Default Domain: hk.oracle.com
+* Go to [this page|http://iprequest.oraclecorp.com/] to request additional *Static IP* addresses.
+* All running VM's are located in the directory: */OVS/running_pool*
+
+Static IPs
+
+|| Name                    || IP Address   || Notes                               
+| vl-ucm1                  | 10.179.252.30 |                                      
+| vl-db1                   | 10.179.252.29 | DB for Nitesh & categorization                                     
+| xps                      | 10.179.252.34 |                                      
+| "vl-wlp1":vl-wlp1        | 10.179.252.31 | glassfish :dev                       
+| "linux1":#linux1         | 10.179.252.32 | git :stage                           
+| vl-vmsrv2                | 10.179.252.33 | OVM Server
+| vl-wciwcm1               | 10.179.252.35 |                                      
+| "alm":#alm               | 10.179.252.39 | OVMM, OVMTB, Hudson :dev             
+| youtube                  | 10.179.252.38 |                                      
+| ipm                      | 10.179.252.41 |                                      
+| "vl-wcfs":#vl-wcfs       | 10.179.252.40 | glassfish :stage                     
+| "vl-urmses":#vl-urmses   | 10.179.252.42 | wls :dev                             
+| vl-autovue               | 10.179.252.37 |                                      
+
+
+h1. Physical Machines
+
+h2(#vl-vmsrv2). vl-vmsrv2 :dev
+
+|| Connection Info                   || Specs                                   || Notes ||
+ oracle@vl-vmsrv2.hk.oracle.com      | *CPU:* CoreDUO *DISK:* 500GB *RAM:* 8GB  |
+
+
+|| Description     || Folder            || Notes         |
+| Virtual Machines | /OVS/running_pool/ |                |
+| NFS exports      | /OVS/downloads     | 450/500GB Free |
+| NFS mounts       | /mount/jpbox       | 100/917GB Free |
+
+
+h1. Virtual Machines
+
+h3(#vl-db1). vl-db1
+
+Oracle DB 11g for Nitesh and Categorization. 
+
+h3(#vl-urmses). vl-urmses - wls :dev
+
+h4. wls
+
+We want to move from glassfish to wls.  This is where we are testing that.
+
+h3(#linux1). linux1 - DNS, Git :stage
+
+h4. DNS Server
+
+future dns server when can figure out how to route inbound packets to 192.168.186.* network.
+
+h4. GIT Server
+
+bc. /home/git/repositories
+
+h3(#alm). alm - OVMM, OVMTB, Hudson :dev
+
+h4. Oracle Virtual Machine, Oracle Virtual Machine Manager
+
+This is the NEW Template Builder. 
+
+http://alm.hk.oracle.com/ovmtb/  (username/password = oracle/welcome1)
+
+Created VM tarballs:
+
+bc. /opt/ovmtb/tarballs
+
+The folder: @/mnt/vmsrv@ is @vl-vmsrv2:/OVS/downloads@ so you can copy the VM
+tarballs there.
+
+* unix user/password: oracle/welcome1
+
+h4. Hudson
+
+h3(#vl-wlp1). vl-wlp1: Glassfish :dev
+
+h3(#vl-wcfs). vl-wcfs: Glassfish :stage
+
+Deployment folder is: 
+
+bc. 
+#!/bin/bash
+rsync -avP target/testartifact.war oracle@vl-wcfs.hk.oracle.com:/home/oracle/bin/glassfishv3/glassfish/domains/domain1/autodeploy
+
+This has the search SES webapp on it.
+
+URL: http://vl-wcfs.hk.oracle.com:8080/SES
+
+To manage see "glassfish admin":applications.html#glassfish-admin
+
