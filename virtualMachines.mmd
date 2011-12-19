@@ -20,64 +20,42 @@ Static IPs
 Name                     | IP Address            | Notes   
 ------------------------ | --------------------- | --------------------------------------
 vl-ucm1                  | 10.179.252.30         |
-vl-db1                   | 10.179.252.29         | DB for Nitesh & categorization   
+vl-db1                   | 10.179.252.29         | 
 xps                      | 10.179.252.34         |  
-[vl-wlp1](vl-wlp1)       | 10.179.252.31         | glassfish :dev   
-[linux1](#linux1)        | 10.179.252.32         | git :stage
+vl-wlp1                  | 10.179.252.31         | 
+[linux1](#linux1)        | 10.179.252.32         | git, jenkins, maven2
 vl-vmsrv2                | 10.179.252.33         | OVM Server  
 vl-wciwcm1               | 10.179.252.35         |  
-[alm](#alm)              | 10.179.252.39         | OVMM, OVMTB, Hudson :dev   
+[alm](#alm)              | 10.179.252.39         | OVMM, OVMTB
 youtube                  | 10.179.252.38         |  
 ipm                      | 10.179.252.41         |
-[vl-wcfs](#vl-wcfs)      | 10.179.252.40         | glassfish :stage   
-[vl-urmses](#vl-urmses)  | 10.179.252.42         | wls :dev   
+vl-wcfs                  | 10.179.252.40         | 
+vl-urmses                | 10.179.252.42         | 
 vl-autovue               | 10.179.252.37         | 
 
 # Physical Machines
 
-## vl-vmsrv2 :dev
+## vl-vmsrv2
 
-Connection Info
-Specs
-Notes
-oracle@vl-vmsrv2.hk.oracle.com | \*CPU:\* CoreDUO \*DISK:\* 500GB
-\*RAM:\* 8GB |
-Description
-Folder
-Notes
-Virtual Machines
-/OVS/running\_pool/
-NFS exports
-/OVS/downloads
-450/500GB Free
-NFS mounts
-/mount/jpbox
-100/917GB Free
+Connection Info                      | Specs                                        | Notes
+------------------------------------ | -------------------------------------------- | -----------------------
+oracle@vl-vmsrv2.hk.oracle.com       | *CPU:* CoreDUO *DISK:* 500GB *RAM:* 8GB      |
+
+Description      | Folder               | Notes  
+---------------- | -------------------- | ------------------
+Virtual Machines | /OVS/running\_pool/  |
+NFS exports      | /OVS/downloads       | 450/500GB Free
+NFS mounts       | /mount/jpbox         | 100/917GB Free
+
 # Virtual Machines
 
-## vl-db1
-
-Oracle DB 11g for Nitesh and Categorization.
-
-## vl-urmses - wls :dev
-
-### wls
-
-We want to move from glassfish to wls. This is where we are testing
-that.
-
-## linux1 - DNS, Git :stage
-
-### DNS Server
-
-future dns server when can figure out how to route inbound packets
-to 192.168.186.\* network.
+## linux1 - Git, Jenkins
 
 ### GIT Server
 
     /home/git/repositories
 
-## alm - OVMM, OVMTB, Hudson :dev
+## alm - OVMM, OVMTB, Jenkins
 
 ### Oracle Virtual Machine, Oracle Virtual Machine Manager
 
@@ -94,24 +72,12 @@ The folder: `/mnt/vmsrv` is `vl-vmsrv2:/OVS/downloads` so you can
 copy the VM  
 tarballs there.
 
--   unix user/password: oracle/welcome1
+* unix user/password: oracle/welcome1
 
-### Hudson
+### Jenkins
 
-## vl-wlp1: Glassfish :dev
+running under user: `fenton`
 
-## vl-wcfs: Glassfish :stage
-
-Deployment folder is:
-
-    #!/bin/bash
-    rsync -avP target/testartifact.war oracle@vl-wcfs.hk.oracle.com:/home/oracle/bin/glassfishv3/glassfish/domains/domain1/autodeploy
-
-This has the search SES webapp on it.
-
-URL: http://vl-wcfs.hk.oracle.com:8080/SES
-
-To manage see [glassfish admin](applications.html#glassfish-admin)
-
+directory: `/home/fenton/.jenkins`
 
 
