@@ -163,27 +163,9 @@ Extract on new machine:
     cd ~/.thunderbird
     tar xvfz mail.tgz *
   
-OR:
 
-    ~/projects$ git clone ft_git3@spicevan.com:crmod-ws-wrapper.git
-    ~/projects$ git clone ft_git3@spicevan.com:rtbDispute.git
-    ~/projects$ git clone ft_git3@spicevan.com:lisp.git
-    ~/projects$ git clone ft_git3@spicevan.com:myConfig.git
-    ~/projects$ git clone ft_git3@spicevan.com:SesReader.git
-    ~/projects$ git clone ft_git3@spicevan.com:gitosis-admin.git
-    ~/projects$ git clone ft_git3@spicevan.com:CRMOD_WS_Writer.git
-    ~/projects$ git clone ft_git3@spicevan.com:ngsp-doco.git
-    ~/projects$ git clone ft_git3@spicevan.com:elisp.git
-    ~/projects$ git clone ft_git3@spicevan.com:pdit.git
-    ~/projects$ cd myConfig/
-    ~/projects/myConfig$ sudo ./setConfigRsync.sh 
-
--   ~$ mkdir ~/.emacs.d/cache
-
--   Import Compiz profile
-
-
--   Web Downloads
+#### Import Compiz profile
+#### Web Downloads
 
 Eclipse, SQLDeveloper, Skype, Adobe Acrobat Reader
 
@@ -191,12 +173,6 @@ Eclipse, SQLDeveloper, Skype, Adobe Acrobat Reader
 
 You would like to be able to VNC into your machine.  Follow [setup
 instructions](https://help.ubuntu.com/community/VNC)
-
-## Evolution setup
-
--   backup and import all data from old computer
--   Edit -> Preferences -> Composer Preferences -> Forward/Reply Style
-    -> Inline
 
 ## Google Desktop
 
@@ -221,26 +197,25 @@ Edit > Profile Preferences > Scrolling > Unlimited (checked)
 
 ## Pidgin
 
--   Tools > Preferences > Show system tray icon: Always
+* Tools > Preferences > Show system tray icon: Always
+* Oracle Account
+* Basic
 
--   Oracle Account
+    protocol: xmpp
+    username: fenton.travers
+    domain: oracle.com
 
--   -   Basic
+* Advanced
 
-protocol: xmpp
-username: fenton.travers
-domain: oracle.com
-
--   -   Advanced
-
-require ssl/tsl = checked
-force old (port 5223) ssl = checked
-connect port = 5223
-connect server = stbeehive.oracle.com
+    require ssl/tsl = checked
+    force old (port 5223) ssl = checked
+    connect port = 5223
+    connect server = stbeehive.oracle.com
 
 ### Notifications
 
 Tools > Plugins > Libnotify Popups > Configure Plugin > Uncheck: Buddy signs on
+
 ## Set Open DSN Servers
 
 set /etc/resolv.conf
