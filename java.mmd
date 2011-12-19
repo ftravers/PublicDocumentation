@@ -1,0 +1,464 @@
+[home](../../index.html) \> [training](../index.html) \> Java
+
+Table of Contents
+
+{toc}
+
+# Installation Considerations
+
+![image](/images/mac.jpeg)
+
+Mac JVMs are installed to here:
+`/System/Library/Frameworks/JavaVM.framework/Versions`
+
+# VisualVM
+
+To see the memory profile of a running java process…can use
+VisualVM.
+
+# Logging
+
+[Reference](http://logback.qos.ch/manual/layouts.html)
+
+Maven pom.xml
+
+    <dependency>
+     <groupId>org.slf4j</groupId>
+     <artifactId>slf4j-api</artifactId>
+     <version>1.6.1</version>
+    </dependency>
+    <dependency>
+     <groupId>ch.qos.logback</groupId>
+     <artifactId>logback-classic</artifactId>
+     <version>0.9.28</version>
+    </dependency>
+
+    import org.slf4j.Logger;
+    import org.slf4j.LoggerFactory;
+    static final Logger log = LoggerFactory.getLogger(ServiceProxy.class);
+    log.debug("After transformation params:\n{}", afterTransformation);
+
+Dir layout:
+
+    .
+    `-- src
+        |-- main
+        |   `-- resources
+        |       `-- logback.xml
+        `-- test
+            `-- resources
+                `-- logback-test.xml
+
+Ensure src/test/resources is a source folder in eclipse
+
+Config files: logback.xml: You use this for production. Notice
+there  
+is an added Date to the Timestamp.
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <configuration>
+      <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+          <Pattern>%date{MMM dd yy ;HH:mm:ss} [%thread] %-5level %logger{36}:%line - %msg%n</Pattern>
+        </layout>
+      </appender>
+      <logger name="com.base22" level="TRACE"/>
+      <root level="debug">
+        <appender-ref ref="STDOUT" />
+      </root>
+    </configuration> 
+
+Config files: logback-test.xml:
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <configuration>
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>%-5level %logger{100} - %msg%n</Pattern>
+            </layout>
+        </appender>
+        <logger name="com.oracle.git.ngsp.crmodRestServer.hasExternDep" level="DEBUG"/>
+        <root level="debug">
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </configuration>
+
+## Tips:
+
+More than 2 object in one line:
+
+If three or more arguments need to be passed, an Object[] variant
+is also availalble. For example, you can write:
+
+    Object[] paramArray = {newVal, below, above};
+    logger.debug("Value {} was inserted between {} and {}.", paramArray);
+
+## Error Log File
+
+        <appender name="ERROR-LOG" class="ch.qos.logback.core.FileAppender">
+            <file>logs/HRMS-CRMOD-DataIntegration-ERRORS.log</file>
+            <append>true</append>
+            <encoder>
+                <pattern>%-5level %date{MMM dd yy ;HH:mm:ss} %msg \(%logger{0}.java:%line\)%n</pattern>
+            </encoder>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+            </filter>
+        </appender>
+        <root level="${log.level}">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="FILE" />
+            <appender-ref ref="ERROR-LOG" />
+        </root>
+
+# Application Configuration
+
+## External Config
+
+There may be information that is specific to the environment you
+are  
+deploying your web applications to. Like database URL, username,  
+password. Use the following Spring formula to deal with this.
+
+in: `src/main/resources/applicationContext.xml` put:
+
+    <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+        <context:property-placeholder location="file:${user.dir}/application.properties" />
+        <bean id="crmodServer" class="com.oracle.git.ngsp.crmodRestServer.isExternDep.CrmodServer">
+            <property name="companyId" value="${crmod.companyId}" />
+            <property name="serverUrl" value="${crmod.password}" />
+            <property name="username" value="${crmod.username}" />
+            <property name="password" value="${crmod.serverUrl}" />
+        </bean>
+    </beans>
+
+have a file called: `application.properties` with the following  
+contents:
+
+    crmod.companyId=ONGS
+    crmod.password=mySecretPassword
+    crmod.username=ftravers
+    crmod.serverUrl=secure-ausomxfca.crmondemand.com
+
+ensure class:  
+`com.oracle.git.ngsp.crmodRestServer.isExternDep.CrmodServer`
+
+has appropriate properties/getters/setters to be a bean:
+
+    private String companyId;
+    public String getCompanyId() { return companyId; }
+    public void setCompanyId(String companyId) { this.companyId = companyId; }
+
+## Resource Files
+
+These are okay if you want hard package a properties file with your
+jar. However, if you want the end user to configure your
+application then you should use a properties file like the next
+section recommends.
+
+    ResourceBundle props = ResourceBundle.getBundle ("some.pkg.resource");
+    String host = props.getString("host");
+    System.out.println("This is the host: " + host);
+
+in this case you’d have a file called `resource.properties` located
+in the `some.pkg` package.
+
+In the above scenario this would be located at:
+`some/pkg/resource.properties`. Then you’d jar up your sources,
+including the resource.properties file and your code would still
+work when deployed in different scenarios…however it is very
+difficult for the end user to modify…since they don’t have a simple
+text file separate from your jar in which to place settings. In
+that scenario use a property file as described next.
+
+## Properties File
+
+    Properties properties = new Properties();
+    String filename = "application.properties";
+    File file = new File(filename);
+    properties.load(new FileInputStream(file));
+
+## Load from classpath
+
+Load an arbitrary file from the classpath. I.e. it gets compiled
+into  
+the jar…so not good for settings that will only be changed after  
+deployment. Drop `myfile.txt` in the root of your classpath…or  
+elsewhere (but then put a path in front such as:  
+`/com/oracle/myfile.txt`.
+
+    InputStream stream = this.getClass().getClassLoader().getResourceAsStream("myfile.txt");
+
+## The Best Way
+
+The following loads a properties file (not resource file) from the
+root of the classpath….without it needing to be compiled into the
+jar.
+
+Sometimes you want to find out what file it did find…you can use:
+
+# Loops
+
+## foreach
+
+### List
+
+    List listToLoopOver = new ArrayList<String>();
+    listToLoopOver.add("a"); listToLoopOver.add("b");
+    for (String currString : listToLoopOver)
+        System.out.println(currString);  
+
+### Map
+
+    Map<String,String> contactList = new HashMap<String,String>();
+    contactList.put("Fenton", "fenton@gmail.com"); contactList.put("joe", "joe@gmail.com"); 
+    for(Map.Entry<K, V> e : map.entrySet())
+        System.out.println(e.getKey()+": "+e.getValue());
+
+## Control
+
+### switch
+
+    int month = 8;
+    switch (month) {
+        case 1:  System.out.println("January"); break;
+        case 2:  System.out.println("February"); break;
+        case 3:  System.out.println("March"); break;
+        case 4:  System.out.println("April"); break;
+        case 5:  System.out.println("May"); break;
+        case 6:  System.out.println("June"); break;
+        case 7:  System.out.println("July"); break;
+        case 8:  System.out.println("August"); break;
+        case 9:  System.out.println("September"); break;
+        case 10: System.out.println("October"); break;
+        case 11: System.out.println("November"); break;
+        case 12: System.out.println("December"); break;
+        default: System.out.println("Invalid month.");break;
+    }
+
+# Misc
+
+## Class Loaders
+
+            URL[] urls = ((URLClassLoader) ClassLoader.getSystemClassLoader()).getURLs();
+            System.out.println(urls);
+
+## Dates
+
+[Date Reference](http://download.oracle.com/javase/1.4.2/docs/api/java/text/SimpleDateFormat.html)
+
+Convert String → Date
+
+    String startDate = "2004-03-19";
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    Date date = df.parse(startDate);
+
+Convert Date → String
+
+    Date todaysDate = new java.util.Date();
+    SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss");
+    String formattedDate = formatter.format(todaysDate);
+
+## Regex
+
+    String pattern = "(^.+)(\\.[\\w]+$)";
+    Pattern r = Pattern.compile(pattern);
+    Matcher m = r.matcher(fullName);
+    if (m.find()) {
+        String pkgName = m.group(1);
+        return pkgName;
+    }
+
+        String aDate = "date: 12-15-2003";
+        Pattern datePattern = Pattern.compile("date: (\\d{2})-(\\d{2})-(\\d{4})");
+        Matcher dateMatcher = datePattern.matcher(aDate);
+        if (dateMatcher.find())
+        {
+          System.out.println("Month is: " + dateMatcher.group(1));
+          System.out.println("Day is:   " + dateMatcher.group(2));
+          System.out.println("Year is:  " + dateMatcher.group(3));
+        }
+
+        // jdbc:oracle:thin:dbl_ongs_crmod/abcd1234//dbsv1005.us.oracle.com:1523/fapad.us.oracle.com
+        static String removePassword(String urlWithPassword) {
+            String regex = "/([^/]+)//";
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(urlWithPassword);
+            if ( m.find() ) {
+                String password = m.group(1);
+                String blankedOutPassword = urlWithPassword.replaceFirst(password, "XXXXXXXX");
+                return blankedOutPassword;
+            }
+            return null;
+        }
+
+# XML & Java
+
+Recommend using StAX (Streaming API for XML)
+
+-   reference: http://www.vogella.de/articles/JavaXML/article.html
+
+Sample XML
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <SOAP-ENV:Body>
+        <ns:PicklistWS_GetPicklistValues_Output xmlns:ns="urn:crmondemand/ws/picklist/">
+          <ListOfParentPicklistValue xmlns="urn:/crmondemand/xml/picklist">
+            <ParentPicklistValue>
+              <Language>ENU</Language>
+              <ParentFieldName/>
+              <ParentDisplayValue/>
+              <ParentCode/>
+              <Disabled/>
+              <ListOfPicklistValue>
+                <PicklistValue>
+                  <Code>F</Code>
+                  <DisplayValue>F</DisplayValue>
+                  <Disabled>N</Disabled>
+                </PicklistValue>
+                <PicklistValue>
+                  <Code>M</Code>
+                  <DisplayValue>M</DisplayValue>
+                  <Disabled>N</Disabled>
+                </PicklistValue>
+              </ListOfPicklistValue>
+            </ParentPicklistValue>
+          </ListOfParentPicklistValue>
+        </ns:PicklistWS_GetPicklistValues_Output>
+      </SOAP-ENV:Body>
+    </SOAP-ENV:Envelope>
+
+Parsing Code:
+
+        static Map<String, String> getPicklistFromSoapResponse(String soapResponse) throws ServiceException {
+            Map<String, String> values = new LinkedHashMap<String, String>();
+            XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+            String code = null;
+            String display = null;
+            String disabled = null;
+            try {
+                InputStream in = new ByteArrayInputStream(soapResponse.getBytes("UTF-8"));
+                XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
+                while (eventReader.hasNext()) {
+                    XMLEvent event = eventReader.nextEvent();
+                    if (event.isStartElement()) {
+                        if (event.asStartElement().getName().getLocalPart().equals("Code")) {
+                            event = eventReader.nextEvent();
+                            code = event.asCharacters().getData();
+                            continue;
+                        }
+                        if (event.asStartElement().getName().getLocalPart().equals("DisplayValue")) {
+                            event = eventReader.nextEvent();
+                            display = event.asCharacters().getData();
+                            continue;
+                        }
+                        if (event.asStartElement().getName().getLocalPart().equals("Disabled")) {
+                            event = eventReader.nextEvent();
+                            disabled = event.asCharacters().getData();
+                            if ( "Y".equals(disabled)) values.put(code, display);
+                            continue;
+                        }
+                    }
+                }
+            } catch (UnsupportedEncodingException e) {
+                throw new ServiceException(e);
+            } catch (XMLStreamException e) {
+                throw new ServiceException(e);
+            }
+            return values;
+        }
+
+The line:
+
+    InputStream in = new ByteArrayInputStream(soapResponse.getBytes("UTF-8"));
+
+can be switch for a file as the source of the xml with:
+
+    InputStream in = new FileInputStream("myFile.xml");
+
+While looping through the events, the first thing we need to do is
+get the XMLEvent with `eventReader.nextEvent()`. Normally we only
+care for events that are start elements, which is retrieved with
+the line:
+
+    event.isStartElement()
+
+This checks to see if what we are looking at is an opening tag. For
+example in: `<name>Fenton</name>` only the `<name>` part is the
+start element. So taking that snippet of xml, calling the
+following
+
+    event.asStartElement().getName().getLocalPart()
+
+results in the string: `name`. To get the string `Fenton` we call:
+`event.asCharacters().getData()`
+
+Now sometimes an element will have attributes like:
+`<name type="User">Fenton</name>`. In this case the part
+`type="User"` is an attribute and it can be extracted with:
+
+    StartElement startElement = event.asStartElement();
+    Iterator<Attribute> attributes = startElement.getAttributes();
+    while (attributes.hasNext()) {
+        Attribute attribute = attributes.next();
+        if (attribute.getName().toString().equals("type"));
+        String typeIsUser = attribute.getValue();
+    }
+
+## Javadoc
+
+link to method in same class
+
+    {@link #createServiceRequest(Map)}
+
+link to another class called `Contact`
+
+    {@link Contact}
+
+link to a methond in another class
+
+    {@link Contact#getId(Map)}
+
+## Decompiling
+
+This command decompiles all .class files located in all   
+subdirectories of ‘tree’ and creates output files in
+subdirectories  
+of ‘src’ according to package names of classes. For example, if
+file   
+‘tree/a/b/c.class’ contains class ‘c’ from package ‘a.b’, then   
+output file will have a name ‘src/a/b/c.java’.
+
+Note the use of the “two stars” wildcard (‘\*\*’) in the previous  
+command. It is handled by Jad rather than the command shell, so
+on  
+UNIX the last argument should be single-quoted:
+
+bc.  
+jad -r -sjava -dsrc ‘tree/**/**.class’
+
+## Visual VM
+
+Can show you realtime heap usage info.
+
+    cd ${JDK_HOME}/bin
+    vi jstatd.all.policy
+
+Add the following:
+
+    grant codebase "file:${java.home}/../lib/tools.jar" {
+    permission java.security.AllPermission;
+    };
+
+launch jstatd
+
+    ./jstatd -J-Djava.security.policy=jstatd.all.policy &
+
+Fire up Visual VM and connect to host.
+
+
+
