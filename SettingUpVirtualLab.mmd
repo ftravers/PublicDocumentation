@@ -259,10 +259,9 @@ Now that you are VNC'd into the VM.
 # system-config-securitylevel-tui --quiet --port=http --port=ssh --port=https
 ```
 
--   Setup an [SSH trust](secure.html#sshAutoLogin)
+* Setup an [SSH trust](secure.html#sshAutoLogin)
 
--   Static IP: To convert a dhcp OEL to Static IP address edit
-    file:
+* Static IP
 
 ```bash
 # vi /etc/sysconfig/network-scripts/ifcfg-eth0
@@ -275,20 +274,25 @@ GATEWAY=192.168.8.1
 TYPE=Ethernet
 ```
 
-Make sure there is NO HWADDR setting in here.
+**Make sure there is NO HWADDR setting in here.**
 
--   Hostname: Change the hostname here:
+* Change hostname
 
-    [root@localhost network-scripts]# vi /etc/sysconfig/network
+```bash
+# vi /etc/sysconfig/network
+```
 
--   Hostname: set for this session with:
+* Set hostname
 
-    [root@localhost ~]# hostname ucm
+```bash
+# hostname ucm
+```
 
--   Now you can restart your network services with the following
-    command:
+* Restart network:
 
-    [root@localhost ~]# service network restart
+```bash
+# service network restart
+```
 
 Your terminal session should die here and you can now setup a new
 [SSH trust](/secure.html#sshAutoLogin), as trusts are based on IP
