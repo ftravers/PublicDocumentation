@@ -2,11 +2,33 @@
 
 # Install
 
-http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you/
+## Debian 
+
+Ubuntu, Mint
+
+[Reference](http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you/)
+
+```bash
+$ sudo apt-get install build-essential git-core curl
+$ bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
+$ echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc; . ~/.bashrc
+$ sudo apt-get install -y --force-yes build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion
+$ rvm install 1.9.2; rvm use 1.9.2; rvm --default use 1.9.2
+```
 
 ## RedHat variants
 
+Oracle Linux
+
 [Reference](http://wiki.mediatemple.net/w/(ve):Ruby_on_Rails_on_CentOS#Install_RVM)
+
+```bash
+$ export http_proxy=http://www-proxy.sg.oracle.com && wget -c http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
+$ rpm -ivh rpmforge-release-0.3.6-1.el5.rf.i386.rpm
+$ 
+```
+
+# Language Reference
 
 * Define a method
 

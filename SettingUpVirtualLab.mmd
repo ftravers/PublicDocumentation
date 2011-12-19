@@ -205,7 +205,7 @@ Lets fire it up...
 
 ## configure VNC
 
-It’s handy to understand the line:
+It's handy to understand the line:
 `vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']`
 
 Actually, vncunused=1 says use the first unused vnc port.
@@ -231,7 +231,7 @@ with:
 
 ## VNC in
 
-Once it is running you’ll need to `VNC` into machine to update it’s
+Once it is running you'll need to `VNC` into machine to update it's
 IP address,  
 hostname, etc...
 
@@ -241,21 +241,23 @@ hostname, etc...
 -   Windows: Tight VNC
 
 You set the IP address of the VNC Server to be the IP Address of
-your OVMS. The port you use depends on the number of VM’s you have
+your OVMS. The port you use depends on the number of VM's you have
 running. Start at port 0 (aka 5900) and work your way up until you
 find the VM you are interested in. Or if you have set a static
 port, VNC into that.
 
 ## Configure VM
 
-Now that you are VNC’d into the VM.
+Now that you are VNC'd into the VM.
 
 -   Login with `root/ovsroot`.
 -   Determine the IP address with: `ifconfig -a` you are looking
     for the entry next to `eth0` that says `inet addr`.
 -   Open port SSH and Web ports:
 
-    system-config-securitylevel-tui --quiet --port=http --port=ssh --port=https
+```bash
+# system-config-securitylevel-tui --quiet --port=http --port=ssh --port=https
+```
 
 -   Setup an [SSH trust](/secure.html#sshAutoLogin)
 
