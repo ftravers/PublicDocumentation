@@ -159,9 +159,11 @@ jar. However, if you want the end user to configure your
 application then you should use a properties file like the next
 section recommends.
 
-    ResourceBundle props = ResourceBundle.getBundle ("some.pkg.resource");
-    String host = props.getString("host");
-    System.out.println("This is the host: " + host);
+```java
+ResourceBundle props = ResourceBundle.getBundle ("some.pkg.resource");
+String host = props.getString("host");
+System.out.println("This is the host: " + host);
+```
 
 in this case you’d have a file called `resource.properties` located
 in the `some.pkg` package.
