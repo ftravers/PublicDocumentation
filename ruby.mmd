@@ -22,11 +22,47 @@ Oracle Linux
 
 [Reference](http://wiki.mediatemple.net/w/(ve):Ruby_on_Rails_on_CentOS#Install_RVM)
 
+As `root`
+
 ```bash
-$ export http_proxy=http://www-proxy.sg.oracle.com && wget -c http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
-$ rpm -ivh rpmforge-release-0.3.6-1.el5.rf.i386.rpm
-$ 
+# export http_proxy=http://www-proxy.sg.oracle.com && wget -c http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
+# rpm -ivh rpmforge-release-0.3.6-1.el5.rf.i386.rpm
+# yum install -y curl git
+# curl -x http://www-proxy.sg.oracle.com:80 -L http://rvm.beginrescueend.com/releases/rvm-install-latest > rvmInstall
 ```
+Edit the rvmInstall file replacing three curl calls to be:
+
+    curl -x http://www-proxy.sg.oracle.com:80 -L -B
+
+instead of
+
+    curl -B
+
+Modify the call to `scripts/install`, from using argument --prefix to using --path, was:
+
+    exec ./scripts/install ${flags[*]} --prefix "$rvm_prefix" --path "$rvm_path"
+
+should be:
+
+    exec ./scripts/install ${flags[*]} --path "$rvm_prefix" --path "$rvm_path"
+
+```bash
+# chmod o+x rvmInstall 
+# ln -s /bin/env /usr/bin/env
+# ./rvmInstall 
+# yum install -y gcc-c++ patch readline readline-devel zlib zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison iconv-devel
+```
+
+run:
+
+    rvm requirements
+
+and do the yum install that it calls for.
+
+Install Ruby
+
+    rvm install 1.9.2 --proxy www-proxy.sg.oracle.com:80
+    rvm --default use 1.9.2
 
 # Language Reference
 

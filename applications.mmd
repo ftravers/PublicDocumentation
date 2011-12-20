@@ -1,8 +1,8 @@
-# Linux Application Installations
+Linux Application Installations
 
-## NFS
+# NFS
 
-### client
+## client
 
 We will mount the VM Server Hosts directory inside this guest.
 
@@ -18,7 +18,7 @@ edit `/etc/fstab` example:
     service nfs start
     mount -a
 
-### server
+## server
 
     yum install nfs-utils
     mount -t rpc_pipefs sunpc /var/lib/nfs/rpc_pipefs
@@ -36,13 +36,13 @@ When this is changed we need to do:
     exportfs -va
     service nfs restart
 
-## Java
+# Java
 
-### Just JRE/home/oracle/projects/work-doco
+## Just JRE/home/oracle/projects/work-doco
 
     yum install java-1.6.0-openjdk
 
-### JDK
+## JDK
 
 Google download JDK\
 Select Java SE JDK and download\
@@ -65,7 +65,7 @@ as oracle:
     export JAVA_HOME=/usr/lib/jvm/jdk1.6.0_23
     export PATH=$JAVA_HOME/bin:$PATH
 
-## Tomcat
+# Tomcat
 
     yum install tomcat5
     chkconfig --level 5 tomcat5 on
@@ -88,7 +88,7 @@ add the following line to the end of the file:
 
     oracle wcfs=/sbin/service tomcat5 restart,/sbin/service tomcat5 stop, /sbin/service tomcat5 start
 
-## Glassfish
+# Glassfish
 
 Setup the WWW proxy so wget will work. You’ll probably have a different
 URL to download glassfish from.
@@ -117,11 +117,11 @@ put the asadmin dir into your path for oracle:
     vi ~/.bashrc
     export PATH=$JAVA_HOME/bin:$PATH:~/bin/glassfishv3/glassfish/bin/
 
-### Auto start/stop scripts:
+## Auto start/stop scripts:
 
 in `/etc/init.d/glassfish` put:
 
-#### startup/shutdown script:
+### startup/shutdown script:
 
     #!/bin/bash
     #
@@ -168,17 +168,17 @@ in `/etc/init.d/glassfish` put:
                     exit
     esac
 
-#### Install Service
+### Install Service
 
     #chmod +x /etc/init.d/glassfish
     #chkconfig --add glassfish
     #chkconfig --level 3 glassfish on
 
-#### Start Service
+### Start Service
 
     #/etc/init.d/glassfish start
 
-#### Open port in firewall
+### Open port in firewall
 
     system-config-securitylevel-tui --quiet --port=8080
 
@@ -189,7 +189,7 @@ ensure nothing is running on ports 8080 4848
     sudo netstat -atunp | grep 4848; sudo netstat -atunp | grep 8080
     netstat -atun | grep 4848; netstat -atun | grep 8080
 
-### Admin
+## Admin
 
 Deploy/Undeploy
 
@@ -210,11 +210,11 @@ See where your app is deployed to:
     $ cd ~/bin/glassfish-3.0.1/glassfish/domains/domain1/applications
     $ find .
 
-### Automatically Deploy/Undeploy
+## Automatically Deploy/Undeploy
 
     cp sample-dir/hello.war as-install/domains/domain1/autodeploy
 
-### More on ports
+## More on ports
 
 To change the HTTP port to 10080:
 
@@ -256,7 +256,7 @@ Just change the following properties:
 
 Cheers.
 
-### SSL
+## SSL
 
 Just check to see if there is already a keystore.jks file in the
 config folder, otherwise you can create a new one.
@@ -264,7 +264,7 @@ config folder, otherwise you can create a new one.
     keytool -genkey -alias sta00418 -validity 1000 -keyalg RSA -keysize 2048 -keystore /scratch/ngsp/glassfish3/glassfish/domains/domain1/config/keystore.jks
 
 
-## GIT
+# GIT
 
 -   Install python-setuptools on your server, you’ll need it to install
     gitosis.
@@ -273,7 +273,7 @@ As root:
 
     yum -y install python-setuptools
 
-### Setup RPMForge
+## Setup RPMForge
 
     export http_proxy=http://www-proxy.sg.oracle.com && wget -c http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
 
@@ -281,11 +281,11 @@ and do:
 
     rpm -ivh rpmforge-release-0.3.6-1.el5.rf.i386.rpm
 
-### Install GIT
+## Install GIT
 
     yum -y install git
 
-### Install Gitosis
+## Install Gitosis
 
 on laptop download:
 
@@ -328,7 +328,7 @@ instructions
 source:
 [http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1](http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1)
 
-## HTTP
+# HTTP - Apache2
 
 ```bash
 yum install -y httpd
@@ -344,7 +344,20 @@ variable                       | meaning
 
 More on [apache](apache.html).
 
-## Jenkins
+# Document Publishing
+
+We use ruby, 2 (or 3) gems and a script to publish our documentation.
+
+* See [ruby](ruby.html#Install) for documentation on how to install ruby.
+* install the following gems as root:
+
+```bash
+# gem install pygments.rb
+# gem install RedCloth
+# gem install redcarpet
+```
+
+# Jenkins
 
 [Ref:](http://pkg.jenkins-ci.org/redhat/)
 
@@ -357,7 +370,7 @@ on.
 
     yum install jenkins
 
-## JBoss 
+# JBoss 
 
 [ref](http://www.surajitray.com/coders-corner/jboss-5-1-on-ubuntu-10-04/)
 

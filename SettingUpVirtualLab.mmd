@@ -300,13 +300,14 @@ addresses and you’ve changed IP Address.
 
 Finally update your name servers, and root passwords
 
-    [root@db11g ~]# cat > /etc/resolv.conf
-    search hk.oracle.com
-    nameserver 10.179.253.14
-    nameserver 146.56.237.50
-    nameserver 140.83.70.155
-
-    [root@db11g ~]# passwd
+```bash
+# cat > /etc/resolv.conf
+search hk.oracle.com
+nameserver 10.179.253.14
+nameserver 146.56.237.50
+nameserver 140.83.70.155
+# passwd
+```
 
 ## Install Software
 
@@ -318,17 +319,23 @@ need to set your web proxy, so that step is listed first.
 Put the export http\_proxy line at the bottom of `/etc/profile` so
 all users get this environment variable set.
 
-    # vi /etc/profile
-    export http_proxy=http://www-proxy.sg.oracle.com
+```bash
+# vi ~/.bashrc
+export http_proxy=http://www-proxy.sg.oracle.com
+```
 
 Download the repo file:
 
-    # cd /etc/yum.repos.d/
-    # wget http://public-yum.oracle.com/public-yum-el5.repo
+```bash
+# cd /etc/yum.repos.d/
+# wget http://public-yum.oracle.com/public-yum-el5.repo
+```
 
 Or you can temporarily set and use the http_proxy for wget in one command:
 
-    export http_proxy=http://your.proxy.server:port && wget -c http://whatever
+```bash
+export http_proxy=http://your.proxy.server:port && wget -c http://whatever
+```
 
 If you dont have wget installed:  
 In a browser on your local laptop navigate to:
