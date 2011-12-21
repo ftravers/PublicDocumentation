@@ -175,5 +175,17 @@ the Python Library Reference.)
      hosts = { 'dev':'123', 'stg':'456' }
      for k, v in hosts.iteritems():
 
+## Calling External Programs
+
+when u need to check the output of a command, use `check_output`
+
+```python
+import subprocess
+
+output = subprocess.check_output(['ls', '-1'])
+print 'Have %d bytes in output' % len(output)
+print output
+```
+
 ## References:
 
