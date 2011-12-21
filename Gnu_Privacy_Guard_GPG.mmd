@@ -33,19 +33,21 @@ line beginning with **pub**
 http://pgp.mit.edu/
 
 ```bash
-$ gpg --keyserver keyserver.ubuntu.com --send-key 52449A8E
-gpg: sending key 52449A8E to hkp server keyserver.ubuntu.com
+$ gpg --keyserver pgp.mit.edu --send-key 52449A8E
+gpg: sending key 52449A8E to hkp server pgp.mit.edu
 ```
 
-## Others get your key
+Goto: http://pgp.mit.edu/ and enter **fenton.travers@gmail.com** into
+the __Search String__ input box in the __Extract a key__ section.
 
+## Others get your key
 
 Now ask your friend to import your key, and ask them to import your
 key with:
 
 ```bash
-$ gpg --keyserver keyserver.ubuntu.com --recv-key 52449A8E
-gpg: requesting key 52449A8E from hkp server keyserver.ubuntu.com
+$ gpg --keyserver pgp.mit.edu --recv-key 52449A8E
+gpg: requesting key 52449A8E from hkp server pgp.mit.edu
 gpg: key 52449A8E: "Fenton Travers (Human Being) <fenton.travers@gmail.com>" not changed
 gpg: Total number processed: 1
 gpg:              unchanged: 1
@@ -56,8 +58,6 @@ gpg:              unchanged: 1
 If u get a virus or some how your computer becomes compromised by
 hackers, you'll want to revoke your key.
 
-
-
 ```bash
 $ gpg --gen-revoke 52449A8E > revoke.txt
 $ gpg --import revoke.txt 
@@ -66,28 +66,14 @@ gpg: Total number processed: 1
 gpg:    new key revocations: 1
 gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
 gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
-$ gpg --keyserver keyserver.ubuntu.com --send-key 52449A8E
-gpg: sending key 52449A8E to hkp server keyserver.ubuntu.com
+$ gpg --keyserver pgp.mit.edu --send-key 52449A8E
+gpg: sending key 52449A8E to hkp server pgp.mit.edu
 ```
+
+Again search the pgp.mit.edu server to see that your key is revoked.
+
 
 # References:
 
 [](http://www.hackdiary.com/2004/01/18/revoking-a-gpg-key/)
-
-
-
-
-$ gpg --import my_revocation.txt
-Issuing this command imports the revocation into your keyring, revoking your key.
-
-$ gpg --keyserver pgp.mit.edu --send-keys 6382285E
-
-
-```bash
-
-```
-```bash
-
-```
-
 
