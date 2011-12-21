@@ -3,10 +3,40 @@
 ## Debian Setup
 
 ```bash
-sudo apt-get install python-setuptools
-sudo easy_install -U PasteScript
-paster create --list-templates
+$ sudo apt-get install python-setuptools
+$ sudo easy_install -U PasteScript
+$ paster create --list-templates
+$ paster create -t basic_package
 ```
+
+After responding to some questions, such as project name: it_library,
+we get a directory structure like:
+
+```bash
+$ tree
+.
+└── it_library
+    ├── it_library
+    │   └── __init__.py
+    ├── it_library.egg-info
+    │   ├── dependency_links.txt
+    │   ├── entry_points.txt
+    │   ├── PKG-INFO
+    │   ├── SOURCES.txt
+    │   ├── top_level.txt
+    │   └── zip-safe
+    ├── setup.cfg
+    └── setup.py
+```
+
+You can create the egg with:
+
+```bash
+$ cd it_library/
+$ python setup.py bdist_egg
+creating 'dist/it_library-0.0.1dev-py2.7.egg'
+```
+
 
 # Starting a Script
 
