@@ -1,14 +1,40 @@
 # Work In Progress
 
-## Testing
+## Testing - Fitnesse
 
-Using Fitnesse
+* [Reference 1](http://johannesbrodwall.com/2008/03/19/some-fitnesse-tricks-classpath-and-debugging/)
 
-Launch
+### Launch Fitnesse
 
 ```bash
 $ java -jar fitnesse.jar -p 8081
 ```
+
+### Quick Start
+
+```
+!path target/classes
+!path /.m2/repository/org/fitnesse/fitnesse/20060719/fitnesse-20060719.jar
+!path /.m2/repository/org/fitnesse/fitlibrary/20060719/fitlibrary-20060719.jar
+
+!|my.test.ExampleFixture|
+|first|second|sum?|product?|
+|10|10|20|100|
+|1|0|1|0|
+|10000|1|10001|10000|
+```
+
+### Fitnesse and GIT
+
+This will create a subfolder in the folder specified by the -d
+parameter, called FitnesseRoot, if it doesn't already exist, with all
+the stuff it needs to run.
+
+
+
+
+
+
 
 
 ## Cascading Release
