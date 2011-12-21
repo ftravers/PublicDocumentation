@@ -30,6 +30,8 @@ line beginning with **pub**
 
 ## Upload to KeyServer
 
+http://pgp.mit.edu/
+
 ```bash
 $ gpg --keyserver keyserver.ubuntu.com --send-key 52449A8E
 gpg: sending key 52449A8E to hkp server keyserver.ubuntu.com
@@ -57,7 +59,15 @@ hackers, you'll want to revoke your key.
 
 
 ```bash
-$ gpg --gen-revoke 52449A8E
+$ gpg --gen-revoke 52449A8E > revoke.txt
+$ gpg --import revoke.txt 
+gpg: key 52449A8E: "Fenton Travers (Human Being) <fenton.travers@gmail.com>" revocation certificate imported
+gpg: Total number processed: 1
+gpg:    new key revocations: 1
+gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+$ gpg --keyserver keyserver.ubuntu.com --send-key 52449A8E
+gpg: sending key 52449A8E to hkp server keyserver.ubuntu.com
 ```
 
 # References:
