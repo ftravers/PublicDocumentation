@@ -1,18 +1,18 @@
-# Cheatsheet
-
-## List Keys
+# List Keys
 
 ```bash
 $ gpg --list-keys
 ```
 
-## Generate Key
+# Generate Key
 
 ```bash
 $ gpg --gen-key
 ```
 
-## Share your key
+# Share your key
+
+## Identify key-id
 
 First we list the key we created to find out the **key-id**.
 
@@ -23,12 +23,20 @@ $ gpg --list-keys
 pub   2048R/52449A8E 2011-12-21
 uid                  Fenton Travers (Human Being) <fenton.travers@gmail.com>
 sub   2048R/C1220815 2011-12-21
-$ gpg --keyserver keyserver.ubuntu.com --send-key 52449A8E
-gpg: sending key 52449A8E to hkp server keyserver.ubuntu.com
 ```
 
 Notice the key-id is: **52449A8E** or the part after the slash on the
 line beginning with **pub**
+
+## Upload to KeyServer
+
+```bash
+$ gpg --keyserver keyserver.ubuntu.com --send-key 52449A8E
+gpg: sending key 52449A8E to hkp server keyserver.ubuntu.com
+```
+
+## Others get your key
+
 
 Now ask your friend to import your key, and ask them to import your
 key with:
@@ -41,11 +49,24 @@ gpg: Total number processed: 1
 gpg:              unchanged: 1
 ```
 
-http://www.hackdiary.com/2004/01/18/revoking-a-gpg-key/
+# Revoke Key
+
+If u get a virus or some how your computer becomes compromised by
+hackers, you'll want to revoke your key.
+
+
 
 ```bash
-$ gpg --gen-revoke >
+$ gpg --gen-revoke 52449A8E
 ```
+
+# References:
+
+[](http://www.hackdiary.com/2004/01/18/revoking-a-gpg-key/)
+
+
+
+
 $ gpg --import my_revocation.txt
 Issuing this command imports the revocation into your keyring, revoking your key.
 
