@@ -5,6 +5,11 @@
 ```bash
 $ sudo apt-get install python-setuptools
 $ sudo easy_install -U PasteScript
+```
+
+## Create Shell Project
+
+```bash
 $ paster create --list-templates
 $ paster create -t basic_package
 ```
@@ -29,19 +34,30 @@ $ tree
     └── setup.py
 ```
 
-You can create the egg with:
+## Release Egg
+
+You can create and upload the egg with:
 
 ```bash
 $ cd it_library/
-$ python setup.py bdist_egg
-creating 'dist/it_library-0.0.1dev-py2.7.egg'
+$ python setup.py bdist_egg register upload
+Submitting dist/it_library-0.0.1dev-py2.7.egg to http://pypi.python.org/pypi
+Server response (200): OK
 ```
 
+## New Egg Version
 
-# Starting a Script
+Update version info in `setup.py` and re-release.
+
+* [Reference](http://wiki.python.org/moin/CheeseShopTutorial)
+* [Python Eggs - Package Management](http://mrtopf.de/blog/en/a-small-introduction-to-python-eggs/)
+
+# Language Reference
+
+## Starting a Script
 
 ```python
-#!/usr/bin/python
+##!/usr/bin/python
 import sys
 import os
 def printHello(name):
@@ -51,7 +67,7 @@ def goodbye(name)
 
 Code blocks are **indented**.  To finish a code block un-indent.
 
-# Command line arguments
+## Command line arguments
 
 ```python
 import sys
@@ -61,7 +77,7 @@ for arg in sys.argv:
 
 sys.argv is just a list
 
-# Convert String -> Int -> String
+## Convert String -> Int -> String
 
 ```python
 age = "12"
@@ -69,22 +85,22 @@ birthday = int(age) + 1
 print "After your birthday you'll be: " + str(birthday)
 ```
 
-# Files
+## Files
 
-## Reading
+### Reading
 
     f = open("../resources/htmlInputTestStrings.properties", 'r')
     for line in f:
         parts = string.split(line, '=')
         print parts
 
-## Writing
+### Writing
 
     f = open("../resources/htmlInputTestStrings.properties", 'w')
     f.write("test")
     f.close()
 
-# Switch / Case statements
+## Switch / Case statements
 
     options = {0 : zero,
                 1 : sqr,
@@ -114,9 +130,9 @@ can use the functions as the values of the dictionary and then call
 them via dictionary lookup.
 
 
-# Data Types
+## Data Types
 
-## Lists
+### Lists
 
 Empty list initialization
     
@@ -127,7 +143,7 @@ Empty list initialization
     if value in L:
         print "list contains", value
 
-### List functions
+#### List functions
 
 * size
 
@@ -142,15 +158,14 @@ denote that the parameter is optional, not that you should type square
 brackets at that position. You will see this notation frequently in
 the Python Library Reference.)
 
-## Dictionary
+### Dictionary
 
     tel = {'jack': 4098, 'sape': 4139}
 
-### Looping over Dictionaries
+#### Looping over Dictionaries
 
      hosts = { 'dev':'123', 'stg':'456' }
      for k, v in hosts.iteritems():
 
-# References:
+## References:
 
-[Python Eggs - Package Management](http://mrtopf.de/blog/en/a-small-introduction-to-python-eggs/)
