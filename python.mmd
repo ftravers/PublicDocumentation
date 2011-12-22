@@ -177,7 +177,9 @@ the Python Library Reference.)
 
 ## Calling External Programs
 
-when u need to check the output of a command, use `check_output`
+* [Reference](http://www.doughellmann.com/PyMOTW/subprocess/)
+
+### Get external program output
 
 ```python
 import subprocess
@@ -187,5 +189,18 @@ print 'Have %d bytes in output' % len(output)
 print output
 ```
 
-## References:
+## Regex: Searching Strings
+
+Code to extract string: version number: "0.3.0"
+
+```python
+import re
+data = "<version>0.3.0-SNAPSHOT</version>"
+matcher = re.compile("<version>(.*)-SNAPSHOT</version>", re.MULTILINE)
+matched = matcher.search(data)
+if matched != None:
+  matched = matched.group(1)
+```
+
+`matched` should now contain the string: "0.3.0"
 

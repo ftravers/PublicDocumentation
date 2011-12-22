@@ -1,3 +1,23 @@
+# Config
+
+## Config File
+
+What               | Debian                                    | Red Hat
+------------------ | ----------------------------------------- | ----------------------------
+Master Config      | /etc/apache2/apache2.conf                 | /etc/httpd/conf/httpd.conf
+Actual Config      | /etc/apache2/sites-enabled/000-default    | 
+DocumentRoot       | /var/www                                  | /var/www/html
+Restart/Control    | service httpd restart                     | sudo /etc/init.d/apache2 restart
+
+
+```apache
+<VirtualHost *:80>
+  ServerName docs
+  DocumentRoot /home/f/bin/website
+</VirtualHost>
+```
+
+
 # Installation
 
 How to install apache on redhat linux based distributions from source.  Download the latest source, extract, and in the folder do:
