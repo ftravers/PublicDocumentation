@@ -53,7 +53,7 @@ gpg: Total number processed: 1
 gpg:              unchanged: 1
 ```
 
-# Revoke Key
+## Revoke Key
 
 If u get a virus or some how your computer becomes compromised by
 hackers, you'll want to revoke your key.
@@ -72,6 +72,26 @@ gpg: sending key 52449A8E to hkp server pgp.mit.edu
 
 Again search the pgp.mit.edu server to see that your key is revoked.
 
+# Encryption
+
+## Encryting your own data
+
+If you want to encrypt a file that only you'll be able to unencrypt.
+
+    $ gpg -r 8DE6C9FD -e email.txt
+
+Where `8DE6C9FD` is the public key id of the person who you want to be
+able to un-encrypt the file.  `email.txt` is the file we are
+encrypting, change this to the file you want to encrypt.
+
+## Unencrypt
+
+If you want to un-encrypt data encrypted with your public key do:
+
+   $ gpg -d email.txt.gpg
+
+Where `email.txt.gpg` is the file that was encrypted with your public
+key.
 
 # References:
 

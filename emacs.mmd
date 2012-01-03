@@ -1,12 +1,8 @@
-CSS: style.css
-
-[home](/index.html) > Emacs
-
 # Reference
 
 [GNU Emacs Manuals Online](http://www.gnu.org/software/emacs/manual/)
 
-## Files
+# Files
 
 | Key Stroke | Effect                           |
 | ---------- | -------------------------------- |
@@ -17,7 +13,7 @@ C-x C-c      | Close emacs
 C-x C-r      | Open file read only
 C-x C-c      | Exit Emacs
 
-## Navigation, Search & Replace
+# Navigation, Search & Replace
 
 | Key Stroke        | Effect                           |
 | ----------------- | -------------------------------- |
@@ -36,7 +32,7 @@ C-q                 | Keystroke for space character
 C-x (, C-x ), C-x e | Start, stop, playback macro
 C-u 25 C-x e        | Replay macro 25 times
 
-## Special Characters
+# Special Characters
 
 | Name             | ASCII Code | string notation | Caret Notation | Input method                  |
 | ---------------- | ---------- | --------------- | -------------- | ------------                  |
@@ -44,7 +40,7 @@ C-u 25 C-x e        | Replay macro 25 times
 | line feed        | 10         | \n              | J              | Ctrl+q Ctrl+j                 |
 | carriage return  | 13         | \r              | M              | Ctrl+q Ctrl+m or Ctrl+q Enter | 
 
-## Buffers, Regions, & Windows
+# Buffers, Regions, & Windows
 
 | Key Stroke          | Effect                           |
 | ------------------- | -------------------------------- |
@@ -63,7 +59,7 @@ C-x b **scratch** RET | re-open scratch buffer
 d                     | In buffer list, mark buffer for deletion, happens when hit x
 A-^                   | Join this line to previous and fix up whitespace at join. If there is a fill prefix, delete it from the beginning of this line.
 
-## Edit, Selection, Cut & Paste
+# Edit, Selection, Cut & Paste
 
 | Key Stroke                 | Effect                           |
 | ----------                 | -------------------------------- |
@@ -83,14 +79,14 @@ A-x cua-mode                 | Column Edit, C-Ret. begin selection
  In sgml-mode, a built-in pretty printing function called
 (sgml-pretty-print ...)
 
-## Keymaps & Function bindings
+# Keymaps & Function bindings
 
 | Command         | Meaning                           |
 | ----------      | -------------------------------- |
 A-x describe-key  | and hit the key (or key combination) in question. This will reveal the name of the key as well as the function it is currently bound to.
 C-h f             | Display documentation on the Lisp function named function (describe-function). Since commands are Lisp functions, a command name may be used.
 
-## Exuberant ctags
+# Exuberant ctags
 
 go to the root of your source and enter:
 
@@ -98,7 +94,7 @@ go to the root of your source and enter:
 ctags -Re
 ```
 
-## Diff
+# Diff
 
 -   [Reference](http://www.gnu.org/software/emacs/manual/html_node/emacs/Diff-Mode.html)
 
@@ -109,7 +105,7 @@ C-x n w    | To widen again
 A-n        | Move to the next hunk-start (diff-hunk-next).
 A-p        | Move to the previous hunk-start (diff-hunk-prev).
 
-## Latex
+# Latex
 
 | Key Stroke  | Effect                           |
 | ----------  | -------------------------------- |
@@ -119,14 +115,14 @@ C-c =         | show TOC
 
 # Programming
 
-## Cheatsheet
+# Cheatsheet
 
 | Key Stroke            | Effect                           |
 | ----------            | -------------------------------- |
 C-h v < variable-name > | display the contents of a variable
 C-x C-e                 | evaluate an expression: position the cursor after a list and type
 
-## Variables
+# Variables
 
 | Variable | Definition |
 | -------- | ---------- |
@@ -134,7 +130,7 @@ load-path  | The variable load-path lists all the directories where Emacs should
 
 [Reference](http://www.gnu.org/software/emacs/emacs-lisp-intro/html_node/index.html)
 
-## Overview
+# Overview
 
 Put your code into `*.el` files. Then put `*.el` into a directory on
 your load-path, `/usr/local/share/emacs/site-lisp` or
@@ -151,7 +147,7 @@ without closing and reopenning emacs.
     (interactive)
     (load "~/.emacs"))
 
-## To create a function
+# To create a function
 
 A function definition has up to five parts following the word
 defun:
@@ -185,7 +181,7 @@ Function Interactive, for that information.)
       "Multiply NUMBER by seven."
       (* 7 number))
 
-## Install the function
+# Install the function
 
 Install the function by putting the cursor at the end of the
 function and typing C-x C-e. This will install the function for the
@@ -201,15 +197,15 @@ To make the above function interactive do:
 
 Invoke with `C-u` some number `A-x multiply-by-seven`.
 
-## Installing *.el files
+# Installing *.el files
 
-### One time
+## One time
 
 Ensure you have the following in your ~/.emacs file:
 
     (add-to-list 'load-path "~/projects/elisp")
 
-### For each new *.el file
+## For each new *.el file
 
 Ensure you have the following in your ~/.emacs file:
 
@@ -349,7 +345,7 @@ save the file (`C-x C-s`), or
 
 # Notes
 
-## Misc
+# Misc
 
 To determine the value of a symbol do `C-x C-e` after the symbol.  Can
 define a function like that too.
@@ -357,7 +353,7 @@ define a function like that too.
 Items ending in p, such as zerop, stand for predicate and evaluate to
 true of false.  So `(zerop 3) = false`, and `(zerop 0) = true`.
 
-## set setq
+# set setq
 
 The `setq` function sets the value of its first argument to the value
 of the second argument. The first argument is automatically quoted by
@@ -385,7 +381,7 @@ To create a tags-table from source code see: [^An Introduction to
 Programming in Emacs Lisp. Page 44, Section 4.1 Finding More
 Information]
 
-## defun
+# defun
 
     (defun function-name (arguments...)
      "optional-documentation..."
@@ -405,7 +401,7 @@ the name of a function.
     (interactive "p")
     (message "The result is %d" (* 7 number)))
 
-### interactive
+## interactive
 
 In this function, the expression, (interactive "p"), is a list of two
 elements.  The `p` tells Emacs to pass the prefix argument to the
@@ -426,13 +422,13 @@ The interactive expression tells Emacs that the function is intended to be used
 interactively. In this example, interactive does not have an argument because
 simplified-beginning-of-buffer does not require one.
 
-## if 
+# if 
 
     (if (= 22 emacs-major-version)
       (message "This is version 22 Emacs")    
       (message "This is not version 22 Emacs"))
 
-## let, let*
+# let, let*
 
 let is used to attach or bind a symbol to a value in such a way that
 the Lisp interpreter will not confuse the variable with a variable of
@@ -461,32 +457,30 @@ another.
 Its critical feature is that variables later in the varlist can make
 use of the values to which Emacs set variables earlier in the varlist.
 
-## Debugger
+# Debugger
 
 As with the other times we entered the debugger, you can quit by
 typing q in the ‘*Backtrace*’ buffer.
 
-## Keyboard shortcuts
+# Keymaps & Function bindings
 
-Key binding, keymaps.
+| Command         | Key Binding                      |
+| --------------- | -------------------------------- |
+describe-key      | C-h k
 
-### Mode-specific keymaps
 
-Mode-specific keymaps are bound using the define-key function,
 
-    (define-key texinfo-mode-map "\C-c\C-cg" ’texinfo-insert-@group)
 
-### Global
+A-x describe-key  | and hit the key (or key combination) in question. This will reveal the name of the key as well as the function it is currently bound to.
+C-h f             | Display documentation on the Lisp function named function (describe-function). Since commands are Lisp functions, a command name may be used.
 
-When you use `global-set-key` to set the keybinding for a single command
-in all parts of Emacs, you are specifying the keybinding in
-`current-global-map`.
-
-Specific modes, such as C mode or Text mode, have their own keymaps;
-the mode-specific keymaps override the global map that is shared by
-all buffers.
-
-    (global-set-key "\C-x\C-b" ’buffer-menu)
+```
+(global-set-key (kbd "C-.") 'scroll-up
+;; Translate the problematic keys to the function key Hyper, 
+;; then bind this to the desired ctrl-i behavior
+(keyboard-translate ?\C-i ?\H-i)
+(global-set-key [?\H-i] 'scroll-down)
+```
 
 | Point                 | Explanation                      |
 | --------------------- | -------------------------------- |
@@ -494,6 +488,9 @@ C-h f [function-name]   | You can get help for a command by typing
 C-h k [key-sequence]    | To get the command that would run
 C-h w [function-name]   | where the key is, not the full documentation. 
 C-h c [key sequence]    | what function is bound to a key sequence
+
+
+
 
 # File Associations
 
@@ -534,7 +531,7 @@ any structure made out of cons cells.
 Because cons cells are so central to Lisp, we also have a word for “an
 object which is not a cons cell.” These objects are called atoms.
 
-## car
+# car
 
 The car of a list is, quite simply, the first item in the list. Thus
 the car of the list (rose violet daisy buttercup) is rose.
@@ -543,7 +540,7 @@ the car of the list (rose violet daisy buttercup) is rose.
 
 After evaluating the expression, `rose` will appear in the echo area.
 
-## cdr
+# cdr
 
 The cdr of a list is the rest of the list, that is, the cdr function
 returns the part of the list that follows the first item. Thus, while
@@ -556,7 +553,7 @@ buttercup).
 When you evaluate this, (violet daisy buttercup) will appear in the
 echo area.
 
-## cons
+# cons
 
 We often say that `cons puts a new element at the beginning of a list;
 it attaches or pushes elements onto the list', but this phrasing can
@@ -574,9 +571,6 @@ After evaluating this list, you will see
      (pine fir oak maple)
 
 # Comparison Operators
-
-
-
 
 # Adventures in eLisp
 
@@ -630,5 +624,84 @@ called lisp and I found fill.el in there!
 
 `M-x describe-function` | Location of function definition
 `M-.` aka `find-tag`    | see a function in its original source file
+`C-x ESC ESC`           | lookup Emacs code, to repeat last command
+`C-h f`                 | describe-function
+`C-h v`                 | describe-variable
+`C-h k`                 | which commands you are executing when you use keys
+
+scroll-up
+
+# Exercises
+
+# Extend save-buffer function
+
+I want everytime I save my buffer for a shell command to also run.
+
+* Determine what is the save function
+
+We can know what function is executed by a given set of keys by typing
+`C-h k` before the key sequence.  Since we want to determine what is
+the save command we do the previous before `C-x C-s`.
+
+The result is the `save-buffer` command.
+
+Now one strategy would be to create a new function that first calls
+the save function then asynchronously (yes another requirement)
+launches our external shell command and returns.  Then rebinding this
+function to `C-x C-s`.  So lets learn how to get to the shell from
+within emacs.
+
+Hints: maybe use a subprocess.
+
+`A-x shell` - start a shell
+
+inferior shell
+
+noninteractive shell
+
+comint-send-input
 
 
+compile
+
+(compile COMMAND &optional COMINT)
+
+Compile the program including the current buffer.  Default: run `make'.
+Runs COMMAND, a shell command, in a separate process asynchronously
+with output going to the buffer `*compilation*'.
+
+so this looks good.  so i defined the function:
+
+```
+(defun save-buffer-run-shell-command ()
+  "This function saves the current buffer and then runs the command 'pub' 
+asynchronously."
+  (save-buffer)
+  (compile "pub"))
+```
+
+But when I ran it I go the error message:
+
+    /bin/bash: pub: command not found
+
+So I know my path must be updated to include the folder where pub is
+defined: `~/scripts`.
+
+The variable `initial-environment`, had a value for `PATH` in it with
+the contents:
+
+    /home/fenton/bin
+    /usr/local/sbin
+    /usr/local/bin
+    /usr/sbin
+    /usr/bin
+    /sbin
+    /bin
+    /usr/games
+
+No `/home/fenton/scripts` there!!!  So lets see if we can add/modify
+the environment somehow...  Maybe use the functions `setenv` and
+`getenv`.  Lets try the following:
+
+Emacs, since it isn't started from a shell, doesn't get all the
+settings specified in the .bashrc file.

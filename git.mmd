@@ -402,10 +402,11 @@ newfeature.
 
 ## Compare Branches
 
-Often you’ll be working on a branch, then switch back to the
+Often you'll be working on a branch, then switch back to the
 master...and would like to know what is the difference between the two
 branches.  The following shows files and how changed.
 
+    git diff --name-status <branch1>..<branch2>
     git diff --name-status master..npe
 
 # Branching, Merging best practices
