@@ -31,6 +31,7 @@ C-q C-j             | Keystroke for Carriage Return
 C-q                 | Keystroke for space character
 C-x (, C-x ), C-x e | Start, stop, playback macro
 C-u 25 C-x e        | Replay macro 25 times
+C-u C-space         | Return to previous position
 
 # Special Characters
 
@@ -75,6 +76,25 @@ A-w                          | Copy
 C-w                          | Cut
 C-y, Esc-y                   | Yank (paste), successive Esc-y get clipboard history
 A-x cua-mode                 | Column Edit, C-Ret. begin selection
+
+# Misc
+
+## Truncate long lines
+
+When u dont want emacs to wrap long lines do one of the following:
+
+    M-x <RET> toggle-truncate-lines <RET>
+    M-x <RET> set-variable <RET> truncate-lines <RET> t
+
+or put the following in your .emacs to have on by default
+
+    (setq-default truncate-lines t)
+
+## Sort selection
+
+    M-x sort-lines
+
+## XML Formatting
 
  In sgml-mode, a built-in pretty printing function called
 (sgml-pretty-print ...)
