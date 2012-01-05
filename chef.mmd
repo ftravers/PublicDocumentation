@@ -1,0 +1,71 @@
+# Annie's Song
+
+You light up my senses, like a night in a forest...
+
+# Chef Installation
+
+Chef is a Ruby-based configuration management engine. You set up
+__recipes__ for how you want your system configured, and then Chef
+applies them to servers u want setup with the __recipe__.  You write
+the recipes in Ruby code to manage your servers, rather than running
+commands directly on your server.
+
+With Chef, one of your systems is the server and all others are
+clients that communicate with the Chef "server" via REST over
+HTTPS. The server is a [Merb](http://en.wikipedia.org/wiki/Merb)
+application that stores __cookbooks__ for your nodes using CouchDB.
+
+The work is done by the clients, running the __recipes__ for one or
+many nodes thus configuring that particular machine. The Chef server
+is only there to provide information to the clients.  Once configured,
+you can access your Chef server and its __cookbooks__ via a Web
+interface.  You can create your own __cookbooks__ from scratch but
+it's worth checking to see if one already exists in the Chef
+repository or one of its forks.
+
+Once you've got your __recipes__ sorted out, Chef allows you to
+programatically set up and commission production-ready server
+instances in next to no time.
+[Reference](http://www.rubyinside.com/chef-tasty-server-configuraiton-2162.html)
+
+
+Ezra's Cooking with Chef 101 blog post is a great place to get
+started, and there's a wealth of information in the Opscode Chef
+wiki. The Superfeedr blog post, Scale With Chef, is also worth a read.
+
+## Chef Server Prerequisites
+
+```bash
+$ gem install libxml-ruby merb-assets merb-core merb-helpers merb-param-protection merb-slices thin merb-haml haml coderay
+$ sudo apt-get isntall couchdb rabbitmq-server
+```
+
+## Setup Rabbit MQ
+
+[Reference](http://wiki.opscode.com/display/chef/Chef+Indexer#ChefIndexer-ChefIndexerChefSolr)
+
+### Config
+
+```bash
+$ sudo rabbitmqctl add_vhost /chef
+$ sudo rabbitmqctl add_user chef testing
+$ sudo rabbitmqctl set_permissions -p /chef chef ".*" ".*" ".*"
+```
+
+### Validate
+
+```bash
+$ sudo rabbitmqctl list_vhosts
+$ sudo rabbitmqctl list_users
+$ sudo rabbitmqctl list_user_permissions chef
+```
+
+## Chef Server
+
+```bash
+$ gem install chef-server-webui chef-solr
+```
+
+
+
+
