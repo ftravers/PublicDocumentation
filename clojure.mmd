@@ -60,29 +60,26 @@ export PATH=$PATH:~/bin/clojure-contrib/launchers/bash
 alias clj=clj-env-dir
 ```
 
-The last line added to the file above sets an alias to the
-clj-env-dir  
+The last line added to the file above sets an alias to the clj-env-dir
 script. This example uses clj but it could be set to anything.
 
-See the file at `~/bin/clojure-contrib/launchers/bash/clj-env-dir`
-for  
+See the file at `~/bin/clojure-contrib/launchers/bash/clj-env-dir` for
 more options.
 
 ### Add JLine support
 
-* Download JLine from `http://jline.sourceforge.net/` and unzip
-    and copy  
-    jar to the `~/.clojure` directory.
+* Download JLine from `http://jline.sourceforge.net/` and unzip and
+  copy jar to the `~/.clojure` directory.
 
-* Add jline.ConsoleRunner to the last line in  
-    `~/bin/clojure-contrib/launchers/bash/clj-env-dir` to add JLine  
-    functionality.
+* Add jline.ConsoleRunner to the last line in
+  `~/bin/clojure-contrib/launchers/bash/clj-env-dir` to add JLine
+  functionality.
 
     exec $JAVA $OPTS jline.ConsoleRunner $MAIN "$@"
 
 * Test the Script
 
-To test the new script and verify access to the clojure-contrib  
+To test the new script and verify access to the clojure-contrib
 library, open a new terminal window and try this:
 
     $ clj
