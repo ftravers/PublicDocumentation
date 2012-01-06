@@ -22,28 +22,31 @@ Install Java, Ant, Maven, Git
 
 ### Install Clojure
 
-    $ mkdir ~/bin
-    $ cd ~/bin; git clone git://github.com/clojure/clojure.git
-    $ cd ~/bin/clojure; ant
-    $ mkdir ~/.clojure; cp clojure.jar ~/.clojure
+```bash
+$ mkdir ~/bin
+$ cd ~/bin; git clone git://github.com/clojure/clojure.git
+$ cd ~/bin/clojure; ant
+$ mkdir ~/.clojure; cp clojure.jar ~/.clojure
+```
 
 * Test Clojure
 
 Gentlemen, start your REPLs.
 
-    $ cd ~/.clojure 
-    $ java -cp clojure.jar clojure.main
-    user=> (+ 1 41) 
-    42 
+```bash
+$ cd ~/.clojure; java -cp clojure.jar clojure.main
+user=> (+ 1 41) 
+42
+```
 
 Ctrl-d will exit the REPL.
 
 ### Install clojure-contrib
 
-    $ cd ~/bin 
-    $ git clone git://github.com/clojure/clojure-contrib.git 
-    $ cd clojure-contrib 
-    $ mvn install 
+```bash
+$ cd ~/bin; git clone git://github.com/clojure/clojure-contrib.git 
+$ cd ~/bin/clojure-contrib; mvn install 
+```
 
 * Configure Bash Start-up Script
 
