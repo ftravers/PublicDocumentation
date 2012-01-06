@@ -50,15 +50,15 @@ $ cd ~/bin/clojure-contrib; mvn install
 
 * Configure Bash Start-up Script
 
-clojure-contrib contains a bash script called clj-env-dir for
-starting  
-clojure with various options. Edit your \~/.bashrc file to
-configure  
+clojure-contrib contains a bash script called clj-env-dir for starting
+clojure with various options. Edit your \~/.bashrc file to configure
 this script.
 
-    export CLOJURE_EXT=~/.clojure
-    export PATH=$PATH:~/bin/clojure-contrib/launchers/bash
-    alias clj=clj-env-dir
+```bash
+export CLOJURE_EXT=~/.clojure
+export PATH=$PATH:~/bin/clojure-contrib/launchers/bash
+alias clj=clj-env-dir
+```
 
 The last line added to the file above sets an alias to the
 clj-env-dir  
