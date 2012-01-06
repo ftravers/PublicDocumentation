@@ -79,7 +79,10 @@ cd ~/Downloads; unzip jline-1.0.zip; cp jline-1.0/jline-1.0.jar ~/.clojure
   `~/bin/clojure-contrib/launchers/bash/clj-env-dir` to add JLine
   functionality.
 
-    exec $JAVA $OPTS jline.ConsoleRunner $MAIN "$@"
+```bash
+$ cat >> ~/bin/clojure-contrib/launchers/bash/clj-env-dir
+exec $JAVA $OPTS jline.ConsoleRunner $MAIN "$@"
+```
 
 * Test the Script
 
