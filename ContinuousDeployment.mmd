@@ -1,0 +1,62 @@
+# Work In Progress
+
+## Testing
+
+Using Fitnesse
+
+Launch
+
+```bash
+$ java -jar fitnesse.jar -p 8081
+```
+
+
+## Cascading Release
+
+So i have two maven projects that I control.  One depends on another,
+say webapp depends on jar library.  I'm trying to setup continuous
+deployment, so I have the webapp depending on the SNAPSHOT version of
+the jar library.  Now when I check-in code to the jar and push to the
+git server, the webapp gets nicely built.  I've setup a post-receive
+hook on the git server to trigger the jar lib build in jenkins.
+
+Now I'd like to have a one-step (button click) process that would do
+the following:
+
+assume for starters the pom's have the following in them:
+
+```xml
+<artifactId>jarlib</artifactId>
+<versionId>0.0.1-SNAPSHOT</versionId>
+```
+
+and
+
+```xml
+<artifactId>webapp</artifactId>
+<versionId>0.0.1-SNAPSHOT</versionId>
+...
+<dependency>
+  <artifactId>jarlib</artifactId>
+  <versionId>0.0.1-SNAPSHOT</versionId>
+...
+```
+
+I'd like two artifacts to be released webapp:0.0.1 and jarlib:0.0.1.  I'd like the poms to now look like:
+
+```xml
+<artifactId>jarlib</artifactId>
+<versionId>0.0.2-SNAPSHOT</versionId>
+```
+
+and
+
+```xml
+<artifactId>webapp</artifactId>
+<versionId>0.0.2-SNAPSHOT</versionId>
+...
+<dependency>
+  <artifactId>jarlib</artifactId>
+  <versionId>0.0.2-SNAPSHOT</versionId>
+...
+```

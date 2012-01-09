@@ -1,0 +1,89 @@
+# Reference
+
+# Install
+
+## Debian 
+
+Ubuntu, Mint
+
+[Reference](http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you/)
+
+```bash
+$ sudo apt-get install build-essential git-core curl
+$ bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
+$ echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc; . ~/.bashrc
+$ sudo apt-get install -y --force-yes build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion
+$ rvm install 1.9.2; rvm use 1.9.2; rvm --default use 1.9.2
+```
+
+## RedHat variants
+
+Oracle Linux
+
+[Reference](http://wiki.mediatemple.net/w/(ve):Ruby_on_Rails_on_CentOS#Install_RVM)
+
+As `root`
+
+```bash
+# export http_proxy=http://www-proxy.sg.oracle.com && wget -c http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
+# rpm -ivh rpmforge-release-0.3.6-1.el5.rf.i386.rpm
+# yum install -y curl git
+# curl -x http://www-proxy.sg.oracle.com:80 -L http://rvm.beginrescueend.com/releases/rvm-install-latest > rvmInstall
+```
+Edit the rvmInstall file replacing three curl calls to be:
+
+    curl -x http://www-proxy.sg.oracle.com:80 -L -B
+
+instead of
+
+    curl -B
+
+Modify the call to `scripts/install`, from using argument --prefix to using --path, was:
+
+    exec ./scripts/install ${flags[*]} --prefix "$rvm_prefix" --path "$rvm_path"
+
+should be:
+
+    exec ./scripts/install ${flags[*]} --path "$rvm_prefix" --path "$rvm_path"
+
+```bash
+# chmod o+x rvmInstall 
+# ln -s /bin/env /usr/bin/env
+# ./rvmInstall 
+# yum install -y gcc-c++ patch readline readline-devel zlib zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison iconv-devel
+```
+
+run:
+
+    rvm requirements
+
+and do the yum install that it calls for.
+
+Install Ruby
+
+    rvm install 1.9.2 --proxy www-proxy.sg.oracle.com:80
+    rvm --default use 1.9.2
+
+# Language Reference
+
+* Define a method
+
+```ruby
+irb(main):019:0> def h(name = "World")
+irb(main):020:1> puts "Hello #{name.capitalize}!"
+irb(main):021:1> end
+=> nil
+irb(main):022:0> h "chris"
+Hello Chris!
+=> nil
+irb(main):023:0> h
+Hello World!
+=> nil
+```
+
+Highlights: 
+
+* default parameter value: "World", if method called without a param.
+
+* #{} is string interpolation
+
