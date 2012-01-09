@@ -113,12 +113,13 @@ $ cd ~/bin; git clone git://github.com/nablaone/slime.git; git clone git://githu
 
 ```bash
 $ cd ~/bin; git clone https://github.com/technomancy/leiningen.git; cd leiningen/bin; ./lein self-install
+$ cd ~/bin; mkdir leiningen; cd leiningen; wget --no-check-certificate http://github.com/technomancy/leiningen/raw/stable/bin/lein; chmod +x lein; ./lein self-install
 ```
 
 * Add the following to .bashrc.
 
 ```bash
-export PATH=$PATH:~/bin/leiningen/bin
+export PATH=$PATH:~/bin/leiningen
 ```
 
 ### Configure Emacs
@@ -234,6 +235,10 @@ slime-repl.
 
 [Source of the following info](http://java.ociweb.com/mark/clojure/article.html)
 
+## Output
+
+    (println "Hello World");
+
 ## Data
 
 To convert a list from the standard form to simply data, precede it
@@ -250,13 +255,10 @@ To get help use the `(doc <function-name>)` or
 
 ## load code
 
-If you have a block of code that is too large to conveniently type
-at the  
-REPL, save the code into a file, and then load that file from the
-REPL.  
-You can use an absolute path or a path relative to where you
-launched  
-the REPL:
+If you have a block of code that is too large to conveniently type at
+the REPL, save the code into a file, and then load that file from the
+REPL.  You can use an absolute path or a path relative to where you
+launched the REPL:
 
     (load-file "temp.clj")
 
@@ -318,14 +320,11 @@ or
 
 ## Bindings
 
-The def special form creates a global binding and optionally gives
-it  
-a “root value” that is visible in all threads unless a
-thread-local  
-value is assigned. def can also be used to change the root value of
-an  
-existing binding. However, doing this is frowned upon because it  
-sacrifices the benefits of working with immutable data. A def can  
+The def special form creates a global binding and optionally gives it
+a “root value” that is visible in all threads unless a thread-local
+value is assigned. def can also be used to change the root value of an
+existing binding. However, doing this is frowned upon because it
+sacrifices the benefits of working with immutable data. A def can
 define functions or data.
 
     (def v 1) ; v is a global binding
@@ -354,10 +353,9 @@ to that form.
 
     (@visitors name)
 
-`visitors returns the current value of the visitors reference. Sets are functions of their members, so (`visitors
-username) checks to  
-see whether `name` is a member of the current value of visitors.
-The let  
+`visitors returns the current value of the visitors reference. Sets
+are functions of their members, so (`visitors username) checks to see
+whether `name` is a member of the current value of visitors.  The let
 then binds the result of this check to the name past-visitor.
 
 ### map
@@ -378,13 +376,11 @@ function.
 
 ### assoc
 
-The assoc function operates on vectors and maps. When applied to
-a  
-vector, it creates a new vector where the item specified by an
-index  
-is replaced. If the index is equal to the number of items in the  
-vector, a new item is added to the end. If it is greater than the  
-number of items in the vector, an IndexOutOfBoundsException is  
+The assoc function operates on vectors and maps. When applied to a
+vector, it creates a new vector where the item specified by an index
+is replaced. If the index is equal to the number of items in the
+vector, a new item is added to the end. If it is greater than the
+number of items in the vector, an IndexOutOfBoundsException is
 thrown. For example:
 
     (assoc stooges 2 "Shemp") ; -> ["Moe" "Larry" "Shemp"]
@@ -454,27 +450,21 @@ treated as whitespace.
     (def popsicle-map
       (sorted-map :red :cherry, :green :apple, :purple :grape))
 
-Maps can be used as functions of their keys. Also, in some cases
-keys  
-can be used as functions of maps. For example, keyword keys can,
-but  
-string and integer keys cannot. The following are all valid ways
-to  
+Maps can be used as functions of their keys. Also, in some cases keys
+can be used as functions of maps. For example, keyword keys can, but
+string and integer keys cannot. The following are all valid ways to
 get the flavor of green popsicles, which is :apple:
 
 (get popsicle-map :green)  
 (popsicle-map :green)  
 (:green popsicle-map)
 
-When used in the context of a sequence, maps are treated like a  
-sequence of clojure.lang.MapEntry objects. This can be combined
-with  
-the use of doseq and destructuring, both of which are described
-in  
-more detail later, to easily iterate through all the keys and  
-values. The following example iterates through all the key/value
-pairs  
-in popsicle-map and binds the key to color and the value to  
+When used in the context of a sequence, maps are treated like a
+sequence of clojure.lang.MapEntry objects. This can be combined with
+the use of doseq and destructuring, both of which are described in
+more detail later, to easily iterate through all the keys and
+values. The following example iterates through all the key/value pairs
+in popsicle-map and binds the key to color and the value to
 flavor. The name function returns the string name of a keyword.
 
     (doseq [[color flavor] popsicle-map]
@@ -502,13 +492,10 @@ The output produced by the code above follows:
           :state "Missouri"
           :zip 63141}}})
 
-The get-in function takes a map and a key sequence. It returns
-the  
-value of the nested map key at the end of the sequence. The →
-macro  
-and the reduce function can also be used for this purpose. All of  
-these are demonstrated below to retrieve the employer city which
-is  
+The get-in function takes a map and a key sequence. It returns the
+value of the nested map key at the end of the sequence. The → macro
+and the reduce function can also be used for this purpose. All of
+these are demonstrated below to retrieve the employer city which is
 “Creve Coeur”.
 
     (get-in person [:employer :address :city])
@@ -523,21 +510,16 @@ example the following lines have the same result:
     (f1 (f2 (f3 x)))
     (-> x f3 f2 f1)
 
-There is also a -?\> macro in the clojure.contrib.core namespace
-that  
-stops and returns nil if any function in the chain returns nil.
-This  
+There is also a -?\> macro in the clojure.contrib.core namespace that
+stops and returns nil if any function in the chain returns nil.  This
 avoids getting a NullPointerException.
 
 ## StructMaps
 
-StructMaps are similar to regular maps, but are optimized to take  
-advantage of common keys in multiple instances so they don’t have
-to  
-be repeated. Their use is similar to that of Java Beans. Proper
-equals  
-and hashCode methods are generated for them. Accessor functions
-that  
+StructMaps are similar to regular maps, but are optimized to take
+advantage of common keys in multiple instances so they don’t have to
+be repeated. Their use is similar to that of Java Beans. Proper equals
+and hashCode methods are generated for them. Accessor functions that
 are faster than ordinary map key lookups can easily be created.
 
 The create-struct function and defstruct macro, which uses  
@@ -548,20 +530,15 @@ with keywords. For example:
     (def car-struct (create-struct :make :model :year :color)) ; long way
     (defstruct car-struct :make :model :year :color) ; short way
 
-The struct function creates an instance of a given StructMap.
-Values  
-must be specified in the same order as their corresponding keys
-were  
-specified when the StructMap was defined. Values for keys at the
-end  
+The struct function creates an instance of a given StructMap.  Values
+must be specified in the same order as their corresponding keys were
+specified when the StructMap was defined. Values for keys at the end
 can be omitted and their values will be nil. For example:
 
     (def car (struct car-struct "Toyota" "Prius" 2009))
 
-The accessor function creates a function for accessing the value of
-a  
-given key in instances that avoids performing a hash map lookup.
-For  
+The accessor function creates a function for accessing the value of a
+given key in instances that avoids performing a hash map lookup.  For
 example:
 
     ; Note the use of def instead of defn because accessor returns
@@ -571,20 +548,17 @@ example:
     (car :make) ; same but slower
     (:make car) ; same but slower
 
-New keys not specified when the StructMap was defined can be added
-to  
-instances. However, keys specified when the StructMap was defined  
+New keys not specified when the StructMap was defined can be added to
+instances. However, keys specified when the StructMap was defined
 cannot be removed from instances.
 
 ## Defining Functions
 
-The defn macro defines a function. Its arguments are the function  
-name, an optional documentation string (displayed by the doc
-macro),  
-the parameter list (specified with a vector that can be empty) and
-the  
-function body. The result of the last expression in the body is  
-returned. Every function returns a value, but it may be nil. For  
+The defn macro defines a function. Its arguments are the function
+name, an optional documentation string (displayed by the doc macro),
+the parameter list (specified with a vector that can be empty) and the
+function body. The result of the last expression in the body is
+returned. Every function returns a value, but it may be nil. For
 example:
 
     (defn function-name 
@@ -602,19 +576,16 @@ example:
 
 ### scope
 
-Functions defined with the defn- macro are private. This means
-they  
-are only visible in the namespace in which they are defined.
-Other  
-macros that produce private definitions, such as defmacro- and  
+Functions defined with the defn- macro are private. This means they
+are only visible in the namespace in which they are defined.  Other
+macros that produce private definitions, such as defmacro- and
 defstruct-, are in clojure.contrib.def.
 
 ### var args
 
-Functions can take a variable number of parameters. Optional  
-parameters must appear at the end. They are gathered into a list
-by  
-adding an ampersand and a name for the list at the end of the  
+Functions can take a variable number of parameters. Optional
+parameters must appear at the end. They are gathered into a list by
+adding an ampersand and a name for the list at the end of the
 parameter list.
 
     (defn power [base & exponents]
@@ -624,14 +595,11 @@ parameter list.
 
 ### function overloading, arity
 
-Function definitions can contain more than one parameter list and  
-corresponding body. Each parameter list must contain a different  
-number of parameters. This supports overloading functions based
-on  
-arity. Often it is useful for a body to call the same function with
-a  
-different number of arguments in order to provide default values
-for  
+Function definitions can contain more than one parameter list and
+corresponding body. Each parameter list must contain a different
+number of parameters. This supports overloading functions based on
+arity. Often it is useful for a body to call the same function with a
+different number of arguments in order to provide default values for
 some of them. For example:
 
     (defn parting
@@ -659,30 +627,23 @@ some of them. For example:
 `#(...)`, putting a hash in front of the parens is how to make an
 anonymous function
 
-Anonymous functions have no name. These are often passed as
-arguments  
-to a named function. They are handy for short function
-definitions  
-that are only used in one place. There are two ways to define
-them,  
+Anonymous functions have no name. These are often passed as arguments
+to a named function. They are handy for short function definitions
+that are only used in one place. There are two ways to define them,
 shown below:
 
     (def years [1940 1944 1961 1985 1987])
     (filter (fn [year] (even? year)) years) ; long way w/ named arguments -> (1940 1944)
     (filter #(even? %) years) ; short way where % refers to the argument
 
-When an anonymous function is defined using the fn special form,
-the  
+When an anonymous function is defined using the fn special form, the
 body can contain any number of expressions.
 
-When an anonymous function is defined in the short way using
-\#(…),  
-it can only contain a single expression. To use more than one  
-expression, wrap them in the do special form. If there is only
-one  
-parameter, it can be referred to with %. If there are multiple  
-parameters, they are referred to with %1, %2 and so on. For
-example:
+When an anonymous function is defined in the short way using \#(…), it
+can only contain a single expression. To use more than one expression,
+wrap them in the do special form. If there is only one parameter, it
+can be referred to with %. If there are multiple parameters, they are
+referred to with %1, %2 and so on. For example:
 
     (defn pair-test [test-fn n1 n2]
       (if (test-fn n1 n2) "pass" "fail"))
@@ -711,13 +672,10 @@ The arguments to defmethod are:
 * the parameter list and
 * the body.
 
-The special dispatch value :default is used to designate a  
-method to be used when none of the others match. Each defmethod
-for  
-the same multimethod name must take the same number of arguments.
-The  
-arguments passed to a multimethod are passed to the dispatch
-function.
+The special dispatch value :default is used to designate a method to
+be used when none of the others match. Each defmethod for the same
+multimethod name must take the same number of arguments.  The
+arguments passed to a multimethod are passed to the dispatch function.
 
 Here’s an example of a multimethod that overloads based on type.
 
@@ -729,32 +687,22 @@ Here’s an example of a multimethod that overloads based on type.
     (what-am-i "Hello") ; -> Hello is a String
     (what-am-i true) ; -> true is something else
 
-class returns the class of its argument. So basically when we
-call  
-what-am-i an argument x, x is passed to the function ‘class’ and
-the  
-result of that function is compared to the 3rd value in the
-defmethod  
-calls. When a match is found, x is then passed along into the  
-function defined at the end of defmethod.
+class returns the class of its argument. So basically when we call
+what-am-i an argument x, x is passed to the function ‘class’ and the
+result of that function is compared to the 3rd value in the defmethod
+calls. When a match is found, x is then passed along into the function
+defined at the end of defmethod.
 
-Since the dispatch function can be any function, including one
-you  
-write, the possibilities are endless. For example, a custom
-dispatch  
-function could examine its arguments and return a keyword to
-indicate  
-a size such as :small, :medium or :large. One method for each
-size  
+Since the dispatch function can be any function, including one you
+write, the possibilities are endless. For example, a custom dispatch
+function could examine its arguments and return a keyword to indicate
+a size such as :small, :medium or :large. One method for each size
 keyword can provide logic that is specific to a given size.
 
-Underscores can be used as placeholders for function parameters
-that  
-won’t be used and therefore don’t need a name. This is often useful
-in  
-callback functions which are passed to another function so they can
-be  
-invoked later. A particular callback function may not use all the  
+Underscores can be used as placeholders for function parameters that
+won’t be used and therefore don’t need a name. This is often useful in
+callback functions which are passed to another function so they can be
+invoked later. A particular callback function may not use all the
 arguments that are passed to it. For example:
 
     (defn callback1 [n1 n2 n3] (+ n1 n2 n3)) ; uses all three arguments
@@ -766,13 +714,10 @@ arguments that are passed to it. For example:
 
 ## Java Interoperability
 
-Clojure programs can use all Java classes and interfaces. As in
-Java,  
-classes in the java.lang package can be used without importing  
-them. Java classes in other packages can be used by either
-specifying  
-their package when referencing them or using the import function.
-For  
+Clojure programs can use all Java classes and interfaces. As in Java,
+classes in the java.lang package can be used without importing
+them. Java classes in other packages can be used by either specifying
+their package when referencing them or using the import function.  For
 example:
 
     (import
@@ -781,63 +726,53 @@ example:
 
     (.toUpperCase "hello")
 
-The dot before toUpperCase tells Clojure to treat it as the name of
-a Java  
-method instead of a Clojure function.
+The dot before toUpperCase tells Clojure to treat it as the name of a
+Java method instead of a Clojure function.
 
 ## Parameter naming conventions
 
-Parameter
-Usage
-a
-A Java array
-agt
-An agent
-coll
-A collection
-expr
-An expression
-f
-A function
-idx
-Index
-r
-A ref
-v
-A vector
-val
-A value
+Parameter | Usage
+--------- | --------------
+a         | A Java array
+agt       | An agent
+coll      | A collection
+expr      | An expression
+f         | A function
+idx       | Index
+r         | A ref
+v         | A vector
+val       | A value
+
 ## form grammar
 
-    (example-fn required-arg)
-    (example-fn optional-arg?)
-    (example-fn zero-or-more-arg*)
-    (example-fn one-or-more-arg+)
-    (example-fn & collection-of-variable-args)
+```
+(example-fn required-arg)
+(example-fn optional-arg?)
+(example-fn zero-or-more-arg*)
+(example-fn one-or-more-arg+)
+(example-fn & collection-of-variable-args)
+```
 
 # Cookbook with Explanations
 
 ## file writing
 
-    (use '[clojure.contrib.duck-streams :only (spit)])
-    (spit "hello.out" "hello, world")
+```
+(use '[clojure.contrib.duck-streams :only (spit)])
+(spit "hello.out" "hello, world")
+```
 
 This program writes the string “hello, world” out to the file
-`hello.out`.
-
-The first line is like the import line in java.
-
-The simple form of `use`
+`hello.out`.  The first line is like the import line in java.  The
+simple form of `use`
 
     (use 'clojure.contrib.duck-streams)
 
-causes the current namespace to refer to all public vars in  
-clojure.contrib.duck-streams. This can be confusing, because it
-does  
-not make explicit which names are being referred to. Be nice to  
-future readers of your code, and pass the :only option to use,
-listing  
-only the vars you need:
+causes the current namespace to refer to all public vars in
+clojure.contrib.duck-streams. This can be confusing, because it does
+not make explicit which names are being referred to. Be nice to future
+readers of your code, and pass the :only option to use, listing only
+the vars you need:
 
 The definition of spit is:
 
@@ -852,13 +787,44 @@ The `with-open` function’s general form is:
 
     (with-open [name init-form] & body)
 
-Internally, with-open creates a try block, sets `name` to the
-result of  
-`init-form`, and then runs the forms in `body`. Most important,
-with-open  
-always closes the object bound to name in a finally block.
+Internally, with-open creates a try block, sets `name` to the result
+of `init-form`, and then runs the forms in `body`. Most important,
+with-open always closes the object bound to name in a finally block.
 
 # Projects
+
+## Parse XML
+
+I have a lot of XML going in and out and often need to parse it.  One
+area that needs work is parsing the error messages that come back from
+CRMOD.  The following is a classic example of what comes back:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Body>
+    <SOAP-ENV:Fault>
+      <faultcode>SOAP-ENV:Server</faultcode>
+      <faultstring>Method 'SetFieldValue' of business component 'Service Request' (integration component 'Service Request') returned the following error:"The value entered in field Priority of buscomp Service Request does not match any value in the bounded pick list PickList SR Priority.(SBL-DAT-00225)"(SBL-EAI-04376)</faultstring>
+      <detail>
+        <siebelf:siebdetail xmlns:siebelf="http://www.siebel.com/ws/fault">
+          <siebelf:logfilename>OnDemandServicesObjMgr_enu_71947.log</siebelf:logfilename>
+          <siebelf:errorstack>
+            <siebelf:error>
+              <siebelf:errorcode>(SBL-DAT-00225)</siebelf:errorcode>
+              <siebelf:errorsymbol/>
+              <siebelf:errormsg>Method 'SetFieldValue' of business component 'Service Request' (integration component 'Service Request') returned the following error:"The value entered in field Priority of buscomp Service Request does not match any value in the bounded pick list PickList SR Priority.(SBL-DAT-00225)"(SBL-EAI-04376)</siebelf:errormsg>
+            </siebelf:error>
+          </siebelf:errorstack>
+        </siebelf:siebdetail>
+      </detail>
+    </SOAP-ENV:Fault>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+```
+
+So lets put this in a file and read it into clojure.
+
 
 ## Scrape a web page
 
@@ -867,11 +833,13 @@ calling a URL.
 
 The java code uses the HttpClient library and looks like:
 
-    String url = "http://search.oracle.com?&search.timezone=-480&group=All&search_p_main_operator=all";
-    HttpClient client = new HttpClient();
-    client.getHostConfiguration().setProxy("www-proxy.us.oracle.com", 80);
-    GetMethod method = new GetMethod(url);
-    method.getResponseBodyAsString();
+```
+String url = "http://search.oracle.com?&search.timezone=-480&group=All&search_p_main_operator=all";
+HttpClient client = new HttpClient();
+client.getHostConfiguration().setProxy("www-proxy.us.oracle.com", 80);
+GetMethod method = new GetMethod(url);
+method.getResponseBodyAsString();
+```
 
 So the first step is to get the dependent library in place.
 
