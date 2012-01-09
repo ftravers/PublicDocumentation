@@ -1,4 +1,5 @@
-"home":../index.html > "jeos":index.html > Oracle Enterprise Linux on Oracle Virtual Machine
+"home":../index.html > "jeos":index.html > Oracle Enterprise Linux on
+Oracle Virtual Machine
 
 p(toc). Table of Contents
 
@@ -6,15 +7,23 @@ p(toc). Table of Contents
 
 h1. References
 
-The following link will help you with getting OVMS(Oracle Virtual Machine Server) and OVMM(Oracle Virtual Machine Manager)
+The following link will help you with getting OVMS(Oracle Virtual
+Machine Server) and OVMM(Oracle Virtual Machine Manager)
 
 * "http://ftravers.wordpress.com/":http://ftravers.wordpress.com/
 
 h1. Intro
 
-These are _rapid_, _reference_ install instructions.  I refer to these directions each time I setup a new VM.  They are not meant as a tutorial, though as I begin to share these with other people that will probably become more necessary and they may change to reflect that.
+These are _rapid_, _reference_ install instructions.  I refer to these
+directions each time I setup a new VM.  They are not meant as a
+tutorial, though as I begin to share these with other people that will
+probably become more necessary and they may change to reflect that.
 
-This document is used after you have create a new VM in OVMM or OVM Template Builder.  After you've created that template there are some basics that all future VM's need and that is what this document is about.  We set the IP address, hostname, gateway, dns, etc..., plus a few other required things.
+This document is used after you have create a new VM in OVMM or OVM
+Template Builder.  After you've created that template there are some
+basics that all future VM's need and that is what this document is
+about.  We set the IP address, hostname, gateway, dns, etc..., plus a
+few other required things.
 
 It's best that the machine be able to see the internet.
 
@@ -30,9 +39,12 @@ bc.
 system.img
 vm.cfg
 
-Althought @system.img@ could be called anything, and probably @vm.cfg@ could be too but these are the conventions.  Edit @vm.cfg@ and make sure that the references to the disk images have the correct paths.
+Althought @system.img@ could be called anything, and probably @vm.cfg@
+could be too but these are the conventions.  Edit @vm.cfg@ and make
+sure that the references to the disk images have the correct paths.
 
-Ensure you are in the folder with the vm files noted above and start the vm with: @xm create vm.cfg@
+Ensure you are in the folder with the vm files noted above and start
+the vm with: @xm create vm.cfg@
 
 h2. VNC in
 

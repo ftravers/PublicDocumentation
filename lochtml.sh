@@ -27,6 +27,11 @@ git archive master | tar -x -C "$webStageDir"
 cd $webStageDir
 #./markdownScript.sh
 ./multimarkdown.sh
+
+for filename in `find . -name \*.mmd`; do
+    redcarpet2 $NAME.mmd $NAME.html
+done
+
 ant generate-html
 
 
