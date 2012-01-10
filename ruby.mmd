@@ -87,3 +87,62 @@ Highlights:
 
 * #{} is string interpolation
 
+# Creating Gems
+
+[Ref](http://blog.thepete.net/2010/11/creating-and-publishing-your-first-ruby.html)
+
+In this example we create a gem called: `fentonGem1`
+
+```bash
+$ rvm gemset create fentonGem1
+$ rvm gemset use fentonGem1
+$ gem install bundler
+$ bundle gem fentonGem1
+```
+
+Look at `fentonGem1.gemspec` update summary/description lines:
+
+```ruby
+  s.summary     = %q{Gem basically does nothing}
+  s.description = %q{Gem really doesnt do anything}
+```
+
+## Create our library function
+
+in file: `lib/fentonGem1/do_little.rb
+
+```ruby
+module FentonGem1
+  class DoLittle
+    def simpleFunc
+      time = Time.now
+      minute = time.min
+      hour = time.hour % 12
+      meridian_indicator = time.hour < 12 ? 'AM' : 'PM'
+      "#{minute} minutes past #{hour} o'clock, #{meridian_indicator}"
+    end
+  end
+end
+```
+
+## Make it scriptable
+
+in file: `bin/getTimeNow`
+
+```ruby
+#!/usr/bin/env ruby
+ 
+require 'fentonGem1/do_little'
+
+do_little = FentonGem1::DoLittle.new
+puts do_little.simpleFunc
+```
+
+## Build Gem and Test
+
+$ rake install
+$ getTimeNow
+
+## Publish
+
+[Instructions at rubygems.org](https://rubygems.org/pages/gem_docs)
