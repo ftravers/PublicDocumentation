@@ -112,7 +112,7 @@ startup and shutdown the database) with following content:
     ORACLE_OWNER="oracle"  
     ORACLE_HOME="/u01/app/oracle/product/11.1.0/db_1/"
      
-    case “$1” in  
+    case "$1" in  
       start)  
         echo -n $"Starting Oracle DB:"  
         su - $ORACLE_OWNER -c "$ORACLE_HOME/bin/dbstart $ORACLE_HOME"  

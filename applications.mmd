@@ -370,7 +370,39 @@ on.
 
     yum install jenkins
 
-# JBoss 
+Startup Script:
+
+    [root@db112 ~]# cat > /etc/init.d/jenkins
+
+    #!/bin/bash
+    # Jenkins init file for starting and stopping.
+    # chkconfig: 35 80 30
+    # description: Jenkins startup script
+     
+    # Source function library.
+    . /etc/rc.d/init.d/functions
+     
+    JENKINS_OWNER="fenton"
+    JENKINS_HOME="/home/fenton/bin"
+     
+    case "$1" in
+            start)
+                    echo -n $"Starting Jenkins:"
+                    su - $JENKINS_OWNER -c "$JENKINS_HOME/startJenkins.sh"
+                    echo "OK"
+                    ;;
+     
+            stop)
+                    echo "Stop doesn't do anything...sorry!"
+                    ;;
+     
+            *)
+                    echo $"Usage: $0 start"
+                    ;;
+    esac
+     
+
+## JBoss 
 
 [ref](http://www.surajitray.com/coders-corner/jboss-5-1-on-ubuntu-10-04/)
 
@@ -401,3 +433,4 @@ requires a logout/login (or reboot if that doesn't work)
 Update perms on folder
 
     sudo chmod g+w /usr/local/jboss/server/all/deploy
+

@@ -844,4 +844,146 @@ method.getResponseBodyAsString();
 So the first step is to get the dependent library in place.
 
 
+# More
+
+## http://clojure.org/downloads:
+
+download clojure 1.2 for now
+
+cp target/clojure-contrib-1.2.0.jar  ~/.clojure/clojure-contrib.jar
+
+## Leiningen:
+
+* https://raw.github.com/technomancy/leiningen/stable/bin/lein
+
+* chmod a+x lein
+
+* lein self-install
+
+## swank
+
+lein plugin install swank-clojure 1.3.4
+
+## Install Swank, Slime, and Paredit
+
+* clojure-mode
+* slime
+* slime-repl
+* swank-clojure
+* paredit
+
+When you’re cursor is on the appropriate package, hit the i key to
+select it. Once all the packages are selected, hit x to begin their
+installation.
+
+
+[ref](http://data-sorcery.org/2009/12/20/getting-started/)
+
+
+# Getting started
+
+[Reference](http://corfield.org/blog/post.cfm/getting-started-with-clojure)
+
+$ cd ~/tmp
+$ lein new test1
+
+Update project file:
+
+File: `~/tmp/test1/project.clj`, contents:
+
+```
+(defproject test1 "1.0.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :dependencies [[org.clojure/clojure "1.2.0"]
+                 [org.clojure/clojure-contrib "1.2.0"]]
+  :dev-dependencies [[swank-clojure "1.3.4"]])
+```
+
+Retrieve dependencies:
+
+    $ cd test1; lein deps
+
+Create a simple program
+
+File: `src/test-project/core.clj`, contents:
+
+```
+(ns test1.core
+  (:gen-class))
+(defn greet[who] (println "Hello" who "!"))
+(defn -main[] (greet "Fenton"))
+```
+
+Run it.
+
+```
+$ lein run -m test1.core
+Hello Fenton !
+```
+
+Now let's modify our script so we can compile it and run it via Java.
+Add `:main test1.core` to the end of `project.clj`:
+
+```
+ ...
+ :dev-dependencies [[swank-clojure "1.3.4"]]
+ :main test1.core)
+```
+
+Create a single **big** (3.6M!!!) jar file:
+
+    lein uberjar
+
+Run it from java:
+
+    $ java -cp test1-1.0.0-SNAPSHOT-standalone.jar test1.core
+
+# Calling Clojure from Java
+
+## Bare Bones
+
+Making a clojure library you can use from java
+
+```
+(ns test1.core
+  (:gen-class
+   :name test1.core
+   :methods [#^{:static true} [greet [] String]]))
+
+(defn greet[] (println "Hello Fenton!"))
+
+(defn -greet
+  "A 'static' wrapper around 'greet' function."
+  []
+  (greet))
+```
+
+Corresponding calling java code:
+
+```java
+import test1.core;
+public class App 
+{
+    public static void main( String[] args )
+    {
+        System.out.println( core.greet() );
+    }
+}
+```
+
+## Adding input params
+
+```
+(ns test1.core
+  (:gen-class
+   :name test1.core
+   :methods [#^{:static true} [greet [String] String]]))
+
+(defn greet[name] (println "Hello" name "!"))
+
+(defn -greet
+  "A 'static' wrapper around 'greet' function."
+  [name]
+  (greet name))
+```
 
