@@ -12,6 +12,23 @@ $ sudo apt-get install -y --force-yes build-essential openssl libreadline6 libre
 $ rvm install 1.9.2; rvm use 1.9.2; rvm --default use 1.9.2
 ```
 
+## debugger
+
+[ref](http://pivotallabs.com/users/chad/blog/articles/366-ruby-debug-in-30-seconds-we-don-t-need-no-stinkin-gui-)
+
+For ruby 1.9 do:
+
+    $ gem install ruby-debug19
+    
+get latest ruby-debug-extra from:
+
+* http://rubyforge.org/projects/ruby-debug/ > files
+
+this needs texlive do:
+
+    $ sudo apt-get install texlive
+    
+
 
 # Language Reference
 
@@ -35,6 +52,39 @@ Highlights:
 * default parameter value: "World", if method called without a param.
 
 * #{} is string interpolation
+
+## Modules
+
+required statement should be following by path and filenames
+
+I may define the following in file: `lib/myTools/fenton.rb`
+
+```ruby
+module ItTools
+  class VpnTools
+    def on_vpn
+      puts "hello."
+    end
+  end
+end
+```
+
+Assuming lib is one of the number of pre-defined directories on your
+system.  These paths are defined in a variable called `$LOAD_PATH`
+
+To use this in another file I'd do:
+
+```ruby
+require 'myTools/fenton'
+foo = ItTools::VpnTools.new
+foo.on_vpn
+```
+
+
+
+
+
+
 
 # Cook Book
 
@@ -82,14 +132,18 @@ in file: `bin/getTimeNow`
 
 ```ruby
 #!/usr/bin/env ruby
- 
 require 'fentonGem1/do_little'
-
 do_little = FentonGem1::DoLittle.new
 puts do_little.simpleFunc
 ```
 
 ### Build Gem and Test
+
+Add items into git repository
+
+```bash
+$ git add bin/ lib/*; git commit -am'.'
+```
 
 ```bash
 ~/tmp/fentonGem1$ rake install
