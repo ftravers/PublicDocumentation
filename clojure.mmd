@@ -846,9 +846,13 @@ So the first step is to get the dependent library in place.
 
 # More
 
-[download clojure 1.2 for now](http://clojure.org/downloads)
+[download clojure & clojure-contrib 1.2 for now](http://clojure.org/downloads)
 
-cp target/clojure-contrib-1.2.0.jar  ~/.clojure/clojure-contrib.jar
+```bash
+$ cd ~/Downloads; unzip clojure-contrib-1.2.0.zip; unzip clojure-1.2.0.zip
+$ cp clojure-1.2.0/clojure.jar ~/.clojure/clojure.jar
+$ cp clojure-contrib-1.2.0/target/clojure-contrib-1.2.0.jar ~/.clojure/clojure-contrib.jar
+```
 
 ## Leiningen:
 
@@ -858,22 +862,35 @@ cp target/clojure-contrib-1.2.0.jar  ~/.clojure/clojure-contrib.jar
 
 * lein self-install
 
-## swank
+## Emacs packages
 
-lein plugin install swank-clojure 1.3.4
+[ref](http://tromey.com/elpa/install.html)
 
-## Install Swank, Slime, and Paredit
+Setup ELPA for emacs.  Throw the following into any emacs buffer:
 
-* clojure-mode
-* slime
-* slime-repl
-* swank-clojure
-* paredit
+```
+(let ((buffer (url-retrieve-synchronously
+	       "http://tromey.com/elpa/package-install.el")))
+  (save-excursion
+    (set-buffer buffer)
+    (goto-char (point-min))
+    (re-search-forward "^$" nil 'move)
+    (eval-region (point) (point-max))
+    (kill-buffer (current-buffer))))
+```
 
-When you’re cursor is on the appropriate package, hit the i key to
-select it. Once all the packages are selected, hit x to begin their
-installation.
+Type `C-x C-e` after it.  Once done, type: `M-x
+package-list-packages`.  Press `i` next to the packages:
 
+```
+clojure-mode
+paredit
+slime
+slime-repl
+swank-clojure
+```
+
+Then press `x` to install them.
 
 [ref](http://data-sorcery.org/2009/12/20/getting-started/)
 
