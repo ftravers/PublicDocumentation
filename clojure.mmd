@@ -911,11 +911,18 @@ Insert contents *like* the following into the project file: `~/tmp/test1/project
   :dev-dependencies [[swank-clojure "1.3.4"]])
 ```
 
-Retrieve dependencies:
+Retrieve dependencies, and start swank server:
 
-    $ cd test1; lein deps
+    $ cd test1; lein deps; lein swank
 
-Create a simple program
+In emacs attach to swank: `M-x slime-connect`
+
+Append the following to file: `src/test-project/core.clj`:
+
+    (System/getProperty "java.class.path")
+    
+And do a `C-x C-e` to evaluate it and see that you get the correct
+results.
 
 File: `src/test-project/core.clj`, contents:
 
