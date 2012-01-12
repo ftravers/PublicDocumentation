@@ -1,8 +1,4 @@
-# Reference
-
-# Install
-
-## Debian 
+# Install - Debian Flavors
 
 Ubuntu, Mint
 
@@ -16,7 +12,104 @@ $ sudo apt-get install -y --force-yes build-essential openssl libreadline6 libre
 $ rvm install 1.9.2; rvm use 1.9.2; rvm --default use 1.9.2
 ```
 
-## RedHat variants
+
+# Language Reference
+
+* Define a method
+
+```ruby
+irb(main):019:0> def h(name = "World")
+irb(main):020:1> puts "Hello #{name.capitalize}!"
+irb(main):021:1> end
+=> nil
+irb(main):022:0> h "chris"
+Hello Chris!
+=> nil
+irb(main):023:0> h
+Hello World!
+=> nil
+```
+
+Highlights: 
+
+* default parameter value: "World", if method called without a param.
+
+* #{} is string interpolation
+
+# Cook Book
+
+## Creating Gems
+
+[Ref](http://blog.thepete.net/2010/11/creating-and-publishing-your-first-ruby.html)
+
+In this example we create a gem called: `fentonGem1`
+
+```bash
+$ rvm gemset create fentonGem1
+$ rvm gemset use fentonGem1
+$ gem install bundler
+$ bundle gem fentonGem1
+```
+
+Look at `fentonGem1.gemspec` update summary/description lines:
+
+```ruby
+  s.summary     = %q{Gem basically does nothing}
+  s.description = %q{Gem really doesnt do anything}
+```
+
+### Create our library function
+
+in file: `lib/fentonGem1/do_little.rb
+
+```ruby
+module FentonGem1
+  class DoLittle
+    def simpleFunc
+      time = Time.now
+      minute = time.min
+      hour = time.hour % 12
+      meridian_indicator = time.hour < 12 ? 'AM' : 'PM'
+      "#{minute} minutes past #{hour} o'clock, #{meridian_indicator}"
+    end
+  end
+end
+```
+
+### Make it scriptable
+
+in file: `bin/getTimeNow` 
+
+```ruby
+#!/usr/bin/env ruby
+ 
+require 'fentonGem1/do_little'
+
+do_little = FentonGem1::DoLittle.new
+puts do_little.simpleFunc
+```
+
+### Build Gem and Test
+
+~/tmp/fentonGem1$ rake install
+~/tmp/fentonGem1$ getTimeNow
+
+### Publish
+
+Signup at rubygems.org:
+
+[Instructions at rubygems.org](https://rubygems.org/pages/gem_docs)
+
+publish with:
+
+```bash
+$ gem push fentonGem1-0.0.1.gem
+```
+
+
+# Defunct Notes
+
+# Install - RedHat variants
 
 Oracle Linux
 
@@ -63,94 +156,3 @@ Install Ruby
 
     rvm install 1.9.2 --proxy www-proxy.sg.oracle.com:80
     rvm --default use 1.9.2
-
-# Language Reference
-
-* Define a method
-
-```ruby
-irb(main):019:0> def h(name = "World")
-irb(main):020:1> puts "Hello #{name.capitalize}!"
-irb(main):021:1> end
-=> nil
-irb(main):022:0> h "chris"
-Hello Chris!
-=> nil
-irb(main):023:0> h
-Hello World!
-=> nil
-```
-
-Highlights: 
-
-* default parameter value: "World", if method called without a param.
-
-* #{} is string interpolation
-
-# Creating Gems
-
-[Ref](http://blog.thepete.net/2010/11/creating-and-publishing-your-first-ruby.html)
-
-In this example we create a gem called: `fentonGem1`
-
-```bash
-$ rvm gemset create fentonGem1
-$ rvm gemset use fentonGem1
-$ gem install bundler
-$ bundle gem fentonGem1
-```
-
-Look at `fentonGem1.gemspec` update summary/description lines:
-
-```ruby
-  s.summary     = %q{Gem basically does nothing}
-  s.description = %q{Gem really doesnt do anything}
-```
-
-## Create our library function
-
-in file: `lib/fentonGem1/do_little.rb
-
-```ruby
-module FentonGem1
-  class DoLittle
-    def simpleFunc
-      time = Time.now
-      minute = time.min
-      hour = time.hour % 12
-      meridian_indicator = time.hour < 12 ? 'AM' : 'PM'
-      "#{minute} minutes past #{hour} o'clock, #{meridian_indicator}"
-    end
-  end
-end
-```
-
-## Make it scriptable
-
-in file: `bin/getTimeNow` 
-
-```ruby
-#!/usr/bin/env ruby
- 
-require 'fentonGem1/do_little'
-
-do_little = FentonGem1::DoLittle.new
-puts do_little.simpleFunc
-```
-
-## Build Gem and Test
-
-$ rake install
-$ getTimeNow
-
-## Publish
-
-Signup at rubygems.org:
-
-[Instructions at rubygems.org](https://rubygems.org/pages/gem_docs)
-
-publish with:
-
-```bash
-$ gem push fentonGem1-0.0.1.gem
-```
