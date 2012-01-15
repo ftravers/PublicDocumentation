@@ -12,7 +12,7 @@ $ sudo apt-get install -y --force-yes build-essential openssl libreadline6 libre
 $ rvm install 1.9.2; rvm use 1.9.2; rvm --default use 1.9.2
 ```
 
-## debugger
+## Debugger on Emacs
 
 [ref](http://pivotallabs.com/users/chad/blog/articles/366-ruby-debug-in-30-seconds-we-don-t-need-no-stinkin-gui-)
 
@@ -74,8 +74,6 @@ n[ext][+][ nnn]                        | step over once or nnn times, '+' forces
 up[count]                              | move to higher frame
 restart                                | restart the debugger (say if in (rdb:ctrl) state.
 
-
-
 # Language Reference
 
 ## Define a method
@@ -97,9 +95,37 @@ Highlights:
 
 * default parameter value: "World", if method called without a param.
 
-* #{} is string interpolation
+* `#{}` is string interpolation
 
 ## Modules
+
+define a module file: `fenton.rb`
+
+```ruby
+module MyModule
+  def func1
+    puts "Hello"
+  end
+end
+```
+
+### Mixin
+
+Modules cannot be instantiated, only included into a class.  This is
+called a `mixin`. In file `travers.rb`.  Modules can include other
+modules.
+
+```ruby
+require 'fenton'
+class ClassOne
+  include MyModule
+  def func2
+    func1
+  end
+end
+```
+
+### Sharing Code
 
 required statement should be following by path and filenames
 
@@ -137,9 +163,28 @@ rescue
 end
 ```
 
+## Inheritance
+
+[ref](http://rubylearning.com/satishtalim/ruby_inheritance.html)
+
+* A class can only inherit from a *SINGLE* other class.
 
 
-
+```ruby
+class Mammal  
+  def breathe  
+    puts "inhale and exhale"  
+  end  
+end  
+class Cat < Mammal  
+  def speak  
+    puts "Meow"  
+  end  
+end  
+rani = Cat.new  
+rani.breathe  
+rani.speak 
+```
 
 # Cook Book
 
@@ -214,11 +259,10 @@ Signup at rubygems.org:
 publish with:
 
 ```bash
-$ gem push fentonGem1-0.0.1.gem
+$ gem push pkg/fentonGem1-0.0.1.gem
 ```
 
-
-# Defunct Notes
+# Defunct Notes - Ignore Below!!!
 
 # Install - RedHat variants
 

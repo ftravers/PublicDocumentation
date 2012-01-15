@@ -1210,3 +1210,31 @@ virtualMachines.textile
 
 Here `-F` means this is the field delimiter, and $(NF), where NF is a
 special variable that holds the *number of fields*.
+
+## Fetchmail
+
+[ref](http://www.howtoforge.com/debian_etch_fetchmail) & [ref](http://www.fetchmail.info/fetchmail-man.html)
+
+```bash
+$ tail -2 /etc/default/fetchmail
+# Declare here if we want to start fetchmail. 'yes' or 'no'
+START_DAEMON=yes
+$ cat /etc/fetchmailrc
+# /etc/fetchmailrc for system-wide daemon mode
+# This file must be chmod 0600, owner fetchmail
+set daemon        300                # Pool every 5 minutes
+set syslog                        # log through syslog facility
+set postmaster  root
+set no bouncemail                # avoid loss on 4xx errors
+# Set antispam to -1, since it is far safer to use that together with no bouncemail
+defaults:
+timeout 300
+antispam -1
+batchlimit 1000
+poll stbeehive.oracle.com protocol imap user "fenton.travers@oracle.com" there with password "Password" is fenton here keep
+$ sudo chown fetchmail ./fetchmailrc
+$ sudo chmod 600 fetchmailrc
+$ grep START_DAEMON /etc/init.d/fetchmail
+START_DAEMON="yes"
+$ sudo /etc/init.d/fetchmail start
+```
