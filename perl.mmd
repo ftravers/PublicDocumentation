@@ -1,0 +1,50 @@
+# Cookbook
+
+## sending email over smtp ssl (i.e. to gmail)
+
+[ref](http://robertmaldon.blogspot.com/2006/10/sending-email-through-google-smtp-from.html)
+
+$ sudo apt-get install libnet-ssleay-perl libio-socket-ssl-perl libauthen-sasl-perl libnet-smtp-ssl-perl
+
+```perl
+#!/usr/bin/perl -w
+
+use Net::SMTP::SSL;
+
+sub send_mail {
+my $to = $_[0];
+my $subject = $_[1];
+my $body = $_[2];
+
+my $from = 'johnny@gmail.com';
+my $password = 'MySecretGmailPassword';
+
+my $smtp;
+
+if (not $smtp = Net::SMTP::SSL->new('smtp.gmail.com',
+                            Port => 465,
+                            Debug => 1)) {
+   die "Could not connect to server\n";
+}
+
+$smtp->auth($from, $password)
+   || die "Authentication failed!\n";
+
+$smtp->mail($from . "\n");
+my @recepients = split(/,/, $to);
+foreach my $recp (@recepients) {
+    $smtp->to($recp . "\n");
+}
+$smtp->data();
+$smtp->datasend("From: " . $from . "\n");
+$smtp->datasend("To: " . $to . "\n");
+$smtp->datasend("Subject: " . $subject . "\n");
+$smtp->datasend("\n");
+$smtp->datasend($body . "\n");
+$smtp->dataend();
+$smtp->quit;
+}
+
+# Send away!
+&send_mail('johnny@mywork.com', 'Server just blew up', 'Some more detail');
+```
