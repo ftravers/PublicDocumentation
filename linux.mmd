@@ -1213,7 +1213,43 @@ special variable that holds the *number of fields*.
 
 ## Fetchmail
 
-[ref](http://www.howtoforge.com/debian_etch_fetchmail) & [ref](http://www.fetchmail.info/fetchmail-man.html)
+* [ref](http://www.howtoforge.com/debian_etch_fetchmail)
+* [ref](http://www.fetchmail.info/fetchmail-man.html)
+* [ref](http://box.matto.nl/emacsgmail.html)
+
+First you need to setup an SMTP server
+
+    $ sudo aptitude install postfix
+
+Simply accept the defaults when the installation process asks questions.  Stop Postfix:
+
+``` bash
+$ sudo /etc/init.d/postfix stop
+$ tail -14 /etc/postfix/main.cf
+##########################################
+##### non debconf entries start here #####
+##### client TLS parameters #####
+smtp_tls_loglevel=1
+smtp_tls_security_level=encrypt
+smtp_sasl_auth_enable=yes
+smtp_sasl_password_maps=hash:/etc/postfix/sasl/passwd
+smtp_sasl_security_options = noanonymous
+##### map jane@localhost to jane.doe@gmail.com #####
+smtp_generic_maps=hash:/etc/postfix/generic
+relayhost=[stbeehive.oracle.com]:587
+
+$ tail /etc/postfix/generic
+fenton@localhost        fenton.travers@oracle.com
+
+$ cd /etc/postfix; sudo postmap generic
+$ cat /etc/postfix/sasl/passwd
+[stbeehive.oracle.com]:587     fenton.travers@oracle.com:SuPeRsEcReT
+```
+cd /etc/postfix/sasl; sudo postmap passwd; sudo chown root.root passwd passwd.db; sudo chmod 600 passwd passwd.db
+
+
+sudo /etc/init.d/fetchmail stop; sudo /etc/init.d/postfix stop
+sudo /etc/init.d/postfix start; sudo /etc/init.d/fetchmail start
 
 ```bash
 $ tail -2 /etc/default/fetchmail
@@ -1237,4 +1273,14 @@ $ sudo chmod 600 fetchmailrc
 $ grep START_DAEMON /etc/init.d/fetchmail
 START_DAEMON="yes"
 $ sudo /etc/init.d/fetchmail start
+```
+
+## Wanderlust - Emacs Mail Client
+
+* [Manual](http://www.gohome.org/wl/doc/wl_toc.html#SEC_Contents)
+* [Folder Shortcut Keys](http://www.gohome.org/wl/doc/wl_48.html#SEC48)
+
+```bash
+$ cat ~/.folders
+.INBOX      "Inbox"
 ```
