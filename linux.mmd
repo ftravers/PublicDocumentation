@@ -923,7 +923,10 @@ To list the active screen sessions:
 to reattach a screen, use `screen -r` if there is only one session open.
 If there are more, use `screen -r NNNN.SessionTitle`
 
-# Redhat derivatives
+
+# Linux Commands / Cookbooks
+
+Redhat derivatives
 
 ## rpm
 
@@ -974,7 +977,7 @@ Run aget to see how it is used:
             -v version info
     http//www.enderunix.org/aget/
 
-# less
+## less
 
 | Key Stroke | Effect                           |
 | ---------- | -------------------------------- |
@@ -983,7 +986,7 @@ f            | scroll forward one screen
 b            | scroll backwards one screen
 
 
-# nmap
+## nmap
 
 <a name="portScan">check to see if a port is open on a machine</a>
 
@@ -993,13 +996,23 @@ To see if port 80 is open on 143.234.11.34 do:
 
     nmap -PN -p 80 143.234.11.34
 
-# nohup
+## nohup
 
 send nohup output to a filename of your choice:
 
     nohup execute receiptLoaderStart > nohup_sumarylogfile 2>&1 &
 
-# cadaver
+## wget
+
+Sample getting a file with username/password
+
+```bash
+$ wget --http-user=ftravers --http-password=PASSWORD http://files.spicevan.com/share/4G1Gswp.tgz
+
+$ wget --load-cookies=cookies.txt -O myfile.tgz "https://edelivery.oracle.com/EPD/Download/process_download/V28080-01.zip?file_id=43691715&aru=14104967&userid=890087&egroup_aru_number=10783547&country_id=36&patch_file=V28080-01.zip" 
+```
+https://edelivery.oracle.com/EPD/Download/process_download/V28080-01.zip?file_id=43691715&aru=14104967&userid=890087&egroup_aru_number=10783547&country_id=36&patch_file=V28080-01.zip
+## cadaver
 
 command line put/get (like ftp) access for webdav servers (i.e. over http)
 
@@ -1007,7 +1020,7 @@ command line put/get (like ftp) access for webdav servers (i.e. over http)
 
 use put/get to transfer files.
 
-# tree
+## tree
 
 Do a tree listing, only show files that begin with `application`.
 
@@ -1015,7 +1028,7 @@ Do a tree listing, only show files that begin with `application`.
 
 
 
-# keytool
+## keytool
 
 A keystore is a password-protected file which stores the keys and
 certificates. The keytool application can import, export and list the
@@ -1040,13 +1053,13 @@ create a CSR, and import certificates. Any root or intermediate
 certificates will need to be imported before importing the primary
 certificate for your domain.
 
-## Notes on flags
+### Notes on flags
 
     -alias
 
 This is just a nickname for the key, can be anything (I think?)
 
-## Creating and Importing
+### Creating and Importing
 
 Generate a Java keystore and key pair
 
@@ -1074,7 +1087,7 @@ for more info)
     keytool -genkey -keyalg RSA -alias selfsigned -keystore keystore.jks -storepass password -validity 360 -keysize 2048
 
 
-## Checking
+### Checking
 
 If you need to check the information within a certificate, or Java
 keystore, use these commands.
@@ -1092,7 +1105,7 @@ Check a particular keystore entry using an alias
     keytool -list -v -keystore keystore.jks -alias mydomain
 
 
-## Other
+### Other
 
 Delete a certificate from a Java Keytool keystore
 

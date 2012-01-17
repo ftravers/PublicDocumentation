@@ -58,6 +58,14 @@ ask you for a password now.
     Identity added: /home/oracle/.ssh/id_rsa (/home/oracle/.ssh/id_rsa)
     [oracle@linux1 u02]$ ssh-copy-id oracle@myhelpstage.sg.oracle.com
 
+# sshd config
+
+## Slow logins
+
+in file: `/etc/ssh/sshd_config` set the following:
+
+    GSSAPIAuthentication no
+
 # have sshd run on another port
 
 Add line like:   
