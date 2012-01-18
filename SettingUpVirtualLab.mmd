@@ -186,16 +186,18 @@ reflect that.
 
 Here is a look at my new vm.cfg file:
 
-    # cat vm.cfg
-    bootloader = '/usr/bin/pygrub'
-    disk = ['file:/OVS/running_pool/ovmm_ovmtb/System.img,xvda,w']
-    memory = '512'
-    name = 'ovmm_ovmtb'
-    vcpus = 1
-    on_crash = 'restart'
-    on_reboot = 'restart'
-    vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']
-    vif = ['bridge=xenbr0,mac=00:16:3e:00:00:01']
+```bash
+# cat vm.cfg
+bootloader = '/usr/bin/pygrub'
+disk = ['file:/OVS/running_pool/ovmm_ovmtb/System.img,xvda,w']
+memory = '512'
+name = 'ovmm_ovmtb'
+vcpus = 1
+on_crash = 'restart'
+on_reboot = 'restart'
+vfb = ['type=vnc,vncunused=1,vnclisten=0.0.0.0']
+vif = ['bridge=xenbr0,mac=00:16:3e:00:00:01']
+```
 
 make sure the vif has a mac address set.
 
