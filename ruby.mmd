@@ -25,11 +25,11 @@ get latest ruby-debug-extra from:
 * http://rubyforge.org/projects/ruby-debug/ > files
 
 this needs texlive do (it takes a looooong time to install), also get
-the rdebug cheatsheet:
+the rdebug cheat sheet:
 
 ```bash
-$ sudo apt-get install texlive  
-$ cd Downloads; tar xvfz ruby-debug-extra-0.10.4.tar.gz; cd ruby-debug-extra-0.10.4/; make; sudo make install
+$ sudo apt-get install texlive
+$ cd Downloads; wget http://rubyforge.org/frs/download.php/73086/ruby-debug-extra-0.10.4.tar.gz; tar xvfz ruby-debug-extra-0.10.4.tar.gz; cd ruby-debug-extra-0.10.4/; ./configure; make; sudo make install
 $ gem install cheat; cheat rdebug
 ```
 
@@ -186,6 +186,17 @@ rani.breathe
 rani.speak 
 ```
 
+## Command Line Arguments
+
+are stored in the array `ARGV`
+
+```ruby
+#!/usr/bin/env ruby
+ARGV.each do|a|
+  puts "Argument: #{a}"
+end
+```
+
 # Cook Book
 
 ## Creating Gems
@@ -262,52 +273,132 @@ publish with:
 $ gem push pkg/fentonGem1-0.0.1.gem
 ```
 
-# Defunct Notes - Ignore Below!!!
-
 # Install - RedHat variants
 
-Oracle Linux
-
-[Reference](http://wiki.mediatemple.net/w/(ve):Ruby_on_Rails_on_CentOS#Install_RVM)
-
-As `root`
+As root
 
 ```bash
-# export http_proxy=http://www-proxy.sg.oracle.com && wget -c http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
-# rpm -ivh rpmforge-release-0.3.6-1.el5.rf.i386.rpm
-# yum install -y curl git
-# curl -x http://www-proxy.sg.oracle.com:80 -L http://rvm.beginrescueend.com/releases/rvm-install-latest > rvmInstall
+# yum install -y curl openssl-devel zlib-devel gcc gcc-c++ make autoconf readline-devel curl-devel expat-devel gettext-devel
 ```
-Edit the rvmInstall file replacing three curl calls to be:
 
-    curl -x http://www-proxy.sg.oracle.com:80 -L -B
-
-instead of
-
-    curl -B
-
-Modify the call to `scripts/install`, from using argument --prefix to using --path, was:
-
-    exec ./scripts/install ${flags[*]} --prefix "$rvm_prefix" --path "$rvm_path"
-
-should be:
-
-    exec ./scripts/install ${flags[*]} --path "$rvm_prefix" --path "$rvm_path"
+As the user who will be using ruby:
 
 ```bash
-# chmod o+x rvmInstall 
-# ln -s /bin/env /usr/bin/env
-# ./rvmInstall 
-# yum install -y gcc-c++ patch readline readline-devel zlib zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison iconv-devel
+$ wget https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer
+$ chmod a+x rvm-installer 
+$ echo insecure >> ~/.curlrc
+$ ./rvm-installer 
+$ source /home/fenton/.bash_profile
+$ rvm install 1.9.3
+$ echo -e "\nrvm use 1.9.3" >> ~/.bash_profile
 ```
 
-run:
+Log out completely (so .bash_profile gets executed) and log back in.
 
-    rvm requirements
+```bash
+$ ruby --version
+ruby 1.9.3p0 (2011-10-30 revision 33570) [i686-linux]
+```
 
-and do the yum install that it calls for.
+# Unit Testing 
 
-Install Ruby
+[ref](http://www.moseshohman.com/blog/2004/10/13/building-testunit-testsuites-in-ruby/)
 
-    rvm install 1.9.2 --proxy www-proxy.sg.oracle.com:80
-    rvm --default use 1.9.2
+## Test Case
+
+Folder layout:
+
+```
+it_tools/
+├── Gemfile
+├── it_tools.gemspec
+├── lib
+│   └── it_tools
+│       ├── deploy.rb
+│       ├── it_tools.rb
+│       ├── mail.rb
+│       └── version.rb
+├── Rakefile
+└── test
+    └── it_tools
+        └── test_deploy.rb
+```
+
+
+Sample test: `test/it_tools/test_deploy.rb`
+
+```ruby
+require "test/unit"
+require 'pathname'
+libpath = Pathname.new(
+    File.join(File.dirname(__FILE__), [".."]*2, "lib")
+  ).cleanpath.to_s
+$:.unshift(libpath) unless $:.include?(libpath)
+
+require "it_tools/deploy"
+
+class TestEnvironment < Test::Unit::TestCase
+  def test_get_deploy_dir
+    env = Deployment::Environment.new
+    assert_equal('/scratch/ngsp/hrmsToCrmod', env.get_deploy_dir('dev'))
+  end
+end
+```
+
+This stuff:
+
+```ruby
+require 'pathname'
+libpath = Pathname.new(
+    File.join(File.dirname(__FILE__), [".."]*2, "lib")
+  ).cleanpath.to_s
+$:.unshift(libpath) unless $:.include?(libpath)
+```
+
+ensures that `lib` is on your load path, so you can test now with:
+
+```bash
+~/projects/it_tools $ ruby test/it_tools/test_deploy.rb 
+```
+
+## Test Suite
+
+Layout:
+
+```
+it_tools/
+├── Gemfile
+├── it_tools.gemspec
+├── lib
+│   └── it_tools
+│       ├── deploy.rb
+│       ├── it_tools.rb
+│       ├── mail.rb
+│       └── version.rb
+├── Rakefile
+└── test
+    └── it_tools
+        ├── suite_it_tools.rb
+        └── test_deploy.rb
+```
+
+file: `test/it_tools/suite_it_tools.rb
+
+```ruby
+require 'pathname'
+testpath = Pathname.new(
+    File.join(File.dirname(__FILE__), ".."*1)
+  ).cleanpath.to_s
+$:.unshift(testpath) unless $:.include?(testpath)
+
+require 'it_tools/test_deploy'
+
+te = TestDeployment::TestEnvironment.new("TestEnvironment")
+te.test_get_deploy_dir
+```
+
+test with:
+
+```bash
+~/projects/it_tools $ ruby test/it_tools/suite_it_tools.rb
+```

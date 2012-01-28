@@ -328,6 +328,40 @@ instructions
 source:
 [http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1](http://nfocipher.com/index.php?op=ViewArticle&articleId=12&blogId=1)
 
+## Public Read Access
+
+Trying to setup public read access. Below we setup the repository
+`crmod-ws-wrapper.git`.  The following should be done as the same user
+your git repository is stored under.
+
+```bash
+$ git clone --bare git@linux1.hk.oracle.com:crmod-ws-wrapper.git
+$ cd crmod-ws-wrapper.git/hooks/
+$ mv post-update.sample post-update
+$ cd ..
+$ git update-server-info
+```
+
+Now someone can clone this with:
+
+```
+$ git clone http://linux1.hk.oracle.com/git/crmod-ws-wrapper.git
+```
+
+Since this is served up by the webserver.
+
+But we want to set this up so that it is always in sync with the
+master so setup a remote repo inside the master:
+
+```bash
+$ git remote add httpClone /var/www/html/git/crmod-ws-wrapper.git/
+$ tail -1 hooks/post-receive
+git push httpClone master
+```
+
+Now everytime the master receives new info, it will push out to our
+httpClone, public read only repo.
+
 # HTTP - Apache2
 
 ```bash

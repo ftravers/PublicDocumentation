@@ -53,7 +53,7 @@ Set firefox to auto-detect proxy settings.
 
 One by one:
 
-    sudo apt-get install --force-yes -y gnome-do git-core curl emacs
+    sudo apt-get install --force-yes -y gnome-do git-core curl emacs thunderbird
 
 #### Compiz
 
@@ -153,6 +153,32 @@ Copy `settings.xml` file into `~/.m2/` folder
 
 #### Thunderbird
 
+After put in details and it fails to auto setup click: Manual Setup
+
+Account Settings > fenton.travers@oracle.com > 
+
+Account Name: fenton.travers@oracle.com
+
+Account Settings > fenton.travers@oracle.com > Server Settings >
+
+* Server Name: stbeehive.oracle.com
+* Port: 993
+* User Name: fenton.travers@oracle.com
+
+Account Settings > fenton.travers@oracle.com > Server Settings > Security Settings > 
+
+* Connection Security: SSL/TLS
+* Authentication method: Normal password
+
+Account Settings > Outgoing Server(SMTP) >
+
+Server Name: stbeehive.oracle.com
+Port: 465
+User Name: fenton.travers@oracle.com
+Authentication Method: Normal Password
+Connection Security: SSL/TLS
+
+
 On old machine:
 
     cd ~/.thunderbird
@@ -201,16 +227,20 @@ Edit > Profile Preferences > Scrolling > Unlimited (checked)
 * Oracle Account
 * Basic
 
-    protocol: xmpp
-    username: fenton.travers
-    domain: oracle.com
+```
+protocol: xmpp
+username: fenton.travers
+domain: oracle.com
+```
 
 * Advanced
 
-    require ssl/tsl = checked
-    force old (port 5223) ssl = checked
-    connect port = 5223
-    connect server = stbeehive.oracle.com
+```
+require ssl/tsl = checked
+force old (port 5223) ssl = checked
+connect port = 5223
+connect server = stbeehive.oracle.com
+```
 
 ### Notifications
 
@@ -925,6 +955,15 @@ If there are more, use `screen -r NNNN.SessionTitle`
 
 
 # Linux Commands / Cookbooks
+
+## Determine what process listens on a port
+
+Install lsof, and see whats listening on port 80.
+
+```bash
+$ sudo apt-get install -y lsof
+$ lsof -i :80
+```
 
 Redhat derivatives
 

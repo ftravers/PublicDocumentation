@@ -1173,23 +1173,31 @@ forward `master`.  Now when we supply the patch file to the *owner* of
 the master branch, they'll be able to trivially merge the changes
 onto the latest master.
 
-## Cookbook Recipies
+# Cookbook Recipies
 
-### Branching
+## Reduce Repo Size
+
+Sometimes you checked in and committed a file that down the road you
+really didn't want or need in your repo, and your repo has gotten big
+and unmanageable.
+
+### Find the big commits
+
+## Branching
 
     git checkout -b branch1
 
 where `branch1` is the name of the new branch, choose a name
 appropriate for your fix/enhancement
 
-### Counting your commits
+## Counting your commits
 
     git log master..HEAD
 
 This will tell you the number of commits you have done.  If you have
 more than one, then you need to do some squashing.
 
-### Squashing
+## Squashing
 
 while on your branch (note the ~2 should be change to the number of
 commits you have, if you have 3 commits, type ~3)
@@ -1208,13 +1216,13 @@ to:
     s f875a3c .
     s 5eeec57 .
 
-### Creating a Patch File
+## Creating a Patch File
 
     git format-patch master --stdout > ~/Desktop/file.patch
 
 You can obviously change the name of the patch file from `file.patch`
 to something more descriptive if you want.
 
-### Rebase on latest master
+## Rebase on latest master
 
     git rebase master

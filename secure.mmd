@@ -6,9 +6,7 @@ Table of Contents
 
 # Getting a signed security certificate:
 
--  
-
--   http://my.oracle.com/site/git/2727/11529/11536/11537/index.htm
+* http://my.oracle.com/site/git/2727/11529/11536/11537/index.htm
 
 # Windows, Linux, OS/X
 
@@ -51,12 +49,15 @@ ask you for a password now.
 
     [root@del ~]# ssh ftravers@spicevan.com
 
-    [oracle@linux1 u02]$ ssh-copy-id oracle@myhelpstage.sg.oracle.com
-    /usr/bin/ssh-copy-id: ERROR: No identities found
-    [oracle@linux1 u02]$ ssh-agent $SHELL
-    [oracle@linux1 u02]$ ssh-add
-    Identity added: /home/oracle/.ssh/id_rsa (/home/oracle/.ssh/id_rsa)
-    [oracle@linux1 u02]$ ssh-copy-id oracle@myhelpstage.sg.oracle.com
+If u get error message: No identities found do:
+
+```bash
+$ ssh-copy-id oracle@myhelpstage.sg.oracle.com
+/usr/bin/ssh-copy-id: ERROR: No identities found
+$ ssh-agent $SHELL; ssh-add
+Identity added: /home/oracle/.ssh/id_rsa (/home/oracle/.ssh/id_rsa)
+$ ssh-copy-id oracle@myhelpstage.sg.oracle.com
+```
 
 # sshd config
 
