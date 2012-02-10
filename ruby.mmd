@@ -5,9 +5,9 @@ Ubuntu, Mint
 [Reference](http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you/)
 
 ```bash
-$ sudo apt-get install build-essential git-core curl
-$ bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
-$ echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc; . ~/.bashrc
+$ sudo apt-get -y install build-essential git-core curl
+$ bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+echo 'source .rvm/scripts/rvm' >> ~/.bashrc; source ~/.bashrc
 $ sudo apt-get install -y --force-yes build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion
 $ rvm install 1.9.2; rvm use 1.9.2; rvm --default use 1.9.2
 ```
@@ -271,6 +271,135 @@ publish with:
 
 ```bash
 $ gem push pkg/fentonGem1-0.0.1.gem
+```
+
+## Daemon, Sinatra, Thin
+
+[ref](http://labs.headlondon.com/2010/07/skinny-daemons/)
+
+This example uses a project called `fenton_daemon`.
+
+```bash
+$ bundle gem fenton_daemon
+      create  fenton_daemon/Gemfile
+      create  fenton_daemon/Rakefile
+      create  fenton_daemon/.gitignore
+      create  fenton_daemon/fenton_daemon.gemspec
+      create  fenton_daemon/lib/fenton_daemon.rb
+      create  fenton_daemon/lib/fenton_daemon/version.rb
+Initializating git repo in /home/fenton/tmp2/fenton_daemon
+$ cd fenton_daemon/
+$ tree
+.
+|-- fenton_daemon.gemspec
+|-- Gemfile
+|-- lib
+|   |-- fenton_daemon
+|   |   |-- config.ru
+|   |   `-- version.rb
+|   `-- fenton_daemon.rb
+`-- Rakefile
+$ touch lib/fenton_daemon/config.ru
+```
+
+Edit `lib/fenton_daemon/config.ru` in a text editor so it has the
+contents outlined below.
+
+```ruby
+require File.dirname(__FILE__) + '/../fenton_daemon'
+FentonSinatraDaemon.run! :port => 2003
+```
+
+```bash
+$ mkdir bin
+$ touch bin/fenton_daemon
+```
+
+Edit `bin/fenton_daemon`, inserting the contents outlined below:
+
+```ruby
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + '/../lib/fenton_daemon'
+require 'thin'
+
+rackup_file = "#{File.dirname(__FILE__)}/../lib/fenton_daemon/config.ru"
+
+argv = ARGV
+argv << ["-R", rackup_file] unless ARGV.include?("-R")
+argv << ["-p", "2003"] unless ARGV.include?("-p")
+argv << ["-e", "production"] unless ARGV.include?("-e")
+Thin::Runner.new(argv.flatten).run!
+```
+
+Insert into file `lib/fenton_daemon.rb` the contents shown below
+
+```ruby
+require "fenton_daemon/version"
+require 'rubygems'
+require 'sinatra/base'
+class FentonSinatraDaemon < Sinatra::Base
+  get "/" do
+    "Your skinny daemon is up and running."
+  end
+end
+module FentonDaemon
+end
+```
+
+Remove `TODO: ` from `fenton_daemon.gemspec`
+
+```bash
+$ sed -i 's/TODO: //' fenton_daemon.gemspec
+```
+
+Install
+
+```bash
+$ git add .
+$ git commit -am'.'
+$ rake install
+```
+
+## Test
+
+```bash
+$ fenton_daemon start
+```
+
+Goto: `http://localhost:2003/`
+
+To Stop:
+
+```bash
+$ fenton_daemon stop
+```
+
+To daemonize, start like so:
+
+```bash
+$ fenton_daemon start -d
+```
+
+## Clean Up
+
+* Shutdown your sinatra/thin daemon
+
+```bash
+$ gem list | grep fenton
+fenton_daemon (0.0.1)
+$ netstat -na | grep 2003
+$ which fenton_daemon
+/home/fenton/.rvm/gems/ruby-1.9.2-p290/bin/fenton_daemon
+$ gem uninstall fenton_daemon
+Remove executables:
+	fenton_daemon
+in addition to the gem? [Yn]  Y
+Removing fenton_daemon
+Successfully uninstalled fenton_daemon-0.0.1
+$ gem list | grep fenton
+$ which fenton_daemon
+$ 
 ```
 
 # Install - RedHat variants

@@ -5,3 +5,5 @@
 
 a {text-decoration:none;}
 a:hover {text-decoration:underline;}
+em {color:red}
+.click_me_span {color:blue}
