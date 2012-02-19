@@ -335,6 +335,8 @@ Trying to setup public read access. Below we setup the repository
 your git repository is stored under.
 
 ```bash
+# su - git
+$ cd /var/www/html/git
 $ git clone --bare git@linux1.hk.oracle.com:crmod-ws-wrapper.git
 $ cd crmod-ws-wrapper.git/hooks/
 $ mv post-update.sample post-update
