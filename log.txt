@@ -764,3 +764,719 @@ D, [2012-02-24T17:08:23.369553 #25754] DEBUG -- : [URL]: http://127.0.0.1:8983/s
 D, [2012-02-24T17:08:23.821376 #25754] DEBUG -- : Successfully submitted file to indexer.
 D, [2012-03-01T13:04:01.298760 #31236] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
 D, [2012-03-01T13:04:03.152500 #31236] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-03-05T11:56:21.084788 #32464] DEBUG -- : Begin processing directory: /home/fenton/projects/documentation
+D, [2012-03-05T11:56:21.085529 #32464] DEBUG -- : jeos is a directory, skip it.
+D, [2012-03-05T11:56:21.085643 #32464] DEBUG -- : Current entry is: .., do nothing.
+D, [2012-03-05T11:56:21.085756 #32464] DEBUG -- : Found MultiMarkdown file: apache.mmd
+D, [2012-03-05T11:56:21.085851 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/apache.mmd
+D, [2012-03-05T11:56:21.085923 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//apache.html
+D, [2012-03-05T11:56:21.086007 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//apache.html
+D, [2012-03-05T11:56:21.086161 #32464] DEBUG -- : [/home/fenton/projects/documentation/apache.mmd]: 2012-02-21 19:34:42 +0800
+D, [2012-03-05T11:56:21.086260 #32464] DEBUG -- : [/home/fenton/bin/website//apache.html]: 2012-02-23 13:14:49 +0800
+D, [2012-03-05T11:56:21.086347 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.086464 #32464] DEBUG -- : File: solr.mmd~ is not a known format, skipping.
+D, [2012-03-05T11:56:21.086562 #32464] DEBUG -- : Found MultiMarkdown file: dbCommands.mmd
+D, [2012-03-05T11:56:21.086642 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/dbCommands.mmd
+D, [2012-03-05T11:56:21.086709 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//dbCommands.html
+D, [2012-03-05T11:56:21.086784 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//dbCommands.html
+D, [2012-03-05T11:56:21.086920 #32464] DEBUG -- : [/home/fenton/projects/documentation/dbCommands.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.087013 #32464] DEBUG -- : [/home/fenton/bin/website//dbCommands.html]: 2012-02-23 13:14:49 +0800
+D, [2012-03-05T11:56:21.087074 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.087171 #32464] DEBUG -- : File: inkscape.mmd~ is not a known format, skipping.
+D, [2012-03-05T11:56:21.087266 #32464] DEBUG -- : Found MultiMarkdown file: ruby.mmd
+D, [2012-03-05T11:56:21.087342 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/ruby.mmd
+D, [2012-03-05T11:56:21.087406 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//ruby.html
+D, [2012-03-05T11:56:21.087506 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//ruby.html
+D, [2012-03-05T11:56:21.087623 #32464] DEBUG -- : [/home/fenton/projects/documentation/ruby.mmd]: 2012-02-22 18:37:51 +0800
+D, [2012-03-05T11:56:21.087711 #32464] DEBUG -- : [/home/fenton/bin/website//ruby.html]: 2012-02-23 13:14:50 +0800
+D, [2012-03-05T11:56:21.087771 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.087866 #32464] DEBUG -- : File: jquery-1.7.1.min.js is not a known format, skipping.
+D, [2012-03-05T11:56:21.087958 #32464] DEBUG -- : Found MultiMarkdown file: jenkins.mmd
+D, [2012-03-05T11:56:21.088034 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/jenkins.mmd
+D, [2012-03-05T11:56:21.088098 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//jenkins.html
+D, [2012-03-05T11:56:21.088170 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//jenkins.html
+D, [2012-03-05T11:56:21.088282 #32464] DEBUG -- : [/home/fenton/projects/documentation/jenkins.mmd]: 2012-01-27 10:24:05 +0800
+D, [2012-03-05T11:56:21.088371 #32464] DEBUG -- : [/home/fenton/bin/website//jenkins.html]: 2012-02-23 13:14:50 +0800
+D, [2012-03-05T11:56:21.088430 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.088525 #32464] DEBUG -- : File: intellij-eclipse-differences.md is not a known format, skipping.
+D, [2012-03-05T11:56:21.088620 #32464] DEBUG -- : Found MultiMarkdown file: preppingAnOvm.mmd
+D, [2012-03-05T11:56:21.088695 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/preppingAnOvm.mmd
+D, [2012-03-05T11:56:21.088759 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//preppingAnOvm.html
+D, [2012-03-05T11:56:21.088832 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//preppingAnOvm.html
+D, [2012-03-05T11:56:21.088940 #32464] DEBUG -- : [/home/fenton/projects/documentation/preppingAnOvm.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.089028 #32464] DEBUG -- : [/home/fenton/bin/website//preppingAnOvm.html]: 2012-02-23 13:14:51 +0800
+D, [2012-03-05T11:56:21.089088 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.089180 #32464] DEBUG -- : Found MultiMarkdown file: java.mmd
+D, [2012-03-05T11:56:21.089256 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/java.mmd
+D, [2012-03-05T11:56:21.089321 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//java.html
+D, [2012-03-05T11:56:21.089392 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//java.html
+D, [2012-03-05T11:56:21.089520 #32464] DEBUG -- : [/home/fenton/projects/documentation/java.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.089609 #32464] DEBUG -- : [/home/fenton/bin/website//java.html]: 2012-02-23 13:14:51 +0800
+D, [2012-03-05T11:56:21.089670 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.089762 #32464] DEBUG -- : Found MultiMarkdown file: javascript.mmd
+D, [2012-03-05T11:56:21.089838 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/javascript.mmd
+D, [2012-03-05T11:56:21.089903 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//javascript.html
+D, [2012-03-05T11:56:21.090001 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//javascript.html
+D, [2012-03-05T11:56:21.090194 #32464] DEBUG -- : [/home/fenton/projects/documentation/javascript.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.090354 #32464] DEBUG -- : [/home/fenton/bin/website//javascript.html]: 2012-02-23 13:14:52 +0800
+D, [2012-03-05T11:56:21.090464 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.090631 #32464] DEBUG -- : images is a directory, skip it.
+D, [2012-03-05T11:56:21.090779 #32464] DEBUG -- : File: rails.mmd~ is not a known format, skipping.
+D, [2012-03-05T11:56:21.090814 #32464] DEBUG -- : Current entry is: ., do nothing.
+D, [2012-03-05T11:56:21.090913 #32464] DEBUG -- : File: inputStyles.css is not a known format, skipping.
+D, [2012-03-05T11:56:21.091068 #32464] DEBUG -- : File: jquery_test.js is not a known format, skipping.
+D, [2012-03-05T11:56:21.091215 #32464] DEBUG -- : File: addProjectToGitosis.py is not a known format, skipping.
+D, [2012-03-05T11:56:21.091361 #32464] DEBUG -- : Found MultiMarkdown file: mysql.mmd
+D, [2012-03-05T11:56:21.091481 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/mysql.mmd
+D, [2012-03-05T11:56:21.091578 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//mysql.html
+D, [2012-03-05T11:56:21.091683 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//mysql.html
+D, [2012-03-05T11:56:21.091845 #32464] DEBUG -- : [/home/fenton/projects/documentation/mysql.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.091972 #32464] DEBUG -- : [/home/fenton/bin/website//mysql.html]: 2012-02-23 13:14:52 +0800
+D, [2012-03-05T11:56:21.092058 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.092191 #32464] DEBUG -- : File: jquery_test.js~ is not a known format, skipping.
+D, [2012-03-05T11:56:21.092342 #32464] DEBUG -- : Found MultiMarkdown file: Gnu_Privacy_Guard_GPG.mmd
+D, [2012-03-05T11:56:21.092381 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/Gnu_Privacy_Guard_GPG.mmd
+D, [2012-03-05T11:56:21.092413 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//Gnu_Privacy_Guard_GPG.html
+D, [2012-03-05T11:56:21.092449 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//Gnu_Privacy_Guard_GPG.html
+D, [2012-03-05T11:56:21.092507 #32464] DEBUG -- : [/home/fenton/projects/documentation/Gnu_Privacy_Guard_GPG.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.092553 #32464] DEBUG -- : [/home/fenton/bin/website//Gnu_Privacy_Guard_GPG.html]: 2012-02-23 13:14:52 +0800
+D, [2012-03-05T11:56:21.092584 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.092631 #32464] DEBUG -- : Found MultiMarkdown file: crmod.mmd
+D, [2012-03-05T11:56:21.092669 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/crmod.mmd
+D, [2012-03-05T11:56:21.092701 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//crmod.html
+D, [2012-03-05T11:56:21.092738 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//crmod.html
+D, [2012-03-05T11:56:21.092794 #32464] DEBUG -- : [/home/fenton/projects/documentation/crmod.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.092840 #32464] DEBUG -- : [/home/fenton/bin/website//crmod.html]: 2012-02-23 13:14:53 +0800
+D, [2012-03-05T11:56:21.092950 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.093005 #32464] DEBUG -- : Found MultiMarkdown file: SelfHosting.mmd
+D, [2012-03-05T11:56:21.093053 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/SelfHosting.mmd
+D, [2012-03-05T11:56:21.093083 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//SelfHosting.html
+D, [2012-03-05T11:56:21.093115 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//SelfHosting.html
+D, [2012-03-05T11:56:21.093156 #32464] DEBUG -- : [/home/fenton/projects/documentation/SelfHosting.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.093193 #32464] DEBUG -- : [/home/fenton/bin/website//SelfHosting.html]: 2012-02-23 13:14:53 +0800
+D, [2012-03-05T11:56:21.093214 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.093246 #32464] DEBUG -- : Found MultiMarkdown file: seamforge.mmd
+D, [2012-03-05T11:56:21.093272 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/seamforge.mmd
+D, [2012-03-05T11:56:21.093294 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//seamforge.html
+D, [2012-03-05T11:56:21.093318 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//seamforge.html
+D, [2012-03-05T11:56:21.093356 #32464] DEBUG -- : [/home/fenton/projects/documentation/seamforge.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.093386 #32464] DEBUG -- : [/home/fenton/bin/website//seamforge.html]: 2012-02-23 13:14:54 +0800
+D, [2012-03-05T11:56:21.093407 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.093439 #32464] DEBUG -- : Found MultiMarkdown file: dia.mmd
+D, [2012-03-05T11:56:21.093465 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/dia.mmd
+D, [2012-03-05T11:56:21.093521 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//dia.html
+D, [2012-03-05T11:56:21.093569 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//dia.html
+D, [2012-03-05T11:56:21.093634 #32464] DEBUG -- : [/home/fenton/projects/documentation/dia.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.093669 #32464] DEBUG -- : [/home/fenton/bin/website//dia.html]: 2012-02-23 13:14:54 +0800
+D, [2012-03-05T11:56:21.093690 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.093725 #32464] DEBUG -- : File: toshiba-nb550d-setup.txt is not a known format, skipping.
+D, [2012-03-05T11:56:21.093757 #32464] DEBUG -- : Found MultiMarkdown file: firewall_iptables.mmd
+D, [2012-03-05T11:56:21.093784 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/firewall_iptables.mmd
+D, [2012-03-05T11:56:21.093806 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//firewall_iptables.html
+D, [2012-03-05T11:56:21.093831 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//firewall_iptables.html
+D, [2012-03-05T11:56:21.093869 #32464] DEBUG -- : [/home/fenton/projects/documentation/firewall_iptables.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.093899 #32464] DEBUG -- : [/home/fenton/bin/website//firewall_iptables.html]: 2012-02-23 13:14:55 +0800
+D, [2012-03-05T11:56:21.093920 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.093952 #32464] DEBUG -- : docs is a directory, skip it.
+D, [2012-03-05T11:56:21.093985 #32464] DEBUG -- : File: vm_tutorial.txt is not a known format, skipping.
+D, [2012-03-05T11:56:21.094018 #32464] DEBUG -- : File: ops-team-app-compliance.md is not a known format, skipping.
+D, [2012-03-05T11:56:21.094048 #32464] DEBUG -- : tutorials is a directory, skip it.
+D, [2012-03-05T11:56:21.094079 #32464] DEBUG -- : Found MultiMarkdown file: jersey.mmd
+D, [2012-03-05T11:56:21.094105 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/jersey.mmd
+D, [2012-03-05T11:56:21.094127 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//jersey.html
+D, [2012-03-05T11:56:21.094151 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//jersey.html
+D, [2012-03-05T11:56:21.094189 #32464] DEBUG -- : [/home/fenton/projects/documentation/jersey.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.094219 #32464] DEBUG -- : [/home/fenton/bin/website//jersey.html]: 2012-02-23 13:14:55 +0800
+D, [2012-03-05T11:56:21.094240 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.094271 #32464] DEBUG -- : File: search.html is not a known format, skipping.
+D, [2012-03-05T11:56:21.094304 #32464] DEBUG -- : File: jenkins is not a known format, skipping.
+D, [2012-03-05T11:56:21.094336 #32464] DEBUG -- : File: search.js is not a known format, skipping.
+D, [2012-03-05T11:56:21.094373 #32464] DEBUG -- : Found MultiMarkdown file: html.mmd
+D, [2012-03-05T11:56:21.094399 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/html.mmd
+D, [2012-03-05T11:56:21.094422 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//html.html
+D, [2012-03-05T11:56:21.094446 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//html.html
+D, [2012-03-05T11:56:21.094485 #32464] DEBUG -- : [/home/fenton/projects/documentation/html.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.094515 #32464] DEBUG -- : [/home/fenton/bin/website//html.html]: 2012-02-23 13:14:56 +0800
+D, [2012-03-05T11:56:21.094535 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.094567 #32464] DEBUG -- : Found MultiMarkdown file: ContinuousDeployment.mmd
+D, [2012-03-05T11:56:21.094594 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/ContinuousDeployment.mmd
+D, [2012-03-05T11:56:21.094616 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//ContinuousDeployment.html
+D, [2012-03-05T11:56:21.094640 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//ContinuousDeployment.html
+D, [2012-03-05T11:56:21.094678 #32464] DEBUG -- : [/home/fenton/projects/documentation/ContinuousDeployment.mmd]: 2012-02-24 17:54:04 +0800
+D, [2012-03-05T11:56:21.094707 #32464] DEBUG -- : [/home/fenton/bin/website//ContinuousDeployment.html]: 2012-02-24 18:08:22 +0800
+D, [2012-03-05T11:56:21.094728 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.094759 #32464] DEBUG -- : Found MultiMarkdown file: applications.mmd
+D, [2012-03-05T11:56:21.094785 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/applications.mmd
+D, [2012-03-05T11:56:21.094808 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//applications.html
+D, [2012-03-05T11:56:21.094832 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//applications.html
+D, [2012-03-05T11:56:21.094870 #32464] DEBUG -- : [/home/fenton/projects/documentation/applications.mmd]: 2012-02-24 15:44:57 +0800
+D, [2012-03-05T11:56:21.094901 #32464] DEBUG -- : [/home/fenton/bin/website//applications.html]: 2012-02-24 15:48:37 +0800
+D, [2012-03-05T11:56:21.094922 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.094953 #32464] DEBUG -- : Found MultiMarkdown file: clojure.mmd
+D, [2012-03-05T11:56:21.094980 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/clojure.mmd
+D, [2012-03-05T11:56:21.095002 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//clojure.html
+D, [2012-03-05T11:56:21.095027 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//clojure.html
+D, [2012-03-05T11:56:21.095065 #32464] DEBUG -- : [/home/fenton/projects/documentation/clojure.mmd]: 2012-01-28 23:58:15 +0800
+D, [2012-03-05T11:56:21.095094 #32464] DEBUG -- : [/home/fenton/bin/website//clojure.html]: 2012-02-23 13:14:57 +0800
+D, [2012-03-05T11:56:21.095115 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.095150 #32464] DEBUG -- : File: markdownScript.sh is not a known format, skipping.
+D, [2012-03-05T11:56:21.095191 #32464] DEBUG -- : File: spring_di_folder_layout.png is not a known format, skipping.
+D, [2012-03-05T11:56:21.095223 #32464] DEBUG -- : File: help.png is not a known format, skipping.
+D, [2012-03-05T11:56:21.095256 #32464] DEBUG -- : File: .gitignore is not a known format, skipping.
+D, [2012-03-05T11:56:21.095287 #32464] DEBUG -- : Found MultiMarkdown file: virtualBox.mmd
+D, [2012-03-05T11:56:21.095314 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/virtualBox.mmd
+D, [2012-03-05T11:56:21.095335 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//virtualBox.html
+D, [2012-03-05T11:56:21.095360 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//virtualBox.html
+D, [2012-03-05T11:56:21.095398 #32464] DEBUG -- : [/home/fenton/projects/documentation/virtualBox.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.095432 #32464] DEBUG -- : [/home/fenton/bin/website//virtualBox.html]: 2012-02-23 13:14:58 +0800
+D, [2012-03-05T11:56:21.095453 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.095485 #32464] DEBUG -- : Found MultiMarkdown file: virtualMachines.mmd
+D, [2012-03-05T11:56:21.095512 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/virtualMachines.mmd
+D, [2012-03-05T11:56:21.095535 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//virtualMachines.html
+D, [2012-03-05T11:56:21.095559 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//virtualMachines.html
+D, [2012-03-05T11:56:21.095596 #32464] DEBUG -- : [/home/fenton/projects/documentation/virtualMachines.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.095627 #32464] DEBUG -- : [/home/fenton/bin/website//virtualMachines.html]: 2012-02-23 13:14:58 +0800
+D, [2012-03-05T11:56:21.095648 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.095679 #32464] DEBUG -- : File: commitAllRepos.sh is not a known format, skipping.
+D, [2012-03-05T11:56:21.095711 #32464] DEBUG -- : File: logback.html is not a known format, skipping.
+D, [2012-03-05T11:56:21.095742 #32464] DEBUG -- : Found MultiMarkdown file: ovmManTb.mmd
+D, [2012-03-05T11:56:21.095768 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/ovmManTb.mmd
+D, [2012-03-05T11:56:21.095789 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//ovmManTb.html
+D, [2012-03-05T11:56:21.095814 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//ovmManTb.html
+D, [2012-03-05T11:56:21.095852 #32464] DEBUG -- : [/home/fenton/projects/documentation/ovmManTb.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.095882 #32464] DEBUG -- : [/home/fenton/bin/website//ovmManTb.html]: 2012-02-23 13:14:58 +0800
+D, [2012-03-05T11:56:21.095903 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.095934 #32464] DEBUG -- : File: search.html~ is not a known format, skipping.
+D, [2012-03-05T11:56:21.095965 #32464] DEBUG -- : File: internHtml.sh is not a known format, skipping.
+D, [2012-03-05T11:56:21.095996 #32464] DEBUG -- : Found MultiMarkdown file: createEarExample.mmd
+D, [2012-03-05T11:56:21.096021 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/createEarExample.mmd
+D, [2012-03-05T11:56:21.096044 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//createEarExample.html
+D, [2012-03-05T11:56:21.096068 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//createEarExample.html
+D, [2012-03-05T11:56:21.096106 #32464] DEBUG -- : [/home/fenton/projects/documentation/createEarExample.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.096136 #32464] DEBUG -- : [/home/fenton/bin/website//createEarExample.html]: 2012-02-23 13:14:59 +0800
+D, [2012-03-05T11:56:21.096157 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.096188 #32464] DEBUG -- : Found MultiMarkdown file: linux.mmd
+D, [2012-03-05T11:56:21.096214 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/linux.mmd
+D, [2012-03-05T11:56:21.096236 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//linux.html
+D, [2012-03-05T11:56:21.096260 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//linux.html
+D, [2012-03-05T11:56:21.096299 #32464] DEBUG -- : [/home/fenton/projects/documentation/linux.mmd]: 2012-02-21 14:55:09 +0800
+D, [2012-03-05T11:56:21.096330 #32464] DEBUG -- : [/home/fenton/bin/website//linux.html]: 2012-02-23 13:14:59 +0800
+D, [2012-03-05T11:56:21.096351 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.096383 #32464] DEBUG -- : File: ajax-loader.gif is not a known format, skipping.
+D, [2012-03-05T11:56:21.096415 #32464] DEBUG -- : File: test.css is not a known format, skipping.
+D, [2012-03-05T11:56:21.096447 #32464] DEBUG -- : File: developmentArchitecture.dia is not a known format, skipping.
+D, [2012-03-05T11:56:21.096483 #32464] DEBUG -- : Found MultiMarkdown file: WebLogic_Server.mmd
+D, [2012-03-05T11:56:21.096509 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/WebLogic_Server.mmd
+D, [2012-03-05T11:56:21.096531 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//WebLogic_Server.html
+D, [2012-03-05T11:56:21.096556 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//WebLogic_Server.html
+D, [2012-03-05T11:56:21.096594 #32464] DEBUG -- : [/home/fenton/projects/documentation/WebLogic_Server.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.096624 #32464] DEBUG -- : [/home/fenton/bin/website//WebLogic_Server.html]: 2012-02-23 13:15:00 +0800
+D, [2012-03-05T11:56:21.096645 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.096677 #32464] DEBUG -- : File: pandoc is not a known format, skipping.
+D, [2012-03-05T11:56:21.096708 #32464] DEBUG -- : .git is a directory, skip it.
+D, [2012-03-05T11:56:21.096740 #32464] DEBUG -- : Found MultiMarkdown file: git.mmd
+D, [2012-03-05T11:56:21.096766 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/git.mmd
+D, [2012-03-05T11:56:21.096787 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//git.html
+D, [2012-03-05T11:56:21.096812 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//git.html
+D, [2012-03-05T11:56:21.096849 #32464] DEBUG -- : [/home/fenton/projects/documentation/git.mmd]: 2012-02-23 18:04:59 +0800
+D, [2012-03-05T11:56:21.096879 #32464] DEBUG -- : [/home/fenton/bin/website//git.html]: 2012-02-23 18:05:03 +0800
+D, [2012-03-05T11:56:21.096901 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.096931 #32464] DEBUG -- : Found MultiMarkdown file: chef.mmd
+D, [2012-03-05T11:56:21.096957 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/chef.mmd
+D, [2012-03-05T11:56:21.096978 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//chef.html
+D, [2012-03-05T11:56:21.097003 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//chef.html
+D, [2012-03-05T11:56:21.097041 #32464] DEBUG -- : [/home/fenton/projects/documentation/chef.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.097071 #32464] DEBUG -- : [/home/fenton/bin/website//chef.html]: 2012-02-23 13:15:01 +0800
+D, [2012-03-05T11:56:21.097092 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.097123 #32464] DEBUG -- : Found MultiMarkdown file: testBranch.mmd
+D, [2012-03-05T11:56:21.097149 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/testBranch.mmd
+D, [2012-03-05T11:56:21.097171 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//testBranch.html
+D, [2012-03-05T11:56:21.097196 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//testBranch.html
+D, [2012-03-05T11:56:21.097234 #32464] DEBUG -- : [/home/fenton/projects/documentation/testBranch.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.097265 #32464] DEBUG -- : [/home/fenton/bin/website//testBranch.html]: 2012-02-23 13:15:01 +0800
+D, [2012-03-05T11:56:21.097285 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.097317 #32464] DEBUG -- : Found MultiMarkdown file: persistence.mmd
+D, [2012-03-05T11:56:21.097343 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/persistence.mmd
+D, [2012-03-05T11:56:21.097365 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//persistence.html
+D, [2012-03-05T11:56:21.097389 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//persistence.html
+D, [2012-03-05T11:56:21.097427 #32464] DEBUG -- : [/home/fenton/projects/documentation/persistence.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.097458 #32464] DEBUG -- : [/home/fenton/bin/website//persistence.html]: 2012-02-23 13:15:02 +0800
+D, [2012-03-05T11:56:21.097479 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.097525 #32464] DEBUG -- : Found MultiMarkdown file: css.mmd
+D, [2012-03-05T11:56:21.097553 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/css.mmd
+D, [2012-03-05T11:56:21.097604 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//css.html
+D, [2012-03-05T11:56:21.097630 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//css.html
+D, [2012-03-05T11:56:21.097686 #32464] DEBUG -- : [/home/fenton/projects/documentation/css.mmd]: 2012-02-21 15:21:26 +0800
+D, [2012-03-05T11:56:21.097719 #32464] DEBUG -- : [/home/fenton/bin/website//css.html]: 2012-02-23 13:15:02 +0800
+D, [2012-03-05T11:56:21.097739 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.097771 #32464] DEBUG -- : latex is a directory, skip it.
+D, [2012-03-05T11:56:21.097803 #32464] DEBUG -- : File: search2.html is not a known format, skipping.
+D, [2012-03-05T11:56:21.097835 #32464] DEBUG -- : File: build.xml is not a known format, skipping.
+D, [2012-03-05T11:56:21.097866 #32464] DEBUG -- : Found MultiMarkdown file: xslt.mmd
+D, [2012-03-05T11:56:21.097891 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/xslt.mmd
+D, [2012-03-05T11:56:21.097913 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//xslt.html
+D, [2012-03-05T11:56:21.097937 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//xslt.html
+D, [2012-03-05T11:56:21.097975 #32464] DEBUG -- : [/home/fenton/projects/documentation/xslt.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.098005 #32464] DEBUG -- : [/home/fenton/bin/website//xslt.html]: 2012-02-23 13:15:03 +0800
+D, [2012-03-05T11:56:21.098026 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.098058 #32464] DEBUG -- : File: skillsCriteria.md is not a known format, skipping.
+D, [2012-03-05T11:56:21.098089 #32464] DEBUG -- : vmware is a directory, skip it.
+D, [2012-03-05T11:56:21.098121 #32464] DEBUG -- : Found MultiMarkdown file: SettingUpVirtualLab.mmd
+D, [2012-03-05T11:56:21.098147 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/SettingUpVirtualLab.mmd
+D, [2012-03-05T11:56:21.098169 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//SettingUpVirtualLab.html
+D, [2012-03-05T11:56:21.098193 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//SettingUpVirtualLab.html
+D, [2012-03-05T11:56:21.098230 #32464] DEBUG -- : [/home/fenton/projects/documentation/SettingUpVirtualLab.mmd]: 2012-01-27 11:47:43 +0800
+D, [2012-03-05T11:56:21.098260 #32464] DEBUG -- : [/home/fenton/bin/website//SettingUpVirtualLab.html]: 2012-02-23 13:15:03 +0800
+D, [2012-03-05T11:56:21.098281 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.098313 #32464] DEBUG -- : File: pom.xml is not a known format, skipping.
+D, [2012-03-05T11:56:21.098345 #32464] DEBUG -- : Found MultiMarkdown file: jsf.mmd
+D, [2012-03-05T11:56:21.098371 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/jsf.mmd
+D, [2012-03-05T11:56:21.098392 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//jsf.html
+D, [2012-03-05T11:56:21.098416 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//jsf.html
+D, [2012-03-05T11:56:21.098453 #32464] DEBUG -- : [/home/fenton/projects/documentation/jsf.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.098484 #32464] DEBUG -- : [/home/fenton/bin/website//jsf.html]: 2012-02-23 13:15:04 +0800
+D, [2012-03-05T11:56:21.098504 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.098535 #32464] DEBUG -- : Found MultiMarkdown file: bugzilla.mmd
+D, [2012-03-05T11:56:21.098562 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/bugzilla.mmd
+D, [2012-03-05T11:56:21.098584 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//bugzilla.html
+D, [2012-03-05T11:56:21.098609 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//bugzilla.html
+D, [2012-03-05T11:56:21.098646 #32464] DEBUG -- : [/home/fenton/projects/documentation/bugzilla.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.098681 #32464] DEBUG -- : [/home/fenton/bin/website//bugzilla.html]: 2012-02-23 13:15:04 +0800
+D, [2012-03-05T11:56:21.098702 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.098733 #32464] DEBUG -- : Found MultiMarkdown file: dns.mmd
+D, [2012-03-05T11:56:21.098760 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/dns.mmd
+D, [2012-03-05T11:56:21.098782 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//dns.html
+D, [2012-03-05T11:56:21.098806 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//dns.html
+D, [2012-03-05T11:56:21.098844 #32464] DEBUG -- : [/home/fenton/projects/documentation/dns.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.098874 #32464] DEBUG -- : [/home/fenton/bin/website//dns.html]: 2012-02-23 13:15:05 +0800
+D, [2012-03-05T11:56:21.098895 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.098927 #32464] DEBUG -- : Found MultiMarkdown file: wlst.mmd
+D, [2012-03-05T11:56:21.098953 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/wlst.mmd
+D, [2012-03-05T11:56:21.098975 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//wlst.html
+D, [2012-03-05T11:56:21.098999 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//wlst.html
+D, [2012-03-05T11:56:21.099037 #32464] DEBUG -- : [/home/fenton/projects/documentation/wlst.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.099068 #32464] DEBUG -- : [/home/fenton/bin/website//wlst.html]: 2012-02-23 13:15:05 +0800
+D, [2012-03-05T11:56:21.099089 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.099122 #32464] DEBUG -- : File: basicWLSDomain.py is not a known format, skipping.
+D, [2012-03-05T11:56:21.099152 #32464] DEBUG -- : ngsp-doco is a directory, skip it.
+D, [2012-03-05T11:56:21.099184 #32464] DEBUG -- : Found MultiMarkdown file: buildingSoftware.mmd
+D, [2012-03-05T11:56:21.099210 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/buildingSoftware.mmd
+D, [2012-03-05T11:56:21.099233 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//buildingSoftware.html
+D, [2012-03-05T11:56:21.099257 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//buildingSoftware.html
+D, [2012-03-05T11:56:21.099295 #32464] DEBUG -- : [/home/fenton/projects/documentation/buildingSoftware.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.099325 #32464] DEBUG -- : [/home/fenton/bin/website//buildingSoftware.html]: 2012-02-23 13:15:06 +0800
+D, [2012-03-05T11:56:21.099345 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.099376 #32464] DEBUG -- : styles is a directory, skip it.
+D, [2012-03-05T11:56:21.099406 #32464] DEBUG -- : work is a directory, skip it.
+D, [2012-03-05T11:56:21.099437 #32464] DEBUG -- : File: lochtml.sh is not a known format, skipping.
+D, [2012-03-05T11:56:21.099467 #32464] DEBUG -- : Found MultiMarkdown file: screen.mmd
+D, [2012-03-05T11:56:21.099493 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/screen.mmd
+D, [2012-03-05T11:56:21.099514 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//screen.html
+D, [2012-03-05T11:56:21.099539 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//screen.html
+D, [2012-03-05T11:56:21.099576 #32464] DEBUG -- : [/home/fenton/projects/documentation/screen.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.099606 #32464] DEBUG -- : [/home/fenton/bin/website//screen.html]: 2012-02-23 13:15:06 +0800
+D, [2012-03-05T11:56:21.099627 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.099658 #32464] DEBUG -- : projects is a directory, skip it.
+D, [2012-03-05T11:56:21.099689 #32464] DEBUG -- : Found MultiMarkdown file: arch.mmd
+D, [2012-03-05T11:56:21.099715 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/arch.mmd
+D, [2012-03-05T11:56:21.099740 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//arch.html
+D, [2012-03-05T11:56:21.099766 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//arch.html
+D, [2012-03-05T11:56:21.099800 #32464] DEBUG -- : Found MultiMarkdown file: shellScripts.mmd
+D, [2012-03-05T11:56:21.099826 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/shellScripts.mmd
+D, [2012-03-05T11:56:21.099848 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//shellScripts.html
+D, [2012-03-05T11:56:21.099873 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//shellScripts.html
+D, [2012-03-05T11:56:21.099911 #32464] DEBUG -- : [/home/fenton/projects/documentation/shellScripts.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.099941 #32464] DEBUG -- : [/home/fenton/bin/website//shellScripts.html]: 2012-02-23 13:15:06 +0800
+D, [2012-03-05T11:56:21.099961 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.099992 #32464] DEBUG -- : Found MultiMarkdown file: inkscape.mmd
+D, [2012-03-05T11:56:21.100018 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/inkscape.mmd
+D, [2012-03-05T11:56:21.100039 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//inkscape.html
+D, [2012-03-05T11:56:21.100064 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//inkscape.html
+D, [2012-03-05T11:56:21.100101 #32464] DEBUG -- : [/home/fenton/projects/documentation/inkscape.mmd]: 2012-02-24 17:57:17 +0800
+D, [2012-03-05T11:56:21.100131 #32464] DEBUG -- : [/home/fenton/bin/website//inkscape.html]: 2012-02-24 18:08:23 +0800
+D, [2012-03-05T11:56:21.100151 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.100181 #32464] DEBUG -- : Found MultiMarkdown file: perl.mmd
+D, [2012-03-05T11:56:21.100207 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/perl.mmd
+D, [2012-03-05T11:56:21.100229 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//perl.html
+D, [2012-03-05T11:56:21.100253 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//perl.html
+D, [2012-03-05T11:56:21.100288 #32464] DEBUG -- : [/home/fenton/projects/documentation/perl.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.100317 #32464] DEBUG -- : [/home/fenton/bin/website//perl.html]: 2012-02-23 13:15:07 +0800
+D, [2012-03-05T11:56:21.100338 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.100369 #32464] DEBUG -- : File: oracleVM.txt is not a known format, skipping.
+D, [2012-03-05T11:56:21.100400 #32464] DEBUG -- : scripts is a directory, skip it.
+D, [2012-03-05T11:56:21.100430 #32464] DEBUG -- : help is a directory, skip it.
+D, [2012-03-05T11:56:21.100461 #32464] DEBUG -- : training is a directory, skip it.
+D, [2012-03-05T11:56:21.100492 #32464] DEBUG -- : Found MultiMarkdown file: scala.mmd
+D, [2012-03-05T11:56:21.100518 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/scala.mmd
+D, [2012-03-05T11:56:21.100540 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//scala.html
+D, [2012-03-05T11:56:21.100564 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//scala.html
+D, [2012-03-05T11:56:21.100607 #32464] DEBUG -- : [/home/fenton/projects/documentation/scala.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.100638 #32464] DEBUG -- : [/home/fenton/bin/website//scala.html]: 2012-02-23 13:15:08 +0800
+D, [2012-03-05T11:56:21.100659 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.100690 #32464] DEBUG -- : File: search2.html~ is not a known format, skipping.
+D, [2012-03-05T11:56:21.100721 #32464] DEBUG -- : File: multimarkdown.sh is not a known format, skipping.
+D, [2012-03-05T11:56:21.100753 #32464] DEBUG -- : File: log.txt is not a known format, skipping.
+D, [2012-03-05T11:56:21.100784 #32464] DEBUG -- : Found MultiMarkdown file: spring.mmd
+D, [2012-03-05T11:56:21.100811 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/spring.mmd
+D, [2012-03-05T11:56:21.100837 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//spring.html
+D, [2012-03-05T11:56:21.100863 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//spring.html
+D, [2012-03-05T11:56:21.100901 #32464] DEBUG -- : [/home/fenton/projects/documentation/spring.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.101008 #32464] DEBUG -- : [/home/fenton/bin/website//spring.html]: 2012-02-23 13:15:08 +0800
+D, [2012-03-05T11:56:21.101030 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.101063 #32464] DEBUG -- : File: style.css is not a known format, skipping.
+D, [2012-03-05T11:56:21.101095 #32464] DEBUG -- : Found MultiMarkdown file: multiMarkdown.mmd
+D, [2012-03-05T11:56:21.101122 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/multiMarkdown.mmd
+D, [2012-03-05T11:56:21.101145 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//multiMarkdown.html
+D, [2012-03-05T11:56:21.101169 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//multiMarkdown.html
+D, [2012-03-05T11:56:21.101207 #32464] DEBUG -- : [/home/fenton/projects/documentation/multiMarkdown.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.101236 #32464] DEBUG -- : [/home/fenton/bin/website//multiMarkdown.html]: 2012-02-23 13:15:09 +0800
+D, [2012-03-05T11:56:21.101257 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.101287 #32464] DEBUG -- : Found MultiMarkdown file: rails.mmd
+D, [2012-03-05T11:56:21.101334 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/rails.mmd
+D, [2012-03-05T11:56:21.101374 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//rails.html
+D, [2012-03-05T11:56:21.101403 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//rails.html
+D, [2012-03-05T11:56:21.101441 #32464] DEBUG -- : [/home/fenton/projects/documentation/rails.mmd]: 2012-02-27 17:00:16 +0800
+D, [2012-03-05T11:56:21.101471 #32464] DEBUG -- : [/home/fenton/bin/website//rails.html]: 2012-03-01 13:04:01 +0800
+D, [2012-03-05T11:56:21.101491 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.101535 #32464] DEBUG -- : Found MultiMarkdown file: gitMeenal.mmd
+D, [2012-03-05T11:56:21.101580 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/gitMeenal.mmd
+D, [2012-03-05T11:56:21.101618 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//gitMeenal.html
+D, [2012-03-05T11:56:21.101661 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//gitMeenal.html
+D, [2012-03-05T11:56:21.101726 #32464] DEBUG -- : [/home/fenton/projects/documentation/gitMeenal.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.101779 #32464] DEBUG -- : [/home/fenton/bin/website//gitMeenal.html]: 2012-02-23 13:15:09 +0800
+D, [2012-03-05T11:56:21.101817 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.101870 #32464] DEBUG -- : Found MultiMarkdown file: maven.mmd
+D, [2012-03-05T11:56:21.101913 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/maven.mmd
+D, [2012-03-05T11:56:21.101951 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//maven.html
+D, [2012-03-05T11:56:21.101994 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//maven.html
+D, [2012-03-05T11:56:21.102058 #32464] DEBUG -- : [/home/fenton/projects/documentation/maven.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.102111 #32464] DEBUG -- : [/home/fenton/bin/website//maven.html]: 2012-02-23 13:15:10 +0800
+D, [2012-03-05T11:56:21.102148 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.102217 #32464] DEBUG -- : Found MultiMarkdown file: emacs.mmd
+D, [2012-03-05T11:56:21.102267 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/emacs.mmd
+D, [2012-03-05T11:56:21.102306 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//emacs.html
+D, [2012-03-05T11:56:21.102354 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//emacs.html
+D, [2012-03-05T11:56:21.102415 #32464] DEBUG -- : [/home/fenton/projects/documentation/emacs.mmd]: 2012-02-22 12:50:40 +0800
+D, [2012-03-05T11:56:21.102448 #32464] DEBUG -- : [/home/fenton/bin/website//emacs.html]: 2012-02-23 13:15:10 +0800
+D, [2012-03-05T11:56:21.102468 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.102501 #32464] DEBUG -- : Found MultiMarkdown file: test.mmd
+D, [2012-03-05T11:56:21.102527 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/test.mmd
+D, [2012-03-05T11:56:21.102548 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//test.html
+D, [2012-03-05T11:56:21.102573 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//test.html
+D, [2012-03-05T11:56:21.102611 #32464] DEBUG -- : [/home/fenton/projects/documentation/test.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.102641 #32464] DEBUG -- : [/home/fenton/bin/website//test.html]: 2012-02-23 13:15:11 +0800
+D, [2012-03-05T11:56:21.102661 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.102692 #32464] DEBUG -- : Found MultiMarkdown file: google.mmd
+D, [2012-03-05T11:56:21.102718 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/google.mmd
+D, [2012-03-05T11:56:21.102739 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//google.html
+D, [2012-03-05T11:56:21.102764 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//google.html
+D, [2012-03-05T11:56:21.102801 #32464] DEBUG -- : [/home/fenton/projects/documentation/google.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.102831 #32464] DEBUG -- : [/home/fenton/bin/website//google.html]: 2012-02-23 13:15:11 +0800
+D, [2012-03-05T11:56:21.102851 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.102882 #32464] DEBUG -- : File: itToday.tex is not a known format, skipping.
+D, [2012-03-05T11:56:21.102912 #32464] DEBUG -- : sisu is a directory, skip it.
+D, [2012-03-05T11:56:21.102943 #32464] DEBUG -- : Found MultiMarkdown file: solr.mmd
+D, [2012-03-05T11:56:21.102968 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/solr.mmd
+D, [2012-03-05T11:56:21.102990 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//solr.html
+D, [2012-03-05T11:56:21.103014 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//solr.html
+D, [2012-03-05T11:56:21.103052 #32464] DEBUG -- : [/home/fenton/projects/documentation/solr.mmd]: 2012-02-23 10:27:14 +0800
+D, [2012-03-05T11:56:21.103081 #32464] DEBUG -- : [/home/fenton/bin/website//solr.html]: 2012-02-23 13:15:11 +0800
+D, [2012-03-05T11:56:21.103101 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.103131 #32464] DEBUG -- : pdf is a directory, skip it.
+D, [2012-03-05T11:56:21.103162 #32464] DEBUG -- : Found MultiMarkdown file: secure.mmd
+D, [2012-03-05T11:56:21.103187 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/secure.mmd
+D, [2012-03-05T11:56:21.103209 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//secure.html
+D, [2012-03-05T11:56:21.103233 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//secure.html
+D, [2012-03-05T11:56:21.103270 #32464] DEBUG -- : [/home/fenton/projects/documentation/secure.mmd]: 2012-01-28 23:48:36 +0800
+D, [2012-03-05T11:56:21.103300 #32464] DEBUG -- : [/home/fenton/bin/website//secure.html]: 2012-02-23 13:15:12 +0800
+D, [2012-03-05T11:56:21.103320 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.103352 #32464] DEBUG -- : File: remhtml.sh is not a known format, skipping.
+D, [2012-03-05T11:56:21.103383 #32464] DEBUG -- : Found MultiMarkdown file: setupVMLab.mmd
+D, [2012-03-05T11:56:21.103409 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/setupVMLab.mmd
+D, [2012-03-05T11:56:21.103432 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//setupVMLab.html
+D, [2012-03-05T11:56:21.103460 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//setupVMLab.html
+D, [2012-03-05T11:56:21.103496 #32464] DEBUG -- : [/home/fenton/projects/documentation/setupVMLab.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.103526 #32464] DEBUG -- : [/home/fenton/bin/website//setupVMLab.html]: 2012-02-23 13:15:12 +0800
+D, [2012-03-05T11:56:21.103546 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.103576 #32464] DEBUG -- : Found MultiMarkdown file: db11g.mmd
+D, [2012-03-05T11:56:21.103602 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/db11g.mmd
+D, [2012-03-05T11:56:21.103623 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//db11g.html
+D, [2012-03-05T11:56:21.103647 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//db11g.html
+D, [2012-03-05T11:56:21.103684 #32464] DEBUG -- : [/home/fenton/projects/documentation/db11g.mmd]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:21.103713 #32464] DEBUG -- : [/home/fenton/bin/website//db11g.html]: 2012-02-23 13:15:13 +0800
+D, [2012-03-05T11:56:21.103734 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.103764 #32464] DEBUG -- : Found MultiMarkdown file: python.mmd
+D, [2012-03-05T11:56:21.103789 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/python.mmd
+D, [2012-03-05T11:56:21.103811 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website//python.html
+D, [2012-03-05T11:56:21.103835 #32464] DEBUG -- : May write to file: /home/fenton/bin/website//python.html
+D, [2012-03-05T11:56:21.103872 #32464] DEBUG -- : [/home/fenton/projects/documentation/python.mmd]: 2012-01-27 11:36:06 +0800
+D, [2012-03-05T11:56:21.103901 #32464] DEBUG -- : [/home/fenton/bin/website//python.html]: 2012-02-23 13:15:13 +0800
+D, [2012-03-05T11:56:21.103922 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:21.103952 #32464] DEBUG -- : File: search.js~ is not a known format, skipping.
+D, [2012-03-05T11:56:21.103984 #32464] DEBUG -- : SeamForge Reference Guide_files is a directory, skip it.
+D, [2012-03-05T11:56:21.104014 #32464] DEBUG -- : code is a directory, skip it.
+D, [2012-03-05T11:56:21.104045 #32464] DEBUG -- : File: prettify.css is not a known format, skipping.
+D, [2012-03-05T11:56:21.104075 #32464] DEBUG -- : File: arch.mmd~ is not a known format, skipping.
+D, [2012-03-05T11:56:21.104516 #32464] DEBUG -- : {:for_indexer_dir=>"/home/fenton/bin/website/", :for_static_files_dir=>"/home/fenton/bin/website_with_style"}
+D, [2012-03-05T11:56:21.104547 #32464] DEBUG -- : files to process are:
+D, [2012-03-05T11:56:21.104575 #32464] DEBUG -- : ["arch.mmd"]
+D, [2012-03-05T11:56:21.104601 #32464] DEBUG -- : number of files to process is: 1
+D, [2012-03-05T11:56:21.104624 #32464] DEBUG -- : Current file is:
+D, [2012-03-05T11:56:21.104647 #32464] DEBUG -- : "arch.mmd"
+D, [2012-03-05T11:56:21.104671 #32464] DEBUG -- : Found file: 
+D, [2012-03-05T11:56:21.104695 #32464] DEBUG -- : "/home/fenton/projects/documentation"
+D, [2012-03-05T11:56:21.104718 #32464] DEBUG -- : "arch.mmd"
+D, [2012-03-05T11:56:21.104745 #32464] DEBUG -- : Filename without extension: arch
+D, [2012-03-05T11:56:21.104773 #32464] DEBUG -- : Filename without extension: arch
+D, [2012-03-05T11:56:21.104798 #32464] DEBUG -- : Converting file: arch.mmd
+I, [2012-03-05T11:56:21.104885 #32464]  INFO -- : Calling get_header_label
+I, [2012-03-05T11:56:21.104957 #32464]  INFO -- : Calling get_header_label
+I, [2012-03-05T11:56:21.931936 #32464]  INFO -- : Calling get_header_label
+I, [2012-03-05T11:56:21.942694 #32464]  INFO -- : Calling get_header_label
+D, [2012-03-05T11:56:21.945734 #32464] DEBUG -- : Writing file: /home/fenton/bin/website//arch.html
+D, [2012-03-05T11:56:21.945895 #32464] DEBUG -- : Writing file: /home/fenton/bin/website_with_style/arch.html
+D, [2012-03-05T11:56:21.945937 #32464] DEBUG -- : Writing html + style info to file: /home/fenton/bin/website_with_style/arch.html
+D, [2012-03-05T11:56:21.946109 #32464] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-03-05T11:56:23.259199 #32464] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-03-05T11:56:23.259328 #32464] DEBUG -- : Found images directory, will copy over now.
+D, [2012-03-05T11:56:23.259440 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//folder.jpeg
+D, [2012-03-05T11:56:23.259483 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.259529 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.259600 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//folder.jpeg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.259651 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.259686 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.259722 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//file.gif
+D, [2012-03-05T11:56:23.259757 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.259807 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.259891 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//file.gif]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.259939 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.259971 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.260005 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//loadBalancedClusteredWLS.png
+D, [2012-03-05T11:56:23.260035 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.260070 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.260117 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//loadBalancedClusteredWLS.png]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.260163 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.260196 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.260232 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//serviceBusServiceComposition.xcf
+D, [2012-03-05T11:56:23.260271 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.260311 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.260366 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//serviceBusServiceComposition.xcf]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.260415 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.260449 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.260484 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//windows.jpeg
+D, [2012-03-05T11:56:23.260519 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.260558 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.260614 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//windows.jpeg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.260666 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.260700 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.260735 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//loadBalancedClusteredWLS.dia
+D, [2012-03-05T11:56:23.260770 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.260811 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.260866 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//loadBalancedClusteredWLS.dia]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.260923 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.260956 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.260992 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//project-dependency.png
+D, [2012-03-05T11:56:23.261026 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.261070 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.261125 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//project-dependency.png]: 2012-02-24 18:07:51 +0800
+D, [2012-03-05T11:56:23.261173 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.261207 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.261242 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//folder.gif
+D, [2012-03-05T11:56:23.261276 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.261316 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.261370 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//folder.gif]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.261416 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.261453 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.261487 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//file.jpeg
+D, [2012-03-05T11:56:23.261521 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.261559 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.261612 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//file.jpeg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.261659 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.261691 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.261725 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//installGitCygwin.png
+D, [2012-03-05T11:56:23.261759 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.261796 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.261853 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//installGitCygwin.png]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.261900 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.261933 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.261968 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//functionLiteral60.jpg
+D, [2012-03-05T11:56:23.262003 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.262043 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.262098 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//functionLiteral60.jpg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.262147 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.262180 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.262246 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//project-dependency.svg
+D, [2012-03-05T11:56:23.262284 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.262323 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.262376 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//project-dependency.svg]: 2012-02-24 18:08:06 +0800
+D, [2012-03-05T11:56:23.262423 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.262464 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.262499 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//linux.jpeg
+D, [2012-03-05T11:56:23.262533 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.262570 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.262618 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//linux.jpeg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.262662 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.262690 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.262725 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//mac.jpeg
+D, [2012-03-05T11:56:23.262759 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.262799 #32464] DEBUG -- : May write to file: /home/fenton/bin/website/
+D, [2012-03-05T11:56:23.262854 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//mac.jpeg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.262902 #32464] DEBUG -- : [/home/fenton/bin/website/]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.262936 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.263029 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//folder.jpeg
+D, [2012-03-05T11:56:23.263071 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.263112 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.263168 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//folder.jpeg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.263215 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.263249 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.263285 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//file.gif
+D, [2012-03-05T11:56:23.263319 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.263358 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.263414 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//file.gif]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.263466 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.263499 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.263534 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//loadBalancedClusteredWLS.png
+D, [2012-03-05T11:56:23.263569 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.263609 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.263665 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//loadBalancedClusteredWLS.png]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.263714 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.263747 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.263781 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//serviceBusServiceComposition.xcf
+D, [2012-03-05T11:56:23.263816 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.263860 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.263915 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//serviceBusServiceComposition.xcf]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.263964 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.264005 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.264041 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//windows.jpeg
+D, [2012-03-05T11:56:23.264076 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.264115 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.264170 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//windows.jpeg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.264217 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.264254 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.264289 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//loadBalancedClusteredWLS.dia
+D, [2012-03-05T11:56:23.264324 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.264364 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.264419 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//loadBalancedClusteredWLS.dia]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.264467 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.264500 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.264535 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//project-dependency.png
+D, [2012-03-05T11:56:23.264571 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.264612 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.264670 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//project-dependency.png]: 2012-02-24 18:07:51 +0800
+D, [2012-03-05T11:56:23.264718 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.264752 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.264787 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//folder.gif
+D, [2012-03-05T11:56:23.264822 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.264861 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.264916 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//folder.gif]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.264964 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.264997 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.265032 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//file.jpeg
+D, [2012-03-05T11:56:23.265071 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.265111 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.265185 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//file.jpeg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.265235 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.265268 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.265303 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//installGitCygwin.png
+D, [2012-03-05T11:56:23.265337 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.265376 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.265429 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//installGitCygwin.png]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.265484 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.265516 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.265550 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//functionLiteral60.jpg
+D, [2012-03-05T11:56:23.265585 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.265623 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.265673 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//functionLiteral60.jpg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.265714 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.265743 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.265773 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//project-dependency.svg
+D, [2012-03-05T11:56:23.265807 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.265848 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.265902 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//project-dependency.svg]: 2012-02-24 18:08:06 +0800
+D, [2012-03-05T11:56:23.265948 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.265980 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.266015 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//linux.jpeg
+D, [2012-03-05T11:56:23.266050 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.266085 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.266132 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//linux.jpeg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.266172 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.266208 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.266242 #32464] DEBUG -- : [Source File]: /home/fenton/projects/documentation/images//mac.jpeg
+D, [2012-03-05T11:56:23.266276 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.266314 #32464] DEBUG -- : May write to file: /home/fenton/bin/website_with_style
+D, [2012-03-05T11:56:23.266366 #32464] DEBUG -- : [/home/fenton/projects/documentation/images//mac.jpeg]: 2012-01-18 20:51:32 +0800
+D, [2012-03-05T11:56:23.266413 #32464] DEBUG -- : [/home/fenton/bin/website_with_style]: 2012-03-05 11:56:21 +0800
+D, [2012-03-05T11:56:23.266445 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.309416 #32464] DEBUG -- : Begin processing directory: /home/fenton/projects/work-doco/docs
+D, [2012-03-05T11:56:23.309547 #32464] DEBUG -- : Found MultiMarkdown file: worklist.mmd
+D, [2012-03-05T11:56:23.309585 #32464] DEBUG -- : [Source File]: /home/fenton/projects/work-doco/docs/worklist.mmd
+D, [2012-03-05T11:56:23.309613 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/work-doco//worklist.html
+D, [2012-03-05T11:56:23.309643 #32464] DEBUG -- : May write to file: /home/fenton/bin/work-doco//worklist.html
+D, [2012-03-05T11:56:23.318039 #32464] DEBUG -- : [/home/fenton/projects/work-doco/docs/worklist.mmd]: 2012-02-23 13:30:37 +0800
+D, [2012-03-05T11:56:23.318105 #32464] DEBUG -- : [/home/fenton/bin/work-doco//worklist.html]: 2012-02-23 13:31:16 +0800
+D, [2012-03-05T11:56:23.318132 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.318169 #32464] DEBUG -- : Current entry is: .., do nothing.
+D, [2012-03-05T11:56:23.318210 #32464] DEBUG -- : images is a directory, skip it.
+D, [2012-03-05T11:56:23.318237 #32464] DEBUG -- : Current entry is: ., do nothing.
+D, [2012-03-05T11:56:23.318281 #32464] DEBUG -- : File: inputStyles.css is not a known format, skipping.
+D, [2012-03-05T11:56:23.318323 #32464] DEBUG -- : File: cpu_consumption_refill_categorization_spreadheet.mmd~ is not a known format, skipping.
+D, [2012-03-05T11:56:23.318360 #32464] DEBUG -- : Found MultiMarkdown file: Workforce.mmd
+D, [2012-03-05T11:56:23.318388 #32464] DEBUG -- : [Source File]: /home/fenton/projects/work-doco/docs/Workforce.mmd
+D, [2012-03-05T11:56:23.318410 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/work-doco//Workforce.html
+D, [2012-03-05T11:56:23.318435 #32464] DEBUG -- : May write to file: /home/fenton/bin/work-doco//Workforce.html
+D, [2012-03-05T11:56:23.318472 #32464] DEBUG -- : [/home/fenton/projects/work-doco/docs/Workforce.mmd]: 2012-03-01 13:03:46 +0800
+D, [2012-03-05T11:56:23.318502 #32464] DEBUG -- : [/home/fenton/bin/work-doco//Workforce.html]: 2012-03-01 13:04:03 +0800
+D, [2012-03-05T11:56:23.318522 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.318556 #32464] DEBUG -- : Found MultiMarkdown file: internOracleHowto.mmd
+D, [2012-03-05T11:56:23.318585 #32464] DEBUG -- : [Source File]: /home/fenton/projects/work-doco/docs/internOracleHowto.mmd
+D, [2012-03-05T11:56:23.318607 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/work-doco//internOracleHowto.html
+D, [2012-03-05T11:56:23.318632 #32464] DEBUG -- : May write to file: /home/fenton/bin/work-doco//internOracleHowto.html
+D, [2012-03-05T11:56:23.318669 #32464] DEBUG -- : [/home/fenton/projects/work-doco/docs/internOracleHowto.mmd]: 2012-02-01 14:42:10 +0800
+D, [2012-03-05T11:56:23.318698 #32464] DEBUG -- : [/home/fenton/bin/work-doco//internOracleHowto.html]: 2012-02-23 13:15:14 +0800
+D, [2012-03-05T11:56:23.318718 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.318752 #32464] DEBUG -- : Found MultiMarkdown file: newMachinesInstallPlan.mmd
+D, [2012-03-05T11:56:23.318778 #32464] DEBUG -- : [Source File]: /home/fenton/projects/work-doco/docs/newMachinesInstallPlan.mmd
+D, [2012-03-05T11:56:23.318800 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/work-doco//newMachinesInstallPlan.html
+D, [2012-03-05T11:56:23.318827 #32464] DEBUG -- : May write to file: /home/fenton/bin/work-doco//newMachinesInstallPlan.html
+D, [2012-03-05T11:56:23.318868 #32464] DEBUG -- : [/home/fenton/projects/work-doco/docs/newMachinesInstallPlan.mmd]: 2012-02-01 14:42:10 +0800
+D, [2012-03-05T11:56:23.318897 #32464] DEBUG -- : [/home/fenton/bin/work-doco//newMachinesInstallPlan.html]: 2012-02-23 13:15:14 +0800
+D, [2012-03-05T11:56:23.318917 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.318952 #32464] DEBUG -- : File: BugTrack_Flow_v7a.jpg is not a known format, skipping.
+D, [2012-03-05T11:56:23.318986 #32464] DEBUG -- : File: Workforce.mmd~ is not a known format, skipping.
+D, [2012-03-05T11:56:23.319028 #32464] DEBUG -- : Found MultiMarkdown file: cpu_consumption_refill_categorization_spreadheet.mmd
+D, [2012-03-05T11:56:23.319067 #32464] DEBUG -- : [Source File]: /home/fenton/projects/work-doco/docs/cpu_consumption_refill_categorization_spreadheet.mmd
+D, [2012-03-05T11:56:23.319096 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/work-doco//cpu_consumption_refill_categorization_spreadheet.html
+D, [2012-03-05T11:56:23.319124 #32464] DEBUG -- : May write to file: /home/fenton/bin/work-doco//cpu_consumption_refill_categorization_spreadheet.html
+D, [2012-03-05T11:56:23.319162 #32464] DEBUG -- : [/home/fenton/projects/work-doco/docs/cpu_consumption_refill_categorization_spreadheet.mmd]: 2012-02-20 17:45:40 +0800
+D, [2012-03-05T11:56:23.319191 #32464] DEBUG -- : [/home/fenton/bin/work-doco//cpu_consumption_refill_categorization_spreadheet.html]: 2012-02-23 13:15:15 +0800
+D, [2012-03-05T11:56:23.319211 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.319246 #32464] DEBUG -- : File: worklist.mmd~ is not a known format, skipping.
+D, [2012-03-05T11:56:23.319286 #32464] DEBUG -- : Found MultiMarkdown file: externalizeSpreadsheet.design.mmd
+D, [2012-03-05T11:56:23.319312 #32464] DEBUG -- : [Source File]: /home/fenton/projects/work-doco/docs/externalizeSpreadsheet.design.mmd
+D, [2012-03-05T11:56:23.319334 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/work-doco//externalizeSpreadsheet.design.html
+D, [2012-03-05T11:56:23.319358 #32464] DEBUG -- : May write to file: /home/fenton/bin/work-doco//externalizeSpreadsheet.design.html
+D, [2012-03-05T11:56:23.319398 #32464] DEBUG -- : [/home/fenton/projects/work-doco/docs/externalizeSpreadsheet.design.mmd]: 2012-02-01 14:42:10 +0800
+D, [2012-03-05T11:56:23.319427 #32464] DEBUG -- : [/home/fenton/bin/work-doco//externalizeSpreadsheet.design.html]: 2012-02-23 13:15:15 +0800
+D, [2012-03-05T11:56:23.319448 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.319481 #32464] DEBUG -- : File: log.txt is not a known format, skipping.
+D, [2012-03-05T11:56:23.319515 #32464] DEBUG -- : Found MultiMarkdown file: ngspInfo.mmd
+D, [2012-03-05T11:56:23.319544 #32464] DEBUG -- : [Source File]: /home/fenton/projects/work-doco/docs/ngspInfo.mmd
+D, [2012-03-05T11:56:23.319567 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/work-doco//ngspInfo.html
+D, [2012-03-05T11:56:23.319591 #32464] DEBUG -- : May write to file: /home/fenton/bin/work-doco//ngspInfo.html
+D, [2012-03-05T11:56:23.319627 #32464] DEBUG -- : [/home/fenton/projects/work-doco/docs/ngspInfo.mmd]: 2012-02-29 15:34:03 +0800
+D, [2012-03-05T11:56:23.319659 #32464] DEBUG -- : [/home/fenton/bin/work-doco//ngspInfo.html]: 2012-03-01 13:04:03 +0800
+D, [2012-03-05T11:56:23.319679 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.319712 #32464] DEBUG -- : File: fatwire.html is not a known format, skipping.
+D, [2012-03-05T11:56:23.319746 #32464] DEBUG -- : Found MultiMarkdown file: managementHierarchy.mmd
+D, [2012-03-05T11:56:23.319771 #32464] DEBUG -- : [Source File]: /home/fenton/projects/work-doco/docs/managementHierarchy.mmd
+D, [2012-03-05T11:56:23.319793 #32464] DEBUG -- : [Dest File]: /home/fenton/bin/work-doco//managementHierarchy.html
+D, [2012-03-05T11:56:23.319816 #32464] DEBUG -- : May write to file: /home/fenton/bin/work-doco//managementHierarchy.html
+D, [2012-03-05T11:56:23.319852 #32464] DEBUG -- : [/home/fenton/projects/work-doco/docs/managementHierarchy.mmd]: 2012-02-01 14:42:10 +0800
+D, [2012-03-05T11:56:23.319881 #32464] DEBUG -- : [/home/fenton/bin/work-doco//managementHierarchy.html]: 2012-02-23 13:15:16 +0800
+D, [2012-03-05T11:56:23.319904 #32464] DEBUG -- : Source file older than output file, no need to regenerate.
+D, [2012-03-05T11:56:23.319937 #32464] DEBUG -- : File: MyHelpCenter_PortMatrix.ods is not a known format, skipping.
+D, [2012-03-05T11:56:23.319990 #32464] DEBUG -- : {:for_indexer_dir=>"/home/fenton/bin/work-doco/", :for_static_files_dir=>"/home/fenton/bin/work-doco_static/"}
+D, [2012-03-05T11:56:23.320014 #32464] DEBUG -- : files to process are:
+D, [2012-03-05T11:56:23.320036 #32464] DEBUG -- : []
+D, [2012-03-05T11:56:23.320058 #32464] DEBUG -- : number of files to process is: 0
+D, [2012-03-05T11:56:23.337317 #32464] DEBUG -- : Elapsed time: 2.252520134(s)
