@@ -1031,6 +1031,13 @@ Unzip tar bzipped file:
 
     tar xvfj thunderbird-10.0.tar.bz2
 
+## grep
+
+To get context (i.e. lines before and after a grep hit) use -A and -B
+flags.  The following retrieves 3 lines *B*efore and *A*fter a hit:
+
+    grep -A 3 -B 3 fenton *
+
 ## nmap
 
 <a name="portScan">check to see if a port is open on a machine</a>

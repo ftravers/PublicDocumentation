@@ -7,7 +7,7 @@ Use `runit`, i.e. run-it.
 ```bash
 $ sudo apt-get install runit
 $ sudo mkdir -p /etc/sv/solr
-$ cat run
+$ cd /etc/sv/solr; cat run
 #!/bin/sh
 cd /home/fenton/bin/solr/example
 exec chpst -ufenton java -Xmx1G -jar start.jar
@@ -106,8 +106,10 @@ Ctrl-c and restart solr to pickup the new schema.
 
 ## Delete the index
 
+clean, scrub, empty
+
 ```
-http://192.168.0.22:8983/solr/update?commit=true&stream.body=<delete><query>*:*</query></delete>
+http://127.0.0.1:8983/solr/update?commit=true&stream.body=<delete><query>*:*</query></delete>
 ```
 
 ## Highlighting found terms

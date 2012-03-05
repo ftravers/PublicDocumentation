@@ -1,0 +1,45 @@
+## Virtual Box Install
+
+Ensure you choose `Bridged Networking` and select correct network
+adaptor.
+
+## Configure Arch 
+
+Setup static ip at: `/etc/rc.conf`, insert:
+
+
+
+get the latest mirrors (and uncomment for your country) with:
+
+    wget -c http://www.archlinux.org/mirrorlist/all/
+
+and put it here: 
+
+    /etc/pacman.d/mirrorlist
+    
+update system with:
+
+    pacman -Syyu
+    
+## Install/Setup SSH
+    
+    pacman -S openssh
+
+Add it as a daemon to `/etc/rc.conf`, sample: 
+
+    DAEMONS=(... network @sshd ...)
+
+Install sudo:
+
+    pacman -S sudo
+
+Add a user:
+
+    useradd -m -g users -s /bin/bash 
+
+# Start/Stop/Restart Services
+
+Example for sshd: 
+
+    # rc.d {start|stop|restart} sshd
+

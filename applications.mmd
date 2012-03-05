@@ -330,18 +330,16 @@ source:
 
 ## Public Read Access
 
-Trying to setup public read access. Below we setup the repository
-`crmod-ws-wrapper.git`.  The following should be done as the same user
-your git repository is stored under.
+Trying to setup public git read only access repo.  Below we setup the
+repository `crmod-ws-wrapper.git`.  The following should be done as
+the same user your git repository is stored under.
 
 ```bash
 # su - git
 $ cd /var/www/html/git
 $ git clone --bare git@linux1.hk.oracle.com:crmod-ws-wrapper.git
 $ cd crmod-ws-wrapper.git/hooks/
-$ mv post-update.sample post-update
-$ cd ..
-$ git update-server-info
+$ mv post-update.sample post-update; cd ..; git update-server-info
 ```
 
 Now someone can clone this with:
@@ -356,9 +354,16 @@ But we want to set this up so that it is always in sync with the
 master so setup a remote repo inside the master:
 
 ```bash
+$ cd /home/git/repositories/crmod-ws-wrapper.git/
 $ git remote add httpClone /var/www/html/git/crmod-ws-wrapper.git/
-$ tail -1 hooks/post-receive
-git push httpClone master
+```
+
+If you don't have a post-receive already setup do:
+
+```bash
+$ cd hooks
+$ cp post-receive.sample post-receive
+$ echo "git push httpClone master" >> post-receive
 ```
 
 Now everytime the master receives new info, it will push out to our

@@ -445,6 +445,82 @@ $ ruby --version
 ruby 1.9.3p0 (2011-10-30 revision 33570) [i686-linux]
 ```
 
+# Logging
+
+[ref][rl intro]
+
+```ruby
+require 'logger'
+@log = Logger.new('log.txt')
+@log.level = Logger::DEBUG
+@log.debug "This is a debug message"
+@log.fatal "This is a nasty fatal message"
+```
+
+levels:
+
+```
+debug, info, warn, error, and fatal
+```
+
+## rotation
+
+To enable log rotation, pass 'monthly', 'weekly', or 'daily' to the
+Logger constructor. Optionally, you can pass a maximum file size and
+number of files to to keep in rotation to the constructor.
+
+```ruby
+log = Logger.new( 'log.txt', 'daily' )
+```
+
+Once the log becomes at least one day old, it will be renamed and a
+new log.txt file will be created.
+
+## format
+
+Adjusting log format:
+
+[ref][rlf]
+
+[ref2][rlf2]
+
+```ruby
+#!/usr/bin/env ruby -w
+
+require "logger"
+
+# Build a Logger::Formatter subclass.
+class PrettyErrors < Logger::Formatter
+  # Provide a call() method that returns the formatted message.
+  def call(severity, time, program_name, message)
+    if severity == "ERROR"
+      datetime      = time.strftime("%Y-%m-%d %H:%M")
+      print_message = "!!! #{String(message)} (#{datetime}) !!!"
+      border        = "!" * print_message.length
+      [border, print_message, border].join("\n") + "\n"
+    else
+      super
+    end
+  end
+end
+
+def expensive_error_report
+  sleep 3
+  "YOU BROKE IT!"
+end
+
+log           = Logger.new(STDOUT)
+log.level     = Logger::INFO
+log.formatter = PrettyErrors.new  # Install custom formatter!
+
+log.debug("We're not in the verbose debug mode.")
+log.info("We do see informative logs though.")
+if log.error?
+  log.error(expensive_error_report)
+end
+```
+
+
 # Unit Testing 
 
 [ref](http://www.moseshohman.com/blog/2004/10/13/building-testunit-testsuites-in-ruby/)
@@ -631,3 +707,8 @@ $ cucumber
 
 With your final invocation of `cucumber` the features/steps should
 have all passed.
+
+
+[rlf]: http://rubydoc.info/github/TwP/logging/master/Logging/Layouts/Pattern
+[rl intro]: http://ruby.about.com/od/tasks/a/logger.htm
+[rlf2]: http://blog.grayproductions.net/articles/the_books_are_wrong_about_logger

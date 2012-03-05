@@ -1,1 +1,766 @@
 # Logfile created on 2012-02-10 13:19:35 +0800 by logger.rb/25413
+D, [2012-02-20T16:22:58.998945 #10841] DEBUG -- : Converting file: ruby.mmd
+D, [2012-02-22T18:26:08.275433 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:08.746532 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:09.048728 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:09.559916 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:10.354931 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:10.874108 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:10.901571 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:11.280767 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:11.412731 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:12.194846 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:13.105806 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:13.669517 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:13.696799 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:14.059892 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:14.193810 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:14.675796 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:14.747861 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:15.190937 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:15.358633 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:15.792379 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:15.795442 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:16.191484 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:16.259176 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:16.675483 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:16.679470 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:17.044031 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:17.319391 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:18.055061 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:18.559296 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:19.105753 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:19.241534 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:19.721060 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:19.818841 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:20.188958 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:20.895447 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:21.400791 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:22.802428 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:23.316648 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:23.325304 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:23.798957 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:23.824880 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:24.291029 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:24.294554 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:24.684222 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:24.737432 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:25.390632 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:26.783305 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:27.342538 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:27.803332 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:28.332162 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:30.145166 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:30.722517 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:30.756757 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:31.166610 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:31.169739 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:31.530058 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:32.333750 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:32.904471 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:33.065699 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:33.555003 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:33.859390 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:34.313649 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:34.783329 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:35.565153 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:36.350067 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:37.077005 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:37.109158 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:37.518430 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:38.200373 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:38.740352 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:38.756364 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:39.082093 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:39.126071 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:39.498818 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:39.558888 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:40.015092 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:40.108016 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:40.666644 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:41.000415 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:41.448200 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:44.091809 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:44.958466 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:45.239259 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:45.732284 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:46.094894 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:46.513218 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:46.615141 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:47.021609 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:47.975052 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:48.557430 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:49.121052 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:49.795160 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:49.799052 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:50.194853 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:50.199031 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:50.537534 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:50.738445 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:51.191438 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:51.311162 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:52.067080 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:52.491763 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:53.050999 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:53.251703 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:53.649884 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:26:53.832893 #28445] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:26:54.300323 #28445] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:37.985832 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:38.545122 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:38.853647 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:39.275963 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:40.103954 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:40.652025 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:40.681781 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:41.113642 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:41.257950 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:41.769006 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:42.717760 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:43.577174 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:43.601868 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:43.989869 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:44.119175 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:44.621801 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:44.691458 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:45.081532 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:45.243361 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:45.670531 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:45.673796 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:46.090359 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:46.152664 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:46.655955 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:46.660050 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:47.070829 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:47.319841 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:47.820837 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:48.272517 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:49.014060 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:49.135268 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:49.592784 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:49.685904 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:50.102298 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:50.749395 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:51.298997 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:52.682922 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:53.214454 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:53.224876 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:53.662544 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:53.688537 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:54.038646 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:54.042161 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:54.431237 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:54.462966 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:54.898536 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:56.295762 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:57.094427 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:57.501619 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:31:57.959745 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:31:59.522381 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:00.029240 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:00.062234 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:00.495408 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:00.498790 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:00.910577 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:01.636187 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:02.216664 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:02.364829 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:02.838982 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:03.140964 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:03.588973 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:04.015619 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:04.508890 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:05.208326 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:06.003267 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:06.033117 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:06.431265 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:07.115188 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:07.609154 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:07.625138 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:07.995732 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:08.035095 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:08.395870 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:08.455437 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:08.870562 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:08.963367 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:09.336786 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:09.670867 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:10.451129 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:13.230397 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:13.882262 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:14.167988 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:15.009807 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:15.412224 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:15.904077 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:16.015271 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:16.428549 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:17.496531 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:18.068052 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:18.643271 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:19.188357 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:19.192198 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:19.600610 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:19.604777 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:20.027240 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:20.227062 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:20.659246 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:20.786791 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:21.224204 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:21.606504 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:22.371013 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:22.566883 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:23.072411 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:32:23.257597 #28897] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:32:23.662548 #28897] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:49:59.204615 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:49:59.705332 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:00.006047 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:00.527037 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:01.315743 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:01.922062 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:01.949141 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:02.339816 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:02.471748 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:02.898103 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:03.816527 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:04.390911 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:04.419360 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:05.129942 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:05.243725 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:05.682153 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:05.746775 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:06.141903 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:06.302791 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:06.831870 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:06.834848 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:07.167479 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:07.229567 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:07.648896 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:07.652736 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:08.042473 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:08.290109 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:08.833379 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:09.284213 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:09.846800 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:09.967543 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:10.691772 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:10.781989 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:11.162766 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:11.827053 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:12.326369 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:13.710508 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:14.258840 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:14.268904 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:14.667228 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:14.694925 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:15.069331 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:15.072770 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:15.411112 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:15.443537 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:15.861127 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:17.226672 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:17.868229 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:18.232006 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:19.046097 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:20.672301 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:21.206475 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:21.238666 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:21.598417 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:21.601351 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:22.074132 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:22.819005 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:23.318724 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:23.453525 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:23.926811 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:24.277632 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:24.808981 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:25.262190 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:25.907552 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:26.632059 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:27.200658 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:27.234735 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:27.982142 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:28.684964 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:29.197633 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:29.212766 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:29.606305 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:29.647525 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:30.244744 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:30.309599 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:30.806603 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:30.911645 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:31.430517 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:31.769137 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:32.252469 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:34.871537 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:35.451771 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:35.722873 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:36.218564 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:36.588178 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:37.313805 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:37.418620 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:37.841084 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:38.848032 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:39.377504 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:39.964707 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:40.490009 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:40.493300 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:40.822755 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:40.826534 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:41.216000 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:41.410248 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:41.874450 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:41.987676 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:42.423742 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:42.801668 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:43.287974 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:43.482204 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:44.302470 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:50:44.490441 #30200] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:50:45.070068 #30200] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:52:54.084848 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:52:54.556633 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:52:54.852932 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:52:55.379297 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:52:56.193758 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:52:56.757858 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:52:56.784856 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:52:57.240884 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:52:57.371312 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:52:57.800208 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:52:58.710040 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:52:59.342983 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:52:59.376444 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:52:59.801624 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:52:59.926770 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:00.673569 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:00.736457 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:01.151148 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:01.312717 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:01.751622 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:01.754586 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:02.119019 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:02.182562 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:02.560907 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:02.564217 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:03.002694 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:03.285377 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:03.771497 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:04.279509 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:04.823302 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:04.959767 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:05.405836 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:05.504452 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:06.161673 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:06.894735 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:07.436171 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:08.944806 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:09.616592 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:09.624889 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:09.967189 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:09.993143 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:10.384358 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:10.387578 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:10.750158 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:10.782506 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:11.152878 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:12.706608 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:13.333948 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:13.737103 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:14.265118 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:15.932097 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:16.760210 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:16.792214 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:17.169290 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:17.172273 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:17.629725 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:18.401996 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:18.892064 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:19.048012 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:19.525275 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:19.831367 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:20.488929 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:20.922833 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:21.443791 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:22.210432 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:22.789834 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:22.819957 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:23.177907 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:23.868702 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:24.707835 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:24.722493 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:25.219332 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:25.261550 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:25.718254 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:25.783339 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:26.200540 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:26.301605 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:26.782332 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:27.132680 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:27.699939 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:30.369489 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:30.974066 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:31.228460 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:31.754929 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:32.112535 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:32.596566 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:32.697868 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:33.473928 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:34.414838 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:34.955714 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:35.518862 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:36.053130 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:36.056589 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:36.411999 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:36.415730 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:36.837036 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:37.032264 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:37.458700 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:37.563747 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:38.044476 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:38.437306 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:38.919466 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:39.123594 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:39.698161 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:53:39.913372 #30408] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:53:40.738074 #30408] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:30.997055 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:31.436666 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:31.732975 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:32.126501 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:32.897852 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:33.399509 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:33.425680 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:33.859054 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:33.983707 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:34.424988 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:35.325293 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:35.885463 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:35.911740 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:36.326530 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:36.435145 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:36.886115 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:36.947221 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:37.706778 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:37.864137 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:38.219689 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:38.222374 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:38.595942 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:38.656836 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:39.011107 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:39.014586 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:39.346700 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:39.586868 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:40.277603 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:40.714941 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:41.199884 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:41.316073 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:41.767276 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:41.857927 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:42.228114 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:42.845910 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:43.610477 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:44.961464 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:45.513693 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:45.521644 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:45.889020 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:45.912805 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:46.256083 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:46.258799 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:46.649602 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:46.678044 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:47.107596 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:48.442265 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:48.990559 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:49.346672 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:49.885867 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:51.374834 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:51.928860 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:51.957535 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:52.725052 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:52.727899 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:53.124793 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:53.826910 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:54.332679 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:54.461697 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:54.908617 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:55.185158 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:55.628468 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:56.027211 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:56.610456 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:57.393248 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:58.391802 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:58.430474 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:57:58.886188 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:57:59.556764 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:00.138825 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:00.155991 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:01.000964 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:01.039704 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:01.420897 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:01.476312 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:01.939179 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:02.027692 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:02.446850 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:02.780054 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:03.202997 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:05.872753 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:06.419500 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:06.667683 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:07.176496 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:07.534193 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:07.982218 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:08.080752 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:08.530945 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:09.446583 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:10.249345 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:10.796473 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:11.299754 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:11.302689 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:11.649166 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:11.652340 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:12.065907 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:12.252417 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:12.658146 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:12.755765 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:13.207483 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:13.570372 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:14.079796 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:14.273700 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:14.696776 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-22T18:58:14.871185 #30768] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-22T18:58:15.378971 #30768] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:31.226814 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:31.612837 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:31.667402 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:32.038520 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:32.166429 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:32.538593 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:32.545882 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:32.830445 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:32.859215 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:33.256642 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:33.419536 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:33.766688 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:33.775708 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:34.069111 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:34.090262 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:34.458895 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:34.472120 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:34.842178 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:34.878778 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:35.305143 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:35.305666 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:35.598419 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:35.611513 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:35.963214 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:35.963919 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:36.338037 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:36.380102 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:36.716720 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:36.791389 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:37.168204 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:37.189431 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:37.523203 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:37.538510 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:37.847808 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:37.950354 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:38.364533 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:38.588049 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:39.019139 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:39.022570 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:39.386427 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:39.401656 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:39.716430 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:39.717054 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:40.045882 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:40.055764 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:40.389005 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:40.613730 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:40.960817 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:41.027109 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:41.403786 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:41.668211 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:42.019166 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:42.037467 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:42.383784 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:42.385177 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:42.822773 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:42.937552 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:43.368260 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:43.399141 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:43.693238 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:43.759462 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:44.066913 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:44.141575 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:44.609391 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:44.739418 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:45.140655 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:45.153672 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:45.548931 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:45.665402 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:46.048201 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:46.056178 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:46.422931 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:46.435580 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:46.864406 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:46.894084 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:47.185408 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:47.203934 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:47.606434 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:47.671835 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:47.973018 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:48.435995 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:48.803602 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:48.856194 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:49.164273 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:49.246824 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:49.609517 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:49.641891 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:49.949075 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:50.119652 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:50.545115 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:50.653453 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:51.068703 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:51.069417 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:51.345884 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:51.346446 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:51.654589 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:51.697418 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:52.014394 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:52.044159 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:52.325656 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:52.395648 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:52.769556 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:52.809700 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:53.183389 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:26:53.217714 #1487] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:26:53.614139 #1487] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T09:27:30.665113 #1642] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T09:27:30.983319 #1642] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:49.236801 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:49.639712 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:49.709794 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:50.152415 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:50.290981 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:50.725214 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:50.737711 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:51.191903 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:51.221441 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:51.576949 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:51.745109 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:52.210450 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:52.223572 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:52.559008 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:52.588038 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:52.973686 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:52.990524 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:53.381756 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:53.418272 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:53.793245 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:53.795458 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:54.204727 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:54.228314 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:54.555881 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:54.556884 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:55.065511 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:55.121137 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:55.477086 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:55.564602 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:55.992545 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:56.019310 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:56.358031 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:56.384382 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:56.718311 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:56.845008 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:57.317317 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:57.567417 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:58.045999 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:58.050711 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:58.453506 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:58.468853 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:58.783339 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:58.785829 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:59.226367 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:59.245900 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:14:59.562444 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:14:59.803243 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:00.245191 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:00.320477 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:00.683361 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:00.967825 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:01.399276 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:01.416026 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:01.748783 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:01.751009 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:02.153814 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:02.291433 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:02.695030 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:02.729988 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:03.070067 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:03.127752 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:03.575309 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:03.657561 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:04.273089 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:04.409318 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:04.820546 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:04.834702 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:05.194093 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:05.317670 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:05.733596 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:05.744263 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:06.154395 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:06.174370 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:06.549837 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:06.568563 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:06.932943 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:06.954666 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:07.318280 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:07.385012 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:07.874600 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:08.330193 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:08.788013 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:08.840691 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:09.222434 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:09.298719 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:09.662503 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:09.693976 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:10.039675 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:10.210947 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:10.607077 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:10.708319 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:11.170830 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:11.173048 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:11.537418 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:11.539680 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:11.848975 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:11.893341 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:12.453682 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:12.493715 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:12.845714 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:12.923505 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:13.304210 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:13.350856 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:13.703789 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T12:15:13.749304 #13905] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T12:15:14.188873 #13905] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T16:55:42.611426 #2530] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T16:55:43.014839 #2530] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T17:04:11.729508 #3124] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T17:04:12.157499 #3124] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-23T17:05:03.168725 #3213] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-23T17:05:03.595816 #3213] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-24T14:37:29.108697 #10595] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-24T14:37:29.775471 #10595] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-24T14:37:29.779294 #10595] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-24T14:37:30.143730 #10595] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-24T14:48:36.627695 #11844] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-24T14:48:37.027519 #11844] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-24T14:48:37.935869 #11844] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-24T14:48:38.494673 #11844] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-24T17:08:22.908350 #25754] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-24T17:08:23.363670 #25754] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-02-24T17:08:23.369553 #25754] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-02-24T17:08:23.821376 #25754] DEBUG -- : Successfully submitted file to indexer.
+D, [2012-03-01T13:04:01.298760 #31236] DEBUG -- : [URL]: http://127.0.0.1:8983/solr/update/extract
+D, [2012-03-01T13:04:03.152500 #31236] DEBUG -- : Successfully submitted file to indexer.

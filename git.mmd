@@ -673,10 +673,23 @@ Then you can commit it with:
 
 # Using Git on Windows
 
-* Install `mysysgit`
+* Install `msysgit`
 
-In the selection "how would you like to user Git from the command
+Download a file that looks like: `Git-1.7.9-preview20120201.exe` from
+[msysgit downloads](http://code.google.com/p/msysgit/downloads/list)
+page.  The actual version number/date may be incremented from whats
+above when you go to download this.
+
+In the selection "how would you like to use Git from the command
 line?", the default is "use Git bash only", which is ok
+
+Now you can open Git Bash and interact with repositories.  Keep in
+mind that if you want to interact by writing to repositories in GIT
+you'll need to follow the next few steps.  But with what you've done
+so far you can clone publicly readable repositories.  They are the
+ones that start with `http` not `<username>@<host>:<repo>`
+
+To get write access do the following:
 
 * Generate your public/private key pair.  Open GIT-Bash and type:
 
@@ -688,7 +701,7 @@ The public key is the file:
 
     ~/.ssh/id_rsa.pub
 
-Email me your public key.
+Email the git administrator your public key.
 
 # Change your routing
 
