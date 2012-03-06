@@ -82,6 +82,15 @@ restart                                | restart the debugger (say if in (rdb:ct
 
 # Language Reference
 
+## Function Parameters
+
+```ruby
+my_lambda = lambda { |x,y| puts x + y }
+my_lambda 1, 2
+```
+
+prints `3`
+
 ## Define a method
 
 ```ruby
@@ -712,3 +721,4 @@ have all passed.
 [rlf]: http://rubydoc.info/github/TwP/logging/master/Logging/Layouts/Pattern
 [rl intro]: http://ruby.about.com/od/tasks/a/logger.htm
 [rlf2]: http://blog.grayproductions.net/articles/the_books_are_wrong_about_logger
+
