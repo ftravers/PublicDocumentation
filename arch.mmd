@@ -19,7 +19,7 @@ gateway=192.168.0.1
 setup nameserver (dns)
 
 ```
-# cat /etc/resolv.conf
+ cat /etc/resolv.conf
 nameserver 192.168.0.1
 ```
 
@@ -51,6 +51,15 @@ Add a user, default group: `users`, shell is `bash`
 
     # useradd -m -g users -s /bin/bash docs
 
+## DBus
+
+    # pacman -S dbus
+    # rc.d start dbus
+
+add it to the daemons array in `rc.conf`
+
+    DAEMONS=(... dbus ...)
+
 # Start/Stop/Restart Services
 
 Example for sshd: 
@@ -73,7 +82,11 @@ add to `rc.conf`
 
     MODULES=(... vboxguest vboxsf vboxvideo)
 
-edit /etc/skel/.xinitrc
+if you don't already have an ~/.xinitrc, do:
+
+    cp /etc/skel/.xinitrc ~/.xinitrc
+
+and put the following in it:
 
 ```
 VBoxClient-all &
@@ -87,6 +100,7 @@ VBoxClient-all &
     # pacman -S xf86-input-synaptics
     # pacman -S zlib
     # startx
+    # pacman -S ttf-dejavu
     
 # RVM - Ruby
 
@@ -108,12 +122,30 @@ now become user docs
 as root:
 
     # pacman -Sy --noconfirm gcc patch curl zlib readline libxml2 libxslt git autoconf automake diffutils make libtool bison subversion
-  
+    # ln -s /lib/libpcre.so.0 /usr/lib/libpcre.so.1
 
+as docs user:
 
+    $ rvm install 1.9.3
+    $ rvm use 1.9.3 --default
+    
+# Xfce Desktop Environment (not complete, not working)
 
+[xfce reference][xfce ref wiki]
 
+as root
 
+    # pacman -S xfce4
+    
+as docs (if u don't already have an ~/.xinitrc file do:
+
+    $ cp /etc/skel/.xinitrc ~/.xinitrc
+
+add to it:
+
+    exec ck-launch-session startxfce4
+    
 [arch-beg-x-win]: https://wiki.archlinux.org/index.php/Beginners'_Guide#Graphical_User_Interface
 [arch-virtual-box]: https://wiki.archlinux.org/index.php/Arch_Linux_VirtualBox_Guest#Arch_Linux_guests
 [rvm ruby]: https://wiki.archlinux.org/index.php/RVM
+[xfce ref wiki]: https://wiki.archlinux.org/index.php/Xfce
