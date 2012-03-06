@@ -45,11 +45,43 @@ Example for sshd:
 
 # Install X Windows
 
+* [beginners guide - x][arch-beg-x-win]
+* [virtual box][arch-virtual-box]
+
     # pacman -S xorg-server xorg-xinit xorg-utils xorg-server-utils
     # pacman -S mesa
     # pacman -S mesa-demos
     # pacman -S virtualbox-archlinux-additions
     # reboot
     # modprobe -a vboxguest vboxsf vboxvideo
+    
+add to `rc.conf`
 
-virtualbox-archlinux-additions
+    MODULES=(... vboxguest vboxsf vboxvideo)
+
+edit /etc/skel/.xinitrc
+
+```
+VBoxClient-all &
+
+# exec gnome-session
+# exec startkde
+# exec startxfce4
+# ...or the Window Manager of your choice
+```
+
+    # pacman -S xf86-video-vesa
+    # pacman -S xf86-input-synaptics
+    # pacman -S zlib
+    # startx
+    
+
+
+
+
+
+
+
+[arch-beg-x-win]: https://wiki.archlinux.org/index.php/Beginners'_Guide#Graphical_User_Interface
+[arch-virtual-box]: https://wiki.archlinux.org/index.php/Arch_Linux_VirtualBox_Guest#Arch_Linux_guests
+
