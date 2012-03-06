@@ -7,7 +7,21 @@ adaptor.
 
 Setup static ip at: `/etc/rc.conf`, insert:
 
+```
+# Static IP example
+address=192.168.0.2
+interface=eth0
+netmask=255.255.255.0
+broadcast=192.168.0.255
+gateway=192.168.0.1
+```
 
+setup nameserver (dns)
+
+```
+# cat /etc/resolv.conf
+nameserver 192.168.0.1
+```
 
 get the latest mirrors (and uncomment for your country) with:
 
@@ -63,7 +77,6 @@ edit /etc/skel/.xinitrc
 
 ```
 VBoxClient-all &
-
 # exec gnome-session
 # exec startkde
 # exec startxfce4
@@ -75,8 +88,27 @@ VBoxClient-all &
     # pacman -S zlib
     # startx
     
+# RVM - Ruby
 
+[rvm ruby reference][rvm ruby]
 
+    # pacman -S git curl
+    # visudo
+
+allow docs to do everything with an entry like:
+
+    docs ALL=(ALL) ALL
+
+now become user docs
+
+    # su - docs
+    $ sudo bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
+    $ sudo usermod -a -G rvm docs
+
+as root:
+
+    # pacman -Sy --noconfirm gcc patch curl zlib readline libxml2 libxslt git autoconf automake diffutils make libtool bison subversion
+  
 
 
 
@@ -84,4 +116,4 @@ VBoxClient-all &
 
 [arch-beg-x-win]: https://wiki.archlinux.org/index.php/Beginners'_Guide#Graphical_User_Interface
 [arch-virtual-box]: https://wiki.archlinux.org/index.php/Arch_Linux_VirtualBox_Guest#Arch_Linux_guests
-
+[rvm ruby]: https://wiki.archlinux.org/index.php/RVM
