@@ -11,7 +11,7 @@ Setup static ip at: `/etc/rc.conf`, insert:
 
 get the latest mirrors (and uncomment for your country) with:
 
-    wget -c http://www.archlinux.org/mirrorlist/all/
+    # wget -c http://www.archlinux.org/mirrorlist/all/
 
 and put it here: 
 
@@ -19,11 +19,11 @@ and put it here:
     
 update system with:
 
-    pacman -Syyu
+    # pacman -Syyu
     
 ## Install/Setup SSH
     
-    pacman -S openssh
+    # pacman -S openssh
 
 Add it as a daemon to `/etc/rc.conf`, sample: 
 
@@ -31,11 +31,11 @@ Add it as a daemon to `/etc/rc.conf`, sample:
 
 Install sudo:
 
-    pacman -S sudo
+    # pacman -S sudo
 
 Add a user, default group: `users`, shell is `bash`
 
-    useradd -m -g users -s /bin/bash docs
+    # useradd -m -g users -s /bin/bash docs
 
 # Start/Stop/Restart Services
 
@@ -43,3 +43,6 @@ Example for sshd:
 
     # rc.d {start|stop|restart} sshd
 
+# Install X Windows
+
+    # pacman -S xorg-server xorg-xinit xorg-utils xorg-server-utils
