@@ -92,12 +92,14 @@ Example for sshd:
 * [beginners guide - x][arch-beg-x-win]
 * [virtual box][arch-virtual-box]
 
-    # pacman --noconfirm -S xorg-server xorg-xinit xorg-utils xorg-server-utils
-    # pacman --noconfirm -S mesa
-    # pacman --noconfirm -S mesa-demos
-    # pacman --noconfirm -S virtualbox-archlinux-additions
-    # reboot
-    # modprobe -a vboxguest vboxsf vboxvideo
+```bash
+# pacman --noconfirm -S xorg-server xorg-xinit xorg-utils xorg-server-utils
+# pacman --noconfirm -S mesa
+# pacman --noconfirm -S mesa-demos
+# pacman --noconfirm -S virtualbox-archlinux-additions
+# reboot
+# modprobe -a vboxguest vboxsf vboxvideo
+```    
     
 add to `rc.conf`
 
