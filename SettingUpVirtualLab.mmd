@@ -329,8 +329,7 @@ export http_proxy=http://www-proxy.sg.oracle.com
 Download the repo file:
 
 ```bash
-# cd /etc/yum.repos.d/
-# wget http://public-yum.oracle.com/public-yum-el5.repo
+# cd /etc/yum.repos.d/; wget http://public-yum.oracle.com/public-yum-el5.repo
 ```
 
 Or you can temporarily set and use the http_proxy for wget in one command:
@@ -560,3 +559,106 @@ YUM
 
 
 
+# Virtual Lab
+
+## Software
+
+Required software.
+
+* OVM Server 3.0.3
+* OVM Manager 3.0.3
+
+## Requirements
+
+* Laptop: 8 Gigs Ram, 16 GB Hard Disk
+* Desktop: 8 Gigs Ram
+
+## Steps
+
+### Installing OVM Server
+
+Ensure you create a partition called `/data` that takes up the
+remainder of the disk space available there.
+
+Export this as a nfs share
+
+```bash
+# echo '/data *(rw,sync,all_squash,anonuid=500,anongid=500)' >> /etc/exports
+# exportfs -va; system-config-securitylevel-tui --quiet --port=111 --port=2049; service nfs restart
+```
+
+### Setup OVM Manager VM
+
+Create a virtualbox Oracle Linux 6U2 VM on your laptop.
+
+* DISK = 16 GIGS FIXED!!!
+* RAM = 4 Gigs
+* Networking = bridged
+
+Boot up.  Set static ip if necessary:
+
+* Static IP
+
+```bash
+# vi /etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE=eth0
+ONBOOT=yes
+BOOTPROTO=static
+IPADDR=192.168.1.20
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.1
+TYPE=Ethernet
+```
+
+```bash
+# cat /etc/resolv.conf
+nameserver 192.168.1.1
+```
+
+Test with: `ping yahoo.com`
+
+```bash
+# echo '192.168.1.20 ovmm.spicevan.com ovmm' >> /etc/hosts
+```
+
+* Mount OVM Manager 3.0.3 in the Virtualbox VM DVD drive
+
+```bash
+# mkdir /mnt/cdrom; mount -t iso9660 /dev/cdrom /mnt/cdrom; cd /mnt/cdrom; ./createOracle.sh
+```
+
+### Yum
+
+```bash
+# cd /etc/yum.repos.d; wget http://public-yum.oracle.com/public-yum-ol6.repo
+```
+
+Edit the file setting `enabled=1` for each of: `[ol6_ga_base],
+[ol6_u2_base], [ol6_UEK_base]`
+
+### Firewall
+
+Dont autostart firewalls and shut it down:
+
+```bash
+# chkconfig --del iptables; service iptables stop
+```
+
+### Install
+
+```bash
+# cd /mnt/cdrom; ./runInstaller.sh
+```
+
+* Choose Demo = 1
+
+### Test
+
+Goto URL: `http://ovmm:7001/ovm/console`, login with: user = `admin`,
+password = (whatever you set your password to be on the install
+section )
+
+### Find the OVM Servers
+
+Hardware > Unassigned Servers
+Actions > Discover Servers

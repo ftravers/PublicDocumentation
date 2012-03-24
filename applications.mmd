@@ -14,18 +14,15 @@ edit `/etc/fstab` example:
 
     yum install -y nfs-utils
     mount -t rpc_pipefs sunpc /var/lib/nfs/rpc_pipefs
-    service portmap start
-    service nfs start
-    mount -a
+    service portmap start; service nfs start; mount -a
 
 ## server
 
-    yum install nfs-utils
-    mount -t rpc_pipefs sunpc /var/lib/nfs/rpc_pipefs
-    service portmap start
-    system-config-securitylevel-tui --quiet --port=111 --port=2049
-    service nfs start
-    /usr/sbin/exportfs -a
+```bash
+# yum install nfs-utils
+# mount -t rpc_pipefs sunpc /var/lib/nfs/rpc_pipefs
+# service portmap start; system-config-securitylevel-tui --quiet --port=111 --port=2049; /usr/sbin/exportfs -av; service nfs restart;
+```
 
 server: /etc/exports example:
 
@@ -33,8 +30,7 @@ server: /etc/exports example:
 
 When this is changed we need to do:
 
-    exportfs -va
-    service nfs restart
+    # exportfs -va; service nfs restart
 
 # Java
 

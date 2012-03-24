@@ -1,0 +1,21 @@
+<head>
+  <link rel='stylesheet' type='text/css' href='style.css' />
+
+  <script>
+    function set_focus() {
+    var searchText = document.getElementById('search_input');
+    searchText.focus();
+    }
+  </script>
+</head>
+<body onload="set_focus()">
+  <script src="jquery-1.7.1.min.js"></script>
+  <script src="search.js"></script>
+  <form id=search>
+    <input type="text" id="search_input" onkeyup="javascript:doSearch(this)"/>
+    <a href="http://lucene.apache.org/java/3_4_0/queryparsersyntax.html"><img src="help.png"/></a>
+    <span id="ajaxLoader"></span>
+  </form>
+  <div style="float:left; width: 45%;" id="results"></div>
+  <div style="float:right; width: 45%;" id="details"></div>
+</body>

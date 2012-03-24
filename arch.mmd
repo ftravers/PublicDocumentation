@@ -3,6 +3,10 @@
 Ensure you choose `Bridged Networking` and select correct network
 adaptor.
 
+## Install
+
+    /arch/setup
+
 ## Configure Arch 
 
 Setup static ip at: `/etc/rc.conf`, insert:
@@ -33,32 +37,49 @@ and put it here:
     
 update system with:
 
-    # pacman -Syyu
+    # pacman -Syyu --noconfirm
     
 ## Install/Setup SSH
     
-    # pacman -S openssh
+    # pacman --noconfirm -S openssh openssl
 
 Add it as a daemon to `/etc/rc.conf`, sample: 
 
     DAEMONS=(... network @sshd ...)
 
-Install sudo:
 
-    # pacman -S sudo
-
-Add a user, default group: `users`, shell is `bash`
-
-    # useradd -m -g users -s /bin/bash docs
 
 ## DBus
 
-    # pacman -S dbus
+    # pacman --noconfirm -S dbus
     # rc.d start dbus
 
 add it to the daemons array in `rc.conf`
 
     DAEMONS=(... dbus ...)
+
+## Apache LAMP
+
+[ref](https://wiki.archlinux.org/index.php/LAMP#Apache)
+
+    # pacman -S --noconfirm apache php php-apache mysql
+
+Update: `/etc/httpd/conf/httpd.conf`
+
+```
+# Virtual hosts
+Include conf/extra/httpd-vhosts.conf
+```
+
+Virtual Hosts: `/etc/httpd/conf/extra/httpd-vhosts.conf`
+
+```xml
+<VirtualHost *:80>
+  ServerName docs
+  DocumentRoot /home/docs/bin/website_static
+</VirtualHost>
+```
+
 
 # Start/Stop/Restart Services
 
@@ -71,10 +92,10 @@ Example for sshd:
 * [beginners guide - x][arch-beg-x-win]
 * [virtual box][arch-virtual-box]
 
-    # pacman -S xorg-server xorg-xinit xorg-utils xorg-server-utils
-    # pacman -S mesa
-    # pacman -S mesa-demos
-    # pacman -S virtualbox-archlinux-additions
+    # pacman --noconfirm -S xorg-server xorg-xinit xorg-utils xorg-server-utils
+    # pacman --noconfirm -S mesa
+    # pacman --noconfirm -S mesa-demos
+    # pacman --noconfirm -S virtualbox-archlinux-additions
     # reboot
     # modprobe -a vboxguest vboxsf vboxvideo
     
@@ -96,22 +117,32 @@ VBoxClient-all &
 # ...or the Window Manager of your choice
 ```
 
-    # pacman -S xf86-video-vesa
-    # pacman -S xf86-input-synaptics
-    # pacman -S zlib
+    # pacman --noconfirm -S xf86-video-vesa
+    # pacman --noconfirm -S xf86-input-synaptics
+    # pacman --noconfirm -S zlib
     # startx
-    # pacman -S ttf-dejavu
+    # pacman --noconfirm -S ttf-dejavu
     
-# RVM - Ruby
+# Add User
 
-[rvm ruby reference][rvm ruby]
+Install sudo:
 
-    # pacman -S git curl
+    # pacman --noconfirm -S sudo
+
+Add a user, default group: `users`, shell is `bash`
+
+    # useradd -m -g users -s /bin/bash docs; passwd docs
     # visudo
 
 allow docs to do everything with an entry like:
 
     docs ALL=(ALL) ALL
+
+# RVM - Ruby
+
+[rvm ruby reference][rvm ruby]
+
+    # pacman --noconfirm -S git curl
 
 now become user docs
 
@@ -135,7 +166,7 @@ as docs user:
 
 as root
 
-    # pacman -S xfce4
+    # pacman --noconfirm -S xfce4
     
 as docs (if u don't already have an ~/.xinitrc file do:
 
@@ -149,3 +180,35 @@ add to it:
 [arch-virtual-box]: https://wiki.archlinux.org/index.php/Arch_Linux_VirtualBox_Guest#Arch_Linux_guests
 [rvm ruby]: https://wiki.archlinux.org/index.php/RVM
 [xfce ref wiki]: https://wiki.archlinux.org/index.php/Xfce
+
+# Virtualization (not complete - not working)
+
+[Ref](https://wiki.archlinux.org/index.php/KVM)
+
+    # pacman -S qemu-kvm
+    
+Add a user `fenton`, default group: `users`, shell is `bash`
+
+    # useradd -m -g users -s /bin/bash fenton
+    # usermod -a -G kvm fenton
+
+Add user `fenton` to sudo:
+
+    # visudo
+
+Put in entry like:
+
+    fenton ALL=(ALL) ALL
+    
+add modules to `/etc/rc.conf`
+
+    MODULES=(kvm kvm-intel)
+
+Reboot.
+
+Login as `fenton`, and create OS Image
+
+```bash
+# su - fenton
+$ qemu-img create -f qcow2 arch2 2G
+```

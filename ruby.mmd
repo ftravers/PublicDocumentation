@@ -85,11 +85,14 @@ restart                                | restart the debugger (say if in (rdb:ct
 ## Function Parameters
 
 ```ruby
-my_lambda = lambda { |x,y| puts x + y }
-my_lambda 1, 2
+def func(my_closure)
+  my_closure.call 2,3
+end
+adder = lambda { |x,y| puts x + y }
+func adder
 ```
 
-prints `3`
+prints `5`
 
 ## Define a method
 
@@ -529,6 +532,25 @@ if log.error?
 end
 ```
 
+# Option Parsing
+
+[ref](http://ruby.about.com/od/advancedruby/a/optionparser.htm)
+
+```ruby
+require 'optparse'
+
+options = {}
+optparse = OptionParser.new do |opts|
+  opts.on( '-h', '--help', 'Display this screen' ) do
+    puts opts
+    exit
+  end
+  opts.on( '-i', '--input_file FILE', 'The input file' ) do |file|
+    options[:input_file] = file
+  end
+end
+optparse.parse!
+```
 
 # Unit Testing 
 
