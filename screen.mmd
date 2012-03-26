@@ -69,3 +69,44 @@ Now the one we care about is the one that has: `(Multi, attached)`,
 
 [Screens Tutorial](http://www.rackaid.com/resources/linux-screen-tutorial-and-how-to/)
 
+# Screen and SSH tips
+
+[ref](http://www.itworld.com/it-managementstrategy/261500/16-ultimate-openssh-hacks)
+
+## SSH tip #13: Attach to a remote GNU screen session
+
+You can attach a GNU screen session remotely over SSH; in this example
+we'll open a GNU screen session on host1, and connect to it from
+host2. First open and then detach a screen session on host1, named
+testscreen:
+
+    host1 ~ $ screen -S testscreen
+
+Then detach from your screen session with the keyboard combination
+Ctrl+a+d:
+
+    [detached from 3829.testscreen]
+
+You can verify that it's still there with this command:
+
+    host1 ~ $ screen -ls
+
+There is a screen on:
+
+    3941.testscreen (03/18/2012 12:43:42 PM) (Detached)
+    1 Socket in /var/run/screen/S-host1.
+
+Then re-attach to your screen session from host2:
+
+    host1 ~ $ ssh -t terry@uberpc screen -r testscreen
+
+You don't have to name the screen session if there is only one.
+
+## SSH tip #12: Launch a remote screen session
+
+What if you don't have a running screen session? No worries, because
+you can launch one remotely:
+
+    host1 ~ $ ssh -t user@host2 /usr/bin/screen -xRR
+    
+    
