@@ -11,11 +11,11 @@
 <body onload="set_focus()">
   <script src="jquery-1.7.1.min.js"></script>
   <script src="search.js"></script>
-  <form id=search>
-    <input type="text" id="search_input" onkeyup="javascript:doSearch(this)"/>
-    <a href="http://lucene.apache.org/java/3_4_0/queryparsersyntax.html"><img src="help.png"/></a>
-    <span id="ajaxLoader"></span>
-  </form>
-  <div style="float:left; width: 45%;" id="results"></div>
-  <div style="float:right; width: 45%;" id="details"></div>
+  <input type="text" id="search_input" onkeyup="javascript:doSearch()"/>
+  <a href="http://lucene.apache.org/java/3_4_0/queryparsersyntax.html">
+    <img src="help.png"/></a>
+  <span id="ajaxLoader"></span>
+  <button style="display: none" id="search_again_button" onclick="javascript:doSearch()">Rerun Search</button>
+  <div id="results"></div>
+  <div style="display: none" id="details"></div>
 </body>
