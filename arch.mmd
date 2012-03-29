@@ -88,6 +88,8 @@ Example for sshd:
 
     # rc.d {start|stop|restart} sshd
 
+All scripts are kept in the folder: `/etc/rc.d`
+
 # Install X Windows
 
 * [beginners guide - x][arch-beg-x-win]
@@ -215,3 +217,148 @@ Login as `fenton`, and create OS Image
 # su - fenton
 $ qemu-img create -f qcow2 arch2 2G
 ```
+
+# Nginx, Passenger, Rack, ...
+
+http://tommy.chheng.com/2009/06/09/deploying-a-sinatra-app-on-nginx-passenger-with-capistrano-and-git/
+
+first ensure you have a rvm/ruby environment setup.
+
+install `passenger-install-nginx-module`
+
+    gem install passenger-install-nginx-module
+    
+just follow the defaults
+
+Edit the `/opt/nginx/conf/nginx.conf` to specify where to save the
+nginx pid file to:
+
+    pid /var/run/nginx.pid;
+    
+Create a start file in: `/etc/rc.d/nginx` (755 permissions), with the
+following contents:
+
+```
+#!/bin/bash
+
+# general config
+
+NGINX_CONFIG="/opt/nginx/conf/nginx.conf"
+
+. /etc/conf.d/nginx
+. /etc/rc.conf
+. /etc/rc.d/functions
+
+function check_config 
+  stat_busy "Checking configuration"
+  /usr/sbin/nginx -t -q -c "$NGINX_CONFIG"
+  if [ $? -ne 0 ]; then
+    stat_die
+  else
+    stat_done
+  fi
+}
+
+case "$1" in
+  start)
+    check_config
+    $0 careless_start
+    ;;
+  careless_start)
+    stat_busy "Starting Nginx"
+    if [ -s /var/run/nginx.pid ]; then
+      stat_fail
+      # probably ;)
+      stat_busy "Nginx is already running"
+      stat_die
+     fi
+    /usr/sbin/nginx -c "$NGINX_CONFIG" &>/dev/null
+    if [ $? -ne 0 ]; then
+      stat_fail
+    else
+      add_daemon nginx
+      stat_done
+    fi
+    ;;
+  stop)
+    stat_busy "Stopping Nginx"
+    NGINX_PID=`cat /var/run/nginx.pid 2>/dev/null`
+    kill -QUIT $NGINX_PID &>/dev/null
+    if [ $? -ne 0 ]; then
+      stat_fail
+    else
+      for i in `seq 1 10`; do
+        [ -d /proc/$NGINX_PID ] || { stat_done; rm_daemon nginx; exit 0; }
+        sleep 1
+      done
+      stat_fail
+    fi
+    ;;
+  restart)
+    check_config
+    $0 stop
+    sleep 1
+    $0 careless_start
+    ;;
+  reload)
+    check_config
+    if [ -s /var/run/nginx.pid ]; then
+      status "Reloading Nginx Configuration" kill -HUP `cat /var/run/nginx.pid`
+    fi
+    ;;
+  check)
+    check_config
+    ;;
+  *)
+    echo "usage: $0 {start|stop|restart|reload|check|careless_start}"
+esac
+```
+
+Have a `/etc/conf.d/nginx` file with the following in it:
+
+```
+NGINX_CONFIG=/etc/nginx/conf/nginx.conf
+```
+
+Modify the user `nginx` runs as, with a line like the following in
+`/opt/nginx/conf/nginx.conf` 
+
+
+
+Suppose you have a Ruby on Rails application in /somewhere. Add a server block
+to your Nginx configuration file, set its root to /somewhere/public, and set
+'passenger_enabled on', like this:
+
+```
+server {
+      listen 80;
+      server_name www.yourhost.com;
+      root /somewhere/public;   # <--- be sure to point to 'public'!
+      passenger_enabled on;
+   }
+```
+
+
+
+
+
+
+[ref](https://wiki.archlinux.org/index.php/Nginx)
+
+    # pacman --noconfirm -S nginx
+
+Start:
+
+    # rc.d start nginx
+    
+Home page: `/etc/nginx/html/index.html`, test with: `http://127.0.0.1`
+
+Add to daemon list: `/etc/rc.conf`:
+
+    DAEMONS=(... @nginx)
+    
+You can modify the configurations by editing the files in
+`/etc/nginx/conf`. (`/etc/nginx/conf/nginx.conf` being the main config
+file.)
+
+
