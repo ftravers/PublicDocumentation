@@ -744,3 +744,130 @@ have all passed.
 [rl intro]: http://ruby.about.com/od/tasks/a/logger.htm
 [rlf2]: http://blog.grayproductions.net/articles/the_books_are_wrong_about_logger
 
+# Sinatra, rack, capistrano, nginx
+
+Here are the values I'm using for each parameter, you should change
+yours according to your needs:
+
+Parameter                |  Example Value
+------------------------ | ----------------------
+nginx host               | arch
+application name         | fentonGem1
+git url                  | ft_git3@spicevan.com:fentonGem1.git
+unix deployment user     | docs
+
+## Create App
+
+Create app:
+
+    bundle gem fentonGem1
+
+## Git Repo
+
+Setup a remote git repository.  Here my value will be:
+`ft_git3@spicevan.com:fentonGem1.git`.  
+
+## Sinatra
+
+Add a dependency for sinatra into your `fentonGem1.gemspec` file,
+like: 
+
+    s.add_runtime_dependency "sinatra"
+
+Create a small sinatra app in file: `lib/fentonGem1.rb` like:
+
+```ruby
+require 'sinatra/base'
+module FentonGem1
+  class FirstSinatraApp < Sinatra::Base
+    get "/" do
+      "Hello World."
+    end
+  end
+end
+```
+
+## Rack
+
+Create a rackup file: `config.ru`, with contents:
+
+```ruby
+require File.dirname(__FILE__) + '/lib/fentonGem1'
+run Rack::URLMap.new "/" => FentonGem1::FirstSinatraApp
+```
+
+## nginx
+
+Have the following config:
+
+```
+user  docs users;
+...
+http {
+...
+     server {
+        listen            8899;
+        server_name       fentonGem1;
+        root              /data/apps/production/fentonGem1/current/public;
+        passenger_enabled on;
+    }
+}
+```
+
+## Capistrano
+
+Install capistrano if required:
+
+    gem install capistrano
+
+Create a `config/deploy.rb` file, with the following contents:
+
+```
+set :application, "fentonGem1"
+set :scm, :git
+set :git_enable_submodules, 1
+set :repository, "ft_git3@spicevan.com:fentonGem1.git"
+set :branch, "master"
+set :ssh_options, { :forward_agent => true }
+set :stage, :production
+set :user, "docs"
+set :use_sudo, false
+set :runner, "docs"
+set :deploy_to, "/data/apps/#{stage}/#{application}"
+set :app_server, :passenger
+set :domain, "arch"
+role :app, domain
+role :web, domain
+role :db, domain, :primary => true
+namespace :deploy do
+  task :start, :roles => :app do
+    run "touch #{current_release}/tmp/restart.txt"
+  end
+  task :stop, :roles => :app do
+    # Do nothing.
+  end
+  desc "Restart Application"
+  task :restart, :roles => :app do
+    run "touch #{current_release}/tmp/restart.txt"
+  end
+end
+```
+
+To enable capistrano commands have a `Capfile` in the project root,
+with the following contents:
+
+```
+load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+load 'config/deploy'
+```
+
+Now you can create the directory structure on the server with:
+
+    cap deploy:setup
+    
+Each time you wish to deploy your app, commit/push everything to the
+remote git repository and execute:
+
+    cap deploy
+    
+    
