@@ -98,3 +98,33 @@ ear not a standalone component.
 - Meenal focus on cat fix
 - Ask for help when required
 - Ask fenton for hint on priority 
+
+
+===================================================
+
+comments:
+
+(1)
+we should write an integration test that demonstrates that the
+categorzation process works even when it is stale and the ucm is down.
+
+this way we build confidence that the system is robust to dependency
+(ucm) failures.
+
+(2)
+we should load the spreadsheet not on first query of autosr2, but on
+load.  we can do it in the init area of the servlet definition.
+
+(3)
+We should stick to the 'fail fast' principle:
+http://en.wikipedia.org/wiki/Fail-fast.  so we should not allow the
+creation of sr's if we can't validate the sr data, we should bring the
+system to it's knees.  If we can trust in (1), then we shouldn't ever
+have a scenario where we can't validate...except in the case where the
+dependency is not available on servlet startup and in that case, we
+should refuse to start.
+
+
+
+
+
