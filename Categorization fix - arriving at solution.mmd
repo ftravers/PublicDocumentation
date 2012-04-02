@@ -1,0 +1,100 @@
+Categorization fix: 
+
+Components: AutoSR2, categoriziationSpreadSheet
+AutoSR2: Web-Service-Wrapper, consumers are system and not end-users
+categoriziationSpreadSheet: a jar that loads an excel sheet(which has arnd 10,000 lines of categrorization values) 
+into memory and  it provides a data structure for these categorization values. crmod-ws-wrapper  uses this jar to  
+load cat values, these cat values are dependent, 
+example. u have 5 combo boxes. based on 1st select of combo, 2nd combo wil be populated and it proceeds like this 
+till the 5th combo.
+
+Some history for Alfred:
+Q: why crmod-ws-wrapper depends on categoriziationSpreadSheet?
+
+myhelpCategories depends on categorization directly to populate cat values from excel. 
+But portal team did not want to use a new jar altogether. An our manager then, Jason Tsang had promised them that 
+with cat requiremnet, portal team wil only have to do little code change.
+so we had to make our wrapper depend on cat, so portal team can do less change in their code.
+As they are reluctant to major code changes from their side.
+
+Q: using crmod-ws-wrapper, they can also get the info about categorization structure?
+yes. wrapper calls cat(categoriziationSpreadSheet), and they call wrapper.
+
+Issue: No Data Validation for cat values in autoSR2 
+Example: category: Corporate application
+	 Area: MyHelp
+	 Sub Area: AutoSRzzzzzzz
+Above example passes tho' AutoSR, resulting in SR creation, which is wrong. SR should not be created with invalid 
+categorization values.
+
+Solution implementation at which project level:
+1. catSpread
+2. crmod-ws-wrapper
+3. myHelpCat
+4. autoSR2
+
+Dependency between wrapper and catspread arose as a necessity of portal team. 
+But now portal doesn’t want that dependency, bcoz we loaded and provided the cat values in a data structure that 
+was incompatible to their program, and they had to restructure the data and repopulate in their program-friendly 
+data strucutre, to avoid memory prob and cpu utilization.
+
+1. we can rule out wrapper, we dont have to implement the data check at this project., also myhelpcat depends on 
+   catSpread directly. So no other dependencies to wrapper
+
+2. catSpread, but the aim of this project is to populate spreadsheet values and provide to caller appln. caller 
+   appln will maintain these values in its memory. we can rule  out validation checks at catSpread proj.
+
+3. myhelp depends on cat, but they have implementation the validation check at UI level. so they dont have to 
+   depend on catspread for validation.
+
+4. autoSR2 - all other options ruled out, we will implement the validation check at autoSR2
+
+Psuedo implementation:
+1. we will have an InValidDataException class
+2. class DataValidation (needs to be created) {
+	1. call catSread proj and load the excel data. Once, u deploy the autoSR2 proj, for the first request, 
+	   the excel will load from content server - this might take some time.. for subsequent requests, the 
+	   data will be available in memory, every 1 hr the excel will reload.
+	2. now we will have entire catValues in memory
+	3. validateCatValues(String cat1, cat2, cat3, cat4, cat5) {           
+   		 i will check these 5 values against the already loaded entire catValuues.
+		 if correct, create SR
+		 if mismatch, throw exception
+}
+
+Caller code:
+class ServiceRequest {
+	DataValidation.validateCatValues(getCatValuesFromIOParams(IOParams))
+	createSr(IOParams)
+}
+
+
+Q: In case cat loading (from excel file) fails, our program is still supposed to be able to run without interruption. 
+   If this is the case, should we ignore validation when such failure occurs
+
+Some times, the content server, where we have excel stored, goes down.
+  
+In that case, Fenton’s claim: he designed the catSpread such that, first time it loads, and then subsequent calls will
+populate from memory, until a second reload from conttent server. so if after the specified time, when data in memory 
+becomes stale, (we fixed this stale out time to be 1 hr)  and if content server is down. it shud be using the memory 
+data tho’ it is stale.
+This claim of Fenton needs to be tested.
+So, the only time the catSpread jar can fail is when conten server is down, the first time catSpread loads.
+So lets assume Fenton’s claim is correct, then  the cat Values will be available at all time.
+
+If in case, it is down, we cannot provide validation of cat values. SRs could be created with invalid data., which is a 
+far less possible scenario.
+
+If catSpread is down (= content server is down?), myHelpcategories is completely down. No one can create an SR thro’ 
+UI, which is very bad.
+
+But in our case, we wud have made our users habitual to sending proper category values, by throwing exceptions when they dont.
+
+Q: What if we store local copy of spreadsheet in server?
+If we store a local copy of categorization, we are introducing a new dependency, which is not desirable as this makes the 
+ear not a standalone component.
+
+- Alfred focus on sharable SR
+- Meenal focus on cat fix
+- Ask for help when required
+- Ask fenton for hint on priority 
