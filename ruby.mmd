@@ -12,6 +12,65 @@ $ sudo apt-get install -y --force-yes build-essential openssl libreadline6 libre
 $ rvm install 1.9.2; rvm use 1.9.2; rvm --default use 1.9.2
 ```
 
+# RVM on redhat / oracle linux
+
+```bash
+# adduser ng
+# passwd ng
+```
+
+install curl, sudo
+
+```
+# yum install -y sudo curl
+```
+
+Edit sudoers file with: `visudo`, put in: 
+
+```
+docs ALL=(ALL) ALL
+```
+
+append `CURL_CA_BUNDLE`, to line `Defaults env_keep`, as an
+environment variable to keep after running `sudo`
+
+```bash
+# su - ng
+$ wget http://curl.haxx.se/ca/cacert.pem
+$ export CURL_CA_BUNDLE=~/cacert.pem
+$ sudo ./script stable
+$ rvm requirements
+$ exit
+# vi /etc/group
+```
+
+adding `ng` to `rvm` group, put a line like:
+
+```
+rvm:x:501:ng
+```
+
+now install the requirements for ruby/rvm:
+
+```
+# wget -c http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
+# rpm -ivh rpmforge-release-0.3.6-1.el5.rf.i386.rpm
+```
+
+The `rvm requirements` line should have listed out a yum statement
+with the pre-requisits like the following.  Use whatever is in that
+output.
+
+```
+# yum install -y git gcc-c++ patch readline readline-devel zlib zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison iconv-devel
+# su - ng
+$ type rvm | head -1
+rvm is a function
+$ sudo rvm install 1.9.3
+$ rvm use 1.9.3 --default
+$ ruby --version
+```
+
 ## Debugger on Emacs
 
 [ref](http://pivotallabs.com/users/chad/blog/articles/366-ruby-debug-in-30-seconds-we-don-t-need-no-stinkin-gui-)
@@ -532,6 +591,21 @@ if log.error?
 end
 ```
 
+# Templating
+
+```ruby
+require 'erb'
+class templater
+  def do_template
+    @template_data = {:email => 'fenton.travers@gmail.com' }
+    # template = File.open(File.join("soap","create_user1.xml"), "r").read
+    template = "<ns4:Address><%= @template_data[:email] %></ns4:Address>\n "
+    renderer = ERB.new template
+    data = renderer.result binding
+  end
+end
+```
+  
 # Option Parsing
 
 [ref](http://ruby.about.com/od/advancedruby/a/optionparser.htm)

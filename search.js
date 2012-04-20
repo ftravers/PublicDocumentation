@@ -56,7 +56,7 @@ function doSearch() {
 
     var ajax_loader = document.getElementById('ajaxLoader');
     ajax_loader.innerHTML = "<img src='ajax-loader.gif'/>"; 
-    var query = "/srch?category=public&query=" + text;
+    var query = "/srch?query=" + text;
 	  ajaxRequest.open("GET", query, true);
 	  ajaxRequest.send(null); 
 }
