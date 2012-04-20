@@ -471,3 +471,99 @@ Update perms on folder
 
     sudo chmod g+w /usr/local/jboss/server/all/deploy
 
+# Nginx
+
+Follow steps to install rvm/ruby on Redhat/Oracle Linux on the ruby page.
+
+Pre-requisites:
+
+```
+# yum install curl-devel
+# su - ng
+```
+
+Install passenger, then isntall the passenger/nginx combo with:
+
+    Gem install passenger
+    passenger-install-nginx-module
+
+The init script:
+
+```bash
+#!/bin/sh
+#
+# Init file for nginx
+#
+# chkconfig: 2345 55 25
+# description: Nginx web server
+#
+# processname: nginx
+# config: /usr/local/nginx/nginx.conf
+# pidfile: /usr/local/nginx/nginx.pid
+
+# Description: Startup script for nginx webserver on Debian. Place in /etc/init.d and
+
+# run 'sudo update-rc.d nginx defaults', or use the appropriate command on your
+# distro. For CentOS/Redhat run: '/sbin/chkconfig --add nginx'
+#
+# Author:  Ryan Norbauer <ryan.norbauer@gmail.com>
+# Modified:     Geoffrey Grosenbach http://topfunky.com
+# Modified:     David Krmpotic http://davidhq.com
+# Modified:                     Vishnu Gopal http://vish.in
+
+set -e
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DESC="nginx daemon"
+NAME=nginx
+DAEMON=/opt/nginx/sbin/nginx
+CONFIGFILE=/opt/nginx/conf/nginx.conf
+PIDFILE=/var/run/nginx.pid
+SCRIPTNAME=/etc/init.d/nginx
+# Gracefully exit if the package has been removed.
+test -x $DAEMON || exit 0
+d_start() {
+  $DAEMON -c $CONFIGFILE || echo -en "ERROR: Could not start.\n"
+}
+d_stop() {
+  if [ -f $PIDFILE ]; then
+          kill -QUIT `cat $PIDFILE` || echo -en "INFO: not running.\n"
+  fi
+  # force kill
+  pgrep -f "nginx:" | xargs --no-run-if-empty kill -9 2>/dev/null
+  rm -f $PIDFILE
+}
+d_reload() {
+  if [ -f $PIDFILE ]; then
+          kill -HUP `cat $PIDFILE` || echo -en "ERROR: can't reload.\n"
+  else
+          echo -en "NOTICE: can't reload, force (re)starting\n"
+          $SCRIPTNAME restart
+  fi
+}
+case "$1" in
+  start)
+    echo -en "Starting $DESC: $NAME\n"
+    d_start
+  ;;
+  stop)
+    echo -en "Stopping $DESC: $NAME\n"
+    d_stop
+  ;;
+  reload)
+    echo -en "Reloading $DESC configuration...\n"
+    d_reload
+  ;;
+  restart)
+    echo -en "Restarting $DESC: $NAME\n"
+    d_stop
+    sleep 1
+    d_start
+  ;;
+  *)
+    echo "Usage: $SCRIPTNAME {start|stop|restart|reload}" >&2
+    exit 3
+  ;;
+esac
+exit 0
+```
