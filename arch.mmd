@@ -518,3 +518,22 @@ esac
 add entry to /etc/rc.conf
 
     DAEMONS=(... @vpnagentd)
+
+# AUR
+
+You need to make package installer from source. Steps are:
+
+1. Goto https://aur.archlinux.org to search packages
+2. Download tarball file
+3. Extract file using gunzip and tar
+4. In the extracted folder, run "makepkg -s"
+5. If successfully built, a new file like package.pkg.tar.xz is generated
+6. Run pacman -U package.pkg.tar.xz to install it
+
+You can also use yaourt to build/install packages from AUR
+
+1. First you need to install yaourt not by pacman but by the above procedures
+2. Run yaourt, e.g. "yaourt libpng14"
+3. Select a number from the query result list, then go on as instructed
+
+
