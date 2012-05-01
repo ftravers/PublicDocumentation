@@ -418,3 +418,103 @@ xrandr --auto --output VGA1 --mode 1920x1080 --left-of HDMI1
     xrandr -q
 
 will give you the names of your monitors, like I have VGA1 and HDMI1
+
+
+# Fonts
+
+List fonts
+
+    fc-list | sed 's,:.*,,' | sort -u
+
+Add a font folder, can be put at the beginning of ~/.xinitrc
+
+```
+xset +fp /usr/share/fonts/local
+xset fp rehash 
+```
+
+Query fonts path:
+
+    xset q
+
+!!! NOTE UNFINISHED AND UNSUCCESSFUL !!!
+# Customizing Xterm
+
+When it comes to customizing xterm in a serious way XResources are the
+way to go.
+
+XResources are read from the file ~/.Xresources when you login, but if
+you wish to force them to be reloaded you run the command:
+
+    xrdb -merge ~/.Xresources
+
+Sample ~/.Xresources
+
+```
+!
+! Comments begin with a "!" character.
+!
+
+XTerm*background:       black
+XTerm*foreground:       white
+XTerm*cursorColor:      white
+XTerm.vt100.geometry:   79x25
+XTerm*scrollBar:        true
+XTerm*scrollTtyOutput:  false
+```
+
+# VPN
+
+download vpn software and install
+
+    https://myaccess.oraclevpn.com
+
+put the following in: /etc/rc.d/vpnagentd
+
+```
+#!/bin/bash
+
+# general config
+
+. /etc/rc.conf
+. /etc/rc.d/functions
+
+case "$1" in
+  start)
+    stat_busy "Starting Nginx"
+    /opt/cisco/vpn/bin/vpnagentd &>/dev/null
+
+    if [ $? -ne 0 ]; then
+      stat_fail
+    else
+      add_daemon vpnagentd
+      stat_done
+    fi
+    ;;
+  stop)
+    stat_busy "Stopping VPNAgentD"
+    VPNAGENTD_PID=`cat /var/run/vpnagentd.pid 2>/dev/null`
+    kill -QUIT $VPNAGENTD_PID &>/dev/null
+    if [ $? -ne 0 ]; then
+      stat_fail
+    else
+      for i in `seq 1 10`; do
+        [ -d /proc/$VPNAGENTD_PID ] || { stat_done; rm_daemon vpnagentd; exit 0; }
+        sleep 1
+      done
+      stat_fail
+    fi
+    ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  *)
+    echo "usage: $0 {start|stop|restart}"
+esac
+```
+
+add entry to /etc/rc.conf
+
+    DAEMONS=(... @vpnagentd)
