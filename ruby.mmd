@@ -607,6 +607,31 @@ class templater
 end
 ```
   
+# Read a File
+
+## All at once
+
+```ruby
+contents = File.open(File.join(read_dir, "style.css"), "rb"){|f| f.read}
+```
+
+## Line by line
+
+```ruby
+File.open("readfile.rb", "r") do |infile|
+    while (line = infile.gets)
+      puts line
+    end
+end
+```
+
+# regex
+
+```ruby
+/h(ay)/.match('haystack')  #=> #<MatchData "hay">
+puts $0    #=>   ay
+```
+
 # Option Parsing
 
 [ref](http://ruby.about.com/od/advancedruby/a/optionparser.htm)
@@ -843,6 +868,10 @@ Create app:
 Setup a remote git repository.  Here my value will be:
 `ft_git3@spicevan.com:fentonGem1.git`.  
 
+You need this because you'll be pushing from your local machine to the
+GIT server, and then when you deploy, the Nginx server will pull from
+this GIT server.
+
 ## Sinatra App: lib/fentonGem1.rb
 
 Add a dependency for sinatra into your `fentonGem1.gemspec` file,
@@ -965,3 +994,23 @@ http {
 ## Test
 
 Goto: `http://arch/`
+
+# Rdoc
+
+The following is a sample of how you might want to document your
+functions in ruby.
+
+```ruby
+# 
+# * *Args*    :
+#   - +first_name+ -> The users first name
+#   - +age+ -> The users age
+# * *Returns* :
+#   - +user_record+ -> A record of the user
+# * *Raises* :
+#   - ++ ->
+#
+def method_name
+
+end
+```
