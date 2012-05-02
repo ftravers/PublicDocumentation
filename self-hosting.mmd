@@ -1,0 +1,159 @@
+# Intro
+
+Self hosting refers to you providing your own web hosting for your own
+website.  Everyone has an internet connection, and that is the
+fundamental minimum to host your own website.  Typically you will have
+a dynamic Internet Protocol(IP) address, which makes self hosting a
+little more challenging.  Lets review the terminology that we'll need
+to understand how to setup self-hosting.
+
+* Domain Name(DN).  A domain name is the name of your website.
+  Examples are www.yahoo.com, and www.google.com, or www.spicevan.com.
+
+* Registrar.  You buy domain names from Registrars.  goddady.com is an
+  example.  BTW: I don't really recommend them.
+
+* Internet Protocol(IP) Address.  An IP address is four numbers
+  separated by dots or periods.  The numbers can be anything from
+  0-255.  An example IP would be 10.176.93.232.  Every computer has
+  one and only one IP address.
+
+Domain names correspond one-to-one with IP address.  For each domain
+name, there is an underlying IP address associated with that domain
+name.  Typically they can be used interchangeably, so for example the
+IP address for google.com is: 74.125.71.104.  Try putting that into
+your browser URL Location box.
+
+You can buy a domain name for approximately $10/year.
+
+* The first term is Internet Service Provider(ISP).  These are the
+  guys that give you your internet service.
+
+* Dynamic and Static IP addresses.  Most people have what they call
+  dynamic IP addresses.  That is each time your computer connects to
+  the internet, the ISP will supply you with an IP address while you
+  are connected.  The reason for this is that they can then share IP
+  addresses amongst more people than if they gave you an IP address
+  that you kept even when you computer was shut off.
+
+* Domain Name Server(DNS).  A domain name server converts domain names
+  into IP addresses.  You supply it the domain name google.com and it
+  will return you the ip address: 74.125.71.104.
+
+* Dynamic DNS.  Dynamic DNS is a service that allow you to update the
+  DNS server anytime you want with a new IP address.  So the point is
+  that if you buy a domain name, say fentontravers.com, and then want
+  to change the IP address to which fentontravers.com resolves to
+  frequently, you would use a Dynamic DNS service.
+
+* Web Hosting.  Web hosting is the web server where your actual web
+  pages reside.  Simply buying a domain name won't do anything as you
+  need web pages to which your domain name will point for you to have
+  a live website.  Typically you'll pay a minimum of $5/month for web
+  hosting services.
+
+* Web Server.  A web server is a computer that is running a piece of
+  software, also called a web server, that serves up web pages to any
+  other computers that ask for them.
+
+* Modem.  A modem is a piece of equipment that brings the internet
+  into your home.
+
+* Router.  A router is a piece of network equiment that sits between
+  your modem and your computers on your internal network.
+
+* Firewall.  There is typically a firewall on your router that
+  prevents people from coming into your home network from the outside
+  world.
+
+# Deeper Understanding
+
+Having gotten the terminology out of the way, the next step is to
+understand what we are going to try to do.  The situation is that we
+have a spare computer that we are going to turn into a web server and
+put on our home network.  We are then going to buy a domain name
+($10/year), and register that with a Dynamic DNS company.  Finally,
+we'll install an extra piece of software on our web server that will
+communicate automatically with the Dynamic DNS company and update our
+IP address with them whenever our ISP changes our IP address.
+
+In this way, fentontravers.com can resolve to constantly changing IP
+addresses, but that will be unknown to people in general, as they only
+care about having a constant domain name and not IP address.
+
+# Getting Started
+
+## Register / Transfer domain name
+
+Register a domain name at namecheap.com (or if you already have a
+domain name, switch it over to namecheap).
+
+For this example we'll use the domain name fentontravers.com.  At the
+time of this writing, going to this URL give an image like:
+
+!images/sh1.png!
+
+## Setup Dynamic DNS on ISP
+
+Here is a link to the namecheap page that discusses dynamic dns
+hosting:
+http://www.namecheap.com/resources/help/index.asp?t=dynamicdns.  It
+provides information about what needs to be done on their site to
+enable dynamic dns.
+
+Going through their steps will eventually lead you to a page that has
+an information on it similar to the image below:
+
+!images/sh2.png!
+
+An 'A Record' is a record that maps a hostname + domain name to an ip
+address.  You may have several computers on your network.  Every
+computer on a given network should have a unique name.  This name
+combined with the domain name is a fully qualified name.  Since my
+domain name is fentontravers.com, I may have a computer in this
+network that I call comp1.  So it's full name is
+comp1.fentontravers.com.  Now this computer will also have an IP
+address and I must connect the IP Address to the domain name in an 'A
+Record'.
+
+As per the instructions, I just put a dummy IP address in here for now
+until I can get a 'real' IP address later.
+
+!images/sh3.png!
+
+## Setting up your Router
+
+You must log into the web interface of your router and setup IP
+forwarding so that requests that come into the router on port 80, get
+sent to the IP address of your web server.  See the "Reverse
+Proxy":reverse_proxy section below if you have multiple web servers on
+your network and multiple domain names you want to serve up from them.
+
+## Reverse Proxy: Advanced Setup
+
+If you have multiple web servers on your network and you want to serve
+one domain from one web server and another domain from another web
+server, you'll want to setup a reverse proxy to handle that situation.
+Apache can be installed with
+"mod_proxy":http://httpd.apache.org/docs/2.2/mod/mod_proxy.html to
+handle this scenario.
+
+To make it clear, we are actually running many virtual machines on the
+network...we don't really have many physical machines!
+
+The design we want to have is that the proxy server handles all
+requests...on at least port 80 and 22. (443 probably too).  Then if I
+type from the internet:
+
+    ssh root@serv1.fentontravers.com
+
+The dynamic DNS routes me to the IP address of my Router.  The Router
+is then setup to point all 22 & 80 traffic to the internal proxy
+server, then the proxy server forwards the requests to other internal
+servers to finally answer the request.
+
+
+
+# Glossary
+
+
