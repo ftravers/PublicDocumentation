@@ -241,6 +241,12 @@ rescue
 end
 ```
 
+## System Commands
+
+```ruby
+system "command"
+```
+
 ## Inheritance
 
 [ref](http://rubylearning.com/satishtalim/ruby_inheritance.html)
@@ -628,8 +634,11 @@ end
 # regex
 
 ```ruby
-/h(ay)/.match('haystack')  #=> #<MatchData "hay">
-puts $0    #=>   ay
+regex = /^\[group (.*)\]/
+match = "[group fenton]"
+if regex =~ candidate
+ puts $1 # prints: fenton
+end
 ```
 
 # Option Parsing
