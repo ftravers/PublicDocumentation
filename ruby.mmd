@@ -71,6 +71,17 @@ $ rvm use 1.9.3 --default
 $ ruby --version
 ```
 
+### RVM install Gems
+
+Figure out which version of ruby you want to install your gem into
+with:
+
+    rvm info
+    
+Say I want to install `git` gem into ruby version 1.9.2p290 I'd do:
+
+    rvm 1.9.2 do gem install git
+
 ## Debugger on Emacs
 
 [ref](http://pivotallabs.com/users/chad/blog/articles/366-ruby-debug-in-30-seconds-we-don-t-need-no-stinkin-gui-)
@@ -241,6 +252,12 @@ rescue
 end
 ```
 
+throwing exceptions
+
+```ruby
+raise "Here is the error message"
+```
+
 ## System Commands
 
 ```ruby
@@ -356,6 +373,15 @@ $ git add bin/ lib/*; git commit -am'.'
 Signup at rubygems.org:
 
 [Instructions at rubygems.org](https://rubygems.org/pages/gem_docs)
+
+If you have already published the current version, update the version
+in the file: 
+
+    lib/<package>/version.rb
+    
+build it with:
+
+    rake install
 
 publish with:
 
@@ -637,6 +663,34 @@ File.open("readfile.rb", "r") do |infile|
 end
 ```
 
+# Write File
+
+```ruby
+File.open('out.html', 'w'){|f| f.write data}
+```
+
+# Data Structures
+
+## Hashes
+
+Iterate through a hash
+
+```ruby
+map = {}
+hash.each_pair do |k,v|
+  map[k.upcase] = v
+end
+```
+
+## Arrays
+
+Iterate through an array
+
+```ruby
+array = [1, 2, 3, 4, 5, 6]
+array.each { |x| puts x }
+```
+
 # regex
 
 ```ruby
@@ -668,6 +722,22 @@ optparse.parse!
 ```
 
 # Unit Testing 
+
+## Assertions
+
+```
+assert
+assert_block
+assert_equal
+assert_no_match
+assert_not_equal
+assert_not_nil
+assert_not_same
+assert_nothing_raised
+assert_nothing_thrown
+assert_raise
+assert_respond_to
+```
 
 [ref](http://www.moseshohman.com/blog/2004/10/13/building-testunit-testsuites-in-ruby/)
 
@@ -892,15 +962,24 @@ this GIT server.
 Add a dependency for sinatra into your `fentonGem1.gemspec` file,
 like: 
 
-    s.add_runtime_dependency "sinatra"
+```ruby
+Gem::Specification.new do |gem|
+...
+  gem.add_runtime_dependency "sinatra"
+...
+end
+```
 
 Create a small sinatra app in file: `lib/fentonGem1.rb` like:
 
 ```ruby
+...
 require 'sinatra/base'
-class FirstSinatraApp < Sinatra::Base
-  get "/" do
-    "Hello World."
+module FentonGem1
+  class FirstSinatraApp < Sinatra::Base
+    get "/" do
+      "Hello World."
+    end
   end
 end
 ```
@@ -911,12 +990,15 @@ Create a rackup file: `config.ru`, with contents:
 
 ```ruby
 require File.dirname(__FILE__) + '/lib/fentonGem1'
-run Rack::URLMap.new "/" => FirstSinatraApp
+run Rack::URLMap.new "/" => FentonGem1::FirstSinatraApp
 ```
+
+The first line sucks in the Sinatra file we edited above.  The second
+line indicates what class represents the web root.  I think?
 
 ## Capistrano configuration: config/deploy.rb
 
-Install capistrano if required:
+Install capistrano (if required):
 
     gem install capistrano
 
@@ -952,7 +1034,17 @@ namespace :deploy do
   end
 end
 ```
- 
+
+Param          | Meaning
+-------------- | ------------------------------------
+application    | The name of your application
+repository     | The git repository of this application
+stage          | Is this development, staging, or production
+user           | The user with which to log in to the deployment server with
+deploy_to      | Where your application will get copied to
+domain         | Should be the hostname of the server you are deploying to
+
+
 ## Capistrano wiring: Capfile
 
 To enable capistrano commands have a `Capfile` in the project root,
@@ -965,11 +1057,11 @@ load 'config/deploy'
 
 ## Capistrano deployment
 
-Now you can create the directory structure on the server with:
+Do the following once initially
 
     cap deploy:setup
     
-Each time you wish to deploy your app, commit/push everything to the
+Now each time you wish to deploy your app, commit/push everything to the
 remote git repository and execute:
 
     cap deploy
@@ -990,7 +1082,7 @@ gems you may need for your application.
 
 ## Nginx: nginx.conf
 
-Have the following config:
+In: `/opt/nginx/conf/nginx.conf`, have the following config:
 
 ```
 user  docs users;
@@ -1005,10 +1097,38 @@ http {
     }
 }
 ```
-    
+
+For each application you want to deploy to the server has a separate
+`server` section.  So the following has two applications: `fenton6`
+and `fentonGem2`:
+
+```
+    server {
+        listen       80;
+        server_name  fenton6;
+        root /data/apps/production/fenton6/current/public;        
+        passenger_enabled on;        
+    }               
+    server {
+        listen 80;
+        server_name arch;
+        root /data/apps/production/fentonGem2/current/public;
+        passenger_enabled on;
+    }
+```
+
+Since these are on the same server you need the names: `fenton6` and
+`fentonGem2` to both resolve to the IP address of the server.  Do this
+in DNS for production scenarios, or for testing just update
+`/etc/hosts` of the client you are testing from, eg: 
+
+```
+192.168.1.31     arch fenton6
+```
+
 ## Test
 
-Goto: `http://arch/`
+Goto: `http://arch/`, or `http://fenton6/`.
 
 # Rdoc
 
