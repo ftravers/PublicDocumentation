@@ -11,10 +11,12 @@ adaptor.
 
 ## Configure Arch 
 
+Simply go through accepting all defaults except for what is listed
+below.
+
 Setup static ip at: `/etc/rc.conf`, insert
 
 ```
-# Static IP example
 address=192.168.0.2
 interface=eth0
 netmask=255.255.255.0
@@ -29,6 +31,16 @@ setup nameserver (dns)
 nameserver 192.168.0.1
 ```
 
+Comment out servers in `/etc/pacman.d/mirrorlist` for your country.
+
+Shutdown the VM with: `shutdown -h now`
+
+Remove the arch.iso file from the CD and start the Arch VM up again.
+
+
+
+
+
 get the latest mirrors (and uncomment for your country) with:
 
     # wget -c http://www.archlinux.org/mirrorlist/all/
@@ -39,7 +51,9 @@ and put it here:
     
 update system with:
 
-    # pacman -Syyu --noconfirm
+    # pacman -Syyu 
+    
+  Note answer NO when it asks if you want to update first.
     
 ## Install/Setup SSH
     
