@@ -37,33 +37,41 @@ Shutdown the VM with: `shutdown -h now`
 
 Remove the arch.iso file from the CD and start the Arch VM up again.
 
+Get the latest mirrors:
 
+    # cd /etc/pacman.d; wget -c http://www.archlinux.org/mirrorlist/all/
+    # mv mirrorlist mirrorlist.old; mv index.html mirrorlist
 
+and uncomment for your country in the file.
 
-
-get the latest mirrors (and uncomment for your country) with:
-
-    # wget -c http://www.archlinux.org/mirrorlist/all/
-
-and put it here: 
-
-    /etc/pacman.d/mirrorlist
-    
-update system with:
+Update system with:
 
     # pacman -Syyu 
     
-  Note answer NO when it asks if you want to update first.
+Note answer `n` when it says:
+  
+    :: Do you want to cancel the current operation
+    :: and upgrade these packages now? [Y/n]
+    
+Answer `y` for remaining questions.
+
+If you get an error message saying:
+
+    error: failed to commit transaction (conflicting files)
+    
+and then it says some file `exists in the filesystem`, simply delete
+those files and retry: `pacman -Syyu`, again saying `n` when it asks
+if you want to upgrade.
     
 ## Install/Setup SSH
     
     # pacman --noconfirm -S openssh openssl
 
-Add it as a daemon to `/etc/rc.conf`, sample: 
+Add it as a daemon after `network` to `/etc/rc.conf`: 
 
     DAEMONS=(... network @sshd ...)
 
-
+Reboot and ssh into it so you can enjoy your nice terminal client.
 
 ## DBus
 
@@ -74,75 +82,7 @@ add it to the daemons array in `rc.conf`
 
     DAEMONS=(... dbus ...)
 
-## Apache LAMP
-
-[ref](https://wiki.archlinux.org/index.php/LAMP#Apache)
-
-    # pacman -S --noconfirm apache php php-apache mysql
-
-Update: `/etc/httpd/conf/httpd.conf`
-
-```
-# Virtual hosts
-Include conf/extra/httpd-vhosts.conf
-```
-
-Virtual Hosts: `/etc/httpd/conf/extra/httpd-vhosts.conf`
-
-```xml
-<VirtualHost *:80>
-  ServerName docs
-  DocumentRoot /home/docs/bin/website_static
-</VirtualHost>
-```
-
-# Start/Stop/Restart Services
-
-Example for sshd: 
-
-    # rc.d {start|stop|restart} sshd
-
-All scripts are kept in the folder: `/etc/rc.d`
-
-# Install X Windows
-
-* [beginners guide - x][arch-beg-x-win]
-* [virtual box][arch-virtual-box]
-
-```bash
-# pacman --noconfirm -S xorg-server xorg-xinit xorg-utils xorg-server-utils
-# pacman --noconfirm -S mesa
-# pacman --noconfirm -S mesa-demos
-# pacman --noconfirm -S virtualbox-archlinux-additions
-# reboot
-# modprobe -a vboxguest vboxsf vboxvideo
-```    
-    
-add to `rc.conf`
-
-    MODULES=(... vboxguest vboxsf vboxvideo)
-
-if you don't already have an ~/.xinitrc, do:
-
-    cp /etc/skel/.xinitrc ~/.xinitrc
-
-and put the following in it:
-
-```
-VBoxClient-all &
-# exec gnome-session
-# exec startkde
-# exec startxfce4
-# ...or the Window Manager of your choice
-```
-
-    # pacman --noconfirm -S xf86-video-vesa
-    # pacman --noconfirm -S xf86-input-synaptics
-    # pacman --noconfirm -S zlib
-    # startx
-    # pacman --noconfirm -S ttf-dejavu
-    
-# Add User
+## Add User
 
 Install sudo:
 
@@ -150,20 +90,92 @@ Install sudo:
 
 Add a user, default group: `users`, shell is `bash`
 
-    # useradd -m -g users -s /bin/bash docs; passwd docs
+    # useradd -m -g users -s /bin/bash fenton; passwd fenton
     # visudo
 
 allow docs to do everything with an entry like:
 
-    docs ALL=(ALL) ALL
+    fenton ALL=(ALL) ALL
+
+## Window Managers / Desktop Environments
+
+* [beginners guide - x][arch-beg-x-win]
+* [virtual box][arch-virtual-box]
+
+```bash
+# pacman --noconfirm -S xorg-server xorg-xinit xorg-utils xorg-server-utils mesa mesa-demos virtualbox-archlinux-additions xf86-video-vesa xf86-input-synaptics zlib ttf-dejavu
+# modprobe -a vboxguest vboxsf vboxvideo
+```
+    
+add to `rc.conf`
+
+    MODULES=(... vboxguest vboxsf vboxvideo)
+
+
+If you are using Arch installed directly on your hardware, you could
+use the i3 window manager, otherwise you might want to use xfce4.
+
+### i3 window manager
+
+install i3 window manager
+
+    pacman -S i3
+    
+accept default to install all items.
+
+Create an ~/.xinitrc
+
+    cat > ~/.xinitrc
+    exec i3
+
+Reboot for good measure!
+
+    # startx
+
+### xfce4 desktop environment
+
+install
+
+    pacman -s xfce4
+    
+accept default to get all packages, to start do:
+
+    startxfce4
+
+## Git
+
+    # pacman --noconfirm -S git curl
+    
+## Emacs
+
+    # pacman --noconfirm -S emacs
+    
+If this is inside a virtualbox vm, I normally remap the Host Key from
+right Ctrl to F12 key.  File > Preferences > Input.  The right ctrl
+key is used extensively for emacs!
+
+### Clojure support
+
+install rlwrap:
+
+    # pacman --noconfirm -S rlwrap
+
+install java:
+
+    # pacman -S jdk7-openjdk
+
+Install Clojure, see: clojure.html
+
+Setup ELPA see: emacs.html
+
+Add packages: clojure-mode, clojure-test-mode
 
 # RVM - Ruby
 
 [rvm ruby reference][rvm ruby]
 
-    # pacman --noconfirm -S git curl
-
-now become user docs
+now become user: `docs` (or whatever user you plan on being when you
+are using ruby)
 
     # su - docs
     $ sudo bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
@@ -179,27 +191,6 @@ as docs user:
     $ rvm install 1.9.3
     $ rvm use 1.9.3 --default
     
-# Xfce Desktop Environment (not complete, not working)
-
-[xfce reference][xfce ref wiki]
-
-as root
-
-    # pacman --noconfirm -S xfce4
-    
-as docs (if u don't already have an ~/.xinitrc file do:
-
-    $ cp /etc/skel/.xinitrc ~/.xinitrc
-
-add to it:
-
-    exec ck-launch-session startxfce4
-    
-[arch-beg-x-win]: https://wiki.archlinux.org/index.php/Beginners'_Guide#Graphical_User_Interface
-[arch-virtual-box]: https://wiki.archlinux.org/index.php/Arch_Linux_VirtualBox_Guest#Arch_Linux_guests
-[rvm ruby]: https://wiki.archlinux.org/index.php/RVM
-[xfce ref wiki]: https://wiki.archlinux.org/index.php/Xfce
-
 # Virtualization (not complete - not working)
 
 [Ref](https://wiki.archlinux.org/index.php/KVM)
@@ -561,3 +552,34 @@ $ make install
 # Open (Libre) Office
 
     $ sudo pacman -S libreoffice
+
+## Apache LAMP
+
+[ref](https://wiki.archlinux.org/index.php/LAMP#Apache)
+
+    # pacman -S --noconfirm apache php php-apache mysql
+
+Update: `/etc/httpd/conf/httpd.conf`
+
+```
+# Virtual hosts
+Include conf/extra/httpd-vhosts.conf
+```
+
+Virtual Hosts: `/etc/httpd/conf/extra/httpd-vhosts.conf`
+
+```xml
+<VirtualHost *:80>
+  ServerName docs
+  DocumentRoot /home/docs/bin/website_static
+</VirtualHost>
+```
+
+# Start/Stop/Restart Services
+
+Example for sshd: 
+
+    # rc.d {start|stop|restart} sshd
+
+All scripts are kept in the folder: `/etc/rc.d`
+
