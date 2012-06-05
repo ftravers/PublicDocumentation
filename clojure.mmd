@@ -65,8 +65,8 @@ Insert contents *like* the following into the project file: `~/tmp/test1/project
 ```
 (defproject test1 "1.0.0-SNAPSHOT"
   :description "FIXME: write description"
-  :dependencies [[org.clojure/clojure "1.2.0"]
-                 [org.clojure/clojure-contrib "1.2.0"]]
+  :dependencies [[org.clojure/clojure "1.4.0"]]                 
+  :plugins [[lein-swank "1.4.4"]]                 
   :dev-dependencies [[swank-clojure "1.3.4"]])
 ```
 
@@ -85,14 +85,25 @@ results.
 
 ## Workflow
 
-In file you are editing do: `C-c M-p`, you will be prompted for
+Fire up Emacs
+
+Load the file you want to work in
+
+Fire up swank/slime: `A-x clojure-jack-in`
+
+`C-c C-k` in your file to compile your changes and send them to the
+repl.
+
+In file you are editing do: `C-c A-p`, you will be prompted for
 namespace of that file to switch to.  Press `Enter` to accept.
+
+Now you can modify your file and the changes will be reflected in your REPL
+
+
 
 `C-c C-z` will take you to the repl.  It should have the correct
 namespace there now.
 
-`C-c C-k` in your file to compile your changes and send them to the
-repl.
 
 ```
 ;; Auto reload saved source files and send them to the repl
@@ -115,8 +126,9 @@ C-c I        | Inspector
 
 [Slime Manual](http://common-lisp.net/project/slime/doc/html/)
 
-
 ## Main method and Java AOT Compile Classes
+
+AOT = Ahead of Time
 
 File: `src/test-project/core.clj`, contents:
 
@@ -1270,4 +1282,61 @@ method.getResponseBodyAsString();
 
 So the first step is to get the dependent library in place.
 
+## APS to CX web services
+
+To do CX web services for APS (Account Provisioning System), we'll
+need to create XML as a central part of the library.  The following
+SOAP creates a contact user.
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Header>
+    <ns7:ClientInfoHeader xmlns:ns7="urn:messages.ws.rightnow.com/v1_2" soapenv:mustUnderstand="0">
+      <ns7:AppID></ns7:AppID>
+    </ns7:ClientInfoHeader>
+    <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" mustUnderstand="1">
+      <wsse:UsernameToken>
+        <wsse:Username>ftravers</wsse:Username>
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">secret123</wsse:Password>
+      </wsse:UsernameToken>
+    </wsse:Security>
+  </soapenv:Header>
+  <soapenv:Body>
+    <ns7:Create xmlns:ns7="urn:messages.ws.rightnow.com/v1_2">
+      <ns7:RNObjects xmlns:ns4="urn:objects.ws.rightnow.com/v1_2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:Contact">
+        <ns4:Emails>
+          <ns4:EmailList action="add">
+            <ns4:Address>fenton.travers@gmail.com</ns4:Address>
+            <ns4:AddressType>
+              <ID xmlns="urn:base.ws.rightnow.com/v1_2" id="0" />
+            </ns4:AddressType>
+          </ns4:EmailList>
+        </ns4:Emails>
+        <ns4:Name>
+          <ns4:First>Fenton</ns4:First>
+          <ns4:Last>Travers</ns4:Last>
+        </ns4:Name>
+      </ns7:RNObjects>
+      <ns7:ProcessingOptions>
+        <ns7:SuppressExternalEvents>false</ns7:SuppressExternalEvents>
+        <ns7:SuppressRules>false</ns7:SuppressRules>
+      </ns7:ProcessingOptions>
+    </ns7:Create>
+  </soapenv:Body>
+</soapenv:Envelope>
+```
+
+Here we need to parameterize several items, they are:
+
+* Login username (to login to the CX system)
+* Login password
+* Contact email address (of the contact you want to create)
+* Contact first name
+* Contact last name
+
+Pragmmatic Programming Clojure, recommends: 
+
+  "If you plan to do significant XML processing with Clojure, check
+   out the lazy-xml and zip-filter/xml libraries in clojure-contrib."
+   
 

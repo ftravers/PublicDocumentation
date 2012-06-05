@@ -200,6 +200,29 @@ end
 
 ### Mixin
 
+If you want to include the same code in many classes you can use
+mixins.
+
+```ruby
+module Debug
+  def whoAmI?
+    "#{self.type.name} (\##{self.id}): #{self.to_s}"
+  end
+end
+class Phonograph
+  include Debug
+  # ...
+end
+class EightTrack
+  include Debug
+  # ...
+end
+ph = Phonograph.new("West End Blues")
+et = EightTrack.new("Surrealistic Pillow")
+ph.whoAmI?	»	"Phonograph (#537766170): West End Blues"
+et.whoAmI?	»	"EightTrack (#537765860): Surrealistic Pillow"
+```
+
 Modules cannot be instantiated, only included into a class.  This is
 called a `mixin`. In file `travers.rb`.  Modules can include other
 modules.
@@ -637,7 +660,7 @@ require 'erb'
 class templater
   def do_template
     @template_data = {:email => 'fenton.travers@gmail.com' }
-    # template = File.open(File.join("soap","create_user1.xml"), "r").read
+    # template = File.open("create_user1.erb", "r").read
     template = "<ns4:Address><%= @template_data[:email] %></ns4:Address>\n "
     renderer = ERB.new template
     data = renderer.result binding
@@ -645,6 +668,30 @@ class templater
 end
 ```
   
+Often you'll want to include one erb inside another erb.  Here's how.
+
+In real applications (such as CGI), I always write the method 
+which build sub part in Ruby script. 
+
+in body.erb:
+
+```
+I'm body.erb
+<%= inc 'footer.erb' %>
+```
+
+in your ruby file:  `my.rb`
+
+```ruby
+def inc file
+  erb = File.open(file, 'r').read
+  erb.result binding
+end
+
+erb = import_erb 'body.erb'
+erb.result binding
+```
+
 # Read a File
 
 ## All at once
@@ -673,6 +720,12 @@ File.open('out.html', 'w'){|f| f.write data}
 
 ## Hashes
 
+```ruby
+hash1 = {}
+hash1['a'] = 2
+hash2 = { 'a' => 2 }
+p hash1['a'] == hash2['a']
+```
 Iterate through a hash
 
 ```ruby
@@ -684,10 +737,15 @@ end
 
 ## Arrays
 
+Can hold mixed types of values.
+
+    array = [1, 2, 'three']
+
 Iterate through an array
 
 ```ruby
-array = [1, 2, 3, 4, 5, 6]
+array = [1, 2, 3]
+p array[1] # => 2
 array.each { |x| puts x }
 ```
 
@@ -1130,7 +1188,7 @@ in DNS for production scenarios, or for testing just update
 
 Goto: `http://arch/`, or `http://fenton6/`.
 
-# Rdoc
+# Rdoc - Comments
 
 The following is a sample of how you might want to document your
 functions in ruby.
