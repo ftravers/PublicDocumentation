@@ -34,7 +34,7 @@ of the xml/element struct-map, which has the keys :tag, :attrs, and
 Doing an `A-,` returns me back to my source file.  Okay, I evaluate
 the following in the REPL.
 
-```
+```repl
 my-project.core> (class myxml)
 clojure.lang.PersistentStructMap
 my-project.core> (println myxml)
