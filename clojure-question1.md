@@ -27,3 +27,7 @@ What I've got so far is:
 ```
 
 Where to go from here?
+
+ANSWER:  Look at the bottom of this:
+
+https://github.com/richhickey/clojure-contrib/blob/81b9e71effbaf6aa2945cd684802d87c762cdcdd/src/clojure/contrib/zip_filter/xml.clj#L57
