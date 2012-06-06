@@ -59,29 +59,21 @@ clean image at: `/OVS/backups/clean_4gb_vl-wlp1.tgz`
 
     /home/git/repositories
 
-## alm - OVMM, OVMTB, Jenkins
-
-### Oracle Virtual Machine, Oracle Virtual Machine Manager
-
-This is the NEW Template Builder.
-
-http://alm.hk.oracle.com/ovmtb/ (username/password =
-oracle/welcome1)
-
-Created VM tarballs:
-
-    /opt/ovmtb/tarballs
-
-The folder: `/mnt/vmsrv` is `vl-vmsrv2:/OVS/downloads` so you can
-copy the VM  
-tarballs there.
-
-* unix user/password: oracle/welcome1
-
 ### Jenkins
 
 running under user: `fenton`
 
 directory: `/home/fenton/.jenkins`
+
+## alm - nginx
+
+Property          | Value 
+----------------- | -------------------
+user              | docs
+nginx conf        | /opt/nginx/conf/nginx.conf
+restart           | service nginx restart
+
+
+root@alm.hk.oracle.com:/opt/nginx/conf/nginx.conf
 
 

@@ -32,29 +32,33 @@ the stuff it needs to run.
 
 # General Problem
 
+*This documentation is NOT completed*
+
 In the image below we depict that the project `GUI` _depends on_ the
-project `LIB`.
+project `Lib`.
 
 ![Project Dependency](images/project-dependency.png "Project Dependency")
 
 Normally I like to set these up as _SNAPSHOT_ dependencies, which I
-define as `GUI` depends on the latest version of `LIB`.  In maven we
+define as `GUI` depends on the latest version of `Lib`.  In maven we
 achieve this by setting GUI's pom.xml to have a line like the
 following:
 
 ```xml
 <project>
+  <artifactId>GUI</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
   <dependencies>
     <dependency>
-	    <artifactId>LIB</artifactId>
+      <artifactId>Lib</artifactId>
       <version>0.0.1-SNAPSHOT</version>
 ```
 
-and in LIB's pom.xml an entry like:
+and in Lib's pom.xml an entry like:
 
 ```xml
 <project>
-  <artifactId>LIB</artifactId>
+  <artifactId>Lib</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 ```
 
@@ -62,24 +66,24 @@ So the way I'd like my system to work is that for all code under my
 control, I would set it's version to be a SNAPSHOT version.  Then when
 I'm happy with it, I'd like to press one button and have the required
 projects get released with NON-SNAPSHOT versions.  In the above
-scenario, I can release either the LIB or GUI projects.  I can only
+scenario, I can release either the Lib or GUI projects.  I can only
 ever pick one project to release.  If dependencies require, a
 cascading release may occur.  So lets examine the scenarios of
-releasing GUI or releasing LIB.
+releasing GUI or releasing Lib.
 
-## Releasing the LIB code
+## Releasing the Lib code
 
-So LIB code is _depended on_ by other code but it doesn't _depend on_
+So Lib code is _depended on_ by other code but it doesn't _depend on_
 any code itself.  So this use case could be called: "Releasing code
 that doesn't depend on anything, but other code depends on it".
 
 Use Case Steps: When I trigger the release action on the build server
-for the code for LIB, I'd like the following to happen:
+for the code for Lib, I'd like the following to happen:
 
-1. The system checks out the LIB code.
+1. The system checks out the Lib code.
 
 1. The system should scan for any other projects that depend on the
-`0.0.1-SNAPSHOT` version of LIB, and save that list, lets call that
+`0.0.1-SNAPSHOT` version of Lib, and save that list, lets call that
 list the: `projects-that-depend-on-me` list.
 
 1. The project should be built and tested, any failures cause the release
@@ -96,15 +100,15 @@ over slow network links.
 
 2. Next the VCS would go through the list of
 `projects-that-depende-on-me`, check them out, and modify their
-dependency references to LIB to adjust the version from 0.0.1-SNAPSHOT
+dependency references to Lib to adjust the version from 0.0.1-SNAPSHOT
 to be 0.0.2-SNAPSHOT.  It should then check these projects back in.
 
 Statistics:
 
-Number of builds: 1
-Number of artifact sends to remote repositories: 1
-Number of checkouts on the VCS: 1
-Number of revisions added to the VCS: 1
+* Number of builds: 1
+* Number of artifact sends to remote repositories: 1
+* Number of checkouts on the VCS: 1
+* Number of revisions added to the VCS: 1
 
 That is the end of the use case.  The second use case is when we
 update the GUI code.
@@ -125,18 +129,15 @@ SNAPSHOT dependencies.
 that they in turn depend on, should be created, and lets call this
 tree the: `SNAPSHOT-dependency-tree`
 
-1. 
-
 1. When the VCS receives my commit request it analyses my pom and
 identifies that I have SNAPSHOT dependencies AND this project itself
 is a SNAPSHOT version.
 
-
-tagged in the VCS 
+*TO BE FINISHED SPECIFYING HERE...*
 
 ## Cascading Release
 
-So i have two maven projects that I control.  One depends on another,
+So I have two maven projects that I control.  One depends on another,
 say webapp depends on jar library.  I'm trying to setup continuous
 deployment, so I have the webapp depending on the SNAPSHOT version of
 the jar library.  Now when I check-in code to the jar and push to the
