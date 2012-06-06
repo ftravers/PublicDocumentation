@@ -22,7 +22,77 @@ $ cp clojure-contrib-1.2.0/target/clojure-contrib-1.2.0.jar ~/.clojure/clojure-c
 
 * lein self-install
 
-## Emacs packages
+## Emacs setup
+
+[ref](https://github.com/technomancy/swank-clojure)
+
+Referencing the URL above, you are going to install `clojure-mode`.
+
+### New Project
+
+Then create a project with (I'm calling my project: `my-project`):
+
+```bash
+$ lein new my-project
+$ cd my-project
+```
+
+put `[lein-swank "1.4.4"]` into the `:plugins` section of
+`project.clj`, here is a sample:
+
+```clojure
+(defproject my-project "1.0.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :plugins [[lein-swank "1.4.4"]]                 
+  :dependencies [[org.clojure/clojure "1.4.0"]])
+```
+
+Now pull in dependencies:
+
+```
+$ lein deps
+```
+
+### Basic Workflow
+
+Fire up Emacs
+
+Load the file you want to work in
+
+Fire up swank/slime: `A-x clojure-jack-in`
+
+`C-c C-k` in your file to compile your changes and send them to the
+repl.
+
+In file you are editing do: `C-c A-p`, you will be prompted for
+namespace of that file to switch to.  Press `Enter` to accept.
+
+Now you can modify your file and the changes will be reflected in your REPL
+
+### Use libraries
+
+Here we'll add in the use of an XML library, org.clojure/data.zip "0.1.0".
+
+Change `project.clj` to look like: 
+
+```clojure
+(defproject test3 "1.0.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :plugins [[lein-swank "1.4.4"]]                 
+  :dependencies [[org.clojure/clojure "1.4.0"]
+                 [org.clojure/data.zip "0.1.0"]])
+```
+
+Now edit file: `my-project/src/my-project/core.clj`, changing the top
+of the file too look like:
+
+```
+(ns my-project.core
+  (:use [clojure.data.zip.xml]))
+```
+
+
+
 
 [ref](http://tromey.com/elpa/install.html)
 
@@ -116,13 +186,17 @@ namespace there now.
 (add-hook 'after-save-hook 'ed/clojure-compile-on-save)
 ```
 
+[Ref](https://github.com/technomancy/swank-clojure)
+
 what         | effect
 ------------ | -------------------------------
-M-.          | to go to a definition.
+A-.          | to go to a definition.
+A-,          | return from definition above.
 C-c C-k      | to compile the current buffer.
-M-p & M-n    | to go forwards and backward in REPL history.
+A-p & A-n    | to go forwards and backward in REPL history.
 <tab>        | for completion.
-C-c I        | Inspector
+C-c I        | Inspect a variable
+C-c C-w c    | List all callers of a given function
 
 [Slime Manual](http://common-lisp.net/project/slime/doc/html/)
 
@@ -565,11 +639,91 @@ slime-repl.
 
 # Using Clojure
 
+To define a variable:
+
+what                           | java                           | clojure
+------------------------------ | ------------------------------ | ---------------------------
+To define/declare a variable   | String fenton = "fenton";      | (def fenton "fenton")
+print to console               | System.out.println(fenton);    | (println fenton)
+
+* Import a library
+
+```java
+import com.oracle.git.ClassName;
+```
+
+```clojure
+(ns com.my-project
+   (:use [some.namespace :only (func1 func2)]))
+```
+
+A good middle ground between "use" and "require" is to only 'use' the
+functions from a name space that you actually use.
+
+When you require a namespace, you still have to refer to methods in a
+fully qualified approach.  Use allows you to use the name directly,
+like so:
+
+```clojure
+(require 'foo)
+(foo/bar ...)
+```
+
+vs
+
+```clojure
+(use 'foo)
+(bar ...)
+```
+
+As has been mentioned the big difference is that with 
+you then refer to names in the lib's namespace like so: (foo/bar ...)
+if you do (use 'foo) then they are now in your current namespace
+(whatever that may be and provided there are no conflicts) and you can
+call them like (bar ...).
+
+## XML Processing
+
+a lot easier to use `clojure.data.zip.xml`
+
+file: `myfile.xml`:
+
+```xml
+<songs>
+  <track id="t1"><name>Track one</name></track>
+  <track id="t2"><name>Track two</name></track>
+</songs>
+```
+
+```clojure
+(ns example
+  (:use [clojure.data.zip.xml :only (attr text xml->)]) ; dep: see below
+  (:require [clojure.xml :as xml]
+            [clojure.zip :as zip]))
+
+(def xml (xml/parse "myfile.xml"))
+(def zipped (zip/xml-zip xml))
+(xml-> zipped :track :name text)       ; ("Track one" "Track two")
+(xml-> zipped :track (attr :id))       ; ("t1" "t2")
+```
+
+Unfortunately, you need to pull in a dependency on [data.zip][1] to
+get this nice read/filter functionality.  **It's worth the dependency
+:)** In [lein][2] it would be (as of 6-Mar-2012):
+
+    [org.clojure/data.zip "0.1.0"]
+
+And as for docs for `data.zip.xml` ... I just look at the relatively
+small source file [here][3] to see what is possible.  Another good SO
+answer [here][4], too.
+
+  [1]: https://github.com/clojure/data.zip
+  [2]: https://github.com/technomancy/leiningen
+  [3]: https://github.com/clojure/data.zip/blob/master/src/main/clojure/clojure/data/zip/xml.clj
+  [4]: http://stackoverflow.com/a/6471118/69689
+
+
 [Source of the following info](http://java.ociweb.com/mark/clojure/article.html)
-
-## Output
-
-    (println "Hello World");
 
 ## Data
 
