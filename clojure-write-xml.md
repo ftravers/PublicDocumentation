@@ -11,3 +11,11 @@ Now I want to write XML.  Here is some starting code:
 
 (def my-xml (parse-str "<f>fenton <b>oliver</b> travers</f>"))
 ```
+
+I'd like to have xml that looks like:
+
+```xml
+<f>fenton <b>oliver</b> <b>joey</b> travers</f>
+```
+
+so just adding `<b>joey</b>`, i.e. after the peer `<b>oliver</b>`
