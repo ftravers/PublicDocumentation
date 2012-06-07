@@ -97,8 +97,9 @@ things:
 
 The way to read this answer is:
 
-`(xml-> zipped...` = Run the xml-> function, which you might call "get
-xml", on the zipped xml data structure
+`(xml-> zipped...` = Run the `xml->` function, which you might
+describe as a function that "gets xml", on the zipped xml data
+structure
 
 `... :track ...` = grab the first track node you come upon
 
