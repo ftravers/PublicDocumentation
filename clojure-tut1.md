@@ -97,27 +97,27 @@ things:
 
 The way to read this answer is:
 
-`(xml-> zipped...` = Run the `xml->` function, which you might
-describe as a function that "gets xml", on the zipped xml data
+`(xml-> zipped` = Run the `xml->` function, which you might
+describe as a function that "gets xml", on the `zipped` xml data
 structure
 
-`... :track ...` = grab the first track node you come upon
+` :track ` = grab the first track node you come upon
 
 `:track [:name (text= "Track one")]` = filter these tracks based on
 having a child node called `name`, whose text is equal to: `Track one`.
 
-`... (attr :id)` now give me the attribute `id` for the found track.
+` (attr :id)` now give me the attribute `id` for the found track.
 
 
 1. (Q): Get the name of the track who's id is: `t2`?
 
 (A): `(xml-> zipped :track [(attr= :id "t2")] :name text)`
 
-`... :track` = start looking at the nodes track, the first ones you
+` :track` = start looking at the nodes track, the first ones you
 come upon
 
-`... [(attr= :id "t2)] = filter those tracks keeping only the ones
+` [(attr= :id "t2)] = filter those tracks keeping only the ones
 whos attribute `id` is: `t2`
 
-`... :name text` = For the found tracks give us the child node named
+` :name text` = For the found tracks give us the child node named
 `name`'s contents (text).
