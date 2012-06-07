@@ -18,4 +18,11 @@ I'd like to have xml that looks like:
 <f>fenton <b>oliver</b> <b>joey</b> travers</f>
 ```
 
-so just adding `<b>joey</b>`, i.e. after the peer `<b>oliver</b>`
+so just adding `<b>joey</b>`, after the peer `<b>oliver</b>`
+
+In the REPL we see that `my-xml` looks like:
+
+```repl
+my-project.core> (println my-xml)
+[{:tag :f, :attrs nil, :content [fenton  {:tag :b, :attrs nil, :content [oliver]}  travers]} nil]
+```
