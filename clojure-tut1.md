@@ -115,5 +115,8 @@ having a child node called `name`, whose text is equal to: `Track one`.
 `... :track` = start looking at the nodes track, the first ones you
 come upon
 
-`... [(attr= :id "t2)]
+`... [(attr= :id "t2)] = filter those tracks keeping only the ones
+whos attribute `id` is: `t2`
 
+`... :name text` = For the found tracks give us the child node named
+`name`'s contents (text).
