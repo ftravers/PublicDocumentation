@@ -113,10 +113,10 @@ having a child node called `name`, whose text is equal to: `Track one`.
 
 (A): `(xml-> zipped :track [(attr= :id "t2")] :name text)`
 
-` :track` = start looking at the nodes track, the first ones you
+` :track` = get the track nodes, the first ones you
 come upon
 
-` [(attr= :id "t2)] = filter those tracks keeping only the ones
+` [(attr= :id "t2)]` = filter those tracks keeping only the ones
 whos attribute `id` is: `t2`
 
 ` :name text` = For the found tracks give us the child node named
