@@ -91,9 +91,9 @@ clojure.lang.PersistentVector
 So all of this makes sense.  But what if we wanted to do the following
 things: 
 
-#### Q1
+#### Question 1
 
-(Q): Get the `id` of the track who's name is: `Track one`?
+Get the `id` of the track who's name is: `Track one`?
 
 (A): `(xml-> zipped :track [:name (text= "Track one")] (attr :id))`
 
@@ -110,9 +110,9 @@ having a child node called `name`, whose text is equal to: `Track one`.
 
 ` (attr :id)` now give me the attribute `id` for the found track.
 
-#### Q2
+#### Question 2
 
-(Q): Get the name of the track who's id is: `t2`?
+Get the name of the track who's id is: `t2`?
 
 (A): `(xml-> zipped :track [(attr= :id "t2")] :name text)`
 
