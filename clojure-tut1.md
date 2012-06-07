@@ -91,7 +91,7 @@ clojure.lang.PersistentVector
 So all of this makes sense.  But what if we wanted to do the following
 things: 
 
-## Q1
+#### Q1
 
 (Q): Get the `id` of the track who's name is: `Track one`?
 
@@ -110,7 +110,7 @@ having a child node called `name`, whose text is equal to: `Track one`.
 
 ` (attr :id)` now give me the attribute `id` for the found track.
 
-## Q2
+#### Q2
 
 (Q): Get the name of the track who's id is: `t2`?
 
