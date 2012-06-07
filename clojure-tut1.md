@@ -91,8 +91,29 @@ clojure.lang.PersistentVector
 So all of this makes sense.  But what if we wanted to do the following
 things: 
 
-1. Get the `id` of the track who's name is: `Track one`?
+1. (Q): Get the `id` of the track who's name is: `Track one`?
 
-1. Get the name of the track who's id is: `t2`?
+(A): `(xml-> zipped :track [:name (text= "Track one")] (attr :id))`
 
-I'm not sure how the above two could be achieved in a simple way
+The way to read this answer is:
+
+`(xml-> zipped...` = Run the xml-> function, which you might call "get
+xml", on the zipped xml data structure
+
+`... :track ...` = grab the first track node you come upon
+
+`:track [:name (text= "Track one")]` = filter these tracks based on
+having a child node called `name`, whose text is equal to: `Track one`.
+
+`... (attr :id)` now give me the attribute `id` for the found track.
+
+
+1. (Q): Get the name of the track who's id is: `t2`?
+
+(A): `(xml-> zipped :track [(attr= :id "t2")] :name text)`
+
+`... :track` = start looking at the nodes track, the first ones you
+come upon
+
+`... [(attr= :id "t2)]
+
