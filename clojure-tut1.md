@@ -95,7 +95,7 @@ things:
 
 Get the `id` of the track who's name is: `Track one`?
 
-(A): `(xml-> zipped :track [:name (text= "Track one")] (attr :id))`
+(Answer): `(xml-> zipped :track [:name (text= "Track one")] (attr :id))`
 
 The way to read this answer is:
 
@@ -114,7 +114,7 @@ having a child node called `name`, whose text is equal to: `Track one`.
 
 Get the name of the track who's id is: `t2`?
 
-(A): `(xml-> zipped :track [(attr= :id "t2")] :name text)`
+(Answer): `(xml-> zipped :track [(attr= :id "t2")] :name text)`
 
 ` :track` = get the track nodes, the first ones you
 come upon
