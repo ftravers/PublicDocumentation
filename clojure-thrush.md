@@ -63,7 +63,7 @@ like so:
     
 But notice WHERE the 2 and 10 went.  They went right after the * and +
 operators respectively.  If we use the `->>` operator, it would put
-the 2 and 10 after the rest of the data like so:
+the 2 and 10 *AFTER* the rest of the data like so:
 
 `->>`
 
