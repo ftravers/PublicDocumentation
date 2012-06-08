@@ -51,4 +51,4 @@ I can make this in clojure like so:
               :content ["joey"] })
 ```
 
-Now I need to insert this into the `xml-zipper`
+Now I need to insert this into the `xml-zipper`.

@@ -1,0 +1,75 @@
+I recently came upon the thrush (thread) operators in clojure `->` and
+`->>` and wanted to find out what they meant so googled it.  I wasn't
+entirely enlightened by what I found so I'll take my own stab at
+explaining it.
+
+Clojure operates from the inside out.  So:
+
+```clojure
+(+ 3 (* 2 5))
+```
+
+Which equates to 2 times 5 which = 10, then you add 3.  NOT 3 times 2
+and then maybe add 5.  So clojure doesn't read left to right.  Well
+the thrush operators help make things that are reading inside-out and
+right to left ish, to go back to normal left to right reading.
+
+So we could rewrite the above like:
+
+```clojure
+(-> 2 (* 5) (+ 3))
+```
+
+Isn't that a bit more clear?
+
+1. Take 2
+
+1. Multiply by 5
+
+1. Add 3
+
+What we are doing is exactly the way it is written!  Now normally we
+write this in a function, so lets do that, because maybe we want to do
+the same thing to a number other than 2!
+
+```clojure
+(defn math-steps [x]
+  (-> x
+      (* 5)
+      (+ 3)))
+```      
+
+In a REPL:
+
+```
+user> (math-steps 2)
+13
+user> (math-steps 3)
+18
+```
+
+So what does the `->>` operator do?  Well its very similar, but
+instead of putting the argument at the front of the list of data, it
+puts it at the end.  So graphically this is the difference:
+
+`->`
+
+(-> 2 (* 5) (+ 3)) = (* 2 5), then take that result, 10 and put inject
+it at the front of the data like so: (+ 10 3).  But notice WHERE the 2
+and 10 went.  They went right after the * and + operators
+respectively.  If we use the `->>` operator, it would put the 2 and 10
+after the rest of the data like so:
+
+`->>`
+
+(->> 2 (* 5) (+ 3)) = (* 5 2), then (+ 3 10).  Notice the 2 and 10 go
+at the end.  Lets use a few more arguments to make it clearer.
+
+(-> 2  (* 5 4 6) (+ 3 5 8)) = (* 2 5 4 6) = 240, then (+ 240 3 5 8).
+(->> 2 (* 5 4 6) (+ 3 5 8)) = (* 5 4 6 2) = 240, then (+ 3 5 8 240).
+
+Since it doesn't matter which order you add or multiply numbers in a
+list up, these examples don't really illustrate when you'd prefer `->`
+over `->>`, but they do illustrate what the operators do, which at
+least will help you when you come across this operator and want to
+know how it works.
