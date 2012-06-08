@@ -67,9 +67,14 @@ the 2 and 10 **AFTER** the rest of the data like so:
 
 `->>`
 
-    (->> 2 (* 5) (+ 3)) = (* 5 2)
+    (->> 2 (* 5) (+ 3))
+    
+becomes:    
+    
+    (* 5 2) = 10
 
-then 
+then injecting that result at the **END** of the next operation like
+so: 
 
     (+ 3 10)
 
