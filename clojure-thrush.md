@@ -52,8 +52,6 @@ So what does the `->>` operator do?  Well its very similar, but
 instead of putting the argument at the front of the list of data, it
 puts it at the end.  So graphically this is the difference:
 
-`->`
-
     (-> 2 (* 5) (+ 3))
     
 becomes    
@@ -67,8 +65,6 @@ then take that result, 10 and put it at the front of the data like so:
 But notice **WHERE** the 2 and 10 went.  They went right after the * and +
 operators respectively.  If we use the `->>` operator, it would put
 the 2 and 10 **AFTER** the rest of the data like so:
-
-`->>`
 
     (->> 2 (* 5) (+ 3))
     
