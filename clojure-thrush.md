@@ -58,7 +58,7 @@ becomes
     
     (* 2 5) = 10
 
-then take that result, 10 and put it at the front of the data like so:
+then take that result, **10** and put it at the front of the data like so:
 
     (+ 10 3) = 13
     
