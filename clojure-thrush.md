@@ -120,3 +120,7 @@ Which simply becomes:
 then inject that result into the next operation:
 
     (+ 120 3 5 8)
+    
+There is a real world explanation provided by: [Debasish
+Ghosh](http://debasishg.blogspot.com/2010/04/thrush-in-clojure.html),
+which, of the thrush explanations, I appreciated the most.
