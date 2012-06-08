@@ -54,19 +54,52 @@ puts it at the end.  So graphically this is the difference:
 
 `->`
 
-(-> 2 (* 5) (+ 3)) = (* 2 5), then take that result, 10 and put inject
-it at the front of the data like so: (+ 10 3).  But notice WHERE the 2
-and 10 went.  They went right after the * and + operators
-respectively.  If we use the `->>` operator, it would put the 2 and 10
-after the rest of the data like so:
+    (-> 2 (* 5) (+ 3)) = (* 2 5)
+
+then take that result, 10 and put inject it at the front of the data
+like so:
+
+    (+ 10 3)
+    
+But notice WHERE the 2 and 10 went.  They went right after the * and +
+operators respectively.  If we use the `->>` operator, it would put
+the 2 and 10 after the rest of the data like so:
 
 `->>`
 
-(->> 2 (* 5) (+ 3)) = (* 5 2), then (+ 3 10).  Notice the 2 and 10 go
-at the end.  Lets use a few more arguments to make it clearer.
+    (->> 2 (* 5) (+ 3)) = (* 5 2)
 
-(-> 2  (* 5 4 6) (+ 3 5 8)) = (* 2 5 4 6) = 240, then (+ 240 3 5 8).
-(->> 2 (* 5 4 6) (+ 3 5 8)) = (* 5 4 6 2) = 240, then (+ 3 5 8 240).
+then 
+
+    (+ 3 10)
+
+Notice the 2 and 10 go at the end.  Lets use a few more arguments to
+make it clearer.  Lets examine what happens with the following:
+
+    (-> 2  (* 5 4 6) (+ 3 5 8))
+    
+becomes:    
+    
+    (* 2 5 4 6) = 240
+
+then take that result, `240` and insert it at the BEGINNING of the
+next list.  (well technically not the beginning, actually after the
+function, in our case the `+` function).
+
+    (+ 240 3 5 8)
+    
+Whereas the `->>` operator does the following:    
+    
+    (->> 2 (* 5 4 6) (+ 3 5 8))
+    
+becomes:    
+    
+    (* 5 4 6 2) = 240
+    
+see the `2` is at the end of the list.  And the result, 240 likewise
+goes at the END of the subsequent list.
+    
+    (+ 3 5 8 240)
 
 Since it doesn't matter which order you add or multiply numbers in a
 list up, these examples don't really illustrate when you'd prefer `->`
@@ -75,3 +108,15 @@ least will help you when you come across this operator and want to
 know how it works.
 
 #### Without an argument
+
+You can also do the following:
+
+    (-> (* 5 4 6) (+ 3 5 8))
+    
+Which simply becomes:
+
+    (* 5 4 6) = 120
+
+then inject that result into the next operation:
+
+    (+ 120 3 5 8)
