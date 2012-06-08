@@ -54,14 +54,17 @@ puts it at the end.  So graphically this is the difference:
 
 `->`
 
-    (-> 2 (* 5) (+ 3)) = (* 2 5)
-
-then take that result, 10 and put inject it at the front of the data
-like so:
-
-    (+ 10 3)
+    (-> 2 (* 5) (+ 3))
     
-But notice WHERE the 2 and 10 went.  They went right after the * and +
+becomes    
+    
+    (* 2 5) = 10
+
+then take that result, 10 and put it at the front of the data like so:
+
+    (+ 10 3) = 13
+    
+But notice **WHERE** the 2 and 10 went.  They went right after the * and +
 operators respectively.  If we use the `->>` operator, it would put
 the 2 and 10 **AFTER** the rest of the data like so:
 
@@ -76,9 +79,9 @@ becomes:
 then injecting that result at the **END** of the next operation like
 so: 
 
-    (+ 3 10)
+    (+ 3 10) = 13
 
-Notice the 2 and 10 go at the end.  Lets use a few more arguments to
+Notice the 2 and 10 go at the **END**.  Lets use a few more arguments to
 make it clearer.  Lets examine what happens with the following:
 
     (-> 2  (* 5 4 6) (+ 3 5 8))
@@ -91,7 +94,7 @@ then take that result, `240` and insert it at the BEGINNING of the
 next list.  (well technically not the beginning, actually after the
 function, in our case the `+` function).
 
-    (+ 240 3 5 8)
+    (+ 240 3 5 8) = 256
     
 Whereas the `->>` operator does the following:    
     
@@ -101,10 +104,10 @@ becomes:
     
     (* 5 4 6 2) = 240
     
-see the `2` is at the end of the list.  And the result, 240 likewise
-goes at the END of the subsequent list.
+see the `2` is at the end of the list.  (* 5 4 6 **2**).  The result,
+`240` likewise goes at the **END** of the subsequent list.
     
-    (+ 3 5 8 240)
+    (+ 3 5 8 240) = 256
 
 Since it doesn't matter which order you add or multiply numbers in a
 list up, these examples don't really illustrate when you'd prefer `->`
