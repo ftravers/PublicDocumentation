@@ -112,6 +112,14 @@ over `->>`, but they do illustrate what the operators do, which at
 least will help you when you come across this operator and want to
 know how it works.
 
+#### Why use the thrush operator?
+
+If it's not already clear, the purpose of the operator is to take
+*regular* clojure, that is evaluated from the inside out, and present
+it in a way that is easier to read, from left to right.  Since code
+legibility is very important, aim to use this operator to make your
+code more legible.
+
 #### Without an argument
 
 You can also do the following:
