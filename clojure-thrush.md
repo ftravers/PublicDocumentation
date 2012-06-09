@@ -136,3 +136,12 @@ then inject that result into the next operation:
 There is a real world explanation provided by: [Debasish
 Ghosh](http://debasishg.blogspot.com/2010/04/thrush-in-clojure.html),
 which, of the thrush explanations, I appreciated the most.
+
+#### Addendum / Notes
+
+One astute reader noted that these things are actually not the thrush
+operator, pointing to [an
+article](http://blog.fogus.me/2010/09/28/thrush-in-clojure-redux/).
+To me that is advanced clojure, that hopefully one day I'll
+appreciate, for now, my articles are aimed at getting newbies to a
+base level of proficiency.

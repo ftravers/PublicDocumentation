@@ -13,7 +13,13 @@ Now I want to write XML.  Here is some starting code:
 (def xml-zipper (xmlstr-2-zipper xml-string))
 ```
 
-I'd like to make xml that looks like:
+I'd like to make the above xml:
+
+```xml
+<f>fenton <b>oliver</b> travers</f>
+```
+
+become:
 
 ```xml
 <f>fenton <b>oliver</b> <b>joey</b> travers</f>
@@ -21,7 +27,7 @@ I'd like to make xml that looks like:
 
 so just adding `<b>joey</b>`, after the peer `<b>oliver</b>`
 
-In the REPL we see that `xml-zipper` looks like:
+In the REPL we see that an `xml-zipper` looks like:
 
 ```
 my-project.core> (println xml-zipper)
@@ -46,7 +52,7 @@ with the single string `joey`, with two other keywords `:tag` and
 I can make this in clojure like so:
 
 ```clojure
-(def my-node {:tag :b,
+(def new-node {:tag :b,
               :attrs nil,
               :content ["joey"] })
 ```
