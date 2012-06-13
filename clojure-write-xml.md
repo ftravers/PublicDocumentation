@@ -1,3 +1,5 @@
+### Write XML
+
 Now I want to write XML.  Here is some starting code:
 
 ```clojure
@@ -27,6 +29,8 @@ Now I want to write XML.  Here is some starting code:
   </b2>
 </a1>
 ```
+
+### Get to location in XML
 
 So first I go to where I want to insert XML, say after the first
 `<c1>`.  I do this with:
