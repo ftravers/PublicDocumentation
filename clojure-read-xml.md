@@ -34,7 +34,7 @@ of the xml/element struct-map, which has the keys :tag, :attrs, and
 Doing an `A-,` returns me back to my source file.  Okay, I evaluate
 the following in the REPL.
 
-```
+```repl
 my-project.core> (class myxml)
 clojure.lang.PersistentStructMap
 my-project.core> (println myxml)
@@ -91,8 +91,36 @@ clojure.lang.PersistentVector
 So all of this makes sense.  But what if we wanted to do the following
 things: 
 
-1. Get the `id` of the track who's name is: `Track one`?
+#### Question 1
 
-1. Get the name of the track who's id is: `t2`?
+Get the `id` of the track who's name is: `Track one`?
 
-I'm not sure how the above two could be achieved in a simple way.
+(Answer): `(xml-> zipped :track [:name (text= "Track one")] (attr :id))`
+
+The way to read this answer is:
+
+`(xml-> zipped` = Run the `xml->` function, which you might
+describe as a function that "gets xml", on the `zipped` xml data
+structure
+
+` :track ` = grab the first track node you come upon
+
+`:track [:name (text= "Track one")]` = filter these tracks based on
+having a child node called `name`, whose text is equal to: `Track one`.
+
+` (attr :id)` now give me the attribute `id` for the found track.
+
+#### Question 2
+
+Get the name of the track who's id is: `t2`?
+
+(Answer): `(xml-> zipped :track [(attr= :id "t2")] :name text)`
+
+` :track` = get the track nodes, the first ones you
+come upon
+
+` [(attr= :id "t2)]` = filter those tracks keeping only the ones
+whos attribute `id` is: `t2`
+
+` :name text` = For the found tracks give us the child node named
+`name`'s contents (text).
