@@ -4,8 +4,6 @@ First you want to get your clojure development environment setup.
 
 * [Clojure Development Setup](clojure-development-setup.md)
 
-* [Starter Tutorial](clojure-starter.md)
-
 * [Reference](clojure.md)
 
 ## XML
