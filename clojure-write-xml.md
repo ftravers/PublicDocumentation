@@ -73,6 +73,8 @@ my-project.core> xml-zipper
 
 So here is a sample xml node:
 
+# THE FOLLOWING DOESN'T WORK PROPERLY
+
 ```clojure
 (def new-node {:tag :b,
               :attrs nil,

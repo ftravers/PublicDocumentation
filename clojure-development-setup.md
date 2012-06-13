@@ -152,6 +152,89 @@ namespace of that file to switch to.  Press `Enter` to accept.
 Now you can modify your file and the changes will be reflected in your REPL
 
 
+### Debugging
+
+To setup debugging, modify your `project.clj`, add: `swank-clojure
+"1.4.0"`, it should look like:
+
+```clojure
+(defproject my-project "1.0.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :plugins [[lein-swank "1.4.4"]] 
+  :dependencies [[org.clojure/clojure "1.4.0"]
+                 [org.clojure/clojure-contrib "1.2.0"]
+                 [swank-clojure "1.4.0"]])
+```
+
+Re-run `lein deps` to get the required libs.  Your directory tree
+should look something like:
+
+```bash
+$ tree
+.
+|-- classes
+|-- lib
+|   |-- cdt-1.2.6.2.jar
+|   |-- clj-stacktrace-0.2.4.jar
+|   |-- clojure-1.4.0.jar
+|   |-- clojure-contrib-1.2.0.jar
+|   |-- debug-repl-0.3.1.jar
+|   `-- swank-clojure-1.4.0.jar
+|-- project.clj
+|-- README
+|-- src
+|   `-- my_project
+|       `-- core.clj
+`-- test
+    `-- my_project
+        `-- test
+            `-- core.clj
+```
+
+Ensure you are using a jdk not a jre.
+
+```bash
+$ java -version
+java version "1.7.0_05"
+Java(TM) SE Runtime Environment (build 1.7.0_05-b05)
+Java HotSpot(TM) 64-Bit Server VM (build 23.1-b03, mixed mode)
+```
+
+Have a file that looks like this:
+
+```clojure
+(ns my-project.core
+  (:use [clojure.set]
+        [swank.cdt]))
+(set-bp clojure.set/difference)
+```
+
+`A-x clojure-jack-in` as usual.  Get your namespace into the REPL with
+`C-c A-p`.  In a REPL now trigger the breakpoint by evaluating the
+following:
+
+```
+my-project.core> (difference #{1 2} #{2 3})
+CDT location is clojure/set.clj:53:0:/home/fenton/projects/tmp/my-project/lib/clojure-1.4.0.jar
+```
+
+You'll get an emacs buffer called: `sldb clojure`, which has the keys
+for (s)tepping, ne(x)ting, etc...
+
+```
+CDT BreakpointEvent in thread Swank REPL Thread
+From here you can: e/eval, v/show source, s/step, x/next, o/exit func
+
+Restarts:
+ 0: [QUIT] Quit to the SLIME top level
+
+Backtrace:
+  0:                set.clj:48 clojure.set/difference
+  1:          NO_SOURCE_FILE:1 my-project.core/eval3027
+  2:        Compiler.java:6511 clojure.lang.Compiler.eval
+  3:        Compiler.java:6477 clojure.lang.Compiler.eval
+```
+
 ### Notes
 
 It's a beta release, but it's used because I couldn't get the 23
