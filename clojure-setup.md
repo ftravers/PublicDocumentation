@@ -4,8 +4,29 @@ This setup uses:
 
 * the latest emacs (24.x as of this writing).  
 * a linux (should be okay for most linuxes)
+* leiningen for building/packaging (like ant/maven)
 
-Steps:
+### Leiningen
+
+Now you need to setup `lein`.
+
+```bash
+$ cd ~/bin; wget -c https://raw.github.com/technomancy/leiningen/stable/bin/lein; chmod a+x lein; ./lein self-install
+```
+
+Add `lein` to your path, put a line like the following into `~/.bashrc`:
+
+    export PATH=$PATH:~/bin
+    
+install rlwrap (needed for arch linux):
+
+    $ sudo pacman -S rlwrap
+
+install java:
+
+    $ sudo pacman -S jdk7-openjdk
+
+### Emacs
 
 * Download a developer version of emacs from here:
 
@@ -78,45 +99,20 @@ Now you must put the following into either `~/.emacs` or
 (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
 ```
 
-Now after you fire up emacs, do: `A-x package-list-packages`, search
-for `clojure-mode`, and while on the line, press `i` for prepare to
+Startup emacs.
+
+Inside emacs do: `A-x package-list-packages`, search for
+`clojure-mode`, and while on the line, press `i` for prepare to
 install, then press `x` for begin the install for all packages
 selected with `i`.
 
 Do the same thing with the packages: `paredit` and
 `highlight-parentheses`.
 
-### Leiningen
-
-Now you need to setup `lein`.
-
-```bash
-$ cd ~/bin; wget -c https://raw.github.com/technomancy/leiningen/stable/bin/lein; chmod a+x lein; ./lein self-install
-```
-
-Add `lein` to your path, put a line like the following into `~/.bashrc`:
-
-    export PATH=$PATH:~/bin
     
-install rlwrap (needed for arch linux):
-
-    $ sudo pacman -S rlwrap
-
-install java:
-
-    # sudo pacman -S jdk7-openjdk
-    
-Verify you can create a new project with lein;
-    
-    $ lein new my-project
-    
-Now edit: `my-project/src/my-project/core.clj
-
-Once there, run: `A-x clojure-jack-in`
-
 ### New Project
 
-Then create a project with (I'm calling my project: `my-project`):
+Then create a project (I'm calling my project: `my-project`), with:
 
 ```bash
 $ lein new my-project
@@ -139,9 +135,9 @@ Now pull in dependencies:
 $ lein deps
 ```
 
-### Basic Workflow
+### Emacs
 
-Fire up Emacs
+Startup emacs, ensure you are running 24.1.1
 
 Load the file you want to work in
 
