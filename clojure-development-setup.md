@@ -8,7 +8,7 @@ This setup uses:
 
 ### Leiningen
 
-Now you need to setup `lein`.
+Install
 
 ```bash
 $ cd ~/bin; wget -c https://raw.github.com/technomancy/leiningen/stable/bin/lein; chmod a+x lein; ./lein self-install
