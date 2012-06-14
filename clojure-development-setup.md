@@ -4,7 +4,7 @@ This setup uses:
 
 * the latest emacs (24.x as of this writing).  
 * a linux (should be okay for most linuxes)
-* leiningen for building/packaging (like ant/maven)
+* leiningen 2 for building/packaging (like ant/maven)
 
 ### Official Documentation References
 
@@ -18,7 +18,7 @@ This setup uses:
 Install
 
 ```bash
-$ cd ~/bin; wget -c https://raw.github.com/technomancy/leiningen/stable/bin/lein; chmod a+x lein; ./lein self-install
+$ cd ~/bin; wget -c https://raw.github.com/technomancy/leiningen/preview/bin/lein; chmod a+x lein; ./lein self-install
 ```
 
 Add `lein` to your path, put a line like the following into `~/.bashrc`:
@@ -35,12 +35,12 @@ install java:
 
 ### Emacs
 
-* Download a developer version of emacs from here:
+* Download latest version of emacs from here:
 
-http://alpha.gnu.org/gnu/emacs/pretest/
+http://gnu.mirror.iweb.com/gnu/emacs/
 
 ```bash
-$ tar xvfz emacs-24.1-rc.tar.gz
+$ tar xvfz emacs-24.1.tar.gz
 $ cd emacs-24.1
 $ ./configure
 $ make
@@ -244,7 +244,3 @@ Backtrace:
   3:        Compiler.java:6477 clojure.lang.Compiler.eval
 ```
 
-### Notes
-
-It's a beta release, but it's used because I couldn't get the 23
-version to see the marmelade ELPA repository.
