@@ -47,6 +47,23 @@ $ make
 $ sudo make install
 $ emacs-24.1 &
 ```
+If you wish to install emacs23 instead:
+
+```bash
+$ tar xvfz emacs-23.4.tar.gz
+$ cd emacs-23.4
+$ ./configure
+$ make
+$ sudo make install
+$ emacs-23.4 &
+```
+
+Now download the package.el for emacs23 from 
+
+http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el
+
+and drop it into your `~/.emacs.d` directory or anywhere else in your load-path. The subsequent steps remain the same.
+
 
 Now you must put the following into either `~/.emacs` or
 `~/.emacs.d/init.el`:
