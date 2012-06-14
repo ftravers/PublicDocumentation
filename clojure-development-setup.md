@@ -6,6 +6,13 @@ This setup uses:
 * a linux (should be okay for most linuxes)
 * leiningen for building/packaging (like ant/maven)
 
+### Official Documentation References
+
+* [clojure-mode. for A-x clojure-jack-in](https://github.com/technomancy/swank-clojure)
+* [swank cdt. the clojure debugger](http://georgejahad.com/clojure/swank-cdt.html)
+* [Leiningen](https://github.com/technomancy/leiningen)
+* [Marmelade.  To get latest version of clojure-mode](http://marmalade-repo.org/)
+
 ### Leiningen
 
 Install
@@ -153,6 +160,8 @@ Now you can modify your file and the changes will be reflected in your REPL
 
 
 ### Debugging
+
+[ref](http://georgejahad.com/clojure/swank-cdt.html)
 
 To setup debugging, modify your `project.clj`, add: `swank-clojure
 "1.4.0"`, it should look like:
