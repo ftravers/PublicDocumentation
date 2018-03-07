@@ -1,0 +1,48 @@
+ref: http://tuhdo.github.io/helm-projectile.html
+
+
+| C-c p p   | Open Project      | Switch to Project                |
+| C-c p e   | Recent            | Open recent files                |
+| C-c p h   | Open Project File | Find file from Project Files     |
+| A-y       | Yank              | Helm kill ring                   |
+
+* Open file as root
+
+Do: 
+
+: C-x C-f
+
+as usual, then navigate to file, then do:
+
+: C-c r
+
+* Search in Project Files
+
+This will regex search in all files of a given project.  Very useful
+to find uses of a defined function for example.
+
+| C-c p f | show all *project* files in helm |
+| A-a     | select all project files         |
+| C-s     | grep through those project files |
+
+Now you will have a list of matches, now you can save the matches
+
+| C-x C-s | save matches to buffer |
+
+Then inside the matches you can go to each match with:
+
+| C-<up>/<down> | Go to match |
+
+This keeps the grep window open so you can edit each occurance that
+you find.
+
+* Search whole project root
+
+Search text of all files in Project dir
+
+: C-c p s g
+
+* remove projects from know project list
+
+Mark: Alt-SPACE
+Delete: Alt-Shift-D

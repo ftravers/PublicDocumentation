@@ -1,0 +1,98 @@
+* Operations
+
+** Show Databases 
+: show dbs 
+
+** Use a database called test
+: use test
+
+** Insert data into a collection *products*
+
+#+BEGIN_SRC 
+ db.products.insert(
+ { "description": "motorcycle",
+   "price"      : 1000 })
+#+END_SRC
+
+** Finding
+
+To find all items in a collection
+
+: db.products.find()
+
+** Find substring
+
+: db.products.find({description: /c/i })
+: db.products.find({description: 'motorcycle' })
+
+* MongoDB Client
+
+Give us the =model= name
+
+#+BEGIN_SRC javascript
+$group {
+   _id: "$model"
+#+END_SRC
+
+Create a property =maxValue= in the returned object:
+
+#+BEGIN_SRC javascript
+$group {
+   maxValue:
+#+END_SRC
+
+Set it's value to the the maximum of the =memory= column:
+
+#+BEGIN_SRC javascript
+{$max: "$memory"}
+#+END_SRC
+
+
+
+#+BEGIN_SRC javascript
+function aggProds(){
+    MongoClient.connect("mongodb://localhost:27017/meanpcdb", function(err, db) {
+        if(err) { return console.dir(err); }
+        var cursor = db.collection('products').aggregate([{
+            $group: {
+                _id:"$model",
+                "maxValue": {$max:"$memory"}}}]);
+
+        cursor.get(function(err, results) {
+            console.log(results);
+        });
+        return null;
+    });
+}
+#+END_SRC
+
+gives:
+
+#+BEGIN_SRC javascript
+[ { _id: 'iPhone 6 Plus', maxValue: 128 } ]
+nn#+END_SRC
+
+from data:
+
+#+BEGIN_SRC javascript
+[{"category":"thumb drive",
+  "capacity":32,
+  "price":50,
+  "currency":"CAD",
+  "brand":"Kingston",
+  "model":"DataTraveler 101 G2",
+  "usb2":"true"
+ },
+ {"category": "phone",
+  "price":749,
+  "model":"iPhone 6 Plus",
+  "memory":16},
+{"category": "phone",
+  "price":849,
+  "model":"iPhone 6 Plus",
+  "memory":64},
+{"category": "phone",
+  "price":949,
+  "model":"iPhone 6 Plus",
+  "memory":128}]
+#+END_SRC

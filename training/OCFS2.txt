@@ -1,0 +1,2 @@
+when installing your xen VM server, reserve one partition for your OCFS2...maybe 15 gigs or something.
+

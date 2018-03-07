@@ -1,0 +1,44 @@
+* To get Ctrl-Shift-V to paste
+
+#+BEGIN_SRC 
+% sudo pacman -S xclip
+% wget http://db.tt/JjlLYd5A
+% tar xvfz JjlLYd5A
+% mv urxvtclip bin/clipboard
+% sudo ln -s clipboard /usr/lib/urxvt/perl
+#+END_SRC
+
+In ~/.Xresources put:
+
+#+BEGIN_SRC 
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.iso14755: False
+URxvt.perl-ext-common: default,clipboard
+#+END_SRC
+
+
+* Keyboard select
+** Usage
+
+| Alt-Esc | Start selection mode             |
+| h,j,k,l | Navigation to start of selection |
+| v       | start selection                  |
+| h,j,k,l | Navigation to end of selection   |
+| y       | copy selection                   |
+| q       | quit selection                   |
+
+** Install
+https://github.com/muennich/urxvt-perls
+
+copy keyboard-select into /usr/lib/urxvt/perl
+
+add the following into: ~/.Xresources, replacing the elipses ... with
+whatever other extensions you already have.
+
+#+BEGIN_SRC 
+! Activate VIM like selection
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.perl-ext-common: ...,keyboard-select
+#+END_SRC
+
+

@@ -1,0 +1,170 @@
+* Daily
+
+In one shell start the watching compiler
+
+: p
+: tsc --watch -m commonjs -t es5 --emitDecoratorMetadata app.ts
+
+In another shell, start the http server:
+
+: p
+: http-server
+
+In a browser, visit =localhost:8080/index.html=
+
+* quickstart
+
+ref: https://angular.io/docs/js/latest/quickstart.html
+
+: app.js
+
+#+BEGIN_SRC typescript
+/// <reference path="typings/angular2/angular2.d.ts" />
+import {Component, View, bootstrap} from 'angular2/angular2';
+
+// Annotation section
+@Component({
+  selector: 'my-app'
+})
+@View({
+  template: '<h1>Hello {{ name }}</h1>'
+})
+// Component controller
+class MyAppComponent {
+  name: string;
+  
+  constructor() {
+    this.name = 'Alice';
+  }
+}
+bootstrap(MyAppComponent);
+#+END_SRC
+
+: index.html
+
+#+BEGIN_SRC typescript
+<!-- index.html -->
+<html>
+  <head>
+    <title>Angular 2 Quickstart</title>
+    <script src="https://github.jspm.io/jmcriffey/bower-traceur-runtime@0.0.87/traceur-runtime.js"></script>
+    <script src="https://jspm.io/system@0.16.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-alpha.23/angular2.dev.js"></script>
+  </head>
+  <body>
+  
+    <!-- The app component created in app.ts -->
+    <my-app></my-app>
+    <script>System.import('app');</script>
+    
+  </body>
+</html>
+#+END_SRC
+
+: tsc --watch -m commonjs -t es5 --emitDecoratorMetadata app.ts
+
+From the directory that contains index.html:
+
+: sudo npm install -g http-server 
+: http-server                 # Creates a server at localhost:8080
+
+In a browser, visit =localhost:8080/index.html=
+
+* Externalize the template
+
+go from =app.ts=
+
+#+BEGIN_SRC typescript
+@View({
+  template: '<h1>Hello {{ name }}</h1>'
+})
+#+END_SRC
+
+to
+
+#+BEGIN_SRC typescript
+@View({
+    templateUrl: './snippet.html'
+})
+#+END_SRC
+
+Put your html into the file =snippet.html=
+
+* Property Binding
+
+Get info from model into the UI, we use square brackets =[]= around the
+attribute name:
+
+#+BEGIN_SRC html
+<div [attribute]="expression"/>
+#+END_SRC
+
+* Event binding
+
+For event binding we use round brackets =()= around the event
+attribute name:
+
+#+BEGIN_SRC html
+<div (event)="expression"/>
+#+END_SRC
+
+
+* References
+
+There are three parts to each DOM element: properties, events and
+methods.  Properties and events are referenced above, to call a DOM
+elements methods we use references.
+
+Here we click a button which calls the =focus()= method on a
+referenced input box:
+
+#+BEGIN_SRC html
+<button (click)="myinput.focus()"/>
+<input #myinput type="text" name="user"/>
+#+END_SRC
+
+* Templates
+
+Not sure exactly what a template is, but the =*= denotes it:
+
+#+BEGIN_SRC html
+<ul>
+  <li *foreach="#item in items">
+    {{item}}
+  </li>
+</ul>
+#+END_SRC
+
+* Using Directives
+
+Lets say we want to loop over a result set with a =for= statement.
+
+The statement in the HTML looks like:
+
+#+BEGIN_SRC html
+<ul>
+  <li *for="#curr_name of names">name: {{curr_name}}</li>
+</ul>
+#+END_SRC
+
+In our =app.ts= we need to import the for with:
+
+#+BEGIN_SRC javascript
+import {..., For} from 'angular2/angular2';
+#+END_SRC
+
+We need to specify in the view annotation the directives we'll use:
+
+#+BEGIN_SRC typescript
+@View({
+    ...
+    directives: [For]
+})
+#+END_SRC
+
+* (incomplete) Routing
+
+make a second page, link to it.  In second page link back to home.
+
+
+

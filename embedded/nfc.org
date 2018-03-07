@@ -1,0 +1,7 @@
+Trying to figure out how to setup NFC.  If you can get a NFC chip for
+~ $0.10, then it's cost effective to provide these to people.
+
+People could then have public/private key pairs stored on the key to
+certify that they are who they say they are.
+
+Adafruit uses the PN532 chip and have a breakout board for $40.

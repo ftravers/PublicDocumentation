@@ -1,0 +1,2 @@
+	==> Include a class in the JSP, simply fully resolve it like:
+openwcm.OpenWcmServlet openwcm = new openwcm.OpenWcmServlet();

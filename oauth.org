@@ -1,0 +1,21 @@
+* Setup OAuth2 with Google
+
+First you have to setup a project with google:
+
+https://code.google.com/apis/console/?pli=1
+
+There you will get your client ID, here we'll use:
+
+: 1010265353588-to2pjmgge2oceivlsbdc17e8dgq64hfa.apps.googleusercontent.com
+
+On your webpage you can have a link to:
+
+#+BEGIN_SRC 
+https://accounts.google.com/o/oauth2/v2/auth
+? response_type = token
+& client_id = 1010265353588-to2pjmgge2oceivlsbdc17e8dgq64hfa.apps.googleusercontent.com
+& nonce
+& redirect_uri
+#+END_SRC
+
+

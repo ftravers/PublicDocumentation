@@ -1,0 +1,157 @@
+
+
+
+
+
+
+
+
+
+
+
+================================
+
+cp "/Volumes/Volume_2-1/software/oracle/fusion middleware/Oracle App Server/works/as_portal_101202/oas.install_files.tgz" /Volumes/UNTITLED/software; cp "/Volumes/Volume_2-1/software/oracle/fusion middleware/Oracle Portal/as_linux_x86_portal_1014.cpio" /Volumes/UNTITLED/software; cp "/Volumes/Volume_2-1/software/oracle/fusion middleware/content/Content Server/V13684-01 CS 10.1.3.3.3 Linux.zip" /Volumes/UNTITLED/software; cp "/Volumes/Volume_2-1/software/oracle/fusion middleware/content/UCM_WCM/SiteStudio_10gR4_20090702/Component/sitestudio9.0.0.470.zip" /Volumes/UNTITLED/software; cp "/Volumes/Volume_2-1/software/oracle/fusion middleware/content/UCM_WCM/SiteStudio_10gR4_20090702/Designer/setup.exe" /Volumes/UNTITLED/software
+
+
+---------------
+Client Developer Machines:
+==> Text Editor
+\\nas\Volume_2\software\windows\ultraedit_12and10\ultraedit 12.20
+
+
+==> Site Studio Designer
+\\nas\Volume_2\software\oracle\fusion middleware\content\UCM_WCM\SiteStudio_10gR4_20090702\Designer\setup.exe
+Go through this tutorial:
+https://cs-code.ocsprojects.com/svn/cs-code/trunk/training/openwcm/site_studio_tutorial_wcm_notes.docx
+Connect to the content server: (someone put instructions in here please)
+
+
+==> Accessing Servers:
+If you are on Windows, and haven't got CYGWIN installed you can use:
+ssh client:
+\\nas\Volume_2\software\windows\SSHSecureShellClient-3.2.9.exe
+This will allow you to have access to the servers...
+
+Connect to DNS to see which machines are defined:
+# ssh root@dns
+(password: ovsroot)
+# cat lab.com
+This will tell you all the servers that we have.
+
+
+==> JDeveloper
+Get JDeveloper
+\\nas\Volume_2\software\oracle\fusion middleware\JDeveloper\jdevstudio10134.zip
+
+Setup your CVS repository:
+Access Method: :pserver:
+User Name: one of: fenton,amran,dewa,fahmi,faiz,baizura,suri,seri,bala,devi
+All password are set to standard: mohe123
+Host Name: 192.168.9.20 (or cvs)
+Repo Path: /ORA_HTP
+
+Look at this document: https://cs-code.ocsprojects.com/svn/cs-code/trunk/
+\docs\reference\services_reference_10gr3en.pdf
+see page: 262
+
+
+
+STG: host: opstg
+
+
+==> Install xmarks to synchronize your book marks.
+NOTE: probably create an account for yourself to save off your own book marks then later log in as:
+user/pass: ocsfot/welcome1
+
+
+==> Network Setup
+Network Setup:
+search lab.com
+nameserver 192.168.9.133
+
+In windows explorer connect to:
+\\nas\Volume_2
+
+Install Eclipse
+\\nas\Volume_2\software\windows\eclipse-java-galileo-SR...
+
+Install subclipse:
+\\nas\Volume_2\software\windows\site-1.6.7
+
+==> Servers
+DB Password:welcome1
+
+UCM
+username:sysadmin
+pwd:idc
+
+SQL
+db user
+username:system
+ped:welcome1
+
+stellent dev db user:
+username:idc1_user
+pwd:idc1_user
+
+
+
+portal admin: http://opel.lab.com:7778/pls/portal
+username/password: orcladmin/welcome1
+
+IP address
+vms 		: 192.168.9.56 	root pword:pmo123
+ucmel 	: 192.168.9.102 root pword:ovsroot 
+dbel		: 192.168.9.103 root pword:ovsroot 
+opel		: 192.168.9.104 root pword:ovsroot
+	user/pass: oracle/oracle
+nas			: 192.168.9.105 root pword:ovsroot
+dns			: 192.168.9.133 root pword:ovsroot
+op4			: 192.168.9.109 root pword:ovsroot
+op5			: 192.168.9.100 root pword:ovsroot
+xp2			: 192.168.9.101 root pword:ovsroot
+ucmstg	: 192.168.9.106 root pword:ovsroot
+opstg		: 192.168.9.107 root pword:ovsroot
+dbstg		: 192.168.9.108 root pword:ovsroot 
+
+
+==> Deploy portlet
+Watch this video: http://www.youtube.com/watch?v=vkMFivrfYuw
+
+==> Check the oracle portal logs
+Goto Enterprise Manager > click link: ias_inst2.opel.lab.com > click your container, such as: WSRP
+click logs (top right) > click on the log file for the web applications you are interested in
+
+
+
+h1. Software Locations
+
+h2. Standalone OC4J Container
+
+
+h2. Database
+
+NAS: /Volumes/Volume_2-1/software/oracle/Database/linux/V17489-01_DB11gR2_11.2.0.1.0_Linux_x86_32bit_1_AND_2.tgz
+
+
+* App Server: IAS/OID/Portal
+
+cp "/Volumes/Volume_2-1/software/oracle/fusion middleware/Oracle App Server/works/as_portal_101202/oas.install_files.tgz" /Volumes/UNTITLED/software
+
+* Portal 10.1.4 upgrade
+
+cp "/Volumes/Volume_2-1/software/oracle/fusion middleware/Oracle Portal/as_linux_x86_portal_1014.cpio" /Volumes/UNTITLED/software
+
+* Content Server
+
+cp "/Volumes/Volume_2-1/software/oracle/fusion middleware/content/Content Server/V13684-01 CS 10.1.3.3.3 Linux.zip" /Volumes/UNTITLED/software
+
+Content Server Patches
+/Volumes/Volume_2-1/software/oracle/fusion middleware/content/V17289-01_UCM_10gPatchUpdateBundle.zip
+
+WCM Component
+cp "/Volumes/Volume_2-1/software/oracle/fusion middleware/content/UCM_WCM/SiteStudio_10gR4_20090702/Component/sitestudio9.0.0.470.zip" /Volumes/UNTITLED/software
+
+Site Studio Designer
+cp "/Volumes/Volume_2-1/software/oracle/fusion middleware/content/UCM_WCM/SiteStudio_10gR4_20090702/Designer/setup.exe" /Volumes/UNTITLED/software

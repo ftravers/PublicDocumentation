@@ -1,0 +1,157 @@
+* Commands CheatSheet
+
+command prefix: docker
+
+| build -t friendlyhello . | make docker image with friendly name 'friendlyhello' |
+| image ls                 | list all docker images                               |
+| container ls             | show running containers                              |
+
+* Useful commands
+
+Type 'docker' before each of the commands below
+
+|------------------------+------------------------------------|
+| images                 | list docker images on local system |
+| info                   |                                    |
+| search <search-string> | search for docker images           |
+| pull <img-name>        | pull down a docker image           |
+|------------------------+------------------------------------|
+
+A docker image can be 'running' but also 'stopped'.
+
+To run a docker image named, 'jenkins' with an interactive shell
+
+: docker run -i -t jenkins /bin/bash
+
+To detach the tty without exiting the shell, use the escape sequence
+Ctrl-p + Ctrl-q. The container will continue to exist in a stopped
+state once exited. 
+
+| ps -a | list all containers, stopped or running |
+
+
+
+
+** docker ps
+
+* Use Case 1
+
+╭─fenton@archlinux /var/lib/docker  
+╰─➤  docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+archlinux/base      latest              1ba5b2d2f03c        3 weeks ago         328MB
+
+* How to stop docker gracefully
+https://www.ctl.io/developers/blog/post/gracefully-stopping-docker-containers/
+
+* Redmine Configuration
+Location /usr/local/docker/redmine
+
+** Pull
+docker pull vpetersson/redmine:2.6
+
+** Create MySQL redmine table and user
+# mysql -u root -p
+
+> CREATE DATABASE redmine CHARACTER SET utf8;
+> CREATE USER 'redmine'@'localhost' IDENTIFIED BY 'my_password';
+> GRANT ALL PRIVILEGES ON redmine.* TO 'redmine'@'localhost';
+
+** Docker - first time:
+docker run --rm \
+  -v /var/run/mysqld/mysqld.sock:/tmp/mysql.sock \
+  -v /usr/share/webapps/redmine/log:/usr/local/redmine/log \
+  -v /usr/share/webapps/redmine/ssh:/var/www/.ssh \
+  -v /usr/share/webapps/redmine/git:/usr/local/redmine/git \
+  -v /usr/share/webapps/redmine/files:/usr/local/redmine/files \
+  -v /usr/share/webapps/redmine/plugins:/usr/local/redmine/plugins \
+  -v /usr/share/webapps/redmine/themes:/usr/local/redmine/public/themes \
+  -v /usr/share/webapps/redmine/config/database.yml:/usr/local/redmine/config/database.yml:ro \
+  -v /usr/share/webapps/redmine/config/configuration.yml:/usr/local/redmine/config/configuration.yml:ro \
+  --name redmine \
+  -e "RUN_MIGRATION=True" \
+  -i -t vpetersson/redmine:2.6
+
+** Docker - other times:
+docker run -d \
+  -v /var/run/mysqld/mysqld.sock:/tmp/mysql.sock \
+  -v /usr/local/docker/redmine/log:/usr/local/redmine/log \
+  -v /usr/local/docker/redmine/log:/var/log/apache2 \
+  -v /usr/local/docker/redmine/ssh:/var/www/.ssh \
+  -v /usr/local/docker/redmine/git:/usr/local/redmine/git \
+  -v /usr/local/docker/redmine/files:/usr/local/redmine/files \
+  -v /usr/local/docker/redmine/plugins:/usr/local/redmine/plugins \
+  -v /usr/local/docker/redmine/themes:/usr/local/redmine/public/themes \
+  -v /usr/local/docker/redmine/config/database.yml:/usr/local/redmine/config/database.yml:ro \
+  -v /usr/local/docker/redmine/config/configuration.yml:/usr/local/redmine/config/configuration.yml:ro \
+  --name redmine \
+  -e "ENABLE_GIT_USER=True" \
+  -e "INSTALL_BUNDLE=True" \
+  -p 4000:3000 vpetersson/redmine:2.6
+
+See also: https://hub.docker.com/r/vpetersson/redmine/
+
+Important: set the email or you won't be able to approve new registered users!
+* Cassandra Configuration
+Location /usr/local/docker/cassandra
+
+** Pull
+docker pull cassandra:3.2
+
+** Prepare directories
+mkdir -p /usr/local/docker/cassandra/etc
+mkdir -p /usr/local/docker/cassandra/log
+mkdir -p /usr/local/docker/cassandra/data
+
+** Install and clone default configuration from container
+docker pull cassandra:3.2
+docker run -d --name cassandra cassandra:3.2
+docker cp cassandra:/etc/cassandra/* /usr/local/docker/cassandra/etc
+[move staff from /usr/local/docker/cassandra/etc/cassandra back to /usr/local/docker/cassandra/etc]
+docker stop cassandra
+docker rm cassandra
+
+** Set authenticator and authorizer
+sed -i -e "s/^authenticator\: AllowAllAuthenticator/authenticator\: PasswordAuthenticator/" /usr/local/docker/cassandra/etc/cassandra.yaml
+sed -i -e "s/^authorizer\: AllowAllAuthorizer/authorizer\: CassandraAuthorizer/" /usr/local/docker/cassandra/etc/cassandra.yaml
+
+** Set cassandra user and group (used inside docker)
+chown -R 999:999 /usr/local/docker/cassandra
+
+** Start Cassandra
+docker run -d \
+	--name cassandra \
+	-v /usr/local/docker/cassandra/etc:/etc/cassandra \
+	-v /usr/local/docker/cassandra/log:/var/log/cassandra \
+	-v /usr/local/docker/cassandra/data:/var/lib/cassandra \
+	-p 7000:7000 \
+	-p 7001:7001 \
+	-p 9042:9042 \
+	-p 9160:9160 \
+	cassandra:3.2
+
+You can access local instance with this command:
+
+docker run -it --rm cassandra:3.2 sh -c 'exec cqlsh 172.17.0.3 -u cassandra -p cassandra'
+
+`172.17.0.3` is docker0 interface IP which allows to reach exposed ports from
+docker containers to other containers.
+
+* Usergrid Configuration
+(still evaluating if docker is an option)
+Location /usr/local/docker/...
+
+Important: default username and password for usergrid_ is superuser and
+VDprvB6bt7ebDW. This can be changed by customising Dockerfile to suit Your
+needs and add custom usergrid-*.properties file. Without modifications this
+should not be used on production.
+
+https://groups.google.com/forum/#!topic/usergrid/PMTWd16oPVk
+
+** Pull
+docker pull gaborwnuk/usergrid
+
+** Launch
+docker run -d --name usergrid -p 8080:8080 --link cassandra:cassandra gaborwnuk/usergrid
+
+Tomcat password is random you can see it with `docker logs usergrid`

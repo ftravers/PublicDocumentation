@@ -1,0 +1,33 @@
+* Bootstrap Grid
+
+There are 12 columns.  Column prefixes:
+
+| .col-xs | Phones (<768px)    |
+| .col-sm | Tablets (≥768px)   |
+| .col-md | Laptops (≥992px)   |
+| .col-lg | Desktops (≥1200px) |
+
+Example 1:
+
+#+BEGIN_SRC html
+<div class="col-sm-4">1</div>
+<div class="col-sm-4">2</div>
+<div class="col-sm-4">3</div>
+#+END_SRC
+
+| < 768 | Three rows stacked |
+| > 768 | Three columns      | 
+
+Example 2:
+
+#+BEGIN_SRC html
+<div class="col-sm-4 col-xs-12">1</div>
+<div class="col-sm-4 col-xs-6">2</div>
+<div class="col-sm-4 col-xs-6">3</div>
+#+END_SRC
+
+ > 768 : Three columns      
+ < 768 : 1 span screen, next row 2&3 are two equal columns 
+
+
+

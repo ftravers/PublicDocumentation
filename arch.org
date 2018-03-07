@@ -1,0 +1,1356 @@
+* Install
+
+** Boot install media
+
+https://www.archlinux.org/download/
+
+*** Write iso to USB
+
+Note: Check with lsblk that the USB device is not mounted
+
+    $ lsblk
+
+USE: /dev/sdx instead of /dev/sdx1
+
+    $ sudo dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx
+
+** Establish Internet Connection
+*** wired
+
+    # ping yahoo.com
+
+*** Wireless
+
+# iwconfig
+# ip link set wlan0 up     # <--- optional
+# wifi-menu wlan0
+
+** Hard Disks
+*** Layout
+
+    # lsblk
+
+####    # gdisk /dev/sda
+
+We'll use sgdisk
+
+    # sgdisk -Z /dev/sdb             # zero out the disk
+    # sgdisk -n 1:0:+2m /dev/sdb     # format: <partition #>:<start>:<end>
+    # sgdisk -n 2:0:0 /dev/sdb     # a 0 means use default
+    # sgdisk -n 1:0:+2m /dev/sdb
+
+Determine how much ram your system has:
+
+    # free -mth
+
+Partitions:
+
+| # | Label     | Size       | Type | File System | Device    | Notes                             |
+|---+-----------+------------+------+-------------+-----------+-----------------------------------|
+| 1 | BIOS Boot | +2m        | EF02 | none        | /dev/sda1 | no need to format                 |
+| 2 | root      | +32g       | 8300 | ext4        | /dev/sda2 |                                   |
+| 3 | FreeDOS   | +1g        | 0700 | vfat        | /dev/sda3 | useful for flashing BIOS          |
+| 4 | GParted   | +1g        | 8300 | ext4        | /dev/sda4 |                                   |
+| 5 | swap      | double ram | 8200 | swap        | /dev/sda5 | needed to be able to hibernate!!! |
+| 6 | pkg       | +20g       | 8300 | ext4        | /dev/sda6 | put our package database here     |
+| 7 | home      | remainder  | 8300 | ext4        | /dev/sda7 |                                   |
+
++ Print partition table after finished with gdisk
+
+    # parted /dev/sda print
+
+*** mkfs
++ Make the filesystem/swap with: `mkfs.ext4`, `mkfs.vfat`, and `mkswap`
+as per table above, example:
+
+    # mkfs.ext4 /dev/sda2
+    # mkfs.vfat /dev/sda3
+    # mkfs.ext4 /dev/sda4
+    # mkswap /dev/sda5
+    # mkfs.ext4 /dev/sda6
+    # mkfs.ext4 /dev/sda7
+
+Turn on swap
+
+    # swapon /dev/sda5
+
+*** mount
+Mount `root` and `home` partitions:
+
+    # mount /dev/sda2 /mnt
+    # mkdir /mnt/home
+    # mkdir -p /mnt/var/cache/pacman/pkg
+    # mount /dev/sda6 /mnt/var/cache/pacman/pkg
+    # mount /dev/sda7 /mnt/home
+
+** SSH from another computer
+
+*** On new computer (the one being installed, aka: local)
+
+++ Determine you local IP
+
+    # ifconfig
+
+++ generate your ssh keys
+
+    # ssh-keygen
+
+for location choose:
+
+    /etc/ssh/ssh_host_rsa_key
+
+++ Start the sshd
+
+    # /usr/bin/sshd
+
+ignore warnings about "Could not load..."
+
+++ set a root passwd
+
+    # passwd
+
+*** from existing/old/remote computer to new, do:
+
+++ copy the ssh key from old computer to new (being installed
+computer).  Sample/example IP address.
+
+    % ssh-copy-id root@192.168.1.35
+
+++ export TERM=linux
+
+++ ssh in from old to new:
+
+    % ssh root@192.168.1.35
+
++ On new do:
+
+Note we have an `sshfs` able computer at IP: 192.168.1.44
+
+++ put aside the existing `/var/cache/pacman/pkg` folder:
+
+    # cd /var/cache/pacman
+    # mv pkg pkg-bak
+    # mkdir pkg
+
+++ mount the external pacman cache:
+
+    # sshfs fenton@192.168.1.44:/var/cache/pacman/pkg pkg -C
+
+
+++ Mount sshfs with: 
+
+    # sshfs bkfi:/var/cache/pacman/pkg pkg -C
+** Mount pacman NFS shares
+*** NFS Server
+
+    % sudo pacman -S nfs-utils
+    % sudo systemctl enable rpc-idmapd.service rpc-mountd.service
+    % sudo systemctl start rpc-idmapd.service rpc-mountd.service
+
+In `/etc/fstab`:
+
+```
+/var/cache/pacman/pkg                     /srv/nfs4/pacman-cache  none    bind                      0       0    
+/var/lib/pacman/sync                      /srv/nfs4/pacman-db     none    bind                      0       0        
+```
+
+In `/etc/exports`:
+
+```
+/srv/nfs4/   192.168.1.1/24(rw,fsid=root,no_subtree_check)
+/srv/nfs4/pacman-cache  192.168.1.1/24(rw,no_subtree_check,nohide)
+/srv/nfs4/pacman-db  192.168.1.1/24(rw,no_subtree_check,nohide)
+```
+
+    % sudo exportfs -vfa
+    % sudo mount -a
+
+*** on client
+
++ Assume NFS server IP = 192.168.1.44.  
+
++ Ensure dirs: `/mnt/var/lib/pacman/sync` and `/mnt/var/cache/pacman/pkg`
+  exist and are empty, then do:
+
+    # showmount -e 192.168.1.44
+
+    # mkdir -p /mnt/var/lib/pacman/sync
+    # mkdir -p /mnt/var/cache/pacman/pkg
+
+    # mount -t nfs4 192.168.1.44:pacman-db /mnt/var/lib/pacman/sync
+    # mount -t nfs4 192.168.1.44:pacman-cache /mnt/var/cache/pacman/pkg
+
+if you want to unmount you can do:
+
+    # cd /; umount /mnt/var/lib/pacman/sync; umount /mnt/var/cache/pacman/pkg
+    # umount /mnt{/home,}
+
+*** install pacman packages
+
+assume we have packages cache mounted to: /mnt/pm
+
+    # pacman -r /mnt --cachedir=/mnt/var/cache/pacman/pkg -Sy base base-devel
+*** Mount package partition
+
+    # mkdir -p /mnt/var/cache/pacman/pkg
+    # mount /dev/sda6 /mnt/var/cache/pacman/pkg
+
+** Packages
+
+    # pacstrap -i /mnt base base-devel
+    # genfstab -U -p /mnt >> /mnt/etc/fstab
+    # echo 'genfstab -U -p /mnt/na >> /mnt/etc/fstab' | sudo bash
+
+Add an entry to file system table `/mnt/etc/fstab` for the swap.
+
+```
+/dev/sda5 none swap defaults 0 0
+```
+
+    # arch-chroot /mnt
+    # vi /etc/locale.gen
+
+Uncomment line with `en_US.UTF-8` in it.
+
+    # locale-gen
+    # echo LANG=en_US.UTF-8 > /etc/locale.conf
+    # export LANG=en_US.UTF-8
+    # setfont Lat2-Terminus16
+    # vi /etc/vconsole.conf
+
+```
+FONT=Lat2-Terminus16
+```
+    # ln -s /usr/share/zoneinfo/<Zone>/<SubZone> /etc/localtime
+    # hwclock --systohc --utc
+    # echo <hostname> > /etc/hostname    # <-- pick a different hostname 
+
+If this is a laptop:
+
+    # pacman -S iw wireless_tools wpa_supplicant wpa_actiond dialog
+    # wifi-menu wlan0
+
+If a desktop: 
+
+    # systemctl enable dhcpcd@enp0s25.service    # <-- your interface
+    # passwd
+
+** Bootloader
+
+*** grub
+
+    # pacman -S grub
+    # grub-install --recheck /dev/sda
+    # grub-mkconfig -o /boot/grub/grub.cfg
+
+
+*** syslinux (dont use this, use grub)
+Consider using grub, which allows you to install gparted as a boot
+option so if you want to post-install modify your partitions it's
+easier.  I.e. I now want suspend to work with my laptop but it
+requires a swap partition, which requires gparted to change the
+partitions... 
+
+...
+TIMEOUT 5
+...
+LABEL arch
+        ...
+        APPEND root=/dev/sda1 ro
+        ...
+# pacman -S syslinux
+# syslinux-install_update -i -a -m
+# nano /boot/syslinux/syslinux.cfg
+
+** User Management
+
+# useradd -m -g users -s /usr/bin/zsh fenton
+# passwd fenton
+# pacman -S sudo
+# visudo
+fenton ALL=(ALL) NOPASSWD: ALL
+
+From another computer you might want to do:
+$ ssh-copy-id fenton@<ip-address>
+$ scp id_rsa <ip-address>:~/.ssh/
+$ scp id_rsa.pub <ip-address>:~/.ssh/
+
+Back on original computer clone the git repo
+% git clone ft_git3@spicevan.com:ft.home.dir.git
+% mv ft.home.dir fenton
+% tar cvfz fenton.tgz fenton
+% sudo cp fenton.tgz ..
+% cd ..; tar xvfzm fenton.tgz
+% sudo rm -f fenton.tgz
+
+# exit
+# umount /mnt/{home,}
+# reboot
+
+
+Login as fenton now.  Your wireless might have got adjusted so:
+$ iwconfig   # <-- find your new wireless adapter, eg:wlp3s0
+$ sudo wifi-menu wlp3s0
+Make sure that the correct wireless interface (e.g. wlp3s0) is set in
+/etc/conf.d/netcfg 
+
+Enable multilib in /etc/pacman.conf
+
+** SSH, Git
+
+    $ sudo pacman -S reflector
+    $ sudo cp -vf /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+    $ sudo reflector --verbose -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist
+    $ sudo pacman -S openssh git net-tools rxvt-unicode ntp
+    $ sudo systemctl enable sshd
+    $ sudo systemctl start sshd
+    $ sudo systemctl enable ntpd
+    $ sudo systemctl start ntpd
+
+SSH into the machine from your other machine so have cut and paste,
+etc... 
+
+    $ scp ftravers@spicevan.com:/home/ftravers/ssh.tgz .
+    $ tar xvfz ssh.tgz
+    $ chmod 600 .ssh/id_rsa
+
+Test with:
+
+    $ ssh ftravers@spicevan.com
+
+If preparing a computer for Fenton do following, otherwise go to next
+section: 
+
+** Clone fenton git dir
+
+    $ git clone ft_git3@spicevan.com:ft.home.dir.git
+    $ mkdir -p projects/docs-DIR/; cd !$
+    $ git clone ft_git3@spicevan.com:documentation.git
+    $ cd documentation; chmod +x arch-packages.md
+
+Modify /etc/pacman.conf so SigLevels are all: Optional TrustAll 
+
+    $ ./arch-packages.md 
+    $ mv ft.home.dir/ fenton
+    $ tar cvfz fenton.tgz fenton
+    $ sudo mv fenton.tgz ..; cd ..; sudo tar xvfz fenton.tgz
+    $ cd fenton
+    $ chmod 600 .ssh/id_rsa
+    
+    $ cp .xinitrc-desktop .xinitrc
+
+** Clone basic_user_settings
+
+    $ scp annie@192.168.1.45:/home/annie/.ssh/id_rsa.pub ~/projects/dh-gitosis/keydir/aspire_one.pub
+    $ cd ~/projects/dh-gitosis/; pul;
+
+edit `~/projects/dh-gitosis/gitosis.conf` adding pub file, and pus,
+then from new computer do:
+
+    $ git clone ft_git3@spicevan.com:basic-user-settings.git
+    $ mv basic-user-settings/ annie
+    $ tar cvfz annie.tgz annie/
+    $ sudo mv annie.tgz /home
+    $ cd /home
+    $ tar xvfz annie.tgz
+
+** Install a video driver
+
+    $ lspci | grep VGA
+
+Here I install the intel video card:
+
+    $ sudo pacman -S xf86-video-intel
+
+for other cards see: 
+
+https://wiki.archlinux.org/index.php/Beginners'_Guide#Install_a_video_driver
+
+** packages & documentation
+
+   $ mkdir -p ~/projects/docs-DIR/
+   $ cd !$
+   $ git clone ft_git3@spicevan.com:documentation.git
+   $ documentation/arch-packages.md
+   
+   Optional additional git repos you might want to add:
+
+   $ cd ~/projects/docs-DIR; git clone ft_git3@spicevan.com:pers-docs.git
+   $ mkdir pers-docs/empty
+
+** slim
+
+    $ sudo vi /etc/slim.conf
+
+```
+default_user        fenton
+auto_login         yes
+```
+
+    $ sudo systemctl enable slim.service
+    
+** yaourt
+
+   some dependencies: binutils
+
+   $ wget https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz
+   $ wget https://aur.archlinux.org/packages/ya/yaourt/yaourt.tar.gz
+
+   $ tar xvfz package-query.tar.gz; tar xvfz yaourt.tar.gz
+   $ cd package-query; makepkg -s; sudo pacman -U package-query...; cd ..
+   $ cd yaourt; makepkg -s; sudo pacman -U yaourt...; cd ..
+   $ rm -rf yaourt* package-query*
+
+   $ yaourt slime-cvs kdegraphics-okular google-talkplugin
+
+** quicklisp
+
+   $ wget http://beta.quicklisp.org/quicklisp.lisp
+   $ sbcl --load quicklisp.lisp
+   * (quicklisp-quickstart:install)
+   * (ql:quickload "quicklisp-slime-helper")
+   * (SB-EXT:EXIT)
+   % mv .sbclrc.bak .sbclrc
+   % sbcl
+   * (SB-EXT:EXIT)
+   $ mkdir -p projects/lisp/systems
+
+** Emacs
+
+    $ cd .emacs.d; cp workgroups.copy workgroups
+
+Install packages:
+
+    bookmark+, org2blog, workgroups, icicles
+
+** Git Projects
+
+   $ cd ~/projects; git clone ft_git3@spicevan.com:gitosis-admin.git dh-gitosis
+   $ cd docs-DIR; git clone ft_git3@spicevan.com:pers-docs.git
+   $ cd ../lisp/; git clone ft_git3@spicevan.com:urban-farmer.git
+   $ git clone ft_git3@spicevan.com:common-socialisp.git
+   $ git clone ft_git3@spicevan.com:todo.git
+
+** Extra monitors
+
+Now get all your monitors plugged in and run:
+$ arandr
+Save your settings
+$ rm -f scripts/rar
+
+In the command below change first argument to name you used above
+saving the arandr config.
+$ chmod +x .screenlayout/lenovo_syncmaster.sh 
+$ cd scripts
+$ ln -s ../.screenlayout/lenovo_syncmaster.sh rar
+
+** Skype
+
+Choose: lib32-mesa-libgl, when it comes up as an option.
+
+* Other
+** Copy to Android Device
+
+To copy over a movie
+
+    sudo mtp-connect --sendfile <src-file> Movies
+
+To copy over music
+
+    sudo mtp-connect --sendfile <src-file> Music
+
+** Virtual Box Install
+
+Ensure you choose `Bridged Networking` and select correct network
+adaptor.
+
+** Configure Arch 
+
+Simply go through accepting all defaults except for what is listed
+below.
+
+Setup static ip at: `/etc/rc.conf`, insert
+
+```
+# Static IP example
+address=192.168.0.2
+interface=eth0
+netmask=255.255.255.0
+broadcast=192.168.0.255
+gateway=192.168.0.1
+```
+
+setup nameserver (dns)
+
+```
+ cat /etc/resolv.conf
+nameserver 192.168.0.1
+```
+
+Comment out servers in `/etc/pacman.d/mirrorlist` for your country.
+
+Shutdown the VM with: `shutdown -h now`
+
+Remove the arch.iso file from the CD and start the Arch VM up again.
+
+Get the latest mirrors:
+
+    # cd /etc/pacman.d; wget -c http://www.archlinux.org/mirrorlist/all/
+    # mv mirrorlist mirrorlist.old; mv index.html mirrorlist
+
+and uncomment for your country in the file.
+
+Update system with:
+
+    # pacman -Syyu 
+    
+Note answer `n` when it says:
+  
+    :: Do you want to cancel the current operation
+    :: and upgrade these packages now? [Y/n]
+    
+Answer `y` for remaining questions.
+
+If you get an error message saying:
+
+    error: failed to commit transaction (conflicting files)
+    
+and then it says some file `exists in the filesystem`, simply delete
+those files and retry: `pacman -Syyu`, again saying `n` when it asks
+if you want to upgrade.
+    
+** Install/Setup SSH
+    
+    # pacman --noconfirm -S openssh openssl
+
+Add it as a daemon after `network` to `/etc/rc.conf`: 
+
+    DAEMONS=(... network @sshd ...)
+
+Reboot and ssh into it so you can enjoy your nice terminal client.
+
+** DBus
+
+    # pacman --noconfirm -S dbus
+    # rc.d start dbus
+
+add it to the daemons array in `rc.conf`
+
+    DAEMONS=(... dbus ...)
+
+** Add User
+
+Install sudo:
+
+    # pacman --noconfirm -S sudo
+
+Add a user, default group: `users`, shell is `bash`
+
+    # useradd -m -g users -s /bin/bash fenton; passwd fenton
+    # visudo
+
+how to add a user to a group:
+
+    $ sudo gpasswd -a user group
+
+allow docs to do everything with an entry like:
+
+    fenton ALL=(ALL) ALL
+
+** Window Managers / Desktop Environments
+
+[beginners guide - x][arch-beg-x-win]
+
+[virtual box][arch-virtual-box]
+
+```bash
+# pacman --noconfirm -S xorg-server xorg-xinit xorg-utils xorg-server-utils mesa mesa-demos virtualbox-archlinux-additions xf86-video-vesa xf86-input-synaptics zlib ttf-dejavu
+# modprobe -a vboxguest vboxsf vboxvideo
+```
+    
+add to `rc.conf`
+
+    MODULES=(... vboxguest vboxsf vboxvideo)
+
+
+If you are using Arch installed directly on your hardware, you could
+use the i3 window manager, otherwise you might want to use xfce4.
+
+*** i3 window manager
+
+install i3 window manager
+
+    pacman -S i3
+    
+accept default to install all items.
+
+Create an ~/.xinitrc
+
+    cat > ~/.xinitrc
+    exec i3
+
+Reboot for good measure!
+
+    # startx
+
+*** xfce4 desktop environment
+
+install
+
+    pacman -s xfce4
+    
+accept default to get all packages, to start do:
+
+    startxfce4
+
+** Git
+
+    # pacman --noconfirm -S git curl
+    
+** Emacs
+
+    # pacman --noconfirm -S emacs
+    
+If this is inside a virtualbox vm, I normally remap the Host Key from
+right Ctrl to F12 key.  File > Preferences > Input.  The right ctrl
+key is used extensively for emacs!
+
+*** Clojure support
+
+install rlwrap:
+
+    # pacman --noconfirm -S rlwrap
+
+install java:
+
+    # pacman -S jdk7-openjdk
+
+Install Clojure, see: clojure.html
+
+Setup ELPA see: emacs.html
+
+Add packages: clojure-mode, clojure-test-mode
+
+* RVM
+
+Install rvm under current user 'fenton'.
+
+```bash
+$ curl -L get.rvm.io | bash -s stable
+```
+
+add to `~/.bashrc`:
+
+ :   [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+
+test with:
+
+```bash
+$ type rvm | head -n1
+rvm is a function
+```
+
+get some rvm completions with:
+
+```bash
+# RVM bash completion
+
+
+
+ :   [[ -r "$HOME/.rvm/scripts/completion" ]] && source "$HOME/.rvm/scripts/completion"
+
+
+
+
+```
+
+* Dynamic DNS Afraid
+** Get Dyn DNS URL
+
+https://freedns.afraid.org/
+
++ left menu click `Dynamic DNS`
+
++ Click 'direct URL' beside your root domain (i.e. not any
+`mail.domain.com` or something like that records, just the
+`domain.com` record.
+
+You'll see a URL something like:
+
+    http://freedns.afraid.org/dynamic/update.php?ZRRJZ...................bzo4Njc1M4DA
+
+install software:
+
+    $ sudo pacman -S cronie
+    $ crontab -e
+
+This will allow you to edit your crontab (Chronological Table). 
+
+Put in a line like:
+
+    */1 * * * * curl -ks http://freedns.afraid.org/dynamic/update.php?ZRRJZ...................bzo4Njc1M4DA > /dev/null
+
+Changing the URL to be what you got in the step above.
+
+Enable, starte and view status of `cronie` service
+
+    $ sudo systemctl enable cronie.service
+    ...
+    $ sudo systemctl start cronie.service
+    $ sudo systemctl status cronie.service
+    ...
+
+Monitor it runs with: 
+
+    $ sudo journalctl -u cronie.service -f
+
+* RVM - Ruby
+
+[rvm ruby reference][rvm ruby]
+
+now become user: `docs` (or whatever user you plan on being when you
+are using ruby)
+
+    # su - docs
+    $ sudo bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
+    $ sudo usermod -a -G rvm docs
+
+as root:
+
+    # pacman -Sy --noconfirm gcc patch curl zlib readline libxml2 libxslt git autoconf automake diffutils make libtool bison subversion
+    # ln -s /lib/libpcre.so.0 /usr/lib/libpcre.so.1
+
+as docs user:
+
+    $ rvm install 1.9.3
+    $ rvm use 1.9.3 --default
+    
+* Virtualization (not complete - not working)
+
+[Ref](https://wiki.archlinux.org/index.php/KVM)
+
+    # pacman -S qemu-kvm
+    
+Add a user `fenton`, default group: `users`, shell is `bash`
+
+    # useradd -m -g users -s /bin/bash fenton
+    # usermod -a -G kvm fenton
+
+Add user `fenton` to sudo:
+
+    # visudo
+
+Put in entry like:
+
+    fenton ALL=(ALL) ALL
+    
+add modules to `/etc/rc.conf`
+
+    MODULES=(kvm kvm-intel)
+
+Reboot.
+
+Login as `fenton`, and create OS Image
+
+```bash
+# su - fenton
+$ qemu-img create -f qcow2 arch2 2G
+```
+
+* Nginx, Passenger, Rack, ...
+
+http://tommy.chheng.com/2009/06/09/deploying-a-sinatra-app-on-nginx-passenger-with-capistrano-and-git/
+
+first ensure you have a rvm/ruby environment setup.
+
+install `passenger-install-nginx-module`
+
+    Gem install passenger
+    passenger-install-nginx-module
+    
+just follow the defaults
+
+Edit the `/opt/nginx/conf/nginx.conf` to specify where to save the
+nginx pid file to:
+
+    pid /var/run/nginx.pid;
+    
+Create a start file in: `/etc/rc.d/nginx` (755 permissions), with the
+following contents:
+
+```
+#!/bin/bash
+
+# general config
+
+NGINX_CONFIG="/opt/nginx/conf/nginx.conf"
+
+. /etc/conf.d/nginx
+. /etc/rc.conf
+. /etc/rc.d/functions
+
+function check_config 
+  stat_busy "Checking configuration"
+  /usr/sbin/nginx -t -q -c "$NGINX_CONFIG"
+  if [ $? -ne 0 ]; then
+    stat_die
+  else
+    stat_done
+  fi
+}
+
+case "$1" in
+  start)
+    check_config
+    $0 careless_start
+    ;;
+  careless_start)
+    stat_busy "Starting Nginx"
+    if [ -s /var/run/nginx.pid ]; then
+      stat_fail
+      # probably ;)
+      stat_busy "Nginx is already running"
+      stat_die
+     fi
+    /usr/sbin/nginx -c "$NGINX_CONFIG" &>/dev/null
+    if [ $? -ne 0 ]; then
+      stat_fail
+    else
+      add_daemon nginx
+      stat_done
+    fi
+    ;;
+  stop)
+    stat_busy "Stopping Nginx"
+    NGINX_PID=`cat /var/run/nginx.pid 2>/dev/null`
+    kill -QUIT $NGINX_PID &>/dev/null
+    if [ $? -ne 0 ]; then
+      stat_fail
+    else
+      for i in `seq 1 10`; do
+        [ -d /proc/$NGINX_PID ] || { stat_done; rm_daemon nginx; exit 0; }
+        sleep 1
+      done
+      stat_fail
+    fi
+    ;;
+  restart)
+    check_config
+    $0 stop
+    sleep 1
+    $0 careless_start
+    ;;
+  reload)
+    check_config
+    if [ -s /var/run/nginx.pid ]; then
+      status "Reloading Nginx Configuration" kill -HUP `cat /var/run/nginx.pid`
+    fi
+    ;;
+  check)
+    check_config
+    ;;
+  *)
+    echo "usage: $0 {start|stop|restart|reload|check|careless_start}"
+esac
+```
+
+Have a `/etc/conf.d/nginx` file with the following in it:
+
+```
+NGINX_CONFIG=/etc/nginx/conf/nginx.conf
+```
+
+Modify the user `nginx` runs as, with a line like the following in
+`/opt/nginx/conf/nginx.conf` 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Suppose you have a Ruby on Rails application in /somewhere. Add a server block
+to your Nginx configuration file, set its root to /somewhere/public, and set
+'passenger_enabled on', like this:
+
+```
+server {
+      listen 80;
+      server_name www.yourhost.com;
+      root /somewhere/public;   # <--- be sure to point to 'public'!
+      passenger_enabled on;
+   }
+```
+
+
+
+
+
+
+[ref](https://wiki.archlinux.org/index.php/Nginx)
+
+    # pacman --noconfirm -S nginx
+
+Start:
+
+    # rc.d start nginx
+    
+Home page: `/etc/nginx/html/index.html`, test with: `http://127.0.0.1`
+
+Add to daemon list: `/etc/rc.conf`:
+
+    DAEMONS=(... @nginx)
+    
+You can modify the configurations by editing the files in
+`/etc/nginx/conf`. (`/etc/nginx/conf/nginx.conf` being the main config
+file.)
+
+* Solr
+
+    # pacman -S jre7-openjdk
+
+* Display
+
+I have two 1920x1080 monitors I use side by side.  In file:
+`/etc/X11/xorg.conf.d/10-monitor.conf` put:
+
+```
+Section "Monitor"
+    Identifier             "Monitor0"
+EndSection
+
+Section "Device"
+    Identifier             "Device0"
+    Driver                 "intel" #Choose the driver used for this monitor
+EndSection
+
+Section "Screen"
+    Identifier             "Screen0"  #Collapse Monitor and Device section to Screen section
+    Device                 "Device0"
+    Monitor                "Monitor0"
+    DefaultDepth            24 #Choose the depth (16||24)
+    SubSection             "Display"
+        Depth               24
+        Modes              "1920x1080" "1920x1080" #Choose the resolution
+        Virtual            3840 2160
+    EndSubSection
+EndSection
+```
+
+To make monitors one big desktop create a script that you run with the
+following contents:
+
+```
+#!/bin/sh
+xrandr --auto --output VGA1 --mode 1920x1080 --left-of HDMI1
+```
+
+    xrandr -q
+
+will give you the names of your monitors, like I have VGA1 and HDMI1
+
+* Fonts
+
+List fonts
+
+    fc-list | sed 's,:.*,,' | sort -u
+
+Add a font folder, can be put at the beginning of ~/.xinitrc
+
+```
+xset +fp /usr/share/fonts/local
+xset fp rehash 
+```
+
+Query fonts path:
+
+    xset q
+
+!!! NOTE UNFINISHED AND UNSUCCESSFUL !!!
+* Customizing Xterm
+
+When it comes to customizing xterm in a serious way XResources are the
+way to go.
+
+XResources are read from the file ~/.Xresources when you login, but if
+you wish to force them to be reloaded you run the command:
+
+    xrdb -merge ~/.Xresources
+
+Sample ~/.Xresources
+
+```
+!
+! Comments begin with a "!" character.
+!
+
+XTerm*background:       black
+XTerm*foreground:       white
+XTerm*cursorColor:      white
+XTerm.vt100.geometry:   79x25
+XTerm*scrollBar:        true
+XTerm*scrollTtyOutput:  false
+```
+
+* VPN
+
+download vpn software and install
+
+    https://myaccess.oraclevpn.com
+
+run: 
+
+    $ sudo /etc/rc.d/vpnagentd_init start
+
+install:
+
+    $ sudo pacman -S pangox-compat
+
+then need to run the `~/vpnui` program, connect to:
+
+    https://myaccess.oraclevpn.com
+
+```
+#!/bin/bash
+
+# general config
+
+. /etc/rc.conf
+. /etc/rc.d/functions
+
+case "$1" in
+  start)
+    stat_busy "Starting Nginx"
+    /opt/cisco/vpn/bin/vpnagentd &>/dev/null
+
+    if [ $? -ne 0 ]; then
+      stat_fail
+    else
+      add_daemon vpnagentd
+      stat_done
+    fi
+    ;;
+  stop)
+    stat_busy "Stopping VPNAgentD"
+    VPNAGENTD_PID=`cat /var/run/vpnagentd.pid 2>/dev/null`
+    kill -QUIT $VPNAGENTD_PID &>/dev/null
+    if [ $? -ne 0 ]; then
+      stat_fail
+    else
+      for i in `seq 1 10`; do
+        [ -d /proc/$VPNAGENTD_PID ] || { stat_done; rm_daemon vpnagentd; exit 0; }
+        sleep 1
+      done
+      stat_fail
+    fi
+    ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  *)
+    echo "usage: $0 {start|stop|restart}"
+esac
+```
+
+add entry to /etc/rc.conf
+
+    DAEMONS=(... @vpnagentd)
+
+* AUR
+
+You need to make package installer from source. Steps are:
+
+1. Goto https://aur.archlinux.org to search packages
+2. Download tarball file
+3. Extract file using gunzip and tar
+4. In the extracted folder, run "makepkg -s"
+5. If successfully built, a new file like package.pkg.tar.xz is generated
+6. Run pacman -U package.pkg.tar.xz to install it
+
+You can also use yaourt to build/install packages from AUR
+
+1. First you need to install yaourt not by pacman but by the above procedures
+2. Run yaourt, e.g. "yaourt libpng14"
+3. Select a number from the query result list, then go on as instructed
+
+- Goto https://aur.archlinux.org to search packages
+- dowload tar.gz: `yaourt 1.1-1`
+
+```bash
+$ tar xvfz yaourt-1.1.tar.gz
+$ make install
+```
+
+* Open (Libre) Office
+
+    $ sudo pacman -S libreoffice
+
+** Apache LAMP
+
+[ref](https://wiki.archlinux.org/index.php/LAMP#Apache)
+
+    # pacman -S --noconfirm apache php php-apache mysql
+
+Update: `/etc/httpd/conf/httpd.conf`
+
+```
+# Virtual hosts
+Include conf/extra/httpd-vhosts.conf
+```
+
+Virtual Hosts: `/etc/httpd/conf/extra/httpd-vhosts.conf`
+
+```xml
+<VirtualHost *:80>
+  ServerName docs
+  DocumentRoot /home/docs/bin/website_static
+</VirtualHost>
+```
+
+* Start/Stop/Restart Services
+
+Example for sshd: 
+
+    # rc.d {start|stop|restart} sshd
+
+All scripts are kept in the folder: `/etc/rc.d`
+
+** VPN
+To download installer, method 1: Open browser and access http://myaccess.oraclevpn.com, after logging in, try to activate AnyConnect, browser would prompt for installation or downloading file which you can run to install; method 2: Goto ftp://obiftp/modules/unlicensed/global/ciscoanyconnect/2.5.3055/linux/ to download the 32bit or 64bit version for installation.
+
+After installation, run /opt/cisco/vpn/bin/vpnui to start the vpn client. However, you may find that after rebooting, the vpn client is broken. What you see is a window just displayed and then disapear very quickly. The solution is to add vpnagentd_init to /etc/rc.conf's DAEMONS section. Reboot or run:
+rc.d start vpnagentd_init.
+
+Then you can enjoy vpn client successfully.
+
+
+** Dav
+
+```
+$ sudo pacman -S davfs2
+$ sudo mount.davfs https://oracle-git.rnowtraining.com/dav ~/projects/cur-DIR/cx
+```    
+
+* Truecrypt
+
+** Create
+
+To create a new truecrypt volume (file) interactively, type the
+following in a terminal: 
+
+    truecrypt
+
+** Mount
+
+The following mounts the file: `old-info` into the directory `empty`. 
+
+    truecrypt /home/fenton/projects/docs-DIR/pers-docs/old-info /home/fenton/projects/docs-DIR/pers-docs/empty
+
+password: hhmspiritpoemnumberhardfamilyone
+
+** Unmount
+
+just type:
+
+    truecrypt -d
+** Troubleshoot
+
+If you get a message: 
+
+*** failed to setup a loop device
+
+    # tee /etc/modules-load.d/truecrypt.conf <<< "loop"
+    % sudo modprobe loop
+
+*** device-mapper: reload ioctl on truecrypt1 failed
+
+add the flag: -m=nokernelcrypto to the truecrypt command. 
+
+*** fuse: device not found, try 'modprobe fuse' first
+
+
+* pacman
+
+To list files associated with a package:
+
+    pacman -Ql <package-name>
+
+this should give you a list of explicitly installed packages
+
+    % pacman -Qet
+
+** cache and database
+
++ Database location: `/var/lib/pacman/sync/{core.db,testing.db,...}`
+
++ Cache location: `/var/cache/pacman/pkg/`
+* random password generation
+
+** Install apg
+
+    $ sudo pacman -S apg
+
+** Generate secure passwords
+
+ : % apg -m 16 -x 16 -a 1 -n 20 -E \"\[0Ol1\|o\}\\\`\'] -M NCL 
+
+| -m   | minimum length                  |
+| -x   | max length                      |
+| -a 1 | use random password generation  |
+| -n   | number of passwords to generate |
+| -E   | characters to avoid             |
+| -M   | mode                            |
+
+modes
+
+| -M N | must use numeral       |
+| -M C | must use capital       |
+| -M L | must use small letters |
+
+
+
+* wake on lan
++ setup in bios
+** servers
+   
+in: `/etc/netctl/<PROFILE>` put:
+
+    ExecUpPost='/usr/bin/ethtool -s enp0s25 wol g'
+
+NOTE: change enp0s25 to the device reported by: `ip link`
+
+Might have a line like the following to auto-shutdown after 20 mins:
+
+    xautolock -locker slimlock -time 10 -killer "sudo shutdown -h now" -killtime 10 &
+
+** client machines
+
++ Over intranet:
+
+    alias wbi='wol -i 192.168.1.44 bc:30:5b:9c:d3:56'
+
+where machine address is retrieved with: `ip link`
+
++ Over internet:
+
+    alias wbe='wol -i  bc:30:5b:9c:d3:56'
+* nfs
+
+ref: https://wiki.archlinux.org/index.php/NFS
+
+Lets share pacman.  There are two important folders: cache and db
+(see pacman section).  So lets share the cache folder first:
+
+    /var/cache/pacman/pkg
+
+to make a directory available *temporarily* you can use the command:
+
+    mount --bind <dir> <a mount point dir>
+
+The first <dir> is the real directory you want to share.
+
+The second <a mount point dir> is just an empty folder.
+
+Example:
+
+    % mkdir ~fenton/mnt
+    % sudo mount --bind ~fenton/Downloads ~fenton/mnt
+
++ /etc/exports
+
+    /home/fenton/mnt 192.168.1.1/24(rw,no_subtree_check,nohide)
+
+Each time you modify exports file you must run:
+
+    % sudo exportfs -rav
+
++ services
+
+Start/enable `rpc-idmapd.service` and `rpc-mountd.service`
+* modules
+
+Show currently loaded modules
+
+    % lsmod
+
+Info about a module
+
+    % modinfo <module_name>
+
+See the module files
+
+    % tree -d /lib/modules/3.9.9-1-ARCH/kernel/
+
+Remove a module called foo
+
+    # modprobe -r foo
+
+** 
+* Change keyboard language
+
+To be able to easily switch keyboard layouts, modify the Options used
+in either of the above two methods. For example, to switch between a
+US and a Swedish layout using the Caps Lock key, create a file
+/etc/X11/xorg.conf.d/01-keyboard-layout.conf with the following
+content:
+
+Section "InputClass"
+    Identifier             "keyboard-layout"
+    MatchIsKeyboard        "on"
+    Option "XkbLayout"     "us, se"
+    Option "XkbOptions"    "grp:caps_toggle"
+EndSection
+
+or from the command line:
+
+ % setxkbmap -model pc104 -layout us,th -option grp:caps_toggle
+* xwindows over ssh
+
+How to launch x window applications over SSH
+
+on server in file: `/etc/ssh/sshd_config` set 
+
+    X11Forwarding on
+
+Then login to server with `-X` flag:
+
+    ssh -X user@server.com
+
+Now launch an xwindow application and should show up on local laptop. 
+* ethernet
+
+To setup an ethernet connect do the following:
+* ssh http_proxy polipo
+
+To tunnel http through ssh.  Use case: to visit sites blocked in one
+country that are available in another.
+
+Blocking country: Thailand, Bangkok, with laptop
+Non Blocking Country: Canada, with server
+
+from terminal:
+
+: ssh -D 8080 v5
+
+chromium set: settings > preferences > advanced > network > connection
+> settings > manual proxy config > 
+
+Socks Host: 127.0.0.1
+Port: 8080
+
+DONE!
+
+* boot splash screen timeout
+
+: /boot/syslinux/syslinux.cfg

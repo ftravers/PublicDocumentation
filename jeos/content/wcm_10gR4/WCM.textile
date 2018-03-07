@@ -1,0 +1,65 @@
+WCM Setup
+
+==> Install the following component, and accept all the defaults:
+	sitestudio9.0.0.470.zip
+	from: V17291-01_UCM_WCM10g > SiteStudio_10gR4_20090702 > Component
+
+==> Setup default metadata:
+	Administration > Site Studio Admin > Set Default Project Document Information -> click update
+
+==> Setup a couple of fields to be indexed
+	Administration > Zone fields configuration 
+
+	Move from right hand side to left hand side fields:
+		* Web Sites
+		* Web Site Object Type
+		
+		-> click update
+
+==> (This might not work, don't do right away, but maybe later )
+Add the column below to an index.  
+		Use SQLDeveloper connected as the stellent user. 
+		Replace: <STELLENT_DB_USERNAME> with the stellent DB username, in the two SQL statements below.
+	CREATE INDEX idxDONTSHOWINLISTFORWEBSITES ON <STELLENT_DB_USERNAME>.DocMeta(xDontShowInListsForWebsites) INDEXTYPE IS CTXSYS.CONTEXT PARAMETERS ('SYNC (ON COMMIT)')
+	CREATE INDEX idxDONTSHOWINLISTFORWEBSITES ON <STELLENT_DB_USERNAME>.DocMeta(xDontShowInListsForWebsites) INDEXTYPE IS CTXSYS.CONTEXT PARAMETERS ('SYNC (ON COMMIT)')
+	
+	example:
+	CREATE INDEX idxDONTSHOWINLISTFORWEBSITES ON idc1_user.DocMeta(xDontShowInListsForWebsites) INDEXTYPE IS CTXSYS.CONTEXT PARAMETERS ('SYNC (ON COMMIT)')
+	CREATE INDEX idxDONTSHOWINLISTFORWEBSITES ON idc1_user.DocMeta(xDontShowInListsForWebsites) INDEXTYPE IS CTXSYS.CONTEXT PARAMETERS ('SYNC (ON COMMIT)')
+
+
+CREATE INDEX idxDONTSHOWINLISTFORWEBSITES ON idc3_user.DocMeta(xDontShowInListsForWebsites) INDEXTYPE IS CTXSYS.CONTEXT PARAMETERS ('SYNC (ON COMMIT)')
+CREATE INDEX idxWEBSITEOBJECTTYPE ON idc3_user.DocMeta(xWebsiteObjectType) INDEXTYPE IS CTXSYS.CONTEXT PARAMETERS ('SYNC (ON COMMIT)')
+
+
+==> Fix up apache conf file
+	[stellent@db conf]$ vi /etc/httpd/conf/httpd.conf 
+	
+	<Location />
+	 IdcSecurity idc
+	</Location>
+	
+	RESTART THE WEB SERVER
+	[root@ucm ~]# service httpd restart
+
+
+==> Update config file, putting in all possible references to your UCM in that hosts list.
+
+	[stellent@db conf]$ vi /u01/ucm/config/config.cfg
+RedirectHostsFilter=localhost|<host1>|<host2>
+AllowAllRedirectUrls=true
+	
+	NOTE: This is if you are getting the following error:
+	
+	"I'm trying to 'assign content' to the home page but am getting the following error:
+	You should have been redirected to http://db/fenton3/index.htm?SSContributor=true&SSForceContributor=true&previewId=0
+	So I can't assign any content..."
+
+==> Update who can connect to the server
+	in /oracle/ucm/server/config/config.cfg
+	
+	SocketHostAddressSecurityFilter=127.0.0.1|*.*.*.*
+	
+
+
+

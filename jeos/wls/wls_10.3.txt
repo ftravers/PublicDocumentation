@@ -1,0 +1,51 @@
+Install Files:
+	V13616-01_WLS_10gR3_10.3_Linux_x86
+
+OVM Template:
+	OS: OEL5U3 32bit
+	System: 6144M
+	RAM: 1536M
+	Swap: 2048M
+
+IP Addr: 192.168.8.125
+Install Dir: /u01/middleware
+
+Put the installation sources on a shared disk that you mount later.
+
+INSTALL:
+	launch installer: 
+	[root@wls ~]# chmod a+x wls1031_linux32.bin; ./wls1031_linux32.bin -mode=console
+
+	If you get an error saying not enough space in /tmp then: delete /tmp > make /u02/tmp >
+	ln -s /tmp /u02/tmp > retry install, put back after install finishes.
+
+CONFIGURE:
+	[root@wls bin]# /u01/middleware/wlserver_10.3/common/bin/config.sh -mode=console
+
+	Choose all defaults.  Set administrator password.  Add an Administration Server in the Optional Components section.
+	port: 7001
+
+START/STOP:
+	[root@wls base_domain]# /u01/middleware/user_projects/domains/base_domain/bin/startWebLogic.sh
+	[root@wls base_domain]# /u01/middleware/user_projects/domains/base_domain/bin/stopWebLogic.sh
+
+DELETE:
+	To delete a WebLogic Domain is to just delete the folder. No additional steps need to be taken. 
+
+ACCESS:
+	http://wls2:7001/console
+	username: weblogic password: welcome1 (or whatever you set above)
+
+	patience, took about 3 minutes for the console to come up in mysetup!
+
+
+
+
+
+
+
+
+
+
+
+

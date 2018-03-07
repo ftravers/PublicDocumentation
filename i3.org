@@ -1,0 +1,63 @@
+* misc
+
+Config file:
+
+`~/.i3/config`
+
+| Keys     | Effect                 |
+|----------+------------------------|
+| WK-S-A-e | stop i3 window manager |
+| WK-S-q   | hard kill window       |
+| WK-S-r   | restart                |
+| WK-S-A-c | reload                 |
+
+Change the modifier key to `Alt`:
+
+    set $mod Mod1
+
+Mod1 = Alt, Mod4 = Windows Key.
+
+* startup
+
+In workspace 10, start urxvt, then move to workspace 1:
+
+    exec --no-startup-id i3-msg 'workspace 10; exec urxvt; workspace 1'
+
+* status
+
+ref: http://i3wm.org/i3status/manpage.html
+
+config file: ~/.i3status.conf
+
+battery files on ss9: /sys/class/power_supply/BAT1
+
+```
+$ cat capacity 
+74
+$ cat energy_now 
+4400000
+$ cat energy_full
+5880000
+```
+
+For some reason cannot get battery info, so i3status has a mechanism
+to write your own status bar stuff...
+
+```
+#!/bin/sh
+# shell script to prepend i3status with more stuff
+
+i3status | while :
+do
+        read line
+        echo "mystuff | $line" || exit 1
+done
+```
+
+Put that in some script, say `.bin/my_i3status.sh` and execute that
+instead of i3status. 
+
+Note that if you want to use the JSON output format (with colors in
+i3bar), you need to use a slightly more complex wrapper script. There
+are examples in the contrib/ folder, see
+http://code.i3wm.org/i3status/tree/contrib 

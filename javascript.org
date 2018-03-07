@@ -1,0 +1,38 @@
+* References
+
++ [Supposed to be a good read](http://www.cs.rit.edu/\~atk/JavaScript/manuals/jsobj/)
++ [maybe...](http://www.javascriptkit.com/javatutors/oopjs.shtml)
+
+# includes
+
+Include a javascript file:
+
+    <script type="text/javascript" src="abc.js"></script>
+
+# function
+
+    function myFunction() {
+      var abc = "hello";
+      alert(abc);
+    }
+
+* import js file
+
+To import a javascript file, you can use RequireJS
+
+In the HTML file that will load the JS put:
+
+: <script data-main="scripts/main" src="scripts/require.js"></script>
+
+This says to run the script: =scripts/main.js=
+
+In =main.js= require any additional files with:
+
+#+BEGIN_SRC javascript
+require(["helper/util"], function(util) {
+    //This function is called when scripts/helper/util.js is loaded.
+    //If util.js calls define(), then this function is not fired until
+    //util's dependencies have loaded, and the util argument will hold
+    //the module value for "helper/util".
+});
+#+END_SRC

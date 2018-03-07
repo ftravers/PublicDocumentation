@@ -1,0 +1,82 @@
+"home":../index.html > training
+
+p(toc). Navigation
+
+{toc}
+
+h1. Java EE 6
+
+!(icon)/images/file.gif! "First Time Setup":javaEE6/FirstTimeSetup.html
+!(icon)/images/file.gif! "JSF":/jsf.html
+!(icon)/images/file.gif! "Maven / Eclipse First Time Setup":javaEE6/MavenEclipseSetupSteps.html
+!(icon)/images/file.gif! "Persistence":javaEE6/persistence.html
+!(icon)/images/file.gif! "Security":javaEE6/security.html
+!(icon)/images/file.gif! "Servlets":javaEE6/servlet.html
+!(icon)/images/file.gif! "Spring: Dependency Injection":javaEE6/DependencyInjection.html
+!(icon)/images/file.gif! "String Externalization / Internationalization":StringExternalization.html
+!(icon)/images/file.gif! "Tag Libraries":javaEE6/TagLibraries.html
+!(icon)/images/file.gif! "Tutorial One: Backing Bean, Navigation":javaEE6/tutorial1.html
+!(icon)/images/file.gif! "Tutorial Two: Internationalization":javaEE6/Tutorial2.html
+!(icon)/images/file.gif! "Web Services / SOA / Axis":SOA/webServices.html
+
+h1. Machine setup
+
+!(icon)/images/file.gif! "Eclipse Setup":machineSetup/eclipse.html
+!(icon)/images/file.gif! "Tomcat":tomcat.html
+!(icon)/images/file.gif! "Maven":/maven.html
+!(icon)/images/file.gif! "Unix, Ubuntu, Fedora, etc...":linux.html
+!(icon)/images/file.gif! "Mac":mac/mac_general.html
+!(icon)/images/file.gif! "Windows":windows/windows.html
+
+h1. Languages
+
+!(icon)/images/file.gif! "Java":java/java.html
+!(icon)/images/file.gif! "Java - Logging":java/logging.html
+!(icon)/images/file.gif! "JavaFX":java/javafx.html
+!(icon)/images/file.gif! "Groovy":java/groovy.html
+!(icon)/images/file.gif! "Lisp":lisp.html
+
+
+h1. Databases
+
+!(icon)/images/file.gif! "SQL":database/sql.html
+!(icon)/images/file.gif! "Oracle":database/oracle.html
+!(icon)/images/file.gif! "MySQL":database/mysql.html
+
+h1. Web
+
+!(icon)/images/file.gif! "Bespin":Web/bespin.html
+!(icon)/images/file.gif! "CSS":Web/css.html
+!(icon)/images/file.gif! "Developer / Designer Collaboration":Web/workingWithDesigners.html
+!(icon)/images/file.gif! "First HTML Page":Web/FirstHtmlPage.html
+!(icon)/images/file.gif! "GIMP - Graphical Image Manipulation Program":Web/gimp.html
+!(icon)/images/file.gif! "HTML 5":Web/html5.html
+!(icon)/images/file.gif! "Introduction":Web/Introduction.html
+!(icon)/images/file.gif! "Javascript":javascript.html
+!(icon)/images/file.gif! "Self Hosting":Web/SelfHosting.html
+!(icon)/images/file.gif! "VCS: Version Control Systems":Web/vcs.html
+
+h1. Misc
+
+!(icon)/images/file.gif! "APT - Almost Plain Text(PDF)":apt_quick_ref.pdf
+!(icon)/images/file.gif! "APT - Almost Plain Text":apt.html
+!(icon)/images/file.gif! "Bugzilla":bugzilla.html
+!(icon)/images/file.gif! "Content Server":ContentServer/cs.html
+!(icon)/images/file.gif! "Dreamhost":Dreamhost.html
+!(icon)/images/file.gif! "Emacs":emacs.html
+!(icon)/images/file.gif! "FTP":ftp.html
+!(icon)/images/file.gif! "GIT":git.html
+!(icon)/images/file.gif! "Red Hat Firewalls":firewall_iptables.html
+!(icon)/images/file.gif! "Latex":latex.html
+!(icon)/images/file.gif! "Oracle Portal":portal.html
+!(icon)/images/file.gif! "Oracle VM":oracleVM.html
+!(icon)/images/file.gif! "Sendmail":sendmail.html
+!(icon)/images/file.gif! "SSH":/secure.html
+!(icon)/images/file.gif! "Textile":textile.html
+
+
+
+
+
+
+

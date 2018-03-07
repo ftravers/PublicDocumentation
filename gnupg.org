@@ -1,0 +1,178 @@
+* GnuPGP
+** Install
+
+: sudo pacman -S gpa gnupgp
+
+** List Keys
+
+#+BEGIN_SRC 
+$ gpg --list-keys
+/home/fenton/.gnupg/pubring.kbx
+-------------------------------
+pub   rsa2048/3DB603C0 2016-01-26
+uid         [ultimate] Fenton Travers <fenton.travers@gmail.com>
+sub   rsa2048/D9F358F7 2016-01-26
+...
+#+END_SRC
+
+The string, 3DB603C0, in the line beginning with 'pub' is your key ID.
+
+** Generate Key
+
+To generate your own public key do:
+
+: $ gpg --full-gen-key
+
+** Share your key
+
+*** via the UI
+
+Open gpa
+
+: $ gpa
+
+you should see your key here.  now export it to a server: 
+
+: Server > Send Keys
+
+*** via command line
+
+: $ gpg --keyserver pgp.mit.edu --send-key 52449A8E
+
+
+** Find other peoples keys
+
+*** UI
+: Server > Receive Keys
+
+*** Command line
+
+Using the persons Key ID do:
+
+: $ gpg --keyserver pgp.mit.edu --recv-key 52449A8E
+
+Where you replace the key ID, 52449A8E, with their key ID you found on
+http://pgp.mit.edu. 
+
+In the prompt type their full name, or their email.
+
+** Add your key to your gmail signature file.
+
+Get your key ID from the 'List Keys' section above, and your signature
+should have the following in it.
+
+PGP Key ID: 3DB603C0
+
+** Send an Encrypted message
+
+If you have someone's public key, you can encrypt a file that only
+they can un-encrypt.  We would also like to 'sign' this file so that
+they know it came from us.  Sometimes we just want to paste this into
+an email which can ensure the output is only composed of ascii
+characters.  So lets assume you have a text file called:
+
+: secret.txt
+
+Now encrypt with other users public key: '--encrypt', sign it:
+'--sign', make it output only ascii: '--armour'.
+
+: $ gpg --encrypt --sign --armour secret.txt
+
+Next it will ask you who you want to send this message to.  You can
+enter the first or last names or email address of the person you want
+to send the message to.  Follow the prompts.  Finally this produces:
+
+: secret.txt.asc
+
+Which you can open and copy and paste into an email to the recipient.
+
+** Revoke Key
+
+If you get a virus or some how your computer becomes compromised by
+hackers, you'll want to revoke your key.
+
+#+BEGIN_SRC 
+$ gpg --gen-revoke 52449A8E > revoke.txt
+$ gpg --import revoke.txt 
+gpg: key 52449A8E: "Fenton Travers (Human Being) <fenton.travers@gmail.com>" revocation certificate imported
+gpg: Total number processed: 1
+gpg:    new key revocations: 1
+gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+$ gpg --keyserver pgp.mit.edu --send-key 52449A8E
+gpg: sending key 52449A8E to hkp server pgp.mit.edu
+#+END_SRC
+
+
+Again search the pgp.mit.edu server to see that your key is revoked.
+
+** Manage your keyring
+
+To copy this setup to another computer just copy over ~/.gnupg
+
+** To export only your private and public keys
+
+: $ gpg --export-secret-keys -a keyid > my_private_key.asc
+: $ gpg --export -a keyid > my_public_key.asc
+
+Where keyid is your PGP Key ID, such as A1E732BB. 
+
+On the new machine:
+
+: $ gpg --import my_private_key.asc
+: $ gpg --import my_public_key.asc
+
+Ensure printed key is correct, then add ultimate trust.
+
+: $ gpg --edit-key fenton.travers@gmail.com
+
+type in the command: trust 
+
+and choose: 'ultimate', since this is your own key
+
+** Symetric Keys
+
+Encrypt like so:
+
+: $ gpg --symmetric filename
+
+* Old
+## Others get your key
+
+Now ask your friend to import your key, and ask them to import your
+key with:
+
+```bash
+$ gpg --keyserver pgp.mit.edu --recv-key 52449A8E
+gpg: requesting key 52449A8E from hkp server pgp.mit.edu
+gpg: key 52449A8E: "Fenton Travers (Human Being) <fenton.travers@gmail.com>" not changed
+gpg: Total number processed: 1
+gpg:              unchanged: 1
+```
+
+
+# Encryption
+
+## Encryting your own data
+
+If you want to encrypt a file that only you'll be able to unencrypt.
+
+    $ gpg -r 8DE6C9FD -e email.txt
+
+Where `8DE6C9FD` is the public key id of the person who you want to be
+able to un-encrypt the file.  `email.txt` is the file we are
+encrypting, change this to the file you want to encrypt.
+
+## Unencrypt
+
+If you want to un-encrypt data encrypted with your public key do:
+
+   $ gpg -d email.txt.gpg
+
+Where `email.txt.gpg` is the file that was encrypted with your public
+key.
+
+# References:
+
+[](http://www.hackdiary.com/2004/01/18/revoking-a-gpg-key/)
+

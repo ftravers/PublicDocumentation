@@ -1,0 +1,6 @@
+https://github.com/fish-shell/fish-shell/issues/288
+
+sudo mount /dev/sdb ~/usb/
+rsync -avP --stats ~/usb/Garmin/GPX ~/projects/gps
+java -jar GpsMaster_0.62.97.jar
+

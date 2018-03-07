@@ -1,0 +1,77 @@
+* org-mode
+
+| C-c C-e m m | org -> markdown           |
+| C-c '       | edit source in major mode |
+| C-c '       | return to org mode buffer |
+|             |                           |
+
+* figwheel
+
+In a terminal:
+
+: lein repl
+
+Cider connect.  Then do:
+
+#+BEGIN_SRC repl
+user> (use 'figwheel-sidecar.repl-api)
+user> (start-figwheel!)
+user> (cljs-repl)
+#+END_SRC
+
+Your project.clj should have:
+
+#+BEGIN_SRC 
+(defproject pcbe-web "0.1.0-SNAPSHOT"
+  ...
+  :plugins [[lein-figwheel "0.5.3-1"]
+            [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
+            [cider/cider-nrepl "0.13.0-SNAPSHOT"]]
+  ... )
+#+END_SRC
+
+* Clojure Refactor
+
+Prefix: C-c C-m
+
+| fu | Find Usages     |
+| rl | remove let      |
+| cn | clean namespace |
+|    |                 |
+
+* Cider
+** Tests
+| C-c C-t t  or  C-c C-t C-t | Run test at point.                                                          |
+| C-c C-t n  or  C-c C-t C-n | Run tests for current namespace.                                            |
+| C-c C-t l  or  C-c C-t C-l | Run tests for all loaded namespaces.                                        |
+| C-c C-t p  or  C-c C-t C-p | Run tests for all project namespaces. This loads the additional namespaces. |
+| C-c C-t r  or  C-c C-t C-r | Re-run test failures/errors.                                                |
+| M-p                        | Move point to previous test.                                                |
+| M-n                        | Move point to next test.                                                    |
+| t or M-.                   | Jump to test definition.                                                    |
+| d                          | Display diff of actual vs expected.                                         |
+| e                          | Display test error cause and stacktrace info.                               |
+
+
+** REPL
+
+| C-u C-c A-z | Compile file and load NS into REPL |
+| C-c ,       | Run Tests for NS                   |
+| C-c C-,     | Re-run failures for NS             |
+| C-c A-,     | Run test at point                  |
+| C-c C-t     | Show Test Report Buffer            |
+
+** Test Report
+
+| t or A-. | Goto test definition     |
+| d        | Diff actual vs. expected |
+
+** Debugging
+
+After the last paren of your function, to instrument it for debugging 
+
+: C-u C-A-x
+
+Un-instrument
+
+: C-A-x

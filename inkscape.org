@@ -1,0 +1,37 @@
+# Rectangle
+
+To make a non-filled rectangle.  Draw the rectangle and then open the
+Fill and Stroke dialogue: `Ctrl-Shift-F` (or in the Object menu).  In the
+Stroke Paint tab select the first icon which means `no-paint`.
+
+## Rounded
+
+Grab the little circle on the rectangle after you draw it or select it.
+
+# Connector Tool
+
+Press letter 'o'.  Connect two rectangles like visio.
+
+Put arrow on connector:
+
+  * Shift-Ctrl-F (Fill&Stroke) > Stroke Style > End Markers
+
+# Draw a straight line
+
+`Shift-F6` to get right tool.  Click on start and finish, then
+hit enter.
+
+# Adjust canvas size to fit image
+
+File > Document Properties > Resize drawing to 
+
+* note: if you have hidden objects, complicating the canvas resize,
+  choose: `View > Display Mode > Outline`
+
+# Alignment
+
+`Ctrl-Shift-A`.
+
+# Group & Ungroup
+
+`Ctrl-g` & `Ctrl-u`

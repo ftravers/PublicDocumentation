@@ -1,0 +1,140 @@
+"home":../../index.html > "jeos":../index.html > "content":index.html > IBR
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. References
+
+* "DAM at Oracle Wiki":http://wiki.oracle.com/page/Digital+Asset+Manager+Install+Instructions
+
+h1. Installation
+
+h2. Inbound Refinery / Converstion Server
+
+h3. Create Folders
+
+bc. 
+cd /u01/; mkdir ibr; chown stellent:stellent ibr
+
+h3. Install required packages
+
+yum -y install compat-libstdc++-33.i386 compat-libstdc++-296.i386
+
+h3. Launch Startup
+
+You should have a folder structure like:
+
+!images/01_dam_install_folders.gif!
+
+Run:
+
+bc. 
+[root@ucmel2 ~]# su - stellent
+[stellent@ucmel2 ~]$ /u01/ibr_install/InboundRefinery/linux/setup.sh
+
+h3. Settings
+
+This IBR is being installed to the _same_ server that host the UCM installation.  For this reason I select a unique: @Web Server Relative Root: /ibr/@ as can be seen below.  I chose an independent admin server to a different port than the existing one as registering with the existing killed it.
+
+bc. 
+Review install settings. . .
+Inbound Refinery Core Folder: /u01/ibr
+Java virtual machine: Sun Java 1.5.0_11 JDK
+Inbound Refinery Native Vault Folder: /u01/ibr/vault/
+Inbound Refinery Weblayout Folder: /u01/ibr/weblayout/
+Proxy authentication through another server: no
+Install admin server: configure_existing
+Admin server to register with: /u01/ucm/admin  <<< This is changed since I re-installed.
+Web Browser Path: /bin/bash
+Inbound Refinery locale: English-US
+Inbound Refinery Port: 5555
+Incoming connection address filter: 127.0.0.1
+Web Server Relative Root: /ibr/
+Web Server HTTP Address: ucmel2
+Inbound Refinery Instance Name: ibr
+Inbound Refinery Instance Label: ibr
+Inbound Refinery Description: Inbound Refinery ibr
+Web Server: Apache
+
+h2. Setup Web Server
+
+As @root@ put the following:
+
+bc. 
+IdcUserDB ibr "/u01/ibr/data/users/userdb.txt"
+Alias /ibr "/u01/ibr/weblayout"
+<Location /ibr>
+    DirectoryIndex portal.htm
+    IdcSecurity ibr
+</Location>
+
+into: @/etc/httpd/conf/httpd.conf@ and restart the web server:
+
+bc. service httpd restart
+
+h1. Test Setup
+
+Put the following URL into your browser address bar: @http://ucmel2.lab.com/ibr/@ default username/password: @refadmin/idc@
+
+h1. Configure
+
+h2. Setup Startup Scripts
+
+bc.. 
+[root@ucm1 etc]# cat > /etc/init.d/refinery
+#!/bin/bash
+#
+#
+# chkconfig: 35 80 30
+# description: Refinery Server startup script
+
+# Source function library.
+
+. /etc/rc.d/init.d/functions
+
+STELLENT_OWNER="stellent"
+STELLENT_HOME="/u01/ibr/"
+
+start() {
+	su - $STELLENT_OWNER -c "$STELLENT_HOME/etc/idcrefinery_start"
+}
+stop() {
+	su - $STELLENT_OWNER -c "$STELLENT_HOME/etc/idcrefinery_stop"
+}
+restart() {
+	su - $STELLENT_OWNER -c "$STELLENT_HOME/etc/idcrefinery_restart"
+}
+case "$1" in
+start)
+	start
+;;
+stop)
+	stop
+;;
+restart)
+	restart
+;;
+*)
+echo $"Usage: $0 {start|stop|restart}"
+esac
+
+p. Now add the script to the auto start mechanisms
+
+bc. 	[root@ucm1 init.d]# chmod 750 /etc/init.d/refinery; chkconfig --add refinery --level 0356;
+
+h2. Refinery Component
+
+Place the InboundRefinerySupport component on each content server that will use IBR(In Bound Refinery).
+
+h2. Connect UCM & IBR
+
+On content server > Administration > Providers, and add an outgoing provider.
+!images/03_ibr_provider_1.gif!
+!images/04_ibr_provider_2.gif!
+Make sure to change the line: @SocketHostAddressSecurityFilter=127.0.0.1|*.*.*.*@ in the file: @<server_dir>/config/config.cfg@ add the |*.*.*.*, even when IBR is installed on the same host.
+
+h2. Fonts
+
+You can grab the c:\Windows\Fonts folder and copy it to /u01/ibr/fonts folder then set @GDFONTPATH=/u01/ibr/Fonts@ in @/u01/ibr/config/config.cfg@.
+

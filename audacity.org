@@ -1,0 +1,32 @@
+* Remove noise from a recording.
+
+When recording you should allow some silence before and after the
+recording.
+
++ Select a portion of the recording before or after that contains just
+the background noise.
+
++ Effects > Noise Removal
+
++ Get Profile
+
++ Now select the part of the recording you want to keep (and apply
+  noise removal to)
+
++ Effects > Noise Removal
+
++ Preview > OK
+
+Then I like to cut and paste this out by:
+
++ C-x
+
++ Delete the existing recording (x in top left)
+
++ C-v
+
+* Playback
+
+Using the `sox` package.
+
+    % play test-sound.ogg

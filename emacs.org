@@ -1,0 +1,1371 @@
+* Cheatsheet
+
+| Key Stroke            | Effect                           |
+| ----------            | -------------------------------- |
+C-h v < variable-name > | display the contents of a variable
+C-x C-e                 | evaluate an expression: position the cursor after a list and type
+
+** Search recursive
+
+
+| C-A-f | pick root directory |
+| *     | filename wildcard   |
+| t     | select all files    |
+| A     | find pattern        |
+| A-,   | goto next found     |
+
+** Search and Replace (recursive)
+
+To search and replace recursively from a root directory on down.
+
+| C-A-f | pick root directory      |
+| *     | filename wildcard        |
+| t     | select all files         |
+| Q     | begin Search/Replace     |
+| SPACE | replace and move to next |
+
+* W3M
+*** bookmarks
+
+| a   | add current page to bookmarks |
+| A-a | add url under point           |
+| v   | browse bookmarks              |
+| C-k | kill bookmark under point     |
+| E   | visit bookmarks file          |
+| C-_ | undo the last changes         |
+
+** emacs-w3m
+
+| g   | follow url under point |
+| G   | follow url in new tab  |
+
+*** movement
+
+| SPC       | Scroll Downwards |
+| DEL       | Scroll upwards   |
+| >/<       | right/left       |
+| ./,       | slow left/right  |
+| TAB/S-TAB | forward/back URL |
+| ]/[       | forward form     |
+| {/}       | forward/back img |
+
+*** page movement
+
+| B       | back                             |
+| N       | forward                          |
+| H       | home                             |
+| ^       | parent directory                 |
+| SPC     | bottom of page, then next page   |
+|         |                                  |
+
+*** Misc
+
+| T | toggle images  |
+
+*** Going back in time
+
+| <- / -> | prev/next viewed page in history |
+| s       | show browsing history            |
+| C-c C-@ | record pos in history            |
+| C-c C-v | move to rec. position            |
+
+
+*** tabs
+
+| C-c C-t | create copy of current buffer |
+| C-c C-w | close current w3m buffer      |
+| C-c A-w | close other buffers           |
+| C-c C-p | prev buff                     |
+| C-c C-n | next buff                     |
+
+** daily
+
+| tab | go to inputs/links   |
+| S-b | back                 |
+| S-u | url prompt           |
+| S-h | help                 |
+| S-t | open tab             |
+| H   | help                 |
+| u   | copy url under point |
+|     |                      |
+
+** install
+
+#+BEGIN_SRC shell
+sudo pacman -S w3m emacs-w3m-cvs 
+#+END_SRC
+
+In your =.emacs= file:
+
+#+BEGIN_SRC elisp
+;; W3M.  I'm using for hyperspec lookup for lisp documentation
+(require 'w3m-load)
+(setq browse-url-browser-function 'w3m-browse-url)
+(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+;; optional keyboard short-cut
+(global-set-key "\C-xm" 'browse-url-at-point)
+(setq w3m-use-cookies t)
+#+END_SRC
+
+** rest
+
+https://www.youtube.com/results?search_query=painting
+
+| SPC,C-v | Forward page                  |
+| b,ESC v | Backward page                 |
+| l,C-f   | Cursor right                  |
+| h,C-b   | Cursor left                   |
+| j,C-n   | Cursor down                   |
+| k,C-p   | Cursor up                     |
+| J       | Roll up one line              |
+| K       | Roll down one line            |
+| ^,C-a   | Go to the beginning of line   |
+| $,C-e   | Go to the end of line         |
+| w       | Go to next word               |
+| W       | Go to previous word           |
+| >       | Shift screen right            |
+| <       | Shift screen left             |
+| .       | Shift screen one column right |
+| ,       | Shift screen one column left  |
+| g,M-<   | Go to the first line          |
+| G,M->   | Go to the last line           |
+| ESC g   | Go to specified line          |
+| Z       | Move to the center line       |
+| z       | Move to the center column     |
+| TAB     | Move to next hyperlink        |
+| C-u,ESC | Move to previous hyperlink    |
+| [       | Move to the first hyperlink   |
+| ]       | Move to the last hyperlink    |
+
+Hyperlink operation
+
+| RET    | Follow hyperlink                                                                                  |
+| a, ESC | Save link to file                                                                                 |
+| RET    |                                                                                                   |
+| u      | Peek link URL                                                                                     |
+| i      | Peek image URL                                                                                    |
+| I      | View inline image                                                                                 |
+| ESC I  | Save inline image to file                                                                         |
+| :      | Mark URL-like strings as anchors                                                                  |
+| ESC :  | Mark Message-ID-like strings as news anchors                                                      |
+| c      | Peek current URL                                                                                  |
+| =      | Display information about current document                                                        |
+| C-g    | Show current line number                                                                          |
+| C-h    | View history of URL                                                                               |
+| F      | Render frame                                                                                      |
+| M      | Browse current document using external browser (use 2M and 3M to invoke second and third browser) |
+| ESC M  | Browse link using external browser (use 2ESC M and 3ESC M to invoke second and third browser)     |
+
+File/Stream operation
+
+| U | Open URL                         |
+| V | View new file                    |
+| @ | Execute shell command and load   |
+| # | Execute shell command and browse |
+
+
+Buffer operation
+
+B        Back to the previous buffer
+v        View HTML source
+s        Select buffer
+E        Edit buffer source
+C-l      Redraw screen
+R        Reload buffer
+S        Save buffer
+ESC s    Save source
+ESC e    Edit buffer image
+
+Buffer selection mode
+
+k, C-p   Select previous buffer
+j, C-n   Select next buffer
+D        Delect current buffer
+RET      Go to the selected buffer
+
+Bookmark operation
+
+ESC b    Load bookmark
+ESC a    Add current to bookmark
+
+Search
+
+/,C-s    Search forward
+/,C-s    Search forward
+?,C-r    Search backward
+n        Search next
+N        Search previous
+C-w      Toggle wrap search mode
+
+Mark operation
+
+C-SPC    Set/unset mark
+ESC p    Go to previous mark
+ESC n    Go to next mark
+"        Mark by regular expression
+
+Miscellany
+
+!        Execute shell command
+H        Help (load this file)
+o        Set option
+C-k      Show cookie jar
+C-c      Stop
+C-z      Suspend
+q        Quit (with confirmation, if you like)
+Q        Quit without confirmation
+
+Line-edit mode
+
+C-f      Move cursor forward
+C-b      Move cursor backward
+C-h      Delete previous character
+C-h      Delete previous character
+C-d      Delete current character
+C-k      Kill everything after cursor
+C-u      Kill everything before cursor
+C-a      Move to the top of line
+C-e      Move to the bottom of line
+C-p      Fetch the previous string from the history list
+C-n      Fetch the next string from the history list
+TAB,SPC  Complete filename
+RETURN   Accept
+
+---------------------------------------------------------------------------------------------------------------
+
+Lynx-like key binding
+
+If you have chosen `Lynx-like key binding' at the compile time, you can use the following key binding.
+
+Page/Cursor motion
+
+SPC,C-v,+    Forward page
+b,ESC v,-    Previous page
+l            Cursor right
+h            Cursor left
+j            Cursor down
+k            Cursor up
+J            Roll up one line
+K            Roll down one line
+^            Go to the beginning of line
+$            Go to the end of line
+
+$            Go to the end of line
+>            Shift screen right
+<            Shift screen left
+C-a          Go to the first line
+C-e          Go to the last line
+G            Go to the specified line
+Z            Move to the center line
+z            Move to the center column
+TAB,C-n,Down Move to next hyperlink
+arrow
+ESC
+TAB,C-p,Up   Move to previous link
+arrow
+C-g          Show current page position
+
+Hyperlink operation
+
+RET,
+C-f,     Follow hyperlink
+Right
+arrow
+d, ESC   Save link to file
+RET
+u        Peek link URL
+i        Peek image URL
+I        View inline image
+ESC I    Save inline image to file
+:        Mark URL-like strings as anchors
+ESC :    Mark Message-ID-like strings as news anchors
+
+
+** input text into forms
+
+   Press =ENTER= 
+
+* Mark Ring
+
+| C-SPC C-SPC | push mark                           |
+| C-u C-SPC   | return to last mark                 |
+| C-x C-d     | kill current mark (custom function) |
+
+* Reference
+
+[GNU Emacs Manuals Online](http://www.gnu.org/software/emacs/manual/)
+
+* Super Useful
+
+Key Stroke | Effect                           
+---------- | -------------------------------- 
+A-\        | Delete horizontal space
+C-h a      | Will find all functions that have string in it
+
+* Files
+
+| Key Stroke | Effect                           |
+| ---------- | -------------------------------- |
+C-x C-f      | Open a new file
+C-x s        | Save buffer(s)
+C-x C-w      | Save As
+C-x C-c      | Close emacs
+C-x C-r      | Open file read only
+C-x C-c      | Exit Emacs
+
+* Navigation, Search & Replace
+
+| Key Stroke        | Effect                           |
+| ----------------- | -------------------------------- |
+A->                 | Go to the beginning of the file
+A-<                 | Go to the end of the file
+A-g A-g             | Goto line *
+A-(L/R) arrows      | Move word forward/backwards
+A-f, A-b            | Move word forward/backwards
+C-s                 | Incremental Search Forward
+C-A-s               | Regular Expression incremental search
+C-r                 | Incremental Search Backwards
+A-%                 | Replace
+A-x                 | query-replace-regexp Regex Replace
+C-q C-j             | Keystroke for Carriage Return
+C-q                 | Keystroke for space character
+C-x (, C-x ), C-x e | Start, stop, playback macro
+C-u 25 C-x e        | Replay macro 25 times
+C-u C-space         | Return to previous position
+
+* Special Characters
+
+| Name             | ASCII Code | string notation | Caret Notation | Input method                  |
+| ---------------- | ---------- | --------------- | -------------- | ------------                  |
+| horizontal tab   | 9          | \t              | I              | Ctrl+q Ctrl+i or Ctrl+q Tab   |
+| line feed        | 10         | \n              | J              | Ctrl+q Ctrl+j                 |
+| carriage return  | 13         | \r              | M              | Ctrl+q Ctrl+m or Ctrl+q Enter | 
+
+* Buffers, Regions, & Windows
+
+| Key Stroke          | Effect                           |
+| ------------------- | -------------------------------- |
+C-x 1                 | Unsplit window (keep this)
+C-x 0                 | Unsplit window (keep others)
+C-x 2                 | Split window horizontal
+C-x 3                 | Split window vertical
+C-x o                 | Move to the next window
+C-x 1                 | Collapse other window
+C-x 0                 | Collapse this window
+C-x b                 | Load previous buffer
+C-x C-b               | List all buffers. e to edit buffer
+C-x k                 | Close buffer
+C-x C-v Ret           | Reload buffer from file system
+C-x b **scratch** RET | re-open scratch buffer
+d                     | In buffer list, mark buffer for deletion, happens when hit x
+A-^                   | Join this line to previous and fix up whitespace at join. If there is a fill prefix, delete it from the beginning of this line.
+
+* Edit, Selection, Cut & Paste
+
+| Key Stroke                 | Effect                           |
+| ----------                 | -------------------------------- |
+C-x u                        | Undo
+A-q                          | Reformat Paragraph, take first line to 0 indent, then A-q, rest of paragraph is now 0 indent
+C-A-\                        | Auto indent selected region
+A-^                          | Remove indentation, brings current line up one
+C-c C-c, M-x comment-region  | Comment out a marked region
+C-u C-c C-c                  | Un-comment out the marked region
+C-x h                        | Select wHole buffer
+C-x 0                        | Delete the current window
+A-w                          | Copy
+C-w                          | Cut
+C-y, Esc-y                   | Yank (paste), successive Esc-y get clipboard history
+A-x cua-mode                 | Column Edit, C-Ret. begin selection
+
+* Calculator
+
+to start the Calculator:
+
+    A-x calc
+
+to quit type: `q`
+
+* Misc
+
+** Automatic word wrap
+
+Toggle auto word wrap with: `M-x auto-fill-mode`
+
+** Truncate long lines
+
+When u dont want emacs to wrap long lines do one of the following:
+
+    M-x <RET> toggle-truncate-lines <RET>
+    M-x <RET> set-variable <RET> truncate-lines <RET> t
+
+or put the following in your .emacs to have on by default
+
+    (setq-default truncate-lines t)
+
+** Sort selection
+
+    M-x sort-lines
+
+** XML Formatting
+
+ In sgml-mode, a built-in pretty printing function called
+(sgml-pretty-print ...)
+
+* Exuberant ctags
+
+go to the root of your source and enter:
+
+```bash
+ctags -Re
+```
+
+** coffee
+
+create =.ctags= in *PROJECT* root dir
+
+#+BEGIN_SRC 
+--langdef=CoffeeScript
+--langmap=CoffeeScript:.coffee
+--regex-CoffeeScript=/(^|=[ \t])*class ([A-Za-z.]+)( extends [A-Za-z.]+)?$/\2/c,class/
+--regex-CoffeeScript=/^[ \t]*@?([A-Za-z.]+):.*[-=]>.*$/\1/f,function/
+--regex-CoffeeScript=/^[ \t]*([A-Za-z.]+)[ \t]+=.*[-=]>.*$/\1/f,function/
+--regex-CoffeeScript=/^[ \t]*([A-Za-z.]+)[ \t]+=[^->\n]*$/\1/v,variable/
+#+END_SRC
+
+run from project root:
+
+: ctags -e -R .
+
+tell emacs to use the resulting TAGS file:
+
+=M-x visit-tags-table=
+
+* Diff
+
++ [Reference](http://www.gnu.org/software/emacs/manual/html_node/emacs/Diff-Mode.html)
+
+| Command  | Meaning                                           |
+| -------- | --------------------------------                  |
+| C-c C-n  | only show current diff                            |
+| C-x n w  | To widen again                                    |
+| A-n      | Move to the next hunk-start (diff-hunk-next).     |
+| A-p      | Move to the previous hunk-start (diff-hunk-prev). |
+| C-c C-a  | Apply current diff                                |
+| C-c C-b  | increase granularity diff (show just characters)  |
+
+Additional commands: 
+
+```
+diff-buffer-with-file
+```
+
+** Flyspell
+
+Command  | Meaning                           
+-------- | -------------------------------- 
+F8       | ispell for word the cursor is on
+C-S-F8   | disable flyspell
+C-A-F8   | run flyspell
+C-F8     | ispell for flyspell highlighted word PRIOR to cursor position
+A-F8     | ispell for flyspell highlighted work AFTER the cursor position
+* Latex
+
+| Key Stroke  | Effect                           |
+| ----------  | -------------------------------- |
+C-c C-c       | to compile to **.dvi/**.pdf, again to view
+C-c C-t C-p   | to toggle into PDF mode.
+C-c =         | show TOC
+* Overview
+
+Put your code into `*.el` files. Then put `*.el` into a directory on
+your load-path, `/usr/local/share/emacs/site-lisp` or
+`/usr/share/emacs/site-lisp/`, are reasonable locations. Then you can
+put a line like the following into your .emacs file:
+
+    (require 'textile-mode)
+
+Put following into .emacs file, so you can reload your .emacs file
+without closing and reopenning emacs.
+
+    ;; Reload .emacs file by typing: A-x reload.
+    (defun reload () "Reloads .emacs interactively."
+    (interactive)
+    (load "~/.emacs")) 
+* Reference
+
+[GNU Emacs Manuals Online](http://www.gnu.org/software/emacs/manual/)
+
+    C-SP     set-mark-command         C-q      quoted-insert
+    C-a      beginning-of-line       C-r      isearch-backward
+    C-b      backward-char           C-s      isearch-forward
+    C-c      exit-recursive-edit         C-t      transpose-chars
+    C-d      delete-char             C-u      universal-argument
+    C-e      end-of-line             C-v      scroll-up
+    C-f      forward-char            C-w      kill-region
+    C-h      help-command            C-x      Control-X-prefix
+    TAB      indent-for-tab-command      C-y      yank
+    LFD      newline-and-indent      C-z      suspend-emacs
+    C-k      kill-line           ESC      ESC-prefix
+    C-l      recenter            C-]      abort-recursive-edit
+    RET      newline             C-_      undo
+    C-n      next-line           SPC .. ~        self-insert-command
+    C-o      open-line           DEL      delete-backward-char
+    C-p      previous-line
+    
+    C-h v    describe-variable       C-h d    describe-function
+    C-h w    where-is            C-h k    describe-key
+    C-h t    help-with-tutorial      C-h c    describe-key-briefly
+    C-h s    describe-syntax         C-h b    describe-bindings
+    C-h n    view-emacs-news         C-h a    command-apropos
+    C-h C-n  view-emacs-news         C-h C-d  describe-distribution
+    C-h m    describe-mode           C-h C-c  describe-copying
+    C-h l    view-lossage            C-h ?    help-for-help
+    C-h i    info                C-h C-h  help-for-help
+    C-h f    describe-function
+    
+    C-x C-a  add-mode-abbrev         C-x 5    split-window-horizontally
+    C-x C-b  list-buffers            C-x ;    set-comment-column
+    C-x C-c  save-buffers-kill-emacs     C-x <    scroll-left
+    C-x C-d  list-directory          C-x =    what-cursor-position
+    C-x C-e  eval-last-sexp          C-x >    scroll-right
+    C-x C-f  find-file           C-x [    backward-page
+    C-x C-h  inverse-add-mode-abbrev     C-x ]    forward-page
+    C-x TAB  indent-rigidly          C-x ^    enlarge-window
+    C-x C-l  downcase-region         C-x `    next-error
+    C-x C-n  set-goal-column         C-x a    append-to-buffer
+    C-x C-o  delete-blank-lines      C-x b    switch-to-buffer
+    C-x C-p  mark-page           C-x d    dired
+    C-x C-q  toggle-read-only        C-x e    call-last-kbd-macro
+    C-x C-r  find-file-read-only         C-x f    set-fill-column
+    C-x C-s  save-buffer             C-x g    insert-register
+    C-x C-t  transpose-lines         C-x h    mark-whole-buffer
+    C-x C-u  upcase-region           C-x i    insert-file
+    C-x C-v  find-alternate-file         C-x j    register-to-dot
+    C-x C-w  write-file          C-x k    kill-buffer
+    C-x C-x  exchange-dot-and-mark       C-x l    count-lines-page
+    C-x C-z  suspend-emacs           C-x m    mail
+    C-x ESC  repeat-complex-command      C-x n    narrow-to-region
+    C-x $    set-selective-display       C-x o    other-window
+    C-x (    start-kbd-macro         C-x p    narrow-to-page
+    C-x )    end-kbd-macro           C-x q    kbd-macro-query
+    C-x +    add-global-abbrev       C-x r    copy-rectangle-to-register
+    C-x -    inverse-add-global-abbrev   C-x s    save-some-buffers
+    C-x .    set-fill-prefix         C-x u    advertised-undo
+    C-x /    dot-to-register         C-x w    widen
+    C-x 0    delete-window           C-x x    copy-to-register
+    C-x 1    delete-other-windows        C-x {    shrink-window-horizontally
+    C-x 2    split-window-vertically     C-x }    enlarge-window-horizontally
+    C-x 4    ctl-x-4-prefix          C-x DEL  backward-kill-sentence
+    
+    Alt C-SP mark-sexp           Alt =    count-lines-region
+    Alt C-a  beginning-of-defun      Alt >    end-of-buffer
+    Alt C-b  backward-sexp           Alt @    mark-word
+    Alt C-c  exit-recursive-edit         Alt O    ??
+    Alt C-d  down-list           Alt [    backward-paragraph
+    Alt C-e  end-of-defun            Alt \    delete-horizontal-space
+    Alt C-f  forward-sexp            Alt ]    forward-paragraph
+    Alt C-h  mark-defun          Alt ^    delete-indentation
+    Alt LFD  indent-new-comment-line     Alt a    backward-sentence
+    Alt C-k  kill-sexp           Alt b    backward-word
+    Alt C-n  forward-list            Alt c    capitalize-word
+    Alt C-o  split-line          Alt d    kill-word
+    Alt C-p  backward-list           Alt e    forward-sentence
+    Alt C-s  isearch-forward-regexp      Alt f    forward-word
+    Alt C-t  transpose-sexps         Alt g    fill-region
+    Alt C-u  backward-up-list        Alt h    mark-paragraph
+    Alt C-v  scroll-other-window         Alt i    tab-to-tab-stop
+    Alt C-w  append-next-kill        Alt j    indent-new-comment-line
+    Alt Alt  ??              Alt k    kill-sentence
+    Alt C-\  indent-region           Alt l    downcase-word
+    Alt SPC  just-one-space          Alt m    back-to-indentation
+    Alt !    shell-command           Alt q    fill-paragraph
+    Alt $    spell-word          Alt r    move-to-window-line
+    Alt %    query-replace           Alt t    transpose-words
+    Alt '    abbrev-prefix-mark      Alt u    upcase-word
+    Alt (    insert-parentheses      Alt v    scroll-down
+    Alt )    move-past-close-and-reindent    Alt w    copy-region-as-kill
+    Alt ,    tags-loop-continue      Alt x    execute-extended-command
+    Alt -    negative-argument       Alt y    yank-pop
+    Alt .    find-tag            Alt z    zap-to-char
+    Alt 0 .. Alt 9  digit-argument       Alt    |    shell-command-on-region
+    Alt ;    indent-for-comment      Alt ~    not-modified
+    Alt <    beginning-of-buffer      Alt DEL  backward-kill-word
+    
+    
+    C-x 4 C-f   find-file-other-window   C-x 4 d  dired-other-window
+    C-x 4 .     find-tag-other-window    C-x 4 f  find-file-other-window
+    C-x 4 b     pop-to-buffer            C-x 4 m  mail-other-window
+
+
+Dos to unix
+
+    M-x set-buffer-file-coding-system RET undecided-unix
+
+save the file (`C-x C-s`), or
+
+    C-x RET f undecided-unix
+    C-x C-f
+
+Unix to dos
+
+    M-x set-buffer-file-coding-system RET undecided-dos
+
+save the file (`C-x C-s`), or
+
+    C-x RET f undecided-dos
+    C-x C-f
+
+* Setup ELPA
+
+Emacs Lisp Package Archive
+
+Eval (C-x C-e) the following in an emacs buffer:
+
+```
+(let ((buffer (url-retrieve-synchronously
+			 "http://tromey.com/elpa/package-install.el")))
+(save-excursion
+	(set-buffer buffer)
+	(goto-char (point-min))
+	(re-search-forward "^$" nil 'move)
+	(eval-region (point) (point-max))
+	(kill-buffer (current-buffer))))
+```
+
+Then do: 
+
+    M-x package-list-packages 	
+						
+** Emacs mail reader (incomplete)
+notmuch is, like, [0] an emacs mail-reader frontend over a xapian database; see http://keithp.com/blogs/notmuch/ or http://notmuchmail.org                                              │ Athas
+11:33:21        fsbot | [1] see *notmuch                                                                                                                                                                        │ atrus`
+11:35:06            * | bremner looks around shiftily                                                                                                                                                           │ avar
+11:36:35            * | homie needles bremner vodoo wise!                                                                                                                                                       │ axrfnu
+11:37:31            * | bremner nods knowingly                                                                                                                                                                  │ az
+11:46:56     krishnab | @fenton It took me a few tries, but I got it to work. I have many IMAP gmail email addresses, so it works pretty good with those. I think I tried setting it up for one address first   │ b0ef
+                      | and got it working. Then I added extra addresses. I think I modeled my final config files based on http://www.gnumonk.com/my-config/my-emacs . Just make the appropriate changes based  │ barik
+                      | on your own config.  
+                      
+* Use Cases
+
+** Kill whole sentence in text mode.
+
+So there are two functions `kill-sentence`, and
+`backwards-kill-sentence` but I want a single function that executes
+both action, and I want to map that to a key in the text-mode.
+
+First lets look at how to bind a key in a certain major-mode.
+
+```lisp
+(add-hook 'html-mode-hook
+ (lambda ()
+ (local-set-key (kbd "C-c w") 'bold-word)
+ (local-set-key (kbd "C-c b") 'blue-word)
+ (local-set-key (kbd "C-c p") 'insert-p)
+ (local-set-key (kbd "M-4") 'tag-image)
+ (local-set-key (kbd "M-5") 'wrap-url)
+ )
+)
+```
+
+I want to bind this function to the key combo: `M-k` or `Alt-k`.  So
+maybe i should make a function from these two functions now.
+
+Here is an example:
+
+```lisp
+(defun multiply-by-seven (number)
+     "Multiply NUMBER by seven."
+     (* 7 number))
+```
+
+So we might do something like:
+
+```lisp
+(defun kill-whole-sentence ()
+  (backwards-kill-sentence)
+  (kill-sentence))
+```
+
+However, in order for a function to be 'callable' it needs to be a
+'command' or 'interactive' function.  We remedy this by inserting the
+`interactive` keyword:
+
+```lisp
+(defun kill-whole-sentence ()
+  (interactive)
+  (backwards-kill-sentence)
+  (kill-sentence))
+```
+
+Now typing: `M-x kill-whole [TAB]` reveals that this function is
+defined.
+
+Now lets assign it properly with:
+
+
+```lisp
+(add-hook 
+ 'text-mode-hook
+ (lambda ()
+   (local-set-key (kbd "M-k") 'kill-whole-sentence)))
+```
+
+
+* Workgroups
+
+** Frequent Use
+
+|--------------+--------------------------|w
+| <prefix> u   | Update base from working |
+| <prefix> C-s | Save                     |
+|--------------+--------------------------|
+
+Set the prefix key with:
+
+    (setq wg-prefix-key (kbd "C-c w"))
+
+You can create a workgroup, rename it, switch to a named workgroup.
+You can go to the previous or next workgroups, or you can go to the
+workgroup number (0-9).
+
+| Keys         | Description  |
+|--------------+--------------|
+| <prefix> c   | Create       |
+| <prefix> A   | Rename       |
+| <prefix> v   | Switch   *** |
+| <prefix> p   | Previous     |
+| <prefix> n   | Next         |
+| <prefix> 0-9 | Goto         |
+
+Workgroups actually consist of two workgroups.  The base workgroup,
+and the working workgroup.  The base config is the one that you have
+saved. The working one is the current one.  So if you move your
+cursor, adjust buffer windows, etc..., your current config is now
+different from your base config.
+
+| Keys       | Description              |
+|------------+--------------------------|
+| <prefix> r | Revert working from base |
+| <prefix> u | Update base from working |
+| <prefix> R | Revert ALL               |
+| <prefix> U | Update ALL               |
+
+Save workgroups to a file, or load them with:
+
+| Keys         | Description |
+|--------------+-------------|
+| <prefix> C-s | Save        |
+| <prefix> C-l | Load        |
+
+Killing a workgroup deletes it from the list of workgroups, and copies
+its working config to the kill ring. You can yank killed wconfigs into
+the current frame.
+
+| Keys         | Description               |
+|--------------+---------------------------|
+| <prefix> k   | Kill                      |
+| <prefix> y   | Yank                      |
+| <prefix> A-w | Save current -> kill ring |
+| <prefix> A-W | Save base -> kill ring    |
+
+You can move a workgroup leftward or rightward in the workgroups
+list.
+
+| Keys         | Description  |
+|--------------+--------------|
+| <prefix> C-, | Offset Left  |
+| <prefix> C-. | Offset Right |
+
+Clone a workgroup
+
+| Keys | Description       |
+|------+-------------------|
+| C    | Clone a workgroup |
+
+
+** Coding Workgroups
+
+I want, when i go to kill emacs for it to ask me if i want to save
+the current buffer layout to the active workgroup.
+
+```elisp
+;; try to write function that will allow the prompting 
+;; of updating AND saving the current workspace.
+(defun ft-uw () 
+  "function to ask user if they'd like to update
+their current workgroup"
+  (progn 
+    (if (y-or-n-p "Update workgroup?")
+        (progn 
+          (wg-update-workgroup (wg-current-workgroup))
+          (wg-save wg-file))
+      1)))
+(add-hook 'kill-emacs-query-functions 'ft-uw )
+```elisp
+
+  I think the
+function I want is: `wg-update-workgroup`, however it is not
+interactive.  Looks like something like the following might work:
+
+```
+(defun foo (str bool)
+  (interactive
+    (list (read-string "Some text: ")
+          (y-or-n-p "Update workgroup with current buffer layout?")))
+  (some-func str)
+  (if bool (some-other-func str)))
+```
+
+** workgroups2
+
+Not using workgroups 2 seemed to have too many bugs.
+
+| c   | create workgroup    |
+| k   | kill workgroup      |
+| v   | switch to workgroup |
+| C-s | save session        |
+| C-f | load session        |
+
+* Syntax Highlighting
+
+I want to highlight code that falls between:
+
+```
+and the next
+```
+
+So above: 'and the next' would be highlighted.  Can look at
+markdown-mode.el, but for now it's a bit too complex, so leave it for
+later. 
+
+* Emacs installed packages
+
+  auto-complete      1.4          installed  Auto Completion for GNU Emacs
+  bookmark+          20111214     installed  Bookmark Plus
+  color-theme        6.5.5        installed  install color themes
+  findr              0.7          installed  Breadth-first file-finding facility for (X)Emacs
+  haskell-mode       2.8.0        installed  Haskell editing mode
+  highlight-paren... 1.0.1        installed  highlight surrounding parentheses
+  hl-sexp            1.0.0        installed  highlight the current sexp
+  inf-ruby           2.2.4        installed  Run a ruby process in a buffer
+  inflections        1.1          installed  convert english words between singular and plural
+  jump               2.2          installed  build functions which contextually jump between files
+  org                20130318     installed  Outline-based notes management and organizer
+  org-cua-dwim       0.5          installed  Org-mode and Cua mode compatibility layer
+  paredit            22           installed  minor mode for editing parentheses  -*- Mode: Emacs-Lisp -*-
+  popup              0.5          installed  Visual Popup User Interface
+  rinari             2.10         installed  Rinari Is Not A Rails IDE
+  ruby-compilation   0.9          installed  run a ruby process in a compilation buffer
+  ruby-mode          1.1          installed  ruby-mode package
+  workgroups         0.2.0        installed  workgroups for windows (for Emacs)
+
+wg-list
+* GIT
+** ref
+
+http://alexott.net/en/writings/emacs-vcs/EmacsGit.html#sec7
+
+** vc-git
+
+| Keys        | Description               |
+|-------------+---------------------------|
+| git-status  | Start VC-GIT              |
+|-------------+---------------------------|
+| n, p        | next,previous lines       |
+| m, u, SPC   | mark, unmark, toggle mark |
+| a, r        | add, remove               |
+| v, o        | view, open                |
+| i           | ignore file > .gitignore  |
+| =           | see what has changed      |
+| c           | commit changes            |
+| C-c C-c     | finish commit message     |
+|-------------+---------------------------|
+| git-merge   | Merge from another branch |
+| !           | resolve conflicts         |
+| git-log     |                           |
+| git-history |                           |
+| k           | gitk                      |
+
+* magit
+
+Start Magit:
+
+    A-x magit-status
+
+Adding Files
+
+|-------------+-----------------------------|
+| key/command | Effect                      |
+|-------------+-----------------------------|
+| s, u        | stage (add), unstage        |
+| S, U        | stage, unstage ALL          |
+|-------------+-----------------------------|
+| TAB         | Toggle display changes      |
+| n/p         | next/prev change            |
+|-------------+-----------------------------|
+| c           | COMMIT, free form message   |
+| C           | COMMIT, files changed added |
+| P P         | Push                        |
+| F F         | Pull (Fetch)                |
+| RET         | open file                   |
+|-------------+-----------------------------|
+
+Ignore / delete files
+
+|-------------+------------------------------|
+| key/command | Effect                       |
+|-------------+------------------------------|
+| k           | file unknown > delete        |
+| k           | file modified > drop changes |
+| i           | IGNORE                       |
+|-------------+------------------------------|
+| z, a, k     | stash, apply, kill           |
+|-------------+------------------------------|
+
+z will stash changes, a will take stashed changes and 'a'pply them to
+the current repo. k will 'k'ill the stashd changes.
+
+
+|-----+--------------------------------------|
+| A-S | Show all                             |
+| A-H | Hide All                             |
+|-----+--------------------------------------|
+| d   | diff working tree to another version |
+| D   | diff two arbitrary versions          |
+| SPC | Scroll DOWN                          |
+| DEL | scroll UP                            |
+|-----+--------------------------------------|
+| x   | rollback to changeset                |
+| X   | rollback to last commit              |
+|-----+--------------------------------------|
+| l   | history current branch               |
+| L   | history range                        |
+|-----+--------------------------------------|
+| RET | Get Detailed INFO                    |
+| .   | mark changeset                       |
+| =   | display changes                      |
+|-----+--------------------------------------|
+
+When moving through history can get detailed info with `RET` key. To
+do this, he need to move to first changeset and mark it with the . key
+(magit-mark-item), and than, move to the other changeset, and display
+the changes by pressing the = key (magit-diff-with-mark). 
+
+|---+-----------------------------------|
+| a | apply changeset under point       |
+| A | apply and COMMIT                  |
+| v | reVert changes                    |
+|---+-----------------------------------|
+| h | local history                     |
+| H | specify versions in local history |
+|---+-----------------------------------|
+
+Movement between sections
+
+|--------------+----------------------|
+|  key/command | Effect               |
+|--------------+----------------------|
+|            g | refresh buffer       |
+|            1 | goto untracked       |
+|            2 | unstaged             |
+|            3 | staged               |
+|            4 | unpushed             |
+|--------------+----------------------|
+
+
+*** Tags, branches, and remote repositories
+
+|---+---------------------------------|
+| t | tag                             |
+| T | annotated tag                   |
+| B | create and switch to new BRANCH |
+| b | switch to existing BRANCH       |
+| R | rebase                          |
+| M | MERGE                           |
+| m | manual merge                    |
+| f | fetch remote updates            |
+| F | PULL                            |
+| P | PUSH                            |
+
+* VCS
+
+Prefix: C-x v
+
+| v | next logical action       |
+| i | add (insert)              |
+| + | pull                      |
+| = | diff                      |
+| u | undo checkout             |
+| c | delete latest version     |
+| d | show files not up to date |
+| m | merge                     |
+
+* ERC
+* org2blog
+
+** Create a new blog entry
+
+login > new entry > compose blog entry > ???
+
+|-----------------------+-----------|
+| function              | effect    |
+|-----------------------+-----------|
+| org2blog/wp-login     | login     |
+| org2blog/wp-logout    | logout    |
+| org2blog/wp-new-entry | new entry |
+|-----------------------+-----------|
+
+NOTE: login to word press to be able to see drafts etc...
+
+|-------+--------------------------------------|
+| key   | effect                               |
+|-------+--------------------------------------|
+| C-c d | post buffer as draft (doesn't work?) |
+| C-c p | publish                              |
+| C-c D | post as page draft                   |
+| C-c P | post as page                         |
+|-------+--------------------------------------|
+
+* Keymaps & Function bindings
+
+All bindings:
+
+    C-h b
+
+VERY USEFUL
+
+ref:
+http://www.masteringemacs.org/articles/2011/02/08/mastering-key-bindings-emacs/ 
+
+keywords: keybind
+
+** Listing all the Mode Maps
+
+If you type this Emacs will give you an apropos buffer with all the
+known mode maps that follow the major mode naming scheme:
+
+    C-u M-x apropos-variable RET -mode-map$ RET
+
+** Define for a given mode map
+
+    (define-key paredit-mode-map (kbd "C-<left>") 'windmove-left)
+
+** Global Def
+
+    (global-set-key "\C-c\C-s" 'fold-dwim-show-all)
+
+** Using mode hooks
+
+```
+(defun mp-add-python-keys ()
+  (local-set-key (kbd "C-c q") 'shell))
+(add-hook 'python-mode-hook 'mp-add-python-keys)
+```
+
+** example 2
+
+I want to bind the key-chord C-A-n to 'other-window'.  First I find
+what it is bound to with:
+
+    C-h k
+    C-A-n
+
+I find that when paredit mode is on it's bound to the wrong thing.
+So I check the mode maps setup for the file with:
+
+    C-h m
+
+And sure enough paredit is a minor mode.  
+
+Now list all mode maps:
+
+    C-u M-x apropos-variable RET -mode-map$ RET
+
+Then searching for paredit I find:
+
+    paredit-mode-map
+
+Finally use the define-key function whose template is:
+
+    (define-key <mode-map> <key> <function>) 
+
+We want this called *after* the mode is enabled so we use the add
+hook function:
+
+    (add-hook <mode> <function>)
+
+Since we want to call two functions, define-key twice, We use a lambda
+expression to wrap both calls in one function: 
+
+    (lambda (<args>) <functions>)
+
+So the lambda will look like:
+
+   (add-hook 
+    'paredit-mode-hook
+    (lambda ()
+      (define-key paredit-mode-map (kbd "C-M-n") 'other-window)))
+
+** example (incomplete)
+
+Ctrl-right when i was working on *.el files was not define to be
+`windmove-right` as I wished but bound to:
+`paredit-forward-slurp-sexp`, by paredit minor mode.
+
+* Install the function
+
+Install the function by putting the cursor at the end of the
+function and typing C-x C-e. This will install the function for the
+life of your current emacs session. To install more permanently put
+it in your ~/.emacs file.
+
+To make the above function interactive do:
+
+    (defun multiply-by-seven (number)
+      "Multiply NUMBER by seven."
+      (interactive "p")
+      (message "The result is %d" (* 7 number)))
+
+Invoke with `C-u` some number `A-x multiply-by-seven`.
+
+* Installing *.el files
+
+** One time
+
+Ensure you have the following in your ~/.emacs file:
+
+    (add-to-list 'load-path "~/projects/elisp")
+
+** For each new *.el file
+
+Ensure you have the following in your ~/.emacs file:
+
+    (require 'foo)
+
+where foo means foo.el
+
+And put your foo.el file in: `~/projects/elisp`
+
+* Programming
+
+Try the interactive elisp buffer with: `A-x ielm`
+
+| function | effect                        |
+|----------+-------------------------------|
+| ielm     | interactive elisp buffer REPL |
+| type-of  | tell you type of variable     |
+| car      | first part of cons            |
+| cdr      | second part of cons           |
+|          |                               |
+
+** let expression
+
+(let ((variable value)
+           (variable value)
+           ...)
+       body...)
+
+* Info Mode
+
+** Across Nodes
+   
+| n   | next node             |
+| p   | prev node             |
+| ^   | up                    |
+| m   | pick menu             |
+| d   | directory             |
+| <   | top node of file      |
+| >   | final node of file    |
+| ]   | forward node          |
+| [   | backward node         |
+| TAB | next menu or link     |
+| f   | follow link           |
+| l   | go back last node     |
+| r   | foRward node          |
+| L   | menu of visited nodes |
+| T   | TOC for file          | 
+
+** Move within node:
+
+| SPC | forward page      |
+| DEL | backwards page    |
+| b   | beginning of node |
+
+** Search
+
+function: info-apropos
+
+will search *ALL* info docs.  The rest of the commands below are only
+for one doc at a time (blech!). :(
+
+| s          | regex search                   |
+| S          | case sensitive regex search    |
+| C-s, C-A-s | Isearch through multiple nodes |
+| i          | search index                   |
+| ,          | next match from 'i' command    |
+| I          |                                |
+
+    A-x info RET
+    C-h i
+
+
+
+
+
+* Org Mode
+** Common
+
+*bold* 
+/italic/
+_underline_
+=code=
+~verbatim~
++strike through+
+
+| A-Left/Right | pull up / push down level |
+| S-Left/Right | todo/done/nothing         |
+| S-Tab        | expand whole tree         |
+| C-Tab        | expand this node          |
+| A-Up/Down    | move item up/down         |
+| S-Up/Down    | raise/lower priority      |
+
+| = | inline fixed width code |
+
+surround text with '=' signs.
+
+| < s TAB | Code block |
+
+| C-c a a | agenda view        |
+| C-c / t | sparse todo list   |
+| C-c [   | add org to agenda  |
+| C-c ]   | remove from agenda |
+| C-c a t | global todo list   |
+| C-c C-s | schedule           |
+| C-c C-c | tag                |
+
+Agenda View
+
+| l | show log |
+
+** Tables
+
+| Keys    | Description     |
+|---------+-----------------|
+| C-c RET | Horizontal Rule |
+
+*** sum a column of numbers:
+
+The following sums the rows 1->10.
+
+ : =vsum(@1..@10)
+
+*** re-calculate formulas: C-c *
+
+** Export as HTML
+
+| Keys      | Description    |
+|-----------+----------------|
+| C-c C-e h | Export to HTML |
+|           |                |
+
+** Quickies
+| Keys  | Effect                                   |
+|-------+------------------------------------------|
+| C-c ^ | sort all subentries of the current entry |
+| C-c . | add a timestamp to the current entry     |
+
+Use Shift and arrows to skip days or weeks. Use the mouse on the
+calendar or press Enter on a specific day to choose it.
+
+** Links
+
+   Visit another file (target) and type: `C-c l`.  Then go back to the
+   source file and insert the link to the target with: `C-c C-l`.
+
+| Keys    | Effect                         |
+|---------+--------------------------------|
+| C-c l   | Clipboard link to current file |
+| C-c C-l | Paste link to file             |
+| C-c C-o | Open URL / follow link         |
+
+#+BEGIN_SRC sh
+[[link][description]] or alternatively [[link]]
+#+END_SRC
+
+** Escape double square brackets [[ code
+
+ref: http://orgmode.org/manual/Working-With-Source-Code.html#Working-With-Source-Code
+
+shell code often uses double square brackets ]] to display these in
+org mode without creating a link use:
+
+#+BEGIN_SRC sh
+if [[ -z file ]]
+#+END_SRC
+  
+** Move entries
+
+Move entry up or down:
+
+    M-(up or down arrow)
+   
+Promote/Demote:
+
+    M-(left/right arrow)
+    
+** Global Agenda
+
+First you must set the variable org-agenda-files so that org-mode will
+know which files to search for TODOs and scheduled items. 
+
+```elisp
+(setq org-agenda-files (list "~/org/work.org"
+                             "~/org/school.org" 
+                             "~/org/home.org"))
+```
+
+    C-c a t
+    
+** Schedule a Task
+
+Go to line after a todo and do:
+
+   C-c C-s
+   
+Can use syntax like: `+2w` for two weeks from now.
+
+** Get agenda
+
+     C-c a a
+** clocking time
+
+
+Prefix key: C-c C-x 
+| Key | Action                                                      |
+|-----+-------------------------------------------------------------|
+| C-i | Clock in                                                    |
+| C-x | Clock in to the last clocked task                           |
+| C-o | Clock out
+| C-j | Jump to whatever you are currently clocked in to   |
+| C-q | Cancel the current clock (removes all of it's current time) |
+| C-d | Display clock times for headlines in current file           |
+| C-r | Generate a report for clock activity                        |
+| C-z | Resolve any half-open clocks                                |
+
+* evil-org-mode
+key	function	explanation
+TAB	org-cycle	change folding level of current heading
+0	evil-org-beginning-of-line	like 0 but can be special*
+$	evil-org-end-of-line	like $ but can be special*
+I	evil-org-insert-line	like I but can be special*
+A	evil-org-append-line	like A but can be special*
+o	evil-org-open-below	like o but continue tables and items*
+O	evil-org-open-above	like O but continue tables and items*
+d	evil-org-delete	like d but keep tags aligned and fix lists
+x	evil-org-delete-char	like x but keep tables and tags aligned
+X	evil-org-delete-previous-char	like X but keep tables and tags aligned
+(	org-forward-sentence	next cell in table
+)	org-backward-sentence	previous cell in table
+{	org-backward-paragraph	beginning of table
+}	org-forward-paragraph	end of table

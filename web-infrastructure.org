@@ -1,0 +1,598 @@
+* setting up a networked peer server
+** static ip on network
+
+First you need to give yourself a static ip when you are on certain
+networks.
+
+: /etc/netctl/
+
+#+BEGIN_SRC conf
+Interface=wlan0
+Connection=wireless
+Security=wpa
+ESSID='MyNetwork'
+Key='WirelessKey'
+IP=static
+Address='192.168.1.23/24'
+Gateway='192.168.1.1'
+DNS=('8.8.8.8')
+#+END_SRC
+
+** config router port 22
+
+you need to point port 22 on router to your ip address port 22
+
+** register new domain name at afraid
+
+goto: http://freedns.afraid.org/
+
+login and add your subdomain name
+
+click on Dynamic DNS, 
+
+click on 'direct URL' to get the updater url
+
+v9b
+http://freedns.afraid.org/dynamic/update.php?RU5IYUp6NFFhc0Fvc2F2dGdudng6MTA5OTM3NjI=
+
+
+** ddns updater
+
+install following packages:
+
+: % sudo pacman -S python python-virtualenvwrapper python-pip
+
+Grab the 'pscripts' project
+
+: % git clone git@spicevan.com:pscripts.git
+: % cd pscripts
+: % sudo pip install pscripts
+
+Then edit file:
+
+/etc/external_ip_updater/urls.yaml
+
+enable the service with:
+
+sudo systemctl enable update_external_ip.service
+
+** setup gitolite
+
+all host might as well be git repositories as well right!
+
+** setup pyramid, pserve and nginx
+
+can write applications others can use that will act like photo
+libraries etc and that they can access over the network.
+
+* FUTURE networked peer servers
+
+** get photos from phone to sync up to servers
+
+Might have to write an android app for this so that when pictures are
+taken they auto sync to your computer.
+
+** display photo library publically
+
+setup an app on machine so your photos are visible on the net...of
+course password protected.
+
+** setup peer registration
+
++ find peers to backup folders
+
+so people can find each other and then nominate each others computers
+to be the backup for their computer.  People would nominate folders
+are their computer that should be backed up.
+
++ truecrypt
+
+There could be a folder that is nominated as a truecrypt, so others
+can't see contents.
+
+* software architecture
+** Debugging
+
+*** editing supervisorctl files
+
+Make sure to restart and reload supervisord or else it wont pickup file changes:
+
+sudo supervisorctl, reread, reload
+help, stop, start
+
+*** to test pserve
+
+just use: wget http://127.0.0.1:5000
+
+*** nginx
+
+see the supervisorctl start file: /etc/supervisor.d/conf.d/nginx.conf for command
+to restart nginx.
+
+*** ddns
+
+put new url's into: /etc/external_ip_updater/yaml.conf
+
+
+** pserve
+
+pserve actually serves up the python code
+
+change the =production.ini= file's port spec to be:
+
+#+BEGIN_SRC python
+port = %(http_port)s
+#+END_SRC
+
+*** production.ini
+
+In this file the main two things to ensure exist are your
+=sqlalchemy.url= parameter and your =port= parameter is setup
+correctly, here is a full example:
+
+#+BEGIN_SRC conf
+[app:main]
+use = egg:pyr1
+pyramid.reload_templates = false
+pyramid.debug_authorization = false
+pyramid.debug_notfound = false
+pyramid.debug_routematch = false
+pyramid.default_locale_name = en
+pyramid.includes =
+    pyramid_tm
+sqlalchemy.url = postgresql://pyr1-user-prod:welcome1@localhost/pyr1-db-prod
+[server:main]
+use = egg:waitress#main
+host = 0.0.0.0
+port = %(http_port)s
+[loggers]
+keys = root, pyr1, sqlalchemy
+[handlers]
+keys = console
+[formatters]
+keys = generic
+[logger_root]
+level = WARN
+handlers = console
+[logger_pyr1]
+level = WARN
+handlers =
+qualname = pyr1
+[logger_sqlalchemy]
+level = WARN
+handlers =
+qualname = sqlalchemy.engine
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s][%(threadName)s] %(message)s
+#+END_SRC
+
+logs:
+ [[file:/sudo:qa@localhost:/home/qa/projects/python/sierra.spicevan.com/pyramid_5000.log][/home/qa/projects/python/sierra.spicevan.com/pyramid_5000.log]]
+ [[file:/sudo:qa@localhost:/home/qa/projects/python/sierra.spicevan.com/pyramid_5001.log][/home/qa/projects/python/sierra.spicevan.com/pyramid_5001.log]]
+
+*** Dependencies
+
+You may need to download dependencies.
+
+: python setup.py develop
+
+will do it.
+
+*** database
+
+You'll also need to do a one time database setup, see: [[file:postgresql.org::*Install][Install]]
+*** testing
+
+Then test starting them up with: 
+
+#+BEGIN_SRC shell
+pserve --pid-file=pserve_5000.pid production.ini http_port=5000
+#+END_SRC
+
+Verify that the correct ports are used with: 
+
+#+BEGIN_SRC shell
+netstat -na | grep 500
+#+END_SRC
+
+** pserve statup script
+
+startup script: [[file:/sudo:qa@localhost:/home/qa/projects/python/sierra.spicevan.com/scripts/prod_deamon_start.sh][/home/fenton/projects/python/pyr1/pyr1/scripts/prod_deamon_start.sh]]
+
+#+BEGIN_SRC conf
+#!/usr/bin/zsh
+zparseopts -port:=port -virtualenv:=virtenv -projdir:=projdir -user:=user 
+error() {
+    echo "Malformed options. Required options are '-port', '-virtualenv', '-projdir', '-user'"
+    echo "Perhaps missing '-$1' option"
+}
+if [[ $#port -lt 1 ]] then error port $*; exit 1; fi
+if [[ $#virtenv -lt 1 ]] then error virtualenv; exit 1; fi
+if [[ $#projdir -lt 1 ]] then error projdir; exit 1; fi
+if [[ $#user -lt 1 ]] then error user; exit 1; fi
+port=$port[2]
+virtual_env=$virtenv[2]
+project_dir=$projdir[2]
+prog_user=$user[2]
+home="/home/${prog_user}"
+project_root="${project_dir}"
+virtual_env_path="${home}/.virtualenvs/${virtual_env}"
+source ${virtual_env_path}/bin/activate
+${virtual_env_path}/bin/pserve --reload --log-file=${project_root}/pyramid_${port}.log --pid-file=${project_root}/pserve_${port}.pid ${project_root}/development.ini http_port=${port}
+#+END_SRC
+
+** supervisor
+
+*** Install
+
+: sudo pacman -S supervisord
+
+*** Enable
+
+: sudo systemctl enable supervisord.service
+: sudo systemctl start supervisord.service
+
+*** Configure
+
+supervisor starts up 2 pserves and ensures they stay running
+
+**** pserve
+
+conf: [[file:/sudo:root@b-dell:/etc/supervisor.d/sierra.spicevan.com.ini][/etc/supervisor.d/shared_housing.spicevan.com.ini]]
+
+#+BEGIN_SRC conf
+[program:sh]
+# config values
+user=fenton
+virtualenv=pyr1
+project_name=pyr1
+ini_file=development.ini
+# two digits will be added to start_port to make a 4 digit integer
+start_port=50
+# derived values
+project_dir=/home/%(user)s/projects/python/%(project_name)s
+start_script=%(project_dir)s/%(project_name)s/scripts/prod_deamon_start.sh
+start_script_args=--port %(start_port)d%(process_num)02d --virtualenv %(virtualenv)s --projdir %(project_dir)s --user %(user)s --inifile %(ini_file)s
+autorestart=true
+# /home/fenton/projects/pyr1/scripts/prod_deamon_start.sh --port 1050 --user fenton --virtualenv pyr --projdir /home/fenton/projects/python/pyr1
+# command=/usr/bin/pidproxy %(project_dir)s/pserve_50%(process_num)02d.pid /home/fenton/projects/python/pyr1/pyr1/scripts/prod_deamon_start.sh --port 50%(process_num)02d --virtualenv pyr --projdir /home/fenton/projects/python/pyr1 --user fenton
+command=/usr/bin/pidproxy %(project_dir)s/pserve_50%(process_num)02d.pid %(start_script) %(start_script_args)s
+process_name=%(program_name)s-%(process_num)01d
+numprocs=1
+numprocs_start=0
+redirect_stderr=true
+stdout_logfile=%(project_dir)s/%(program_name)s-%(process_num)01d.log
+#+END_SRC
+
+You could test the command with:
+
+: ./pserve_daemon_start.sh --port 5000 --virtualenv pyr --projdir '/home/fenton/projects/python/pyr1/' --user fenton --inifile development.ini
+
+The command option above actually uses the program =pidproxy= instead
+of the actual command to run.  The second arg is the name of the pid
+file.  The reason being, the way we run is to start a bash script
+that sources the correct =virtualenv= and then itself runs =pserve=.
+Therefore the =pid= that supervisor gets is the pid of the shell
+script not of =pserve= so we can't use supervisor to restart pserve,
+without the =pidproxy= program.  The pid proxy will also kill the
+file specified by the pidfile argument.  This allows us to restart
+=pserve= from within supervisord.
+
+**** nginx
+
+: /etc/supervisor.d/nginx.ini 
+
+#+BEGIN_SRC 
+[program:nginx]
+command=/usr/sbin/nginx -g 'master_process on;' 
+#+END_SRC
+
+*** supervisord systemd service
+
+=/usr/lib/systemd/system/supervisord.service=
+
+Even tho this file is supplied with the supervisord pacman package,
+it can't be restarted as is, so replace with the following:
+
+#+BEGIN_SRC conf
+[Unit]
+Description=Start the python supervisord process
+[Service]
+Type=forking
+ExecStart=/usr/bin/supervisord -c /etc/supervisord.conf
+PIDFile=/var/run/supervisord.pid
+Restart=on-abort
+[Install]
+WantedBy=multi-user.target
+#+END_SRC
+
+
+*** testing
+
+#+BEGIN_SRC sh
+% sudo supervisord -c /etc/supervisord.conf
+% netstat -na | head   # ensure there is something listening on port 5000
+% sudo supervisorctl
+supervisor> help
+...
+supervisor> status
+sh:sh-0                          RUNNING    pid 28774, uptime 0:02:34
+supervisor> tail sh:sh-0
+#+END_SRC
+
+** nginx
+*** general nginx config
+
+=/etc/nginx/nginx.conf=
+
+#+BEGIN_SRC conf
+user http;
+worker_processes  4;
+error_log  /var/log/nginx/error.log;
+pid        /var/run/nginx.pid;
+events {
+    worker_connections  1024;
+}
+http {
+    sendfile    on;
+    tcp_nopush  on;
+    tcp_nodelay on;
+    keepalive_timeout  65;
+    types_hash_max_size 2048;
+    include       mime.types;
+    default_type  application/octet-stream;
+    access_log /var/log/nginx/access.log;
+    error_log  /var/log/nginx/error.log;
+    gzip  on;
+    gzip_disable "msie6"; 
+    server {
+        server_name  _;
+        return 444;
+    }
+    server_names_hash_bucket_size 64; 
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}
+#+END_SRC
+
+*** nginx systemd service file
+
+remove the pid file spec from the start/reload commands
+
+#+BEGIN_SRC conf
+[Unit]
+Description=A high performance web server and a reverse proxy server
+After=syslog.target network.target
+[Service]
+Type=forking
+PIDFile=/run/nginx.pid
+ExecStartPre=/usr/bin/nginx -t -q -g "daemon on; master_process on;"
+ExecStart=/usr/bin/nginx -g "daemon on; master_process on;"
+ExecReload=/usr/bin/nginx -g 'daemon on; master_process on;' -s reload
+ExecStop=/usr/bin/nginx -g 'pid /run/nginx.pid;' -s quit
+[Install]
+WantedBy=multi-user.target
+#+END_SRC
+
+*** site specific config
+
+configuration [[file:/etc/nginx/conf.d/sierra.conf][/etc/nginx/conf.d/shared_housing.conf]]
+
+#+BEGIN_SRC conf
+  upstream shared_housing.spicevan.com {
+      server 127.0.0.1:5000;
+  }
+  server {
+      server_name  shared_housing.spicevan.com;
+      access_log  /home/fenton/logs/shared_housing.spicevan.com/access.log;
+      location / {
+          proxy_set_header        Host $http_host;
+          proxy_set_header        X-Real-IP $remote_addr;
+          proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header        X-Forwarded-Proto $scheme;
+          client_max_body_size    10m;
+          client_body_buffer_size 128k;
+          proxy_connect_timeout   60s;
+          proxy_send_timeout      90s;
+          proxy_read_timeout      90s;
+          proxy_buffering         off;
+          proxy_temp_file_write_size 64k;
+          proxy_pass http://shared_housing.spicevan.com;
+          proxy_redirect          off;
+      }
+  }
+#+END_SRC
+
+Now the above requires that domain names are setup etc., but it is
+useful to simply test this stuff on a local machine to ensure it is
+working.  So make the following adjustments... [not finished]
+
+Add your domain name: =shared_housing.spicevan.com= to the line that
+has the ip address: =127.0.0.1= in your =/etc/hosts= file, like so:
+
+: 127.0.0.1	localhost.localdomain	localhost shared_housing.spicevan.com
+
+*** logging note
+
+At this point, only nginx will be properly logging.  =pserve=, since
+we started it from the command line will only log to the terminal in
+which it had been started.  Once we automate startup with supervisor,
+we'll also get proper log files for pserve.
+
+* deployment steps
+** developer edits code
+
+locally restart with supervisorctl
+
+#+BEGIN_SRC shell
+supervisor> restart all
+#+END_SRC
+
+ensure local qa looks okay, by looking at website.
+
+commit and push code to central server
+
+log into remote machine
+
+pull code to project directory
+
+with supervisorctl restart all the processes.
+
+* bangkok router
+
+Only works with windows 8 and 
+192.168.2.1
+
+* vancouver
+** 13th
+
+router
+IP: 192.168.1.1
+username/password: admin/admin
+
+** 19th
+
+router
+IP: 192.168.1.1
+username/password: admin/admin
+
+* Dynamic DNS (MISSING INFO)
+
+
+** linux box setup
+
++ 
+username: ftravers
+
+see: [[file:arch.org::*Get%20Dyn%20DNS%20URL][Get Dyn DNS URL]]
+
+
+
+** Name servers
+
+ns1-ns4.afraid.org
+
+* DDNS Round Robin
+
+round robin domain: `www.webhostsunshine.com`
+
+To setup a round robin mapping of domain name to IP address.  First
+add webhostshunshine.com to afraid.org, dynamic dns.  This will
+create about 5 sub-domains, one being `www.webhostsunshine.com`.  We
+add a second `www.webhostsunshine.com` sub-domain, but ensure that
+the IP address is different from the first.
+
+We have two hosts at the moment, one in Bangkok one in Vancouver.
+These are called:
+
+v13.webhostsunshine.com
+bkk.webhostsunshine.com
+
+on each of these hosts there will be users: `prod` and `qa`.
+
+* nginx reverse proxy / load balancer
+
++ [[http://docs.pylonsproject.org/projects/pyramid_cookbook/en/latest/deployment/nginx.html][ref1]]
++ [[http://www.cyberciti.biz/tips/using-nginx-as-reverse-proxy.html][reference]]
+
+* OLD:
+** Steel Bank Common Lisp
+
+Is a bit like the java virtual machine, but we have `screen` sessions
+with `sbcl` running in each.  
+
+*** Web Server Port
+
+    ~/.sbclrc
+
+specifies the port the webserver for each of prod and qa is running
+on.
+
+```
+(defpackage :sbclrc-file
+  (:use :cl)
+  (:export :*webserver-port*))
+(in-package :sbclrc-file)
+;; Webserver port to listen on
+(defparameter *webserver-port* 82)  ; <--- ENV SPECIFIC!!!
+```
+
+`sbclrc-file:*webserver-port*` can now be used to start a
+`hunchentoot` webserver.
+
+*** Swank/Slime port
+
+    ~/.sbclrc
+
+specifies the port the swank server is listening on for slime
+connections.
+
+```
+(ql:quickload "swank")
+(swank:create-server :port 4082 :dont-close t)   ; <--- ENV SPECIFIC!!!
+```
+
+** Code Development/Deployment cycle
+
+Emacs and slime are used locally to develop code.  When you are ready
+to push, we `git push` it to the server.  Then we log into the
+various servers and pull for each of the `qa` and `prod` users.
+After the pulling has been done, we do a lisp `(ql:quickload
+'project-name)`, which will pull in the code that has been `git
+pull`'ed over.
+
+** Folder Layout/Structure
+
+/
+`-- home
+    `-- <user>
+        `-- projects
+            `-- lisp
+                |-- project-1
+                |   |-- project-1.asd
+                |   |-- package.lisp
+                |   `-- project-1.lisp
+                |-- project-2
+                |   `-- ...
+                `-- systems
+
+To allow a project to be accessible from SBCL, you must symbolic link
+the `*.asd` file from the `systems` folder.
+
+** Slime
+
+The swank server will be running on ports:
+
+| qa   | 4081 |
+| prod | 4080 | 
+
+So to create an ssh tunnel to the `qa` port 4081 make an ssh tunnel
+from your local machine to the remote server.  We issue the following
+command from our computer:
+  
+    $ ssh -L 4081:127.0.0.1:4081 fenton@v13.webhostsunshine.com
+
+The format of the command is:
+
+    $ ssh -L <local-port>:<local-host>:<remote-port> <remote-user>@<remote-host>
+
+After you execute the above command you should be dropped into the
+terminal prompt of the remote-user on the remote-host.
+
+Then run:!
+
+    A-x slime-connect
+
+from emacs, choose the local host: `127.0.0.1` and port `4081`.
+
+To quit:
+
+    A-x slime-disconnect
+
+
+604-707-2290

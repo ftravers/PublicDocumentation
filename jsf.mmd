@@ -1,0 +1,1009 @@
+CSS: style.css
+
+[home](/index.html) > JSF
+# Start
+
+To kick off a new project do:
+
+<pre><div class="sample_code">mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false -DgroupId=<span class="highlight">com.mycompany.app</span> -DartifactId=<span class="highlight">my-app</span></div></pre>
+
+Open the project in Netbeans since it good support for JSF 2.x.
+
+## pom.xml
+
+Add the javaee-web-api dependency V6.0:
+
+     <dependency>
+       <groupId>javax</groupId>
+       <artifactId>javaee-web-api</artifactId>
+       <scope>provided</scope>
+       <version>6.0</version>
+     </dependency>
+ 
+## web.xml
+
+update: `Web Pages/WEB-INF/web.xml`, the following can serve as a basic
+model.
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+        <display-name>Web Project</display-name>
+        <servlet>
+            <servlet-name>Faces Servlet</servlet-name>
+            <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+            <load-on-startup>1</load-on-startup>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>Faces Servlet</servlet-name>
+            <url-pattern>*.xhtml</url-pattern>
+        </servlet-mapping>
+        <welcome-file-list>
+            <welcome-file>index.xhtml</welcome-file>
+        </welcome-file-list>
+    </web-app>
+
+## index.html
+
+A basic index.html
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:h="http://java.sun.com/jsf/html">
+        <h:outputText value="Hello World."/>
+    </html>
+
+To determine what the prefix URL of the file should be see: [Determine WebApp URL Prefix](jersey.html#determinewebappurlprefix)
+
+Then just append: `/index.xhtml` onto the above prefix
+
+# Navigation
+
+## Basic Navigation
+
+To get from one page to another a common technique is to use a command
+button. Create the following two files, with the specified content.
+
+/src/main/webapp/pageone.xhtml
+
+    <html 
+        xmlns="http://www.w3.org/1999/xhtml" 
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html">
+        <body>
+            This is page one!
+            <f:view>
+                <h:form>
+                    <h:commandButton action="pagetwo" value="forward"/>
+                </h:form>
+            </f:view>
+        </body>
+    </html>
+
+/src/main/webapp/pagetwo.xhtml
+
+    <html 
+        xmlns="http://www.w3.org/1999/xhtml" 
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html">
+        <body>
+            This is page two.<br/>
+            <f:view>
+                <h:form>
+                    <h:commandButton action="pageone" value="back"/>
+                </h:form>
+            </f:view>         
+        </body>
+    </html>
+
+This gives you two pages that let you go back and forth between them.
+The key thing to noice is the `action` flag. `.xhtml` gets appended to
+whatever is inside the quotes, and in this case that equates to the
+other page.
+
+## Standard links
+
+Standard links still work but just keep in mind to use a `.jsf`
+extension and not a `.xhtml` extension for your target for it to work
+properly. Here is a sample:
+
+/src/main/webapp/pageone.xhtml
+
+    ...
+                <h:form>
+                    <h:commandButton action="pagetwo" value="forward"/>
+                    <br/>
+                    <a href="pagetwo.jsf">Page Two Link</a>
+                </h:form>
+    ...
+
+/src/main/webapp/pagetwo.xhtml
+
+    ...
+                <h:form>
+                    <h:commandButton action="pageone" value="back"/>
+                    <br/>
+                    <a href="pageone.jsf">Page One Link</a>
+                </h:form>
+    ...
+
+# Facelets
+
+## References
+
+Here is a good reference site:
+http://netbeans.org/kb/trails/java-ee.html
+
+## Intro
+
+This tutorial is designed to show you how to move from traditional HTML
+web page creation to creating web pages with JSF. Facelets are the way
+to do UI in JSF. Lets look at the difference between an HTML file and a
+JSF Facelets file.
+
+src/main/webapp/home.html
+
+    <html 
+      xmlns="http://www.w3.org/1999/xhtml">
+      <body>
+        This is a standard HTML page.
+      </body>
+    </html>
+
+src/main/webapp/home.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets">
+      <body>
+        This is a facelets file.
+      </body>
+    </html>
+
+![image](images/fl_html_to_facelets.png)
+
+As you can see they are quite similar. Two differences is the file
+extention we change from `.html` to `.xhtml` and we add
+`xmlns:ui="http://java.sun.com/jsf/facelets"` into the `<html>` tag.
+
+## Including Files
+
+Now lets get on to something a little more interesting and useful. Now
+we will learn how to include the contents of one file into another file.
+Typically on a website you will have many pages. However, on each page
+you may have the same contents on the top and the bottom, but just
+change what occurs in the middle of the page. The classic example of
+this is having a repeated footer or header on all pages of your website.
+If you want to change your logo, you can simply change it in one file
+and everywhere you have included this ‘header’ file, it will be
+automatically updated. If you didn’t use this technique then updating
+your logo would mean going to each page of your website and updating the
+logo. As you can see this would be quite tedious.
+
+### Example
+
+Lets get started with an example, create three files, a *home* page, an
+*about* page and a *navigation* file. We will include the *navigation*
+file in both the *home* and *about us* pages. Then you will see how just
+changing the *navigation* file causes the other two to be updated as you
+would expect them to be. The benefits of this multiply the more files
+you have.
+
+![image](images/fl_include.png)
+
+First create the file that will be referenced (included) by other files
+
+src/main/webapp/navigation.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets">
+        <ui:composition>
+            <a href="home.jsf">Home</a><br/>
+            <a href="about.jsf">About</a><br/>
+            <hr/>
+        </ui:composition>
+    </html>
+
+![image](images/fl_includes.png)
+
+Update your home.xhtml to reference the *include* file.
+
+src/main/webapp/home.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets">
+      <body>
+        <ui:include src="navigation.xhtml"/>
+        HOME PAGE...
+      </body>
+    </html>
+
+![image](images/fl_includes2.png)
+
+### Test with...
+
+-   First visit the following URL’s:
+    `http://localhost:8080/projectName/home.jsf`
+
+(NOTE) your web application will probably NOT be called `projectName`,
+so remember to change the above URL’s replacing `projectName` with the
+actual name of your project/web application.
+
+Notice how the navigation is included in the `home.xhtml` file.
+
+-   Now go back to the navigation file and make the following changes:
+
+src/main/webapp/navigation.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets">
+        <ui:composition>
+            <a href="home.jsf">Home</a><&nbsp><a href="about.jsf">About</a><br/>
+            <hr>
+        </ui:composition>
+    </html>
+
+We simply moved the navigation links to be beside each other as opposed
+to one on top of the other. Now revist the `home` page to see that it
+has changed.
+
+### Take Away
+
+-   Create a snippet page/file that will be *used* by other pages/files.
+    In this snippet page use `<ui:composition>` tags around the content
+    that will be included (used) by other pages.
+
+-   put `<ui:include src="filenameToInclude.xhtml"/>` in the page that
+    wants to include the snippet.
+
+## Templating
+
+A template page lays out the location of page elements. For example, a
+section named header will appear at the top of the page, and a section
+called footer will appear at the bottom and a body section will lie
+between these two elements. This template is then used by other pages.
+
+### First Template
+
+Create a layout template:
+
+src/main/webapp/layout.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets">
+        <body>
+        <ui:include src="navigation.xhtml"/>
+        <ui:insert name="body"/>
+    </body>
+    </html>
+
+![image](images/fl_temp_1.png)
+
+Update your home.xhtml & about.xhtml to make use of the layout template:
+
+src/main/webapp/home.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets">
+        <ui:composition template="layout.xhtml">
+            <ui:define name="body">
+                HOME PAGE...
+            </ui:define>
+        </ui:composition>
+    </html>
+
+![image](images/fl_temp_2.png)
+
+src/main/webapp/about.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets">
+        <ui:composition template="layout.xhtml">
+            <ui:define name="body">
+                ABOUT PAGE...
+            </ui:define>
+        </ui:composition>
+    </html>
+
+#### Take Away
+
+-   In your template you define the regions you want to be replaced with
+
+`<ui:insert name="someName"/>`
+
+sections, replacing *someName* with an appropriate name like *body* or
+*associatedLinks*.
+
+-   In the files that will make use of the template, specify the
+    template location:
+
+`<ui:composition template="layout.xhtml">`
+
+-   For each `ui:insert` tag in the template, create a corresponding
+    `ui:define` in the page that uses the template
+
+`<ui:define name="someName"> Some HTML code </ui:define>`
+
+replacing *someName* with the section name we want to replace.
+
+#### Test It
+
+-   Go to page: `http://localhost:8080/projectName/home.jsf` and
+    `http://localhost:8080/projectName/about.jsf`
+
+#### Benefits
+
+Now think about if you wanted to move your navigation from the top, to
+the left hand side. We can simply update the `layout.xhtml` page and the
+rest of the pages follow suit. So change your `layout.xhtml` as follows
+and retest the above two links:
+
+src/main/webapp/layout.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets">
+      <body>
+        <table border="1">
+            <tr>
+                <td><ui:include src="navigation.xhtml"/></td>
+                <td><ui:insert name="body"/></td>
+            </tr>
+        </table>
+      </body>
+    </html>
+
+lets also remove the `<hr/>` horizontal ruler from `navigation.xhtml` as
+well.
+
+src/main/webapp/navigation.xhtml
+
+    <html
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+        <ui:composition>
+            <a href="home.jsf">Home</a><br/>
+            <a href="about.jsf">About Us</a><br/>
+        </ui:composition>
+    </html>
+
+## Create your own tags: Composite Components
+
+In JSF 2.0 you can create your own tags. Here is a simple example.
+
+project/src/main/webapp/resources/myComponents/greeting.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:composite="http://java.sun.com/jsf/composite">
+        <composite:interface>
+            <composite:attribute name="yourName"/>
+        </composite:interface>
+        <composite:implementation>
+            Hello #{cc.attrs.yourName}, nice to meet you.
+        </composite:implementation>
+    </html>
+
+![image](images/fl_composite_components.png)
+
+Now you can use this component, update your home.xhtml page:
+
+project/src/main/webapp/webapp/home.xhtml
+
+    <html 
+        xmlns="http://www.w3.org/1999/xhtml" 
+        xmlns:ui="http://java.sun.com/jsf/facelets" 
+        xmlns:ft="http://java.sun.com/jsf/composite/myComponents" >
+        <ft:greeting yourName="fenton"/>
+    </html>
+
+![image](images/fl_composite_components_2.png)
+
+### Take Aways
+
+-   Create a folder named `resources` in your web app root folder
+-   Any directory structure you have under that will need to be
+    reflected in your `xmlns` declaration.
+
+![image](images/fl_cc_lib_path.png)
+
+-   When using your tag, its name is the same as the filename you gave
+    your custom component.
+
+![image](images/fl_cc_tag_name.png)
+
+### default attributes
+
+Lets make the tag take an optional attribute to specify the style of the
+tag, that if not specified, defaults to `greetClass`.
+
+project/src/main/webapp/resources/myComponents/greeting.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:composite="http://java.sun.com/jsf/composite">
+        <composite:interface>
+            <composite:attribute name="yourName"/>
+            <composite:attribute name="styleClass" default="greetClass" required="false"/>
+        </composite:interface>
+        <composite:implementation>
+            <div class="#{cc.attrs.styleClass}">Hello #{cc.attrs.yourName}, nice to meet you.</div>
+        </composite:implementation>
+    </html>
+
+## Summary
+
+Between the three techniques shown above, *Includes*, *Templates*, and
+*Composite Components*, you have covered the basics of JSF 2.0 facelets.
+
+## Resource Library
+
+As of JSF 2.0, the new library and name attributes have been added in
+order to support rendering of images from a resource library. The JSF
+2.0 spec requires that Web application resources be located in the
+/resources folder under the Web application root. Alternatively,
+resources can be located in the META-INF/resources folder of any JAR
+file in the classpath. Each resource must adhere to the following
+naming convention:
+
+    [localePrefix/][libraryName/][libraryVersion/]resourceName[/resourceVersion]
+
+[Reference](http://www.mkyong.com/jsf2/resources-library-in-jsf-2-0/)
+
+    src/main/webapp/resources
+    src/main/webapp/resources/css/style.css
+    src/main/webapp/resources/javascript
+    src/main/webapp/resources/images
+
+In your JSF:
+
+    <h:outputStylesheet name="style.css" library="css" />
+
+In the above cases, `library` is the folder under resources.
+
+# JSF Phases
+
+1.  Restore view
+2.  Apply request values; process events
+3.  Process validations; process events
+4.  Update model values; process events
+5.  Invoke application; process events
+6.  Render response
+
+## Restore View
+
+In this phase the view is either created or if it already exists,
+retrieved (restored).
+
+# Events
+
+[JSF Events
+Reference](http://www.javabeat.net/articles/15-introduction-to-jsf-core-tags-library-3.html)
+
+## JSF Events
+
+JSF UI Components emit Events to Listeners if they are registered. The
+Event Handling Model in Java Server Faces is very similar to Java Beans
+Event Handling Model. The types of Events emitted will fall either in
+Action Event, Value-Change Event or Phase Event. For example, clicking a
+Button or a Hyperlink will cause the JSF Components to emit Action
+Events. Change in Value for a UI Input Component will make Value Change
+Events to happen. Phase Events will occur in any of the 6 Different
+Phases available in Request Processing Life-cycle.
+
+Accordingly, 3 Listener Tags are identified for handling the various
+types of Events we discussed just before. They are mentioned below. Let
+us cover in detail in the subsequent sections.
+
+-   Action Listener Tag
+-   Value Change Listener Tag
+-   Phase Listener Tag
+
+### Action Listener Tag
+
+Components representing javax.faces.component.ActionSource are eligible
+to emit Action Events. Buttons (represented by `<h:commandButton>`) and
+Hyper-link (represented by `<h:commandLink>`) are the only two UI
+Components available in this category. The tag `<f:actionListener>` can
+be applied to these Action Source Components to attach a Listener. Let
+us look into the syntax of the Action Listener Tag.
+
+`<f:actionListener type = "ClassNameOfTheListener"/>`
+
+Let us see the various constraints imposed on the ‘type’ attribute. The
+first thing is that the Class must be a `ActionListener`, which means
+that it has to implement `javax.faces.event.ActionListener` interface
+and must provide a method called
+`ActionListener.processAction(ActionEvent ActionEvent)` which will hold
+the actual logic.
+
+Following is the snippet code for attaching a Listener to the UI
+Components – Button and Hyper-link.
+
+    <h:commandButton value = "Submit">
+        <f:actionListerner type = "mylisteners.SubmitAction"/>
+    </h:commandButton>
+    <h:commandLink value = "Click Me">
+        <f:actionListerner type = "mylisteners.SubmitAction"/>
+    </h:commandLink>
+
+The following is the code snippet for the Class implementing the
+ActionListener.
+
+SubmitAction.java
+
+    package mylisteners;
+    import javax.faces.event.*;
+    public class SubmitAction implements ActionListener{
+        public void processAction(ActionEvent ActionEvent){
+            // Actual Logic Here.
+        }
+    }
+
+### Value Change Listener Tag
+
+All the Components that accept User Input Values are eligible to emit
+Value Change Events, which usually happens when the Value of the Input
+UI Control changes. Components like:
+
+-   Text-Filed (`<h:inputText>`),
+-   Text-Area (`<h:inputTextarea>`),
+-   Hidden Text-Field (`<h:inputHidden>`),
+-   Password Field (`<h:inputSecret>`),
+-   Check-Box (`<h:selectBooleanCheckbox>`, `<h:selectManyCheckbox>`),
+-   List-Box (`<h:selectManyCheckbox>`, `<h:selectManyListBox>`) and
+-   Radio-Buttons (`<h:selectOneRadio>`) fall under this category.
+
+Following is the syntax definition of the Value Change Listener Tag,
+
+    <f:valueChangeListener type = "ClassNameofTheListener"/>
+
+The ‘type’ attribute must point to a Class that implements the
+`javax.faces.event.ValueChangeListener` interface along with the method
+`ValueChangeListener.processValueChange(ValueChangeEvent vcEvent)`.
+
+Let us look in the following sample Code for Input Text Field component
+that binds the Listener Class called MyValueChangeListener.
+
+    <h:inputTextField>
+        <f:valueChangeListener type = "listeners.MyValueChangeListener"/>
+    </h:inputTextField>
+
+Following is the listing for the Value Change Listener Class.
+
+MyValueChangeListener.java
+
+    package listeners;
+    import javax.faces.event.*;
+    public class MyValueChangeListener{
+        public void processValueChange(ValueChangeEvent vcEvent){
+            String oldValue = (String)vcEvent.getOldValue();
+            String newValue = (String)vcEvent.getNewValue();
+            // Do Something with the old and the new value.
+        }
+    }
+
+### Phase Listener Tag
+
+There is a major difference between Action/Value-Change Listener Tags
+and the Phase Listener Tags. In the case of Action/Value-Change Listener
+Tags, the Events will be emitted by the JSF UI Components which is in
+the Control of the Application Developer who writes Code for the
+Components, whereas Phase Events are emitted by the JSF Framework during
+the Request Processing Life-cycle. Remember that 6 Phases are involved
+in a JSF Request Processing Phase and during the beginning and the end
+of each phase, JSF Framework will emit Phase Events. We can handle the
+Events if we want to, thereby attaching Customized Logic in the Request
+Processing Life-cycle.
+
+    <f:phaseListener type = "ClassNameOfThePhaseListener"/>
+
+The ‘type’ attribute refers to a class name that implements the
+javax.faces.event.PhaseEvent interface. Following is the code snippet
+for that,
+
+MyPhaseListener.java
+
+    package mylisteners;
+    import javax.faces.event.*;
+    public MyPhaseListener implements PhaseListener{
+        public void beforePhase(PhaseEvent PhaseEvent){
+        }
+        public void afterPhase(PhaseEvent PhaseEvent){
+        }
+        public PhaseId getPhaseId(){
+            return PhaseId.ANY_PHASE;
+        }
+    }
+
+From the above code, we can infer that the method
+`PhaseListener.beforePhase()` will be called before the beginning of a
+Phase and the method `PhaseListener.afterPhase()` will be called after
+the termination of the phase. Returning a value of `PhaseId.ANY_PHASE`
+in the method `PhaseListener.getPhaseId()` will cause the
+MyPhaseListener to be fired during each and every phase. Other legal
+return value for the `PhaseListener.getPhaseId()` are
+
+    PhaseId.RESTORE_VIEW
+    PhaseId.APPLY_REQUEST_VALUES
+    PhaseId.PROCESS_VALIDATIONS
+    PhaseId.UPDATE_MODEL_VALUES
+    PhaseId.INVOKE_APPLICATION
+    PhaseId.RENDER_RESPONSE
+
+which are defined in `javax.faces.event.PhaseId` as Constants.
+
+Attaching a Phase Listener to a View can be done by directly including
+the `<f:phaseListener>` tag within the JSF View. Consider the following
+code,
+
+    <f:view>
+        <f:PhaseListener type = "mylisteners.MyPhaseListener"/>
+    </f:view>
+
+# Managed Beans
+
+## Intro
+
+Managed beans are a way of getting what happens on a web page into the
+java context easily. When we want to capture values from a web page
+(form) we will store those values into a bean. When we want to display
+information on a web page that is dynamic, we can pull those values from
+a managed bean.
+
+## Prerequisites
+
+The following are the recommended prerequisites:
+
+-   [First Time Setup](FirstTimeSetup.html)
+-   [Eclipse & Subversion Setup](../machineSetup/eclipse.html)
+-   [Maven Setup](/maven.html)
+
+## Steps
+
+The basics first. Have a look at the code below
+
+### Create a Managed Bean
+
+/src/main/java/Welcome.java
+
+    import javax.faces.bean.ManagedBean;
+    @ManagedBean
+    public class Welcome {
+        private String message;
+        public String getMessage() { return "I'm alive!"; }
+    }
+
+Now in our HTML code we can access this bean like so:
+
+/src/main/webapp/test.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml">
+      <body>
+        #{welcome.message}
+      </body>
+    </html>
+
+Notice the Managed Bean name in the HTML has the first letter
+lower-cased. Second notice how accessing the method getMessage() we drop
+the *get* and (). #{welcome.message} can also access setMessage() if it
+appears on the left hand side of an assignment, (and of course if we
+have it defined in the bean).
+
+### Forms, Navigation, & Managed Bean
+
+Lets show how entering a value in a form on one page can be accessed by
+a second page.
+
+project/web/pageone.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:f="http://java.sun.com/jsf/core">
+        <h:body>
+            <f:view>
+                <h:form>
+                    Enter your name: <h:inputText value="#{nameHandler.name}"/>
+                    <h:commandButton action="pagetwo" value="Next"/>
+                </h:form>
+            </f:view>
+        </h:body>
+    </html>
+
+project/web/pagetwo.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml" >
+        Hello, #{nameHandler.name}, nice to meet you.
+    </html>
+
+project/src/java/tmp/NameHandler.java
+
+    package tmp;
+    import javax.faces.bean.ManagedBean;
+    @ManagedBean
+    public class NameHandler {
+        private String name;
+        public String getName() {
+            return name;
+        }
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+## Scoping
+
+Scoping refers to how long a java object will last for. That is the time
+from creation to deletion. There are three traditional scopes that I’ll
+explain.
+
+### Overview
+
+#### Request Scope
+
+Request scope lasts for a single request/response transaction. That is
+when a user types a URL in their browser and hits enter and a web page
+comes up. During that time a RequestScoped bean will have been created
+and destroyed.
+
+#### Session Scope
+
+This is a very common scoping and corresponds to when a user first comes
+to your website in their current browser and while they continue to
+navigate on your website, any SessionScoped beans will get create when
+the user first gets to your website and will only be destroyed when they
+close their browser. (This is an approximation of what happens but good
+enough for understanding the basics)
+
+#### Application Scope
+
+This gets create when the website is first turned on, on the server. All
+users see and share the same application scoped beans. Akin to global
+variables in programming.
+
+### Steps
+
+So lets create a session scoped bean.
+
+    import javax.faces.bean.ManagedBean;
+    import javax.faces.bean.SessionScoped;
+    @ManagedBean
+    @SessionScoped
+    public class Welcome {
+    }
+
+Thats it!
+
+For a website you will often want to have a java POJO that represents
+the current user. So to start off lets create this user object.
+
+/src/main/java/com/spicevan/tailor/model/User.java
+
+    @ManagedBean
+    public class User {
+        private String name;
+        private String email;
+        private String password;
+        // Accessors
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+        ...
+    }
+
+So now we would like to use this in our HTML code in the following way.
+Image we have two pages, the first where you enter in your name, email,
+and password and a second page where we display your name and password.
+Create the following two html pages:
+
+/src/main/webapp/register.xhtml
+
+    <html xmlns="http://www.w3.org/1999/xhtml">
+      <body>
+        #{welcome.message}
+      </body>
+    </html>
+
+/src/main/webapp/display.xhtml
+
+All JSF tag must be always be enclosed in a `<f:view>` tag.
+
+## Action Listeners
+
+Often you’ll want a method called in your bean when a button is pressed.
+In your *.xhtml you’ll have:
+
+    <html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:f="http://java.sun.com/jsf/core">
+     <f:view>
+      <h:form>
+       <h:inputText value="#{searchBean.queryString}"/>
+       <h:commandButton value="Search" actionListener="#{searchBean.doQuery}"/>
+      </h:form>
+     </f:view>
+    </html>
+
+This would be backed up by the following:
+
+    package test;
+    import javax.faces.bean.ManagedBean;
+    import javax.faces.bean.RequestScoped;
+    import javax.faces.event.ActionEvent;
+    @ManagedBean
+    @RequestScoped
+    public class SearchBean {
+        private String searchString;
+        public void doQuery(ActionEvent event) {
+            event.getComponent().getClientId();
+        }
+        public void setSearchString(String searchString) { this.searchString = searchString; }
+        public String getSearchString() { return searchString; }
+        public SearchBean(String searchString) { this.searchString = searchString; }
+    }
+
+-   Important points to remember, have your `actionListener` have an
+
+`ActionEvent` parameter.
+
+## Reference
+
+### Scopes
+
+All scope annoations in JSF 2: @NoneScoped, @RequestScoped, @ViewScoped,
+@SessionScoped, @ApplicationScoped, and @CustomScope. @ViewScoped and
+@CustomScoped are new scopes in JSF 2
+
+### Web Sites
+
+-   [Managed Beans: ViewScoped
+    example](http://www.jsfsummit.com/blog/max_katz/2009/08/learning_jsf2_managed_beans)
+
+This site also shows how to inject one java (bean/class) into another.
+
+-   [Show user, username, password, logging in,
+    etc...](http://download.oracle.com/docs/cd/E15051_01/wlw/docs103/guide/webapplications/jsf/jsf-app-tutorial/2.ManagedBeans.html)
+
+# Core JSF Tags
+
+## References
+
+### JSF Tag Library Reference
+
+-   [JSF Tag Library
+    Reference](http://www.horstmann.com/corejsf/jsf-tags.html)
+
+### panelgroup
+
+The panelGroup tag is a container component that renders its child
+components. It is intended to be used in situations where it is
+desirable to include several components but when only one child
+component is allowed, such as within a panelGrid column or a facet
+component.
+
+### datatable
+
+for formating tables while iterating the data
+
+    <%@ taglib prefix=“h” uri=“http://java.sun.com/jsf/html” %>
+
+## Validator
+
+### Validate Length
+
+    <h:inputText value = "#{UserBean.userName}" id = "userNameTextField" required="true">
+        <f:validateLength minimum = "10" maximum = "15"/>
+    </h:inputText>    
+
+### Validate Long
+
+    <h:inputText value = "#{UserBean.birthYear}" id = "birthYearTF" required = "true">
+        <f:validateLongRange minimum = "10" maximum = "15"/>
+    </h:inputText>
+
+# Deployment
+
+You will deploy either to: Glassfish, Tomcat, Weblogic Server, or JBoss.
+
+## Packaging
+
+The first step will be to package your webapp.
+
+Probably do: 
+
+<pre><div class="sample_code">mvn clean; mvn package -P<span class="parameter">PROFILE</span></div></pre>
+
+where 
+
+<pre><div class="sample_code"><span class="parameter">PROFILE</span></div></pre>
+
+might be something like `dev`, `stage`, or `prod`.  Please see [Profiles](/maven.html#profiles) for a disussion on how 
+to create profiles for your project.
+
+In my example I'll do:
+
+<pre><div class="sample_code">mvn clean; mvn package -P<span class="highlight">prod</span></div></pre>
+    
+## Copy to Server
+
+The next step will be to copy to the server.  I usually use `scp`.  If
+the upload is large and the connection poor, you can use: `rsync`.
+
+I'll usually copy over my public key so this step can happen without
+the need for me to enter a password.  See [Setup automatic login to
+ssh server](/secure.html#sshAutoLogin) for how to do this.
+
+### Where to copy to?
+
+* Weblogic Server:
+
+Make sure server is installed as a development server.
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/autodeploy</div></pre>
+
+For more information see: [Deployment](/wls.html#deployment)
+
+* Glassfish:
+
+<pre><div class="sample_code"><span class="parameter">GF_HOME</span>glassfish/domains/domain1/autodeploy</div></pre>
+
+* Tomcat, JBoss: sorry no info right now.
+
+Here is a sample `deploy.sh` file that I put in the root of my project as a reference:
+
+    #!/bin/bash -x
+
+    ARTIFACT_ID=MyWebApp
+    ARTIFACT_EXTENSION=war
+    USER=ftravers
+    EXE='scp'
+    DOMAIN=us.oracle.com
+    INSTANCE=$1
+     
+    case "${INSTANCE}" in
+        dev)
+            HOST=sta00418
+            DIR=/scratch/ngsp/glassfish3/glassfish/domains/domain1/autodeploy
+            ;;
+        stage)
+            HOST=adc2100913
+            DIR=/scratch/ngsp/wls/user_projects/domains/domain2
+            ;;
+        prod)
+            HOST=amtv1062
+            DIR=/u01/app/oracle/ngsp/wls/user_projects/domains/base_domain
+            ;;
+        *)
+            echo $"Usage: ./deploy.sh {dev|stage|prod}"
+            exit
+    esac
+     
+    mvn clean
+    # I add the -o because some checks were taking too long ( o = offline ).
+    mvn package -o -P${INSTANCE}
+    ${EXE} target/${ARTIFACT_ID}.${ARTIFACT_EXTENSION} ${USER}@${HOST}.${DOMAIN}:${DIR}
+     
+
+# Misc
+
+## Javascript and Component IDs
+
+Sometimes you will want to access a component from javascript with
+`getElementById`, but id's are generated dynamically in JSF, so you
+need a method of getting an objects id.  The technique below can be
+used for this.
+
+Two components:
+
+*.xhtml page
+
+    <script>
+      function myFunc() {
+        var inputText = document.getElementById("#{backBean.emailAddyInputText.clientId}")                 
+        alert("The email address is: " + inputText.value );
+      }
+    </script>
+     
+    <h:inputText binding="#{backBean.emailAddyInputText}" value="#{backBean.emailAddyStr}"/>
+    <h:commandButton onclick="myFunc()" action="results" value="Next"/>
+
+BackBean.java
+
+    UIInput emailAddyInputText = null;
+    protected String emailAddressesStr;
+
+Make sure to create your getters/setters for these two properties too.
+
+
+# Glossary
+
+JSF
+  ~ Java Server Faces
+POJO
+  ~ Plain Old Java Object
+

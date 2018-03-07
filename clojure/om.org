@@ -1,0 +1,98 @@
+* om.next
+
+** basic static component
+
+#+BEGIN_SRC clojure
+(ns om-tutorial.core
+  (:require [goog.dom :as gdom]
+            [om.next :as om :refer-macros [defui]]
+            [om.dom :as dom]))
+
+(defui Counter
+  Object
+  (render [this]
+   (dom/div nil "Hello")))
+
+(om/add-root! (om/reconciler {})
+  Counter (gdom/getElement "app"))
+#+END_SRC
+
+** State (read it)
+
+  We will store the state in:
+
+: (def app-state (atom {:count 0}))
+
+*** Data into components
+
+To get data into our components we add a query into our *defui*
+component:
+
+#+BEGIN_SRC clojure
+static om/IQuery
+(query [this]
+       [:count])
+#+END_SRC
+
+Basically this is saying, grab the data associated with the key
+*:count* out of the app-db.
+
+To make this work we need to implement a couple of other things.
+
+ you need to make a reader function.
+
+*** Read
+
+To get information from the app state we need to create a read
+function that takes three parameters
+
+: (defn read [env key params])
+
+Grab the application state from the *env* map param:
+
+: (let [st @(:state env)])
+
+Its an atom so we deref it.
+
+We need to return a map, with the value stored with a key *:value*. 
+
+: {:value (val (find st key))}
+
+Full read function
+
+#+BEGIN_SRC clojure
+(defn read [env key params]
+  (let [st @(:state env)]
+    {:value (val (find st key))}))
+#+END_SRC
+
+** Component + Query
+
+(ns om-tutorial.core
+  (:require [goog.dom :as gdom]
+            [om.next :as om :refer-macros [defui]]
+            [om.dom :as dom]))
+
+(defn read [env key params]
+  (let [st @(:state env)]
+    {:value (val (find st key))}))
+
+(defui Counter
+  static om/IQuery
+  (query [this]
+         [:count])
+  Object
+  (render [this]
+          (dom/div nil
+                   (str "count: "
+                        (:count (om/props this))))))
+
+(def app-state (atom {:count 4}))
+
+(def reconciler
+  (om/reconciler
+    {:state app-state
+     :parser (om/parser {:read read})}))
+
+(om/add-root! reconciler
+  Counter (gdom/getElement "app"))

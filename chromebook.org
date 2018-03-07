@@ -1,0 +1,593 @@
+
+
+* Roll Back
+
+If you already have a USB from a prior install you can do the
+following to 'reset' the machine.
+
+** Insert your USB
+
+** boot into uboot
+
++ [[*restore%20uboot%20environment][restore uboot environment]]
+
+** Disk layout
++ login with root (no password)
+
+#+BEGIN_SRC 
+# lsblk
+mmcblk0
+|-mmcblk0p1    16M   <--- boot
+|-mmcblk0p2    4G    <--- root
+`-mmcblk0p3    10.7G <--- home
+#+END_SRC
+
++ mount boot, root, and home
+
+#+BEGIN_SRC 
+mkdir -p {boot,root,home}
+mount /dev/mmcblk0p1 boot
+mount /dev/mmcblk0p2 root
+mount /dev/mmcblk0p3 home
+#+END_SRC
+
+** copy off fstab
+
+: cp fstab root/etc/fstab
+
+** delete old boot, copy new one
+
+#+BEGIN_SRC 
+cd root
+rm -r *
+cd ../boot
+rm -r *
+cp -a /boot/* .
+#+END_SRC
+
+** Untar clean root
+
+#+BEGIN_SRC 
+cd
+tar xfz new_root.tgz -C root
+#+END_SRC
+
+** setup soft links
+
+tmp, log, and netctl
+
+[[*move%20dirs%20to%20writeable%20FS][move dirs to writeable FS]]
+
+** copy over fstab
+
+: cp fstab root/etc/
+
+** boot into uboot
+
+[[*boot%20from%20emmc][boot from emmc]]
+
+
+
+* Roll Back follow up
+
++ edit =resolv.conf=
+
+: nameserver 8.8.8.8
+
++ update pacman DB
+
+: pacman -Sy
+
++ install Awesome, git, etc...
+
+: pamcan -S awesome git openssh autocutsel conky vim postgresql glibc xclip
+
+
+
+* General
+
+Make two USB's
+Tar one up into the other
+Download and flash the u-boot
+prep the emmc drive
+copy boot onto emmc
+untar onto emmc drive root
+
+
+Install Arch onto: Samsung xe303c12-a01ca
+
+* go into developer mode
+
+[[http://archlinuxarm.org/platforms/armv7/samsung/samsung-chromebook][reference]]
+
+#+BEGIN_SRC 
+hold ESC-<refresh> and tap power button
+C-d
+ENTER
+#+END_SRC
+
+After 20 seconds or so you'll hear 2 beeps.  It'll flash and a
+warning message will come up about voiding warranty.  That will last
+about 30 seconds. Then wait while it reboots, can take 11 mins
+
+* Required Materials
++ 1 X Samsung ARM Chromebook
+
++ 2 X USB 2 thumb drive 4 -> 16 GB
+
+We will call these USB drives MAIN and TAR.  The reason we have the
+TAR USB is so we can tar up the root filesystem on MAIN without it
+actively being mounted as the current root file system.
+
+Notes: 
+
+You may have difficulty booting USB/SD-Cards > 16 GB.
+
+You can only boot from the USB 2 port NOT the USB 3 port.
+
+* Steps
+
+** Physically remove write protection ring
+
+Follow the
+[http://www.ifixit.com/Teardown/Samsung+Chromebook+11.6+Teardown/12225
+ifixit instructions], to ensure the metallic ring-shaped sticker is
+removed.
+
+** Boot and accept defaults
+
+login and do the one time signup/config.
+
+** Install Arch on MAIN/TAR USB thumb drives
+
+On both the USB thumb drives, MAIN and TAR, install and boot Arch
+using the
+[http://archlinuxarm.org/platforms/armv7/samsung/samsung-chromebook#qt-platform_tabs-ui-tabs2
+already established method].
+
+*NOTE* You can copy from chrome OS web page with Ctrl-C and then paste
+into the Chrome OS shell with Ctrl-Shift-V.  (This will save you
+time!!!)
+
+=root= is the login, no password.
+
+*** update your install 
+
+ : # pacman -Syu
+
+*** On only the 'MAIN' USB install these required packages.
+
+ : # pacman -S flashrom-google linux-chromebook gptfdisk wget libftdi-compat
+
+* Wipe out EMMC 
+
+ : # sgdisk -Z /dev/mmcblk0
+
++ Confirm no partitions:
+
+ : # lsblk
+
+** Create 3 partitions
+
+These correspond to:
+
+| 1 | boot |
+| 2 | root |
+| 3 | home |
+
+#+BEGIN_SRC
+# sgdisk -n 1:0:+16m /dev/mmcblk0
+# sgdisk -n 2:0:+4G /dev/mmcblk0
+# sgdisk -n 3:0 /dev/mmcblk0
+#+END_SRC
+
+c** Make the filesystems:
+
+#+BEGIN_SRC 
+# mkfs.ext2 /dev/mmcblk0p1
+# mkfs.jfs /dev/mmcblk0p2
+# mkfs.jfs /dev/mmcblk0p3
+#+END_SRC
+
+** Copy vmlinux.uimg
+
+#+BEGIN_SRC 
+# cd
+# mkdir boot
+# mount /dev/mmcblk0p1 boot
+# cp /boot/vmlinux.uimg boot
+# umount boot
+#+END_SRC
+
+** Shutdown your system 
+
++ Remove both your 'MAIN' USB thumb drive, and your SD card.  Insert
+your 'TAR' USB drive and boot to it.
+
+* Tar root fs
+
++ After booted, plug in your first 'MAIN' USB and follow the below
+procedure to tar your rootfs system:
+
+#+BEGIN_SRC 
+# cd
+# mkdir tar-root
+# mount /dev/sdb3 tar-root
+#+END_SRC
+
+** Mount the SD card too:
+
+#+BEGIN_SRC 
+# mkdir emmc
+# mount /dev/mmcblk0p2 emmc
+#+END_SRC
+
++ Create an excludes file: (after entering 'dev' put in a new line
+'Enter' and hit Ctrl-d to end 'cat' command)
+
+#+BEGIN_SRC 
+# cd tar-root
+# cat > excludes-file
+opt/backup/arch-full*
+tmp/*
+var/cache/pacman/pkg/
+proc
+sys
+dev
+#+END_SRC
+ 
+** tar up the MAIN USB root filesystem
+
+ : # tar cpfz ../root.tgz -X excludes-file .
+
++ untar to SD card:
+
+ : # cd ..
+ : # tar xfz root.tgz -C emmc
+
+The above command took 4m33s on my computer.
+
++ Adjust the /etc/fstab on the SD card
+
+#+BEGIN_SRC 
+cd emmc/etc
+vi fstab
+#+END_SRC
+
+#+BEGIN_SRC
+# <file system>	<dir>		<type>	<options>			              <dump>	<pass>
+/dev/mmcblk0p1  /boot		ext2	  defaults			              0	      0
+proc            /proc   proc    defaults			              0       0
+/dev/mmcblk0p2	/		    jfs	    ro				                  0	      1
+/dev/mmcblk0p3	/home		jfs	    rw,users,exec,noatime		    0	      2
+tmpfs           /tmp    tmpfs   defaults,noatime,mode=1777	0       0
+#+END_SRC
+
++ mount =home=
+
+#+BEGIN_SRC 
+cd ~
+mkdir home
+mount /dev/mmcblk0p3 home
+#+END_SRC
+
+** move dirs to writeable FS
+
+get =/var/log/= and =/var/tmp/= into a writable filesystem
+
+#+BEGIN_SRC 
+cd ~/home/
+mkdir -p var/tmp
+mkdir -p var/log
+cd ~/emmc/var
+rm -r tmp log
+ln -s ../home/var/tmp
+ln -s ../home/var/log
+#+END_SRC
+
++ move /root/emmc/etc/netctl to /root/emmc/home/etc/netctl
+
+#+BEGIN_SRC
+# cd ~/home
+# mkdir -p etc/netctl
+# cd ~/emmc/etc
+# mv netctl/* ~/home/etc/netctl
+# rm -r netctl
+# ln -s ../home/etc/netctl
+#+END_SRC
+
++ unmount the partitions:
+
+#+BEGIN_SRC 
+# cd
+# umount emmc
+# umount home
+#+END_SRC
+
+(I wonder if at this point we shouldn't try to boot from emmc??)
+
+
+
+
+
+* Test booting from SD card
+
+#+BEGIN_SRC 
+# shutdown -h now
+#+END_SRC
+
++ take MAIN USB out of computer
+
++ boot *AND* go into u-boot prompt by hitting keys *RIGHT AWAY*
+
++ From the u-boot prompt, enter the following to boot from emmc:
+
+#+BEGIN_SRC 
+# setenv bootargs root=/dev/mmcblk1p2 rootfstype=jfs rootwait rw
+# mmc dev 1
+# ext2load mmc 1:1 42000000 vmlinux.uimg
+# bootm 42000000
+#+END_SRC
+
+
+* Flashing BIOS 
+
+*DO NOT FOLLOW DIRECTIONS BELOW, THEY ARE NOT COMPLETE*
+
++ download this file: 
+
+ : # wget http://goo.gl/RZ7THP
+
+This is a shortened URL for:
+
+https://www.dropbox.com/s/6pzvraf3ko14sz9/nv_image-snow.bin.gz
+
++ rename it:
+
+ : # mv RZ7THP nv_image-snow.bin.gz
+
++ uncompress it:
+
+ : # gunzip nv_image-snow.bin.gz
+
++ read and save off your original image:
+
+ : # flashrom.google -p linux_spi:dev=/dev/spidev1.0 -r origial_image-snow.bin
+
++ Test flashing (writing) the original ROM you just backed up
+
+ : # flashrom.google -p linux_spi:dev=/dev/spidev1.0 -w origial_image-snow.bin
+
+If you see messages like:
+
+"Block protection could not be disabled!"
+
+Then the conducting metal ring is still acting.  When i left the
+bottom of my laptop off it worked for me.  I think the back middle
+screw on the bottom causes the contact to be remade.  So i just flash
+the bios with the back barely on.
+
++ flash the new image {{ic|nv_image-show.bin}}:
+
+ : # flashrom.google -p linux_spi:dev=/dev/spidev1.0 -w nv_image-snow.bin
+
++ Powercycle. Hold down {{ic|a}} while powering up to get into a
+  u-boot prompt.
+
+Once you are flashed with u-boot, you will need to create a SD card
+that boots.
+
++ From the u-boot prompt, enter the following to boot from SD card:
+
+ : # setenv bootargs root=/dev/mmcblk1p2 rootfstype=jfs rootwait rw
+ : # mmc dev 1
+
+After this step I get the following error message:
+
+ERROR: v7_dcache_inval_range - stop address is not aligned -
+0xbda3c4c8
+mmc_init err 0, time 22306
+mmc1 is current device
+
+Don't worry about the above error message, it is innocuous.
+
+#+BEGIN_SRC 
+# ext2load mmc 1:1 42000000 vmlinux.uimg
+# bootm 42000000
+#+END_SRC
+
+You should now be booted into your SD card.
+
+<u>Write to eMMC</u>
+
+After you are booted into your SD card from the above steps you will
+want to repeat the steps so you can boot from your eMMC, and not need
+an SD or USB hanging out from your computer.
+
+Keep in mind the steps you did above to device: =mmcblk1=, aka,
+your SD card.  You will want to change the device to: =mmcblk0=,
+aka, your eMMC.
+
+In quick summary do:
+
+
++ zero out the device
++ create the two partitions
++ format the two partitions
++ setup the boot partition
++ setup the root partition
+
+After you have copied over your root partition make sure to edit
+your: 
+
+ /etc/fstab
+
+so you have a line like:
+
+/dev/mmcblk0p2   /      ext4      defaults,noatime        0       1
+
+
+*** boot from emmc
+
+#+BEGIN_SRC 
+# setenv arch_boot 'setenv bootargs root=/dev/mmcblk0p2 rootfstype=jfs rootwait rw; mmc dev 0; ext2load mmc 0:1 42000000 vmlinux.uimg; bootm 42000000'
+# setenv bootcmd 'run arch_boot'
+# saveenv
+# reset
+#+END_SRC
+
+This should now boot into your eMMC,
+No need to remove USB in a rush, it'll be ignored.
+
+------------
+
+*** restore uboot environment
+
+restore your uboot environment with:
+
+env default -f
+saveenv
+reset
+
+--------------
+
+this is the original value of the bootcmd, to boot from usb you can do:
+
+ # setenv bootcmd 'run non_verified_boot'
+ # saveenv
+ # reset
+
+then when u r ready to start booting from emmc again u do:
+
+ # setenv bootcmd 'run arch_boot'
+ # saveenv
+ # reset
+
+* finalize arch install on emmc
+
+after you boot into emmc, enable wireless
+
+ : wifi-menu mlan0
+
+** enable wireless
+
+ : # mount / -o remount,rw
+
+pacman -S --needed emacs chromium base-devel xorg-server
+xorg-server-utils xorg-xinit xorg-twm xorg-xclock xterm
+xf86-video-fbdev ttf-dejavu conky chromium-pepper-flash awesome iw
+wpa_supplicant wpa_actiond slim xfce4 xf86-input-synaptics zsh sudo
+git rxvt-unicode python-virtualenvwrapper w3m transmission-gtk rsync
+xclip truecrypt glibc ctags weechat
+
+ : # systemctl enable netctl-auto@mlan0.service
+
+** startxfce4
+
+try running the desktop manager with:
+
+ : % startxfce4
+
+flash: chromium-pepper-flash
+
+ttf-dejavu: gives all the special characters so you don't have a
+bunch of square blocks where you'd normally have another character. 
+
+conky: give you status information about your computer
+
+I don't think we need package: xf86-video-armsoc
+
+* get ssh/git keys/projects
+
++ copy over ssh priv/pub keys to root on new computer
+
++ clone =ft.home.dir.git= into root
+
++ create fenton user:
+
+ : useradd -m -g users -s /usr/bin/zsh fenton
+ : passwd fenton
+
++ tar & extract ft.home.dir into fenton home dir
+
++ link .aliases
+
+ : ln -s .aliases_desktop .aliases
++ enable slim
+
+ : # systemctl enable slim.service
+
+edit: =/etc/slim.conf= enable user and auto login
+
++ update sudo
+
++ make sure ~fenton/.xinitrc is correct
+
++ make sure awesome config file is correctly linked at:
+  =~/.config/awesome/rc.lua=
+
++ make sure conky is correctly linked at: =~/.conky/=
+
++ reboot
+
++ make sure =xrdb= is run.  See bottom of =~/.Xresources=
+
++ launch emacs and let it down load everything...
+
++ setup =/etc/resolv.conf=
+
+#+BEGIN_SRC 
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+#+END_SRC
+
++ timezone
+
+ : sudo ln -s /usr/share/zoneinfo/America/Vancouver /etc/localtime
+
+** get root files:
+
+This has the following:
+
++ urxvt copy and paste
+
+=/usr/lib/urxvt/perl/clipboard=, get copy and paste working with
+=.Xresources= commands.  See:
+https://bbs.archlinux.org/viewtopic.php?pid=750951#p750951 
+
+You also need package: =xclip=.
+
+
+
+#+BEGIN_SRC 
+cd bin/root_files
+tar cvf r.tar *
+sudo mv r.tar /
+cd /
+sudo tar xvf r.tar
+#+END_SRC
+
+* TROUBLESHOOTING
+
+** can recover from screen blank / lock
+
+put:
+
+#+BEGIN_SRC 
+if [ -n "$DISPLAY" ] ; then
+    xset s off
+    xset -dpms
+fi
+#+END_SRC
+
+in: ~/.zshrc
+
+
+(model: snow clear e-j 7844)
+
+
+** Rebooting
+
+After you've successfully installed arch linux, you can reboot and at
+the splash screen type: =C-u= to boot from the usb.
+

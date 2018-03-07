@@ -1,0 +1,54 @@
+Trying to get 4k montior to work with SS9 which has Intel HD4000 video
+card which should support a 4k monitor.
+
+The monitor I'll call UHD for Ultra High Definition, it's connected
+via my HDMI port.
+
+When I run
+
+: xrandr
+
+I get that the HDMI1 active modeline is: 
+
+: 1920x1080     60.00*   50.00    59.94    30.00    24.00    29.97    23.98
+
+So I need to get a modeline that will do the proper =3840x2160=
+
+Create a new mode
+
+: xrandr --newmode "3840x2160" 339.57  3840 4080 4496 5152  2160 2161 2164 2197  -HSync +Vsync
+
+Add the mode to the available modes list
+
+: xrandr --addmode HDMI1 3840x2160
+
+Direct the monitor to use that mode
+
+: xrandr --output HDMI1 --mode 3840x2160
+
+If I don't like the mode I can remove it with
+
+#+BEGIN_SRC 
+xrandr --delmode HDMI1 3840x2160
+xrandr --rmmode 3840x2160
+#+END_SRC
+
+
+Tried modelines:
+
+* Failed
+
+xrandr --newmode "3840x2160" 225 3840 4016 4104 4272 2160 2168 2178 2194 +hsync +vsync
+xrandr --newmode "3840x2160" 165.00 3840 3888 3920 4000 2160 2163 2168 2222 +hsync -vsync 
+xrandr --newmode "3840x2160" 307.00 3840 4016 4104 4400 2160 2168 2178 2250 +hsync +vsync
+xrandr --newmode "3840x2160" 144.25 3840 3944 4320 4800 2160 2163 2168 2180 -hsync +vsync
+
+* To Try
+
+xrandr --newmode "3840x2160" 144.25 3840 3944 4320 4800 2160 2163 2168 2180 -hsync +vsync
+
+* Then Do
+
+xrandr --addmode HDMI1 3840x2160
+xrandr --output HDMI1 --mode 3840x2160
+

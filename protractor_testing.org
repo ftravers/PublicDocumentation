@@ -1,0 +1,71 @@
+* Reference
+
+Protractor Tutorial:
+http://angular.github.io/protractor/#/tutorial
+
+Getting Started - Protractor:
+http://angular.github.io/protractor/#/getting-started
+
+Blog about testing:
+http://www.yearofmoo.com/2013/01/full-spectrum-testing-with-angularjs-and-karma.html
+
+Protractor API:
+http://angular.github.io/protractor/#/api?view=ElementArrayFinder
+
+Protractor Table of Contents:
+http://angular.github.io/protractor/#/toc
+
+* Setup
+
+#+BEGIN_SRC shell
+% npm install -g protractor
+% webdriver-manager update
+% webdriver-manager start
+#+END_SRC
+
+From your project root do:
+
+#+BEGIN_SRC shell
+% mkdir -p test/{e2e,unit,midway}
+% touch test/conf.js
+% touch test/e2e/spec1.js
+#+END_SRC
+
+Sample contents for =conf.js=
+
+#+BEGIN_SRC javascript
+exports.config = {
+  seleniumAddress: 'http://localhost:4444/wd/hub',
+  specs: ['specs/e2e/spec1.js']
+}
+#+END_SRC
+
+Sample contents for =spec1.js=
+
+#+BEGIN_SRC javascript
+describe('Price Compare App', function() {
+    it('should have a h1 with HOME in it.', function() {
+        browser.get('http://localhost:8888/#/home');
+        expect(browser.findElement(By.tagName('h1')).getText()).toEqual('HOME')
+    });
+});
+#+END_SRC
+
+Here we fetch a url and ensure there is a header item with text:
+"HOME".
+
+** Run Tests:
+
+: protractor test/conf.js
+
+* Daily run E2E tests
+
+Start up selenium
+
+: <project_root>% webdriver-manager start
+
+Run your tests
+
+: <project_root>% protractor test/conf.js
+
+*

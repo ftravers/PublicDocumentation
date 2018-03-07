@@ -1,0 +1,237 @@
+Version: Oracle DB 11gR1
+
+Template setup with the following parameters:
+	System: 1200 MB
+	Memory: 1024 MB
+	Swap: 1536 MB
+	Data(/u01): 4096
+
+
+X-Windows is required for the universal installer.  To install x-windows: 
+		[root@db11g ~]# yum groupinstall 'X Window System'
+
+Check Total Memory:
+	[root@db11g ~]# grep MemTotal /proc/meminfo
+	MemTotal:      1048 MB
+
+Check Total Swap:
+	[root@db11g ~]# grep SwapTotal /proc/meminfo
+	SwapTotal:     1574360 kB
+
+Check Data:
+Determine the amount of free disk space for oracle system.  Should be at least 3.47 GB
+	[root@db11g ~]# df -h
+	/dev/xvdb1            4.0G  137M  3.7G   4% /u01
+
+Check free RAM and SWAP
+	[root@db11g ~]# free
+	             total       used       free     shared    buffers     cached
+	Mem:       1048576    1042208       6368          0       3932     927648
+	-/+ buffers/cache:     110628     937948
+	Swap:      1574360         64    1574296
+
+Determine the amount of shared memory available. The shared memory should be sized to be at least the  greater of MEMORY_MAX_TARGET and MEMORY_TARGET for each Oracle instance on the computer.  How check those settings?
+	[root@db11g ~]# df -k /dev/shm/
+	Filesystem           1K-blocks      Used Available Use% Mounted on
+	tmpfs                   524288         0    524288   0% /dev/shm
+
+Determine the amount of disk space available in the /tmp directory.  Need between 150 and 200MB.
+	[root@db11gr1 oracle]# df -k /tmp
+	Filesystem           1K-blocks      Used Available Use% Mounted on
+	/dev/xvda2             1976204   1189072    725928  63% /
+
+Determine the distribution and version of Linux installed
+	[root@db11g u01]# cat /proc/version
+	Linux version 2.6.18-128.0.0.0.2.el5xen (mockbuild@ca-build10.us.oracle.com) (gcc version 4.1.2 20080704 (Red Hat 4.1.2-44)) #1 SMP Wed Jan 21 05:30:13 EST 2009
+
+
+Determine whether the required kernel is installed
+	[root@db11g u01]# uname -r
+	2.6.18-128.0.0.0.2.el5xen
+
+Need the following packages:
+X binutils-2.17.50.0.6-2.el5 
+compat-libstdc++-33-3.2.3-61 
+elfutils-libelf-0.125-3.el5 
+elfutils-libelf-devel-0.125 
+glibc-2.5-12 
+glibc-common-2.5-12 
+glibc-devel-2.5-12 
+gcc-4.1.1-52 
+gcc-c++-4.1.1-52
+libaio-0.3.106 
+libaio-devel-0.3.106 
+libgcc-4.1.1-52 
+libstdc++-4.1.1 
+libstdc++-devel-4.1.1-52.e15 
+make-3.81-1.1 
+sysstat-7.0.0 
+unixODBC-2.2.11 
+unixODBC-devel-2.2.11
+
+List installed packages with:
+	[root@db11g u01]# yum list
+
+Add required groups:
+	[root@db11g u01]# /usr/sbin/groupadd oinstall
+	[root@db11g u01]# /usr/sbin/groupadd dba
+
+Add required user, setting required groups:
+	[root@db11g u01]# /usr/sbin/useradd -g oinstall -G dba oracle
+
+Set password:
+	[root@db11g u01]# passwd oracle
+	
+This command displays the value of the semaphore parameters in the order listed: semmsl, semmns, semopm, semmni 
+	# /sbin/sysctl -a | grep sem 
+	[root@db11g u01]# /sbin/sysctl -a | grep sem
+	kernel.sem = 250	32000	32	128
+
+required:
+semmsl 250
+semmns 32000
+semopm 100
+semmni 128
+
+Since semopm is too low:
+	[root@db11g etc]# vi /etc/sysctl.conf
+
+	kernel.shmall = 2097152 
+	kernel.shmmax = 2147483648 
+	kernel.shmmni = 4096 
+	kernel.sem = 250 32000 100 128 
+	fs.file-max = 65536 
+	net.ipv4.ip_local_port_range = 1024 65000 
+	net.core.rmem_default = 4194304 
+	net.core.rmem_max = 4194304 
+	net.core.wmem_default = 262144 
+	net.core.wmem_max = 262144
+
+ok shmall
+	[root@db11g ~]# /sbin/sysctl -a | grep shmall
+	kernel.shmall = 4294967296
+ok shmmax
+	[root@db11g ~]# /sbin/sysctl -a | grep shmmax
+	kernel.shmmax = 68719476736
+ok shmmni
+	[root@db11g ~]# /sbin/sysctl -a | grep shmmni
+	kernel.shmmni = 4096
+ok file-max
+	[root@db11g ~]# /sbin/sysctl -a | grep file-max
+	fs.file-max = 99282
+
+port range is different
+	[root@db11g ~]# /sbin/sysctl -a | grep ip_local
+	net.ipv4.ip_local_port_range = 32768	61000
+
+rmem_default too low should be 4194304
+	[root@db11g ~]# /sbin/sysctl -a | grep rmem_default
+	net.core.rmem_default = 126976
+	
+rmem_max too low should be 4194304
+	[root@db11g ~]# /sbin/sysctl -a | grep rmem_max
+	net.core.rmem_max = 131071
+
+wmem_default too low should be 
+	[root@db11g ~]# /sbin/sysctl -a | grep wmem_default
+	net.core.wmem_default = 126976
+
+wmem_max too low should be 
+	[root@db11g ~]# /sbin/sysctl -a | grep wmem_max
+	net.core.wmem_max = 131071
+
+	
+# Added as wmem_default was too low at 126976 instead of 262144. Fenton Travers Oct 1 2009
+net.core.wmem_default = 262144
+
+# Added as wmem_max was too low at 131071 instead of 262144. Fenton Travers Oct 1 2009
+net.core.wmem_max = 262144
+
+# Added as net.ipv4.ip_local_port_range was 32768	61000 instead of 1024 65000. Fenton Travers Oct 1 2009
+net.ipv4.ip_local_port_range = 1024 65000
+
+By specifying the values in the /etc/sysctl.conf file, they persist when you restart the system.
+
+Change the current values of the kernel parameters
+	[root@db11g etc]# /sbin/sysctl -p
+
+Increase the shell limits by adding the following lines to the following file.
+	[root@db11g security]# tail -4 /etc/security/limits.conf
+	oracle		soft	nproc		2047
+	oracle		hard	nproc		16384
+	oracle		soft	nofile		1024
+	oracle		hard	nofile		65536
+
+	[root@db11g pam.d]# tail -2 /etc/pam.d/login
+	session    required     /lib/security/pam_limits.so
+	session    required     pam_limits.so
+	
+Depending on the oracle user's default shell, make the following changes to the default shell startup file: 
+For the Bourne, Bash, or Korn shell, add the following lines in the /etc/profile file (or the /etc/profile.local file on SUSE systems): 
+	if [ $USER = "oracle" ]; then 
+	        if [ $SHELL = "/bin/ksh" ]; then 
+	              ulimit -p 16384 
+	              ulimit -n 65536 
+	        else 
+	              ulimit -u 16384 -n 65536 
+	        fi 
+	fi
+
+	[root@db11g pam.d]# mkdir -p /u01/app/
+	[root@db11g pam.d]# chown -R oracle:oinstall /u01/app/
+	[root@db11g pam.d]# chmod -R 775 /u01/app/
+	
+Next two lines are for when we copy these files into the installation.
+	[root@db11gr1 oracle]# chmod 755 /etc/profile
+	[root@db11gr1 oracle]# chown oracle:oinstall /home/oracle/.bash_profile
+
+	[root@db11g pam.d]# su - oracle
+	[oracle@db11g ~]$ echo $SHELL
+	/bin/bash
+	[oracle@db11g ~]$ tail -1  ~/.bash_profile
+	umask 022
+	[oracle@db11g ~]$ . ./.bash_profile
+
+Add some more values	
+	[oracle@db11g ~]$ tail -3 ~/.bash_profile 
+	ORACLE_BASE=/u01/app/oracle
+	ORACLE_SID=ocs
+	export ORACLE_BASE ORACLE_SID
+	[oracle@db11g ~]$ . ./.bash_profile
+	[oracle@db11g ~]$ env | grep ORA
+	ORACLE_SID=ocs
+	ORACLE_BASE=/u01/app/oracle
+	[oracle@db11g ~]$ unset ORACLE_HOME
+	[oracle@db11g ~]$ unset TNS_ADMIN
+	[oracle@db11g ~]$ umask
+	0022
+	
+
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,124 @@
+* wifi-menu -o
+* fdisk /dev/sda
+make a dos boot partition 'o' i think
+1: 60G (use 'a' to make bootable)
+2: 170G
+3: 8.5 Swap
+* mkfs.ext4 /dev/sda1 & /dev/sda2
+* mkswap /dev/sda3; swapon /dev/sda3
+* mount /dev/sda1 /mnt
+* pacstrap /mnt base
+* arch-chroot /mnt
+* packages
+ + add archlinuxfr repo to /etc/pacman.conf
+
+[archlinuxfr]
+
+Server = http://repo.archlinux.fr/$arch
+
+pacman -Syy
+
+#+BEGIN_SRC 
+pacman -S iw wpa_supplicant dialog grub wpa_actiond xorg (maybe
+something slimmer like just xserver) awesome emacs jdk8_openjdk clojure
+ xorg-xinit xterm xf86-video-intel chromium firefox zsh sudo
+openssh rxvt-unicode ttf-dejavu alsa-utils conky base-devel git unzip
+autocutsel nodejs npm net-tools pkgfile vlc cups cups-pdf ifplugd slim maven
+the_silver_searcher
+#+END_SRC
+
+
+yaourt need signatures...
++ yaourt
+
+#+BEGIN_SRC 
+datomic
+#+END_SRC
+
+* grub
+ + grub-mkconfig -o /boot/grub/grub.cfg
+ + grub-install --target=i386-pc /dev/sda 
+ + exit; umount /mnt; reboot
+
+remove USB boot media
+
+ + systemctl enable netctl-auto@wlp1s0.service
+
+ + reboot
+wifi-menu -o
++ reboot
+
+* slim login (display) manager
+ + systemctl enable slim
+
++ edit /root/xinitrc
+   
+   exec awesome
+
+useradd -m -G wheel -s /bin/zsh fenton
+ + visudo, uncomment wheel no passwd 
+
+* adjust grub timeout in:
+/etc/default/grub
+
+then regenerate grub config with:
+
+ # grub-mkconfig -o /boot/grub/grub.cfg
+
+* copy ssh
+mount usb install media on old computer
+cp -a .ssh usb
+
+chmod -R 644 .ssh/*
+chmod 600 authorized_ keys id_ rsa
+
+
+git clone git@github.com:ftravers/arch-home.git
+cp -a arch-home/* .
+
+reboot
+
+
+
+* timezone
+
+* copy edit awesome config
+
+* copy/edit rc.lua awesome config file.
+** set terminal to terminator
+**  comment out floating in layouts
+
+* locale
+sudo vi /etc/locale.gen
+uncomment: 
+
+#+BEGIN_SRC 
+en_US ISO-8859-1
+en_US.UTF-8 UTF-8
+#+END_SRC
+
+#+BEGIN_SRC 
+╭─fenton@archlinux ~  ‹master*› 
+╰─➤  cat /etc/locale.conf
+LANG=en_US.UTF-8
+#+END_SRC
+
+: # sudo locale-gen
+
+* lumo
+download, unzip, drop in /bin
+
+* brother printer
+
+: sudo pacman -S rpmextract
+
+download lpr and cups hll2320d rpm wrapped drivers from brothers
+website
+
+: sudo systemctl enable org.cups.cupsd.service
+* gnupg lein
+
+in order to release libraries into clojars need to have dirs:
+
+~/.gnupg and ~/.lein 
+* more packages

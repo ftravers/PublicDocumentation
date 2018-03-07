@@ -1,0 +1,94 @@
+How to use the One Silver Sea computer lab.
+
+>>>>>>>>>>>>>> SECURE SHELL <<<<<<<<<<<<<<<<<<
+
+==> Getting Required Tools
+
+The first thing that you need is a functional Secure Shell (SSH) client. Both
+the Mac and Linux come with built-in command line shells. For Windows I
+recommend the use of Cygwin. There are other clients that you can use such as
+Putty. The reason I prefer Cygwin is because it also provides all the other
+utilities associated with Linux. We will make use of some of these other
+utilities.
+
+Try to install Cygwin when you are at home as opposed to being connected to
+the Oracle network via VPN or at the Oracle office. You can do it at the
+Oracle office but you need to be on the clear guest network. The reason for
+this caveat is that some port that Cygwin uses is blocked on the Oracle
+network.
+
+Two tools that he will also use are open SSH and rsync. Make sure when you
+install Cygwin that these two tools are also installed.
+
+==> Connecting to the servers with SSH
+
+The first thing that you will be doing is secure shelling into the servers.
+The command to do this looks like this:
+
+template: ssh <username>@<host> -p <port>
+example:  ssh root@test.ftravers.com -p 10222
+
+This will then prompt you for your password, supply it and you will be logged
+in.
+
+The lab currently consists of three Oracle virtual machine servers they are
+located at the following ports for SSH:
+
+Name: x61, Host: test.ftravers.com, Port: 10222
+Name: hp4, Host: test.ftravers.com, Port: 10322
+Name: hp2, Host: test.ftravers.com, Port: 10422
+
+
+>>>>>>>>>>>>>> VIRTUAL MACHINES <<<<<<<<<<<<<<<<<<
+
+==> Displaying, stopping and starting Virtual Machines.  Command Line
+
+You can see which virtual machines are running pontes virtual machines servers
+by issuing the command:
+
+xm list
+
+The virtual machines are all located under the folder:
+
+/OVS/running_pool
+
+To stop a virtual machine issue the command:
+
+xm shutdown <vm_name>
+
+Where <vm_name> is the name that was displayed by the command 'xm list'. To
+start a virtual machine you can execute the command:
+
+xm create <path_to_vm.cfg_file>
+
+For example you may change your directory to something like: 
+
+/OVS/running_pool/bpel
+
+Inside this directory there will be the file vm.cfg so to start this virtual
+machine you simply would execute the following command:
+
+xm create vm.cfg
+
+==> Backing up VM's
+Shutdown the VM.  Copy the directory containing the VM.  Done.
+
+==> Displaying, stopping and starting Virtual Machines.  Web Admin Console Line
+
+Starting and stopping virtual machines can also be done from an administrative
+panel. Currently, the administrative Web console is running in his own virtual
+machine on the hp4 virtual machine server.
+
+>>>>>>>>>>>>>> FIREWALLS <<<<<<<<<<<<<<<<<<
+
+You will often be setting up services that make use of certain ports on your
+computer so it's important to understand how to configure the firewall on that
+server to allow those ports to be open without turning off the firewall
+completely.
+
+To add a new port, run the following and
+
+ [root@hp2 ~]# /usr/bin/system-config-securitylevel
+
+Choose Customize, add a line like: 8888:tcp to the beginning other ports
+section, OK, OK.

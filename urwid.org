@@ -1,0 +1,28 @@
+* Widgets
+
+** Basic Widgets (text,edit,buttons,dividers)
+Text: For displaying text
+Edit: For editing text
+Buttons:
+Divider: separate widgets from each other.
+
+** Widget Types (box, flow and fixed)
+*** Flow (for text, fixed columns only)
+
+The best way to display text is to have it flow from one screen row to
+the next. Widgets like this that require a variable number of screen
+rows are called flow widgets.
+
+*** Box (fixed row/columns)
+** Decoration Widgets (padding, filler, attrmap)
+Padding/Filler (vertical/horizontal) or other way around???
+** Container Widgets (columns, pile, frame, listbox)
+
+
+* Attributes
+
+attributes add colors from the palette to a widget.
+palette = [('banner', 'black', 'light gray')]
+txt = urwid.Text(u" Hello World ")
+map1 = urwid.AttrMap(txt, 'banner')
+

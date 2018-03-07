@@ -1,0 +1,13 @@
+
+| journalctl -b | messages from this boot |
+| journalctl -f | tail journal            |
+
+
+
+messages from last boot:
+
+    # journalctl --since=today | tac | sed -n '/-- Reboot --/{n;:r;/-- Reboot --/q;p;n;b r}' | tac
+
+
+
+

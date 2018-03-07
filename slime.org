@@ -1,0 +1,207 @@
+SLIME
+* Debugger
+
+Put the following at the top of your file to ensure debugging
+variables are present:
+
+    (declaim (optimize (speed 0) (space 0) (debug 3)))
+
+Higher number means more important.  3 is highest.
+
+Set a breakpoint with:
+
+    (break)
+
+| s | Step to the next expression in the frame      |
+| x | Step to the next form in the current function |
+| o | stOp single stepping                          |
+
+** Stack Frames
+
+|-----+---------------------------|
+| key | effect                    |
+|-----+---------------------------|
+| t   | Toggle variables display  |
+| v   | View source               |
+| e   | Evaluation expression     |
+| d   | eval and pretty print     |
+| i   | Inspect                   |
+|-----+---------------------------|
+
+** Restarts
+
+|-----+-----------|
+| key | effect    |
+|-----+-----------|
+| a   | A.bort    |
+| q   | Q.uit     |
+| c   | C.ontinue |
+|-----+-----------|
+
+** Stepping
+
+|-----+------------------------|
+| key | effect                 |
+|-----+------------------------|
+| s   | S.tep                  |
+| x   | ne.X.t form            |
+| o   | st.O.p single stepping |
+|-----+------------------------|
+
+** Misc
+
+|-----+-----------------------------|
+| key | effect                      |
+|-----+-----------------------------|
+| r   | restart frame with args     |
+| R   | Return from frame           |
+| B   | B.reak from SLDB            |
+| :   | eval expression in mini-buf |
+|-----+-----------------------------|
+
+* Function Callers/Callees
+
+C-w for W.ho
+
+    C-c C-w
+
+|-----+--------------------------------|
+| key | effect                         |
+|-----+--------------------------------|
+| c   | show callers                   |
+| w   | who do i call                  |
+| r   | who references global variable |
+| b   | show bindings of global var.   |
+| s   | who sets global var.           |
+| m   | macro expand                   |
+|-----+--------------------------------|
+
+* Inspector
+
+Inspect the value of an expression entered in the minibuffer.
+
+    C-c I
+
+|----------+-------------------------------------------|
+| key      | effect                                    |
+|----------+-------------------------------------------|
+| RET      | if point on value, recursively inspect it |
+| d        | D.escribe slot at point                   |
+| v        | toggle V.erbosity                         |
+| l        | return from RET (go back up)              |
+| n or SPC | N.ext, opposite of l.                     |
+| q        | Q.uit                                     |
+|----------+-------------------------------------------|
+
+* Profiling
+
+M-x slime-toggle-profile-fdefinition
+Toggle profiling of a function.
+M-x slime-profile-package
+Profile all functions in a package.
+M-x slime-unprofile-all
+Unprofile all functions.
+M-x slime-profile-report
+Report profiler data.
+
+* Evaluation
+
+|---------+-------------------------------|
+| key     | effect                        |
+|---------+-------------------------------|
+| C-A-x   | top level form                |
+| C-x C-e | previous sexp                 |
+|---------+-------------------------------|
+
+* Compilation Commands
+
+In lisp file, compile and load:
+
+    C-c
+
+|-----+-----------------|
+| key | effect          |
+|-----+-----------------|
+| C-c | top level form  |
+| C-k | whole file      |
+|-----+-----------------|
+
+** Compiler Notes
+
+|-----+------------|
+| key | effect     |
+|-----+------------|
+| A-n | N.ext note |
+| A-p | P.rev note |
+|-----+------------|
+
+* Documentation
+
+Hyperspce, Apropos, etc...
+
+    C-c C-d
+
+|-----+------------------|
+| key | effect           |
+|-----+------------------|
+| d   | D.escribe symbol |
+| h   | H.yperspec       |
+| a   | A.propos         |
+|-----+------------------|
+
+* REPL 
+
+** Input Navigation
+
+|-----+----------------------------------|
+| key | effect                           |
+|-----+----------------------------------|
+| A-p | previous                         |
+| A-n | next                             |
+| A-s | search forward command history   |
+| A-r | search backwards command history |
+|-----+----------------------------------|
+
+
+** Shortcuts (,)
+
+from the REPL, type comma: ,
+
+|-----+------------------|
+| key | effect           |
+|-----+------------------|
+| cl  | Compile and Load |
+| p!  | change Package   |
+| h   | help             |
+|-----+------------------|
+
+** Commands
+
+|---------+------------|
+| key     | effect     |
+|---------+------------|
+| C-c A-o | Clear REPL |
+|---------+------------|
+
+* Movement Slime Selector
+
+    C-c s
+
+|-----+--------|
+| key | effect |
+|-----+--------|
+| r   | REPL   |
+| l   | lisp   |
+|-----+--------|
+
+* Definitions
+
+|---------+--------------------------------------------|
+| Key     | Description                                |
+|---------+--------------------------------------------|
+| A-.     | Go to the definition of symbol at point    |
+| A-,     | Go back to the point where M-. was invoked |
+| C-x 4 . | Like A-. but switchs to the other window   |
+|---------+--------------------------------------------|
+* REPL Commands
+

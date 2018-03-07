@@ -1,0 +1,9 @@
+| Keys |                       | Where:     |
+|      |                       | (), active |
+|------+-----------------------+------------|
+| [ ]  | begin/end of sexp     | anywhere   |
+| q    | ace jump paren        |            |
+| a    | ace jump symbol       |            |
+| A    | goto top level open ( |            |
+| d    | goto opposite pair    |            |
+

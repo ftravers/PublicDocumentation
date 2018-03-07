@@ -1,0 +1,94 @@
+* dev
+
++ irc: webchat.oftc.net/?channels=vhs
+
+* chibios general
+
+ChibiOS-RT git:
+
+https://github.com/ChibiOS/ChibiOS-RT
+
+ST-Link:
+
+#+BEGIN_SRC shell
+git clone https://github.com/texane/stlink.git
+cd stlink
+./autogen.sh
+./configure
+make
+sudo ln -s ~/projects/chib/stlink/st-util /usr/bin/st-util
+sudo st-util -p 4242
+#+END_SRC
+
+Run ST link to connect to your board:
+
+* gcc for chromebook
+
+Had trouble with the native gcc and so began building a:
+
+ : arm-unknown-eabi-gcc
+
+by downloading the latest from:
+
+http://crosstool-ng.org/download/crosstool-ng/
+
+#+BEGIN_SRC shell
+bzip2 -d crosstool-ng-1.19.0.tar.bz2
+tar xvf crosstool-ng-1.19.0.tar
+cd crosstool-ng-1.19.0
+./bootstrap
+sudo pacman -S gperf
+./configure
+make
+sudo make install
+ct-ng
+ct-ng list-samples
+ct-ng arm-unknown-eabi
+ct-ng menuconfig
+time ct-ng build
+#+END_SRC
+
+* gcc compiler on intel laptop
+
+#+BEGIN_SRC shell
+sudo pacman -S arm-none-eabi-gcc arm-none-eabi-binutils arm-none-eabi-gdb 
+#+END_SRC
+
+* 401 board
+
+https://github.com/tdwebste/ChibiOS-RT/tree/tdwebste_STM401_addtimers
+
+#+BEGIN_SRC shell
+cd ChibiOS-RT/demos/ARMCM4-STM32F401-DISCOVERY
+make clean; make
+#+END_SRC
+
+#+BEGIN_SRC shell
+arm-none-eabi-gdb build/ch.elf
+target extended-remote :4242
+load
+run
+#+END_SRC
+
+alternative to gdb:
+
+#+BEGIN_SRC shell
+ddd --debugger arm-none-eabi-gdb ./build/ch.elf
+target extended-remote :4242
+load
+run
+#+END_SRC
+
+* MEMS accelerometer work
+
+get this code:
+
+http://forum.chibios.org/phpbb/viewtopic.php?f=16&t=1161&start=10
+
+these are the drivers
+
+read this page:
+
+http://marks-space.com/2013/04/18/success-with-a-balancing-robot-using-a-raspberry-pi/
+
+usage code

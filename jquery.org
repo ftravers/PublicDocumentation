@@ -1,0 +1,54 @@
+* Bookmark
+
+http://docs.jquery.com/Tutorials:Getting_Started_with_jQuery
+
+Files: 
+
+Javascript is here: app/assets/javascript/test.js
+URL: http://127.0.0.1:3000/pages/shop
+View file: app/views/pages/shop.html.erb
+
+* Basics
+
+$ itself is an alias for the jQuery "class", therefore $() constructs
+a new jQuery object. 
+
+** Selectors
+
+Inside $() we can use a selector.  Selectors are a combination of CSS
+and XPath.  The following is a list of selectors and their meaning:
+
+| selector             | meaning                                                   |
+|----------------------+-----------------------------------------------------------|
+| #orderedlist         | document.getElementById("orderedList")                    |
+| #orderedlist > li    | selects all child li's of the element with id orderedlist |
+| #orderedlist li:last | the last li                                               |
+
+More examples: http://docs.jquery.com/DOM/Traversing/Selectors
+
+** Events
+
+For every onxxx event available, like onclick, onchange, onsubmit,
+there is a jQuery equivalent. Some other events, like ready and hover,
+are provided as convenient methods for certain tasks. 
+
+http://docs.jquery.com/Events
+
+** JQuery Methods
+
+| Method   | Meaning                        |
+|----------+--------------------------------|
+| addClass | add a class to the html object |
+
+
+* Examples
+
+ $(document).ready(function() {
+   $("#orderedlist").find("li").each(function(i) {
+     $(this).append( " BAM! " + i );
+   });
+ });
+
+find() allows you to further search the descendants of the already
+selected elements, therefore $("#orderedlist").find("li") is mostly
+the same as $("#orderedlist li"). 

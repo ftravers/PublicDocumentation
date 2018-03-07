@@ -1,0 +1,57 @@
+* REPL
+
+: A-x ielm
+
+* Function definition
+
+: (defun foo () 5)
+: (foo) => 5
+
+Functions you'll call interactively, i.e. you can bind to a key
+sequence, the above function can only be called from other functions.
+
+: (defun foo () (interactive "r") 5)
+
+: ~abc~
+
+* Debugger
+
+Instrument your function with:
+
+: C-u C-A-x
+
+SPC key to next through statements, result displayed in mini-buffer
+
+: q
+quit
+
+: h - go Here
+here. move to where you want emacs to stop (like breakpoint), press
+'h' and when code hits that spot it will stop there.
+
+: g - go
+evaluate to the end of the function without quitting
+
+: b
+breakpoint
+
+: G
+go, dont stop at breakpoints
+
+: i
+go into sub-function. remains instrumented. re-eval func to
+un-instrument.
+
+https://www.youtube.com/watch?v=odkYXXYOxpo
+
+for macros use macrostep
+* Useful
+
+Set a variable
+
+:(setq a 123)
+
+
+| function        | description                |
+| symbol-function | get definition of function |
+|                 |                            |

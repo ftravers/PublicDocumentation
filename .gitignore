@@ -1,0 +1,13 @@
+*~
+.#*
+log.txt
+/emacs.html
+/#emacs.org#
+*.fasl
+index.org
+*.pyc
+*.html
+/python/__init__.py
+#*
+tools-training/projects/*
+web_pages/

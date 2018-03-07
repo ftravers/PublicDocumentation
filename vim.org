@@ -1,0 +1,56 @@
+| v | mark       |
+| d | delete/cut |
+| p | paste      |
+| y | yank/copy  |
+|   |            |
+
+* movement
+* cut, copy, paste
+
+** cut
+
++ Cut and paste:
+
+    v (mark), d (delete), p (paste)
+
++ Copy:
+
+    v (mark), y (yank)
+
+Select, cut, & paste do:
+
+Press v (or upper case V if you want to cut whole lines).
+Move the cursor to the end of what you want to cut.
+Press d.
+Move to where you would like to paste.
+Press P to paste before the cursor, or p to paste after.
+
+Copy variant:
+
+Copy and paste can be performed with the same steps, only pressing y instead of d in step 4.
+The name of the mark used is related to the operation (d:delete or y:yank).
+
+** top tabs
+
+:tabnew
+:tabn # next tab
+:tabp # previous tab
+
+* movement
+
+| w   | beg. next word                |
+| b   | beg. prev word                |
+| e   | end next word                 |
+| ge  | end prev word                 |
+| E   | end next word (skip comma)    |
+| W   | beg next word (skip comma)    |
+| 0   | beg of line                   |
+| gg  | beg of file                   |
+| G   | end of file                   |
+| v}  | visually select paragraph     |
+| J   | suck prev line onto this line |
+|     |                               |
+| u   | undo                          |
+| C-r | redo                          |
+* questions
+  how to paste not last thing but prior things...

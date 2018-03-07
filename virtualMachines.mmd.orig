@@ -1,0 +1,95 @@
+# Virtual
+
+All Hosts
+
+Parameter          | Value                                           
+------------------ | ----------------------------------------------- 
+Network            | 10.179.252.0                                    
+Netmask            | 255.255.255.0                                   
+Default Gateway    | 10.179.252.1                                    
+DNS Servers        | 10.179.253.14, 146.56.237.50, 140.83.70.155     
+Default Domain     | hk.oracle.com                                   
+VM Directory       | /OVS/running\_pool                
+
+* Go to [this page](http://iprequest.oraclecorp.com/) to request
+  additional **Static IP** addresses.
+
+Static IPs
+
+Name                     | IP Address            | Notes   
+------------------------ | --------------------- | --------------------------------------
+<<<<<<< HEAD
+vl-ucm1                  | 10.179.252.30         |
+vl-db1                   | 10.179.252.29         | 
+xps                      | 10.179.252.34         |  
+vl-wlp1                  | 10.179.252.31         |
+[linux1](#linux1)        | 10.179.252.32         | git, jenkins, maven2
+vl-vmsrv2                | 10.179.252.33         | OVM Server  
+vl-wciwcm1               | 10.179.252.35         |
+alm                      | 10.179.252.39         | nginx
+youtube                  | 10.179.252.38         |  
+ipm                      | 10.179.252.41         |
+vl-wcfs                  | 10.179.252.40         | 
+vl-urmses                | 10.179.252.42         | 
+vl-autovue               | 10.179.252.37         | 
+=======
+vl-ucm1                  | 10.179.252.30   N/A   |
+vl-db1                   | 10.179.252.29   N/A   | 
+xps                      | 10.179.252.34   N/A   |  
+[vl-wlp1](#vl-wlp1)      | 10.179.252.31   N/A   | testing vm
+[linux1](#linux1)        | 10.179.248.83         | git, jenkins, maven2
+vl-vmsrv2                | 10.179.248.82         | OVM Server  
+[vl-wciwcm1](docs)       | 10.179.252.35   N/A   | test putting ruby docs here
+[alm](#alm)              | 10.179.248.81         | OVMM, OVMTB
+youtube                  | 10.179.252.38   N/A   |  
+ipm                      | 10.179.252.41   N/A   |
+vl-wcfs                  | 10.179.252.40   N/A   | 
+vl-urmses                | 10.179.252.42   N/A   | 
+vl-autovue               | 10.179.252.37   N/A   | 
+>>>>>>> d306f67e1ce7abf512393772d6eaa0fb3102ab31
+
+# Physical Machines
+
+## vl-vmsrv2
+
+Connection Info                      | Specs                                        
+------------------------------------ | -------------------------------------------- 
+oracle@vl-vmsrv2.hk.oracle.com       | *CPU:* CoreDUO *DISK:* 500GB *RAM:* 8GB      
+
+Description      | Folder               | Notes  
+---------------- | -------------------- | ------------------
+Virtual Machines | /OVS/running_pool/  |
+NFS exports      | /OVS/downloads       | 450/500GB Free
+NFS mounts       | /mount/jpbox         | 100/917GB Free
+
+# Virtual Machines
+
+## vl-wlp1
+
+This machine will be used for testing.  There is a backup copy of a
+clean image at: `/OVS/backups/clean_4gb_vl-wlp1.tgz`
+
+## linux1 - Git, Jenkins
+
+### GIT Server
+
+    /home/git/repositories
+
+### Jenkins
+
+running under user: `fenton`
+
+directory: `/home/fenton/.jenkins`
+
+## alm - nginx
+
+Property          | Value 
+----------------- | -------------------
+user              | docs
+nginx conf        | /opt/nginx/conf/nginx.conf
+restart           | service nginx restart
+
+
+root@alm.hk.oracle.com:/opt/nginx/conf/nginx.conf
+
+

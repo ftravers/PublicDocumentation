@@ -1,0 +1,125 @@
+#+BLOG: my-blog
+#+POSTID: 88
+#+DATE: [2013-04-17 Wed 15:43]
+#+OPTIONS: toc:nil num:nil todo:nil pri:nil tags:nil ^:nil TeX:nil
+#+CATEGORY: community, cloud, libre
+#+TAGS:
+#+DESCRIPTION:
+#+TITLE: Enabling the Cyber Community Champions
+
+Society, to move forward, needs some cyber community champions.  I'm
+not exactly referring to groups like anonymous, but of course they
+have their own place in society.  I'm more referring to simple
+straight forward activism like helping to reduce poverty in your own
+community; feeding and housing the poor, that kind of thing.
+
+Our current system marginalizes too many people, see my essay on
+Transparent Organizations for background on why this occurs.  Too much
+poverty leads to instability, and to have a stable productive society,
+we need to create organizations that will assist the poor.
+
+The challenges facing the modern world can be assisted with good
+technology.  For example, hunger isn't a problem of a lack of food.
+You have the typically example of millions starving while silo's are
+full.  There are several aspects to that problem, but one of them is a
+coordination problem, that can be assisted by appropriate technology.
+
+IMO, these solutions will come from cyber community champions, so my
+efforts are how to assist in developing these champions.  The vision
+is outlined below.
+
+A computing platform should exist.  It would be a community,
+grass-roots cloud.  This might look like the following:
+
+** libre Community Cloud
+
+*** Hardware
+
+   Hardware can be acquired through [[http://www.freegeek.org/][Free Geek]].  Granted this is
+   generally older hardware, but it's free.
+
+*** Software
+
+   Some linux variant installed.  Something like a freedom box, debian,
+   arch, whatever.
+
+*** Locations
+
+   Locate this hardware in anyone who volunteers homes, who already
+   have a network connection.
+
+*** Network
+
+  Assist them to configure their routers so ports are forwarded from
+  the outside internet to these server boxes from Free Geek.
+
+This could be a brilliant community cloud that could be put to work
+to solve all sorts of community computing challenges.  There are
+challenges for sure, but I'd sure like to start this up!
+
+Once there is a libre community cloud to build upon we need to create
+people who can build services on top of it to serve the communiity.
+We need a training curriculum that teaches people how to use this
+cloud.  That might look like the following:
+
+** Educational
+
+An educational aspect should be setup around the libre community
+cloud.  Citizens will need to learn how to use the cloud to create
+community services.  Training should be firmly rooted in the , so
+software taught should definitely NOT be proprietary software, eg: NOT
+windows, etc..., but rather Linux variants.
+
+*** Funding
+
+You could charge people who could afford the class double, so that
+for each one of them, a person who couldn't afford the class can also
+attend. 
+
+*** Curriculum
+
+Initially, students, would borrow a machine from Free Geek, that is
+completely blank.  They'd build up the machine going through the
+course material, adding software as they are going to learn it.
+
+Foundation Courses:
+
+**** Linux System Administration (sa1)
+
+Install a linux distro like arch linux or debian.  Basic Linux system
+administration.  In this class they could rebuild the computer that
+they've borrowed from Free Geek.  So they'd get a second clean
+machine, and install it up with all the software to complete each
+course. 
+
+**** Text Editing 1 (te1)
+
+Pre-requisits: (sa1)
+
+Install emacs and learn emacs basics.
+
+**** Text Editing 2 (te2)
+
+Pre-requisits: (te1)
+
+Learn how to extend emacs, with emacs lisp.
+
+**** Lisp Programming 1 (lp1)
+
+Pre-requisits: (te2)
+
+Lisp: Move into common lisp, slime, etc...
+
+**** Web Programming
+
+Ruby: Teach a basic Ruby course.
+
+Ruby on Rails: the web framework.
+
+Persistence: PostgreSQL.  Programmatically accessing the database.
+Basic SQL.
+
+IRC: Learn how to use IRC for community building.
+
+The above toolbox should be enough to give students the ability to
+create services to assist the community.

@@ -1,0 +1,12 @@
+* play a pre-recorded sound over network
+
+Listen on port 7000, and send to aplay
+
+    % nc -l -p 7000 | aplay
+
+Send the bytes of audio over netcat
+
+    % cat test.wav| nc -v 192.168.1.46 7000
+
+* send microphone input to speakers of another computer
+

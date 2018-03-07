@@ -1,0 +1,471 @@
+"home":../index.html > "training":index.html > Oracle VM
+
+p(toc). Table of Contents
+
+{toc}
+
+"Reference":http://www.techotopia.com/index.php/Managing_Xen_using_the_xm_Command-line_Tool
+
+h1. XM Commands
+
+* List which virtual machines are running right now.
+
+bc. # xm list
+
+* Start the vm. By convention we will always have a file called vm.cfg
+
+bc. # xm create vm.cfg
+
+* Kill the power to vm: vm01, i.e. a hard shutdown
+
+bc. # xm destroy vm01
+
+* Monitors a host and its domains in real time
+
+bc. # xm top 
+
+* Send the vm: vm01 the shutdown command, like doing a shutdown inside the vm
+
+bc. # xm shutdown vm01
+
+* Current status of the guest operating system is written to disk and removed from system memory
+
+bc. # xm suspend vm01
+
+* restore vm01 (any time including after a host system reboot)
+
+bc. # xm resume vm01
+
+* Not Finished:
+
+add a disk to a running vm: xm block-attach <Domain Id> <Backend Device> <Frontend Device> <Mode>. Domain Id is got from xm list command under the id column, 
+
+bc. # xm block-attach 3 phy:/dev/sr0 /dev/xvda2 r
+
+* Split / Join files
+
+Sometime the files are too big to put on FAT32 thumbdrives. Use the split and cat commands here:
+
+Split the file system.img into 3Gig chunks
+
+bc. # split --bytes=3000m system.img
+
+* Join up the files system.img.part1, system.img.part2, etc... into the file system.img
+
+bc. # cat system.img.part* > system.img
+
+* Make an extra Linux file system for your VM
+
+Make a blank file 2 gigs large named stellent.img that will serve as our new disk
+
+bc. # dd if=/dev/zero of=stellent.img bs=1M count=2048
+
+Edit the configuration file (/etc/xen/vm03), like below, adding the second line, notice xvda goes to xvdb
+disk = [ 'file:/OVS/running_pool/vm03/system.img,xvda,w', 'file:/OVS/running_pool/vm03/stellent.img,xvdb,w']
+
+The above line may also look like, the following, in that case use hdb in place ov xvdb.
+disk = [ 'file:/OVS/running_pool/ucm1/system.img,hda,w','file:/OVS/running_pool/ucm1/stellent.img,hdb,w' ]
+
+(NOTE) don't think you can use 'hdc' (only a and b), so you can use a combo of hd and xvd!
+
+The following instructions came from the following link, use it as a reference if these instructions don't make sense
+http://www.linuxhomenetworking.com/wiki/index.php/Quick_HOWTO_:_Ch27_:_Expanding_Disk_Capacity#Expanding_Partitions_With_LVM
+
+* Here we created a new device, /dev/xvdb. Now we start up the vm and run fdisk 
+
+bc. # fdisk /dev/xvdb
+
+You'll get some error messages saying you don't have a valid partition
+table. Create a new partition, 'n', primary = 'p', partition number =
+'1', default first and last cylinders.
+
+List this partition table 'p' now and notice the Id type is 83 or
+something. Change this to 8e. 't', '8e'. List the partition table 'p',
+again, notice the new Id type is 8e. Save partition table 'w'.
+
+* Create a physical volume from this device
+
+bc. # pvcreate /dev/xvdb1
+
+* Create the logical volume group from the physical device
+
+bc. # vgcreate lvm-oracledb /dev/xvdb1
+
+* Create the logical volume using 100% of the free space in the logical group lvm-oracledb
+
+bc. # lvcreate -l 100%FREE lvm-oracledb -n lvm0
+
+* Format the file system
+
+bc. # mkfs -t ext3 /dev/lvm-oracledb/lvm0 
+
+* Create a mount point
+
+bc. # mkdir /oracledb
+
+* Add the following to /etc/fstab to automatically mount the volume when the computer starts up
+
+bc. /dev/lvm-oracledb/lvm0 /oracledb ext3 defaults 1 2
+
+* Mount the volume
+
+bc. # mount -a
+
+DONE!!!
+
+h3. Create a hot mounted ext3 disk
+
+On the VM server do:
+
+bc. 
+dd if=/dev/zero of=disk2.img bs=1M count=2048
+mkfs -t ext3 disk2.img
+xm block-attach <vmName> file:/OVS/running_pool/disks/disk2.img xvdb w
+
+Inside the vm do:
+
+bc. 
+mkdir /u02
+mount -t ext3 /dev/xvdb /u02
+
+To make the above persist for next reboot on vm server edit vm.cfg
+adjusting the *disk* line to have the second entry below:
+
+bc. 
+disk = ['file:/OVS/running_pool/db11g/System.img,xvda,w','file:/OVS/running_pool/disks/disk2.img,xvdb,w']
+
+On VM Guest add following line to: @/etc/fstab@
+
+bc. /dev/xvdb		/u02			ext3	defaults	1 2
+
+h3. Remove a Disk (LVM)
+
+Remove /etc/fstab entry
+
+bc. [root@vl-ucm1 ~]# vi /etc/fstab
+
+Unmount the device, get device name with: lvdisplay
+
+bc. # umount /dev/lvm-stellent/lvm0
+
+OR
+
+bc. 
+[root@vl-ucm1 /]# ls /u01
+downloads lost+found oracle
+[root@vl-ucm1 /]# umount /u01
+[root@vl-ucm1 /]# ls /u01
+[root@vl-ucm1 /]# 
+
+If you get: 
+
+bc. 
+[root@vl-ucm1 /]# umount /dev/lvm-stellent/lvm0
+umount: /u01: device is busy
+
+Find out what is using the device with: 
+
+bc. 
+[root@vl-ucm1 /]# fuser -m /dev/lvm-stellent/lvm0
+/dev/lvm-stellent/lvm0: 3557m 3620m 3621m 3622m 3623m 3624m 3625m 3626m 3627m
+[root@vl-ucm1 /]# ps auxw| grep 3557
+root 3557 0.0 0.5 10856 3104 ? Ss 10:55 0:00 /usr/sbin/httpd
+[root@vl-ucm1 /]# service httpd stop
+Stopping httpd: [ OK ]
+[root@vl-ucm1 /]# umount /dev/lvm-stellent/lvm0
+[root@vl-ucm1 /]# df -h
+
+And you should no longer see the disk with 'df'
+
+Remove any entries from /etc/httpd/conf/httpd.conf that refer to this disk.
+
+use lvremove to remove the logical volume
+
+bc. 
+[root@vl-ucm1 /]# lvremove /dev/lvm-stellent/lvm0
+Do you really want to remove active logical volume "lvm0"? [y/n]: y
+Logical volume "lvm0" successfully removed
+
+use lgdisplay and lgremove to remove logical group
+
+bc. 
+[root@vl-ucm1 /]# vgremove lvm-stellent
+Volume group "lvm-stellent" successfully removed
+
+use pvdisplay and pvremove to remove physical volume
+
+bc. 
+[root@vl-ucm1 /]# pvremove /dev/hdb1
+Labels on physical volume "/dev/hdb1" successfully wiped
+
+remove partition with fdisk /dev/hdb, 'd', enter, 'w' = write partition and exit
+
+bc. 
+# fdisk /dev/hdb
+
+Remove the disk entry from the vm.cfg file, and restart the vm.
+
+* Shrink a LVM
+
+Just create a new disk, copy over contents and delete old volume.
+
+open a terminal window
+
+* SSH into the two Virtual Machine Servers
+
+bc. ssh root@del & ssh root@x61
+
+* See what vm's are available by looking in the /OVS/running_pool directories
+
+bc. cd /OVS/running_pool; ls
+
+* See what VM's are currently running:
+
+bc. xm list
+
+* Start a VM
+
+bc. 
+cd /OVS/running_pool/[vm_name]
+xm create vm.cfg
+
+example:
+
+bc. 
+cd /OVS/running_pool/proddb
+xm create vm.cfg
+	
+* Find out hostnames by looking at dns server
+
+bc. ssh root@dns (password = ovsroot)
+cat ftzone
+
+* Log into the VM itself
+
+bc. ssh root@proddb (password = ovsroot)
+	
+* Shutdown a vm
+
+bc. xm shutdown [vm_name]
+
+example:
+
+bc. xm shutdown proddb
+
+* VM configuration file:
+
+bc. /OVS/running_pool/[vm_name]/vm.cfg
+
+h1. Block Attach/Detach
+
+bc. 
+[root@ovsoracle ~]# xm block-attach ucmel2 file:/OVS/sharedDisk/data.img xvdb w
+[root@ovsoracle ~]# xm block-detach ucmel2 xvdb
+
+h2. ATTACH DISK
+
+notes: Attach a disk to a running instance, Attach the disk from the OVM Server
+
+bc. 
+xm block-attach <vm_name> file:<path_to_file> <device> w 
+xm block-attach bpel file:/OVS/sharedDisk/data.img xvdb w
+
+Inside the VM mount the device to a dir you created
+
+bc. mount /dev/xvdb /u02
+
+h2. REMOVE A DISK
+
+notes: from a running instance
+
+xm block-detach bpel xvdb
+
+http://wiki.oracle.com/page/VM+Cheat+Sheet
+
+==> Install a guest OS from comman line:
+	> Create a file to store the guest OS into:
+		[root@x61 ~]# cd /OVS/running_pool/
+		[root@x61 running_pool]# mkdir rhdisk
+		[root@x61 running_pool]# cd rhdisk
+		[root@x61 rhdisk]# dd if=/dev/zero of=data.img bs=1M count=10240
+	> Put iso image in either an ftp or http accessible location and have the URL for that.
+	> Begin command line based install:
+		[root@x61 ~]# virt-install
+		Would you like a fully virtualized guest (yes or no)?  This will allow you to run unmodified operating systems. no
+		What is the name of your virtual machine? rh46
+		How much RAM should be allocated (in megabytes)? 1024
+		What would you like to use as the disk (path)? /OVS/running_pool/rhdisk/system.img
+	
+		"What would you like to use as the disk (path)? - The path to the file or disk partition to be used to contain the guest operating system."
+	
+		Would you like to enable graphics support? (yes or no) yes
+		What is the install location? http://192.168.8.108/~fentontravers/rhel/
+	> VNC into this machine (the OVM Server is the host to use, the port: start with 0 and work your way up to find the right one.)  You
+	may need to vnc into this from windows as I find the OSX one doesn't always work.
+	> You may get some errors and get kicked out of VNC but just wait a bit and log back in and you should be okay.
+	> Keep in mind the vm.cfg file will get stored at: /etc/xen/rh46 so move it to /OVS/running_pool/rh/vm.cfg
+
+
+==> Create a new disk
+	notes: the following creates a 2GB disk
+# dd if=/dev/zero of=data.img bs=1M count=10240
+
+
+
+==> To install Windows (or any OS from ISO, normally this will be an HVM install)
+	> Upload an ISO to OVM Manager 
+	> OVM Manager > Resources > ISO Files > Import
+	> Put the ISO file somewhere that it can be accessed by either HTTP or FTP
+	> OVM Manager > Virtual Machines > Create Virtual Machine > Create from installation media
+	
+==> To find out what VNC port an instance is using:
+	> virsh dumpxml <domainID>
+	
+==> Use a specific VNC port: 'vncdisplay': 
+vfb = [ 'type=vnc,vnclisten=0.0.0.0,vncdisplay=1,vncpassword=welcome1' ] 
+
+# The backend listens on 127.0.0.1 port 5900+N by default, where N is 
+# the domain ID.  You can override both address and N: 
+# 
+# vfb = [ 'type=vnc,vnclisten=127.0.0.1,vncdisplay=1' ] 
+# 
+# Or you can bind the first unused port above 5900: 
+# 
+# vfb = [ 'type=vnc,vnclisten=0.0.0.0,vnunused=1' ]
+
+
+h1. Commands
+
+http://www.techotopia.com/index.php/Managing_Xen_using_the_xm_Command-line_Tool
+List which virtual machines are running right now.
+# xm list
+
+Start the vm. By convention we will always have a file called vm.cfg
+# xm create vm.cfg
+
+Kill the power to vm: vm01, i.e. a hard shutdown
+# xm destroy vm01
+
+Monitors a host and its domains in real time# xm top
+
+Send the vm: vm01 the shutdown command, like doing a shutdown inside the vm
+# xm shutdown vm01
+
+Current status of the guest operating system is written to disk and removed from system memory
+# xm suspend vm01
+
+restore vm01 (any time including after a host system reboot)
+# xm resume vm01
+
+Not Finished:
+add a disk to a running vm: xm block-attach <Domain Id> <Backend Device> <Frontend Device> <Mode>. Domain Id is got from xm list command under the id column,
+# xm block-attach 3 phy:/dev/sr0 /dev/xvda2 r
+
+Split / Join files
+Sometime the files are too big to put on FAT32 thumbdrives. Use the split and cat commands here:
+
+Split the file system.img into 3Gig chunks
+# split --bytes=3000m system.img
+
+Join up the files system.img.part1, system.img.part2, etc... into the file system.img
+# cat system.img.part* > system.img
+
+Make an extra Linux file system for your VM
+Make a blank file 2 gigs large named stellent.img that will serve as our new disk
+# dd if=/dev/zero of=stellent.img bs=1M count=2048
+
+Edit the configuration file (/etc/xen/vm03), like below, adding the second line, notice xvda goes to xvdb
+disk = [ 'file:/OVS/running_pool/vm03/system.img,xvda,w', 'file:/OVS/running_pool/vm03/stellent.img,xvdb,w']
+
+The above line may also look like, the following, in that case use hdb in place ov xvdb.
+disk = [ 'file:/OVS/running_pool/ucm1/system.img,hda,w','file:/OVS/running_pool/ucm1/stellent.img,hdb,w' ]
+
+(NOTE) don't think you can use 'hdc' (only a and b), so you can use a combo of hd and xvd!
+
+The following instructions came from the following link, use it as a reference if these instructions don't make sense
+http://www.linuxhomenetworking.com/wiki/index.php/Quick_HOWTO_:_Ch27_:_Expanding_Disk_Capacity#Expanding_Partitions_With_LVM
+
+Here we created a new device, /dev/xvdb. Now we start up the vm and run fdisk
+# fdisk /dev/xvdb
+
+You'll get some error messages saying you don't have a valid partition table. Create a new partition, 'n', primary = 'p', partition number = '1', default first and last cylinders.
+
+List this partition table 'p' now and notice the Id type is 83 or something. Change this to 8e. 't', '8e'. List the partition table 'p', again, notice the new Id type is 8e. Save partition table 'w'.
+
+Create a physical volume from this device
+# pvcreate /dev/xvdb1
+
+Create the logical volume group from the physical device
+# vgcreate lvm-oracledb /dev/xvdb1
+
+Create the logical volume using 100% of the free space in the logical group lvm-oracledb
+# lvcreate -l 100%FREE lvm-oracledb -n lvm0
+
+Format the file system
+# mkfs -t ext3 /dev/lvm-oracledb/lvm0
+
+Create a mount point
+# mkdir /oracledb
+
+Add the following to /etc/fstab to automatically mount the volume when the computer starts up
+/dev/lvm-oracledb/lvm0 /oracledb ext3 defaults 1 2
+Mount the volume
+# mount -a
+
+DONE!!!
+
+Remove a Disk (LVM)
+Remove /etc/fstab entry
+[root@vl-ucm1 ~]# vi /etc/fstab
+
+Unmount the device, get device name with: lvdisplay
+# umount /dev/lvm-stellent/lvm0
+
+OR
+
+[root@vl-ucm1 /]# ls /u01
+downloads lost+found oracle
+[root@vl-ucm1 /]# umount /u01
+[root@vl-ucm1 /]# ls /u01
+[root@vl-ucm1 /]#
+
+If you get:
+[root@vl-ucm1 /]# umount /dev/lvm-stellent/lvm0
+umount: /u01: device is busy
+
+Find out what is using the device with:
+[root@vl-ucm1 /]# fuser -m /dev/lvm-stellent/lvm0
+/dev/lvm-stellent/lvm0: 3557m 3620m 3621m 3622m 3623m 3624m 3625m 3626m 3627m
+[root@vl-ucm1 /]# ps auxw| grep 3557
+root 3557 0.0 0.5 10856 3104 ? Ss 10:55 0:00 /usr/sbin/httpd
+[root@vl-ucm1 /]# service httpd stop
+Stopping httpd: [ OK ]
+[root@vl-ucm1 /]# umount /dev/lvm-stellent/lvm0
+[root@vl-ucm1 /]# df -h
+And you should no longer see the disk with 'df'
+
+Remove any entries from /etc/httpd/conf/httpd.conf that refer to this disk.
+
+use lvremove to remove the logical volume
+[root@vl-ucm1 /]# lvremove /dev/lvm-stellent/lvm0
+Do you really want to remove active logical volume "lvm0"? [y/n]: y
+Logical volume "lvm0" successfully removed
+
+use lgdisplay and lgremove to remove logical group
+[root@vl-ucm1 /]# vgremove lvm-stellent
+Volume group "lvm-stellent" successfully removed
+
+use pvdisplay and pvremove to remove physical volume
+[root@vl-ucm1 /]# pvremove /dev/hdb1
+Labels on physical volume "/dev/hdb1" successfully wiped
+
+remove partition with fdisk /dev/hdb, 'd', enter, 'w' = write partition and exit
+# fdisk /dev/hdb
+
+Remove the disk entry from the vm.cfg file, and restart the vm.
+
+
+Shrink a LVM
+Just create a new disk, copy over contents and delete old volume.
+	
+	

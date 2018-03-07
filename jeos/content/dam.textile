@@ -1,0 +1,52 @@
+"home":../../index.html > "jeos":../index.html > "content":index.html > DAM
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. References
+
+* "http://blogs.oracle.com/kyle/dam/":http://blogs.oracle.com/kyle/dam/
+
+* "http://wiki.oracle.com/page/Digital+Asset+Manager+Install+Instructions":http://wiki.oracle.com/page/Digital+Asset+Manager+Install+Instructions
+
+h1. Installation
+
+h2. Component Installs
+
+Install these components on the content server:
+
+* ZipRenditionManagement.zip
+* DigitalAssetManager.zip
+* DamConverterSupport.zip
+* ContentBasket.zip
+
+Install this component on the refinery server:
+
+* DAMConverter.zip
+
+h2. Index and Static Files
+
+17. After installing the components, you must complete the following steps to publish the
+    static graphic files so that they are available to Content Server.
+    a. Log on to the instance of Content Server on which you installed the
+         DigitalAssetManager component. You must have administrator rights.
+    b. Click Publish static layout files in the Actions folder under the Administration
+         tray. The new graphics files are now available to Content Server.
+
+Rebuilding the Search Index
+
+h2. On the IBR Server
+
+Set path to image conversion engine.
+
+bc. 
+[stellent@ucmel2 ~]$ cd /u01/ibr/data
+[stellent@ucmel2 data]$ mkdir configuration
+[stellent@ucmel2 data]$ mkdir dam
+[stellent@ucmel2 data]$ cd dam/
+[stellent@ucmel2 dam]$ cat > extraRendition_definitions.hda
+@Properties LocalData
+<conversion_app_name>=<path_to_conversion_app>
+@end
+[stellent@ucmel2 dam]$ 

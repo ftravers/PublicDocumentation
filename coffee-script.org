@@ -1,0 +1,5 @@
+    coffee -w -o javascripts/ -c coffeescripts/
+
+The watcher listens to changes to the files in the coffeescripts
+folder and will compile all your .coffee files to .js files in a
+parallel tree structure in the javascripts folder on the fly.

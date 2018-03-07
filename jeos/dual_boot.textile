@@ -1,0 +1,100 @@
+hrssc-japac-requests_ww@oracle.com
+	can find out who subscribes to this maybe? via ats.
+sr: 16146349
+
+queue number: q2076.
+
+hr shared services
+
+priority 1, call back to help desk, 
+
+--------------------------------
+Do a basic install of OVMS
+
+at the step where it asks to review the install format choose yes.
+
+Initially it will look something like this:
+
+Device   Start     End     Size Type     Mount Point
+-----------------------------------------------------
+sda1         1      13     101M ext3     /boot
+sda2        14     405    3074M ext3     /
+sda3       406   14462  110266M ocfs2    /OVS
+sda4     14463   14593    1027M Extended
+  sda5   14463   14593    1027M swap
+
+edit the line that contains the /OVS partition (or most of the space), note the size and decide how much space you want to leave for OVMS and how much space for your other OS install.
+
+put an (*) asterix beside: 'Fill maximum size of (MB):' and put in your size in MB.  Don't worry if it goes off the screen, after you next hit okay, you'll see the correct size in the Partitioning screen.  Also put an asterix (*) in front of Force to be a primary partition.
+
+Afterwards my table looks like: 
+
+Device   Start     End     Size Type     Mount Point
+-----------------------------------------------------
+sda1         1      13     101M ext3     /boot
+sda2        14    6387   49999M ocfs2    /OVS
+sda3      6388    6779    3074M ext3     /
+sda4      6780   14593   61294M Extended
+  sda5    6780    6910    1027M swap
+  free    6911   14593   60267M Free space
+
+MAKE A NOTE OF THIS TABLE, you'll need the device names when you go to install the other OS.
+
+Now DONT install the boot loader to the Master Boot Record, (/dev/sda), install it to the First sector of the boot partition (/dev/sda1)
+
+Now proceed to finish your install as per normal.
+
+In your next OS install (here I'll refer to Oracle Enterpise Linux 5 Update 3)
+
+Go through the same process until you can choose an option like: 
+"Use free space on selected drives and create default layout", also check: "Review and modify partitionling layout"
+
+Device            Mount Point Type      Format Size Start End
+----------------------------------------------------------------
+LVM Volume Groups
+  VolGroup00                                  60160
+      LogVol00    /           ext3          X 54272
+      LogVol01                swap          X  5888
+Hard Drives
+  /dev/sda
+    dev/sda1                  ext3              101    1    13
+    dev/sda2                  Linux native    49999   14  6387
+    dev/sda3                  ext3             3074 6388  6779
+    dev/sda4                  Extended        61294 6780 14593
+       /dev/sda5              swap             1027 6780  6910
+       /dev/sda6  /boot                     X   101 6911  6923
+       /dev/sda7  VolGroup00  LVM PV        X 60165 6924 14593
+
+There is a screen where you can configure grub.  There is a paragraph that says:
+"You can configure the boot loader to boot other operating systems...To add additional operating systems which are not automatically detected click 'Add'..."
+
+So click add.  Now the device we want to add is the device that has the mount point /boot for OVMS, which is /dev/sda1.  You can select either to be the default OS to run, you'll have a choice on boot up to choose which you want.
+
+---------------------------
+Now if you want OVMS + Ubuntu here are the steps that you would use:
+
+=> Install OVMS first as per above.
+=> When on the screen Prepare disk space, 
+
+I had bad luck with choosing 'Use the larget continuous free space' so choose: 'Specify partition manually' instead.
+
+=> In the above case, make sure not to delete the partitions: /dev/sda1 (OMVS:/boot), /dev/sda2 (OVMS:/OVS), /dev/sda3(OVMS:/), /dev/sda4, /dev/sda5(OVMS:swap).  
+
+You could create the following layout: 
+size: 150, use as: ext3, mount point: /boot (ok)
+size: 8000, use as: swap (ok)
+size: (remainder), use as: ext3, mount point: / (ok)
+
+finish the install and boot into Ubuntu
+edit the file: 
+
+	$: sudo vi /boot/grub/menu.lst
+
+Add the following to the end of the file:
+
+title ovms rootnoverify (hd0,0) chainloader +1
+
+Just a note, hd0 refers to hard disk 1 and 0 refers to the first partition.
+You can see that this is correct by noticing the boot partition for OVMS was /dev/sda1 (a=first hard disk, 1 = 1st partition)
+
+Save and reboot, you should see an option called ovms now, try selecting it and also reboot and try letting Ubuntu boot by default.

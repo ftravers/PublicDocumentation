@@ -1,0 +1,2 @@
+To prepare some objects ahead of tests can use keywords `before` or
+`background`

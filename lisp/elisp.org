@@ -1,0 +1,52 @@
+* Reference
+
+** define interactive function
+
+#+BEGIN_SRC elisp
+(defun my-function () "some docs"
+  (interactive)
+  ...
+) 
+#+END_SRC
+
+** let
+
+#+BEGIN_SRC elisp
+(let ((var-a 4)
+      (var-b "abc"))
+)
+#+END_SRC
+
+* delete mark from mark ring
+
+The mark ring gets long and convoluted.  I'd like to cycle through it
+and remove any marks that I don't want.  I'll bind deleting the
+current mark to: =C-x C-d=.
+
+#+BEGIN_SRC elisp
+(defun remove-mark () 
+  "removes the current position from the mark ring, if it is in
+the mark ring."
+  (interactive)
+  (setq mark-ring (delete (point-marker) mark-ring)))
+#+END_SRC
+
+and bind the keys
+
+#+BEGIN_SRC elisp
+(global-set-key (kbd "C-x C-d") 'remove-mark)
+#+END_SRC
+
+* Use Case
+
+Want to leverage 'ido-find-file' to pick a filename.
+
+#+BEGIN_SRC elisp
+(setq org-base-path (expand-file-name "~/smcho/time"))
+
+(setq org-default-notes-file-path (format "%s/%s" org-base-path "notes.org")
+      todo-file-path              (format "%s/%s" org-base-path "gtd.org")
+      journal-file-path           (format "%s/%s" org-base-path "journal.org")
+      today-file-path             (format "%s/%s" org-base-path "2010.org"))
+#+END_SRC
+

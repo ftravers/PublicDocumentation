@@ -1,0 +1,37 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/fenton/projects/docs-DIR/documentation/docker.org
+
+
+* Useful commands
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-12-26 Tue 12:45
+  :ARCHIVE_FILE: ~/projects/docs-DIR/documentation/docker.org
+  :ARCHIVE_CATEGORY: docker
+  :END:
+
+Type 'docker' before each of the commands below
+
+| info                   |                          |
+| search <search-string> | search for docker images |
+| pull <img-name>        | pull down a docker image |
+| images                 | list docker images       |
+
+A docker image can be 'running' but also 'stopped'.
+
+To run a docker image named, 'jenkins' with an interactive shell
+
+: docker run -i -t jenkins /bin/bash
+
+To detach the tty without exiting the shell, use the escape sequence
+Ctrl-p + Ctrl-q. The container will continue to exist in a stopped
+state once exited. 
+
+| ps -a | list all contains, stopped or running |
+
+
+
+
+** docker ps
+

@@ -1,0 +1,91 @@
+* sed
+** print only matching group
+
+Use =-n= and =/p=
+
+    % echo 'abc\nMono:pixelsize=20:anti' | sed -n 's/.*pixelsize=\(..\):.*/\1/p' 
+    20
+
+** print matching line
+
+
+
+
+    % sed -n '/word/p' input.file
+
+| -n | quiet |
+| p  | print |
+
+** Inplace edit
+
+use the `-i` flag
+
+** Delete line #5 from a file...
+
+    % sed -i '5d' filename
+
+-i = inplace
+
+** Replace pattern
+
+replace 'fenton' with 'bob' in file.txt
+
+    % sed 's/fenton/bob/' file.txt
+
+** find/use (grouping) pattern
+
+% echo "a10b" | sed 's/a\(.*\)b/x\1/'                                                          U fenton/bin
+x10
+
+
+** search hex character
+
+Want to find hex '0xC2 0xA9' (the copyright character).
+
+: sed -n 's/\(\xC2\xA9\)/\1/p' 
+
+** recurse printing matching files
+
+: find . -type f | xargs -i echo {} |sed -r 's#(.\/)(.*)#cat &\ | sed  "s:^:file \2 :g"#ge'
+
+
+
+* awk
+
+** search for regex
+
+synclient -l prints a bunch of stuff, one line contains the string
+TouchpaddOff.  We regex search for this with =/<regex>/=, then we print
+the last =$(NF)=, NF=number of fields, column.
+
+#+BEGIN_SRC shell
+% synclient -l | awk '/TouchpadOff/{print $(NF)}' 
+#+END_SRC
+
+
+** Print a given column
+
+```bash
+$ ls ~/projects/documentation/*.textile
+/home/fenton/projects/documentation/dia.textile
+/home/fenton/projects/documentation/java.textile
+/home/fenton/projects/documentation/secure.textile
+/home/fenton/projects/documentation/virtualMachines.textile
+```
+
+print one column:
+
+```
+$ ls ~/projects/documentation/*.textile | awk -F"/" '{print $(NF)}'
+dia.textile
+java.textile
+secure.textile
+virtualMachines.textile
+```
+
+Here `-F` means this is the field delimiter, and $(NF), where NF is a
+special variable that holds the *number of fields*.
+
+My kill chromium alias:
+
+alias kc='kill `ps -ef | awk "/chromium/ {print \\$2}" | head -1`'

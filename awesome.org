@@ -1,0 +1,73 @@
+* Basics
+
+All commands below must also use the Windows Key
+
+|-----------+------------------------------------|
+| j (k)     | Cycle focus                        |
+| S-j (S-k) | Rotate window location             |
+| o         | Send a window to the other monitor |
+| C-j (C-k) | Move focus to other monitor        |
+| 1..9      | move to desktop (tag)              |
+| S-1..9    | send window to desktop             |
+| h (l)     | In/decrease window size            |
+| SPACE     | Cycle through layouts              |
+| ENTER     | Launch terminal                    |
+| r         | run a program                      |
+| C-r       | restart                            |
+|-----------+------------------------------------|
+
+* Other
+
+| C-Enter   | swap focus                  |
+| C-(1-9)   | toggle tag view             |
+
+| S-C-(1-9) | Toggle tag on client        |
+| S-(F1-9)  | Tag marked clients with tag |
+| LEFT      | view prev tag               |
+| RIGHT     | view next tag               |
+
+
+| h/l   | (in/de)crease master     |
+| S-h/l | (in/de)crease master     |
+| C-h/l | (in/de)crease non-master |
+
+| j/k   | focus next/prev window |
+| S-j/k | move window            |
+
+* Global
+
+| ENTER     | open terminal               |
+| r         | run                         |
+| S-c       | close                       |
+| W(-S)-SPC | (next/prev) layouts         |
+| C-SPC     | toggle floating             |
+| u         | focus urgent client         |
+| ESC       | focus prev selected tag set |
+
+| S-q       | quit                        |
+| x         | lua code prompt             |
+| m/n       | maximize/minimize           |
+| f         | fullscreen                  |
+| t         | mark window                 |
+* Black wallpaper
+
+    % sudo sed -i 's/^theme.wallpaper.*/theme.wallpaper_cmd = { "xsetroot -solid black" }/' /usr/share/awesome/themes/default/theme.lua
+    % awesome -k
+
+  Need to reboot.  Simply restarting awesome isn't enough!
+* Keybindings
+
+Say I want to set the 'Function-F8' key to mean mute speakers.  In:
+=~/.config/awesome/rc.lua= add an entry like:
+
+#+BEGIN_SRC lua
+awful.util.table.join(
+---...
+   awful.key({ modkey,           }, "F8", 
+             function () 
+                awful.util.spawn_with_shell("amixer -q set Master mute") 
+   end), 
+#+END_SRC
+
+
+ 

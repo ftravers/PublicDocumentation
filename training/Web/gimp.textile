@@ -1,0 +1,53 @@
+"UP - Trainging":index.html > GIMP
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Glossary
+
+h2. Alpha Channel
+
+An image can contain information about how transparent each pixel is.  Typically an 8 bit number for each pixel, with 255 meaning totally opaque (visible) and zero meaning totally transparent (invisible).  This set of data is called the Alpha Channel.  
+
+h2. Alpha to Selection
+
+Gimp allows you to create a selection from the Alpha Channel.  From the manual: "The Alpha to Selection command creates a selection in the current layer from the alpha channel, which encodes transparency. Opaque areas are fully selected, transparent areas are unselected, and translucent areas are partially selected. This selection replaces the existing selection. The alpha channel itself is not changed."
+
+h2. Copy + Paste => New Layer
+
+Make a selection, choose @Ctrl-c@, then hit @Ctrl-v@, now click on the layer icon.  This converts the copy and pasted floating layer into a normal layer.
+
+When you copy and paste, as you are pasting you can't really see what you are pasting, so it seems akward to align it.  Just paste it and create a new layer as specified in the previous paragraph.  Then use the move tool (press m key) to move/align the pasted layer.
+
+h2. Multiple selections
+
+Use the @Shift@ key to make multiple selections.
+
+h1. Use Cases
+
+h2. Emphasize some text
+
+* Take a screen shot of the page you want to start with.
+* Select the text(s) that you want to emphasize.
+** Mode: (Add to current selection)
+** Feather edges
+
+!images/gmp_rect_select.png!
+
+* Invert your selection: Select > Invert
+* Select the bucket fill icon, make sure the items displayed below are highlighted
+** Ensure a black foreground
+** Opacity
+** FG color Fill
+** Fill whole selection
+
+!images/gmp_bucket_fill.png!
+
+h2. Draw a rectangle
+
+* Use rectangle select tool
+* Edit > Stroke Selection
+* Press _Stroke_ button.
+
+

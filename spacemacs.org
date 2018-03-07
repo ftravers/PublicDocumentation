@@ -1,0 +1,65 @@
+* Windows
+| w m      | maximize (keep only this window) |
+| w v      | split vertical                   |
+| w (hjkl) | move to window in that direction |
+
+* Elixir
+
+https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Blang/elixir
+
+| m m c | mix compile |
+|       |             |
+
+* Clojure - Evil Lisp State
+
+https://github.com/syl20bnr/evil-lisp-state
+https://github.com/Fuco1/smartparens
+
+Get into lisp structural editing with 'SPC k'.
+
+| (/) | insert sexp before/after        |
+| b/B | barf forward/backward           |
+| s/S | slurp fore/backward             |
+| U   | goto parent sexp backward       |
+| C-r | redo                            |
+| u   | undo                            |
+| W/w | (un)wrap expression             |
+| y   | copy expression                 |
+| p/P | paste after/before              |
+| r   | raise sexp                      |
+| h/l | prev/next symbol                |
+| H/L | prev/next sexp                  |
+| j/k | next closing/prev opening paren |
+|     |                                 |
+
+Prepen  ~w~ with a number to indicate the number of sexp's to wrap
+
+Maybe missing to add:
+sp-clone-sexp
+
+* Projectile
+| p p | open project |
+| p f | project file |
+
+
+* Org Mode 
+Leader Key: SPC a
+
+| TAB   | collapse/expand                 |
+| >/<   | promote/demote                  |
+| gh    | up heading                      |
+| g j/k | back/forward same level heading |
+| t     | todo                            |
+| T     | insert todo                     |
+
+| A j/k | move item (row, paragraph, etc...) up down |
+|       |                                            |
+
+o,O, H, L
+
+** evil-org-mode
+Leader Key: SPC m
+
+
+
+

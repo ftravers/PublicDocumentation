@@ -1,0 +1,278 @@
+* Overview
+
+These notes are designed around the use case of drawing house plans.
+Units will be feet and inches.
+
+* Setting Units
+
+Edit > Current Drawing Preferences > Units (tab) > 
+
+Main Drawing Unit: inches
+Length:
+  Format: Fractional
+  Precision: 0 1/4
+
+* Drawing our first room
+
+
+So we'll draw a room.  First lets draw one wall.
+
+** First Wall
+
+Lets just call this our south wall (bottom of diagram).
+
+Draw > Line > Horizontal
+
+At the top of the screen enter 196 for the length (16'4")
+
+In the drawing draw the left starting point.  Since it is our first
+line you can just click anywhere.
+
+** Deleting Lines
+
+If you're like me, you made some wrong lines.  Use:
+
+Select > Select Entity
+
+Then click on the wrong lines and hit DEL, to delete the line. 
+
+** Second Wall
+
+This wall needs to be 90 degrees to first wall, and connect to the
+end point.  Lets call this our East wall or at the right side of the
+diagram.
+
+Draw > Line > Vertical
+
+Snap > Snap on Endpoints
+
+Lets make the line (wall) 10'4" = 124".  
+
+Left click on right end of horizontal line to make the east/right
+wall. 
+
+** Add Dimensions
+
+We'll dimension the right/east wall.
+
+Dimension > Vertical
+
+Have `Snap on Endpoints` selected.  
+
+Select each end point.
+
+Snap > Free Snap
+
+Move the dimension to where you'd like it to show, and click for it
+to stick there.
+
+** Wall Thickness
+
+Walls have a thickness that we need to account for.  Lets draw
+parallel lines to indicate this.
+
+Draw > Line > Parallel
+
+Lets say this is an outside wall with a total thickness of 6".
+
+Unclick all the 'qualifiers' except for horizontal.
+
+Then click just below the bottom line and a parallel line should show
+up. 
+
+You can do the same for the vertical line.
+
+Problem is the bottom right corner outside lines dont meet!
+
+** Trim/Extend lines
+
+So we need to extend both outside wall lines.
+
+Modify > Trim
+
+Now you need to select the 'limiting entity', so if we want to extend
+the bottom outside wall, to the right outside wall, we select the
+right wall first as the limiting entity.
+
+Then select the bottom outside wall and it should extend to the right
+outside wall.
+
+You can repeat for the right outside wall by first selecting the
+bottom outside wall as the limiting entity, then selecting the
+outside right wall, which will extend to the bottom outside wall.
+
+** Draw a Door
+
+A line at a 45 degree angle, plus a swing arc.  
+
+First we need to get to the point in the wall where the door is
+hinged.  Lets say starting 5' (60") from the right/east wall, and
+swinging inwards/upwards.  
+
+Things like doors and windows repeat so we can make a separate
+drawing that we can add in each time we need a door/window, etc.  We
+call this our `parts library`.  Before we set this up, lets create
+one part, a door.
+
+Our door will be 32" wide, be hinged on the right, and swing up/north
+from a south wall.  Lets say the door is 3/4" thick, and we'll draw
+it at a 45 degree angle, with a swing arc showing the swing.
+
+Draw > Line > Angle
+
+Distance: 32
+Angle: 135
+
+Click somewhere in the drawing and it should show up.
+
+Draw a parallel line 3/4" away, so Distance: .75
+
+Now we want to connect those two parallel lines at the ends by
+choosing:
+
+Draw > Line > Angle
+
+Distance: .75
+Angle: 45
+
+Snap > Snap on endpoints
+
+Then we can just click at either end.
+
+*** Drawing the Swing Arc
+
+Through trial and error, I realized it is easier to first draw a
+horizontal line left from the bottom corner of the door, and one
+vertical.  So:
+
+**** Horizontal Line
+
+Draw > Line > Horizontal
+
+Snap to endpoint, distance: 32
+
+Connect it to the bottom corner of the door.  (Where the hinge would
+be). 
+
+**** Vertical Line
+
+Draw > Line > Vertical
+
+Snap to endpoint, distance: 32
+
+Connect it to the bottom corner of the door.  (Where the hinge would
+be). 
+
+**** Arc
+
+Now that we have a horizontal line, lets do the arc.
+
+Draw > Arc > Center, Point, Angles
+
+Keep both Snap to Endpoints, and Snap Middle on.
+
+***** Center
+
+For Center Point (see bottom left of screen that it is prompting us
+for the center point), click the bottom most corner (i.e. where the
+hinge would be).
+
+***** Radius
+
+Next it asks for radius, I think the swing line going through the
+center of the door is nice, so click there.
+
+***** Start Angle
+
+Angles increase in a counter-clockwise fasion, so the starting angle
+begins on the mid point of the vertical line.  Click there.
+
+***** End Angle
+
+Mid point of horizontal line.
+
+Finally remove the vertical and horizontal lines guides.
+
+Select > Select Entity
+
+Click on each and hit DEL.
+
+
+
+*** Door Frame (incomplete)
+
+I'd like to have a frame on either side of the door to complete the
+door.  Gonna make it 1/2" thick, and 4" wide.
+
+Draw > Line > Rectangle
+
+Have Free Snap selected and put the starting point anywhere.
+
+In command line type:
+
+    @.5,4
+
+@ = relative.  Format is: @width,height.
+
+Lets make a center line guide plus lines on either side for either
+exterior or interior wall doors.  An interior wall should be 4.5", an
+exterior wall we'll say 5.5".  The reason we create these lines is so
+that we can place the door in a wall lined up at a later date.
+
+*** Parts Library
+
+Create a root folder for your library somewhere on your file system,
+then two folders under that called `windows` and `doors`
+respectively. 
+
+Now lets save our door into the doors folder.
+
+Edit > Application Preferences > Paths (tab) > Part Libraries (text)
+
+put the path that you chose above, for example: 
+
+    /home/ftravers/my-cad-library
+
+note: dont use: ~/my-cad-library
+
+Close LibreCAD and reopen it.
+
+View > Toolbars > Library Browser
+
+You should now see your folder you created with the door in it.
+
+Note: you can add more paths separated with ";"
+
+*** Layers (not finished)
+
+Lets create a new layer for the door.  Click the plus on the layer
+dialogue. 
+
+Name it door.
+
+*** Inserting Door
+
+We need to determine how far along the wall that door will go.  Lets
+draw a horizontal line 4 feet (48") from the inside wall of the
+right/east wall.  Lets draw the line in the middle of the
+south/bottom wall.
+
+Select the guides layer (since this is just a guide line).
+
+You've been shown how to create vertical/horizontal lines so that
+info wont be repeated here.  But when you are finished you should
+have a 4' line (preferably in a different color to indicate a guide)
+that extends along the center of the bottom wall.
+
+Now lets select the door and move it.  So lets highlight the whole
+door, and choose:
+
+Modify > Move / Copy
+
+Since we already selected the door, let just click the right arrows
+in the tool bar to move forward.
+
+
+
+
+

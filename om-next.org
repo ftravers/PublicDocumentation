@@ -1,0 +1,764 @@
+* Summary
+
+** Reconciler
+
+The reconciler is what ties all state together.  It is passed a state
+store with: ~:state~.
+
+It has a ~:parser~ which manages the reading from state and the
+writing to (mutating) state.
+
+** Components
+
+Components can specify an ~om/IQuery~ which is the data that they need
+to read.  A query expression is always a vector.  The result of
+parsing (reading) the state returns a map into ~om/props~.  
+
+A component can also have ~om/IQueryParms~, which are parameters for
+the query.
+
+You can programmatically get a component with ~om/class->any~.
+
+** Parser
+
+A parser is made up of ~:read~ and ~:mutate~ functions.  These
+functions are passed three parameters:
+
+ * environment: {:state app-state} 
+ * key: the key from the component query
+ * params: any parameters for the query
+
+If we had the following code
+
+#+BEGIN_SRC clojure
+(defn read [{:keys [state]} key _] {:value (key @state)})
+(def my-parser (om/parser {:read read}))
+(def my-state (atom {:count 0}))
+(my-parser {:state my-state} [:count])
+;; => {:count 0}
+#+END_SRC
+
+we can see that a reader should return a map with ~:value~ key.  The
+value of the ~:value~ key will become the value in the ~(om/props
+this)~ map for the query key.
+
+** Mutating
+
+We mutate by calling ~(om/transact ...)~  The first argument should be
+~this~ i.e. the component calling transact.  The second argument is
+the mutate key to dispatch which mutation to run.  It might be called
+like:
+
+#+BEGIN_SRC clojure
+(om/transact! this '[(increment)])
+#+END_SRC
+
+and then be intercepted like:
+
+#+BEGIN_SRC clojure
+(defn mutate [env key parms]
+  (if (= 'increment key)
+#+END_SRC
+
+** Mutating with params
+
+Calling: 
+
+#+BEGIN_SRC clojure
+(om/transact!
+ this
+ `[(todos/toggle-all
+    {:value ~(not checked?)})
+   :todos/list])
+#+END_SRC
+
+We can access the value of ~:value~ by doing:
+
+#+BEGIN_SRC clojure
+(defmethod mutate 'todos/toggle-all
+  [_ _ {:keys [value]}]
+#+END_SRC
+
+** Mutate outside component
+
+Can create a dummy function to see the effect of mutating without
+needing a component:
+
+#+BEGIN_SRC clojure
+(defn tm []
+  (let [parm "abc"]
+    (om/transact!
+     reconciler
+     `[(product/description {:value ~parm})])))
+#+END_SRC
+
+repl snapshot:
+
+#+BEGIN_SRC clojure
+pcw.core> (tm)
+{product/description
+ {:keys [:pc/product-description],
+  :result
+  {:db-before {1 :app/count, 1 :app/title},
+   :db-after {1 :app/count, 1 :app/title, 2 :product/description},
+   :tx-data [#datascript/Datom [2 :product/description "blah" 536870914 true]],
+   :tempids {:db/current-tx 536870914},
+   :tx-meta nil}}}
+pcw.core> 
+#+END_SRC
+
+* Development
+
+To speed development it is nice to develop part of your application
+that is intended to run on the client on the server.  One reason being
+we can use the cider debugger on server side.
+
+Also datascript runs server side as well, so all reads/mutations can
+be developed server side.
+
+** Reads:
+
+#+BEGIN_SRC clojure
+(defn read [{:keys [state]} key _] {:value (key @state)})
+(def my-parser (om/parser {:read read}))
+(def my-state (atom {:count 0}))
+(my-parser {:state my-state} [:count])
+;; => {:count 0}
+#+END_SRC
+
+** Writes:
+
+#+BEGIN_SRC clojure
+(om/transact!
+     reconciler
+     `[(product/description {:value ~parm})])
+#+END_SRC
+
+* Basics
+** Reference: 
+
+https://github.com/omcljs/om/wiki/Quick-Start-(om.next)
+
+** The HTML
+
+<project-root>/resources/public/index.html:
+
+#+BEGIN_SRC html
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>Om Tutorial!</title>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script src="js/main.js"></script>
+    </body>
+</html>
+#+END_SRC
+
+** The UI component:
+
+<project-root>/src/oma/core.cljs:
+
+#+BEGIN_SRC clojure
+(ns oma.core
+  (:require [goog.dom :as gdom]
+            [om.next :as om :refer-macros [defui]]
+            [om.dom :as dom]))
+
+(defui HelloWorld
+  Object
+  (render [this]
+    (dom/div nil "Hello, world!")))
+
+(def reconciler
+  (om/reconciler {}))
+
+(om/add-root!
+ reconciler
+ HelloWorld
+ (gdom/getElement "app"))
+#+END_SRC
+
+That was the basic hello world app.  Now lets add reading from a
+global state atom.
+
+Add in the state atom:
+
+#+BEGIN_SRC clojure
+(def my-state (atom {:count 0}))
+#+END_SRC
+
+Now we create a read function that allows us to read from this.
+
+#+BEGIN_SRC 
+(defn read
+  [{:keys [state] :as env} key params]
+  (let [st @state]
+    (if-let [[_ v] (find st key)]
+      {:value v}
+      {:value :not-found})))
+#+END_SRC
+
+Now we modify the reconciler to see the state and the reader function:
+
+#+BEGIN_SRC clojure
+(def reconciler
+  (om/reconciler
+   {:state my-state
+    :parser (om/parser {:read read})}))
+#+END_SRC
+
+Finally modify the component to read the data:
+
+#+BEGIN_SRC clojure
+(defui HelloWorld
+  static om/IQuery
+  (query [this] [:count])
+  Object
+  (render
+   [this]
+   (let [{:keys [count]} (om/props this)]
+     (dom/div nil (str "The count" count)))))
+#+END_SRC
+
+First lets discuss the read function.  Its params are: ~env key
+params~.  When we pull out the ~:state~ key from ~env~, we get
+~my-state~ as set in the reconciler.
+
+Find returns a map-entry for the connected to the key provided.  So
+~(find @state :count)~ -> [:count 0], which is destructured to just
+get the value with: ~[_ v]~.
+
+Then our read function must return a map with a ~:value~ key.
+
+The ~key~ is what is passed by our ~om/IQuery~.
+
+** Parser
+
+#+BEGIN_SRC clojure
+(def my-parser (om/parser {:read read}))
+(def my-state (atom {:count 0}))
+(my-parser {:state my-state} [:count :title])
+;; => {:count 0, :title :not-found}
+#+END_SRC
+
+A query expression is always a vector. The result of parsing a query
+expression is always a map.
+
+So we have a pretty good sense how to *read* from state, lets now look
+at how to *write* or *mutate* state.
+
+** Writing (mutating)
+
+To write to state we need to supply a function that will mutate the
+state.
+
+#+BEGIN_SRC clojure
+(defn mutate
+  [{:keys [state] :as env} key params]
+  (if (= 'increment key)
+    {:value {:keys [:count]}
+     :action #(swap! state update-in [:count] inc)}
+    {:value :not-found}))
+#+END_SRC
+
+So here again we are passed in the ~:state~, and the ~key~.
+
+~:action~ is a function that takes no arguments and should transition
+the state to a new state.
+
+We must return a map, with two keys: :value and :action.  ~:value~
+should be a map with a key ~:keys~.  ~:keys~ should be a list of keys
+that need to be re-read after the mutation is run because they are now
+stale.  Since our action updates the value of our ~:count~ key, thats
+what we put in the ~{:value {:keys [:count]}}~ returned map.
+
+#+BEGIN_SRC clojure
+(def my-parser (om/parser {:read read :mutate mutate}))
+(my-parser {:state my-state} '[(increment)])
+@my-state
+;; => {:count 1}
+#+END_SRC
+
+Finally lets call this mutation from our UI component.
+
+#+BEGIN_SRC 
+(dom/div
+ nil
+ (dom/span nil (str "Count: " count))
+ (dom/button
+  #js {:onClick
+       (fn [e] (om/transact! this '[(increment)]))}
+  "Click me!"))
+
+#+END_SRC
+
+Update our parser to have a mutator function as well:
+
+#+BEGIN_SRC 
+(om/parser {:read read :mutate mutate})
+
+#+END_SRC
+
+* Idents, normalization
+
+om-next wants to have data be denormalized.  Imagine the following
+data:
+
+#+BEGIN_SRC clojure
+(def init-data
+  {:list/one [{:name "Mary" :points 0}]
+   :list/two [{:name "Mary" :points 0 :age 27}]})
+#+END_SRC
+
+We would like this data to look like:
+
+#+BEGIN_SRC clojure
+{:list/one [[:person/by-name "Mary"]],
+ :list/two [[:person/by-name "Mary"]],
+ :person/by-name {"Mary" {:name "Mary", :points 0, :age 27}},
+ :om.next/tables #{:person/by-name}}
+#+END_SRC
+
+So we identify the tables: ~:person/by-email~.  Now we can get data
+from that table.  ~[:person/by-name "Mary"]~ specifies the table name
+and the key to extract the entity.
+
+How did ~:person/by-name~ become the key?  See this:
+
+#+BEGIN_SRC clojure
+(defui Person
+  static om/Ident
+  (ident [this {:keys [name]}]
+    [:person/by-name name])
+  static om/IQuery
+  (query [this]
+    '[:name :points]))
+#+END_SRC
+
+The ~om/Ident~ specifies that the key is the ~name~ field, and we can
+lookup a given person with ~:person/by-name name~.
+
+* remotes
+
+First we create a reconciler with a send key like so:
+
+#+BEGIN_SRC 
+(defn send-to-chan [c]
+  (fn [{:keys [search]} cb]
+    (when search
+      (let [{[search] :children} (om/query->ast search)
+            query (get-in search [:params :query])]
+        (put! c [query cb])))))
+
+(def send-chan (chan))
+
+(def reconciler
+  (om/reconciler
+   { ;; ...
+    :send    (send-to-chan send-chan)
+    ;; ...
+    }))
+#+END_SRC
+
+So ~:send~ is a function that takes two arguments.  The first argument
+is a map whose keys are a list of remotes.  The values are pending
+messages to be sent.
+
+Our component has a query that looks like: 
+
+#+BEGIN_SRC 
+'[(:search/results {:query ?query})]
+#+END_SRC
+
+We have a read function that looks like: 
+
+#+BEGIN_SRC 
+(defmethod read :search/results
+  [{:keys [state ast] :as env} k {:keys [query]}]
+  (merge
+    {:value (get @state k [])}
+    (when-not (or (string/blank? query)
+                  (< (count query) 3))
+      {:search ast})))
+#+END_SRC
+
+Where does the state get updated?  Not above.
+
+We create a send channel with: ~(def send-chan (chan))~.  This gets
+passed into the construction of our ~send-to-chan~ function.
+
+Our read function returns more than just a ~:value~ key when the query
+contains >= 3 chars.  It also returns the name of a ~:remote~
+identified in our list of remotes as wired up in our reconciler.
+
+#+BEGIN_SRC
+(def reconciler
+  (om/reconciler
+   { :send    (send-to-chan send-chan)
+     :remotes [:remote :search]
+    ; ...
+    }))
+#+END_SRC
+
+Since the read function returns a registered remote, ~:search~, we
+call our ~:send~ function.  The send function is passed as its first
+argument a map whose key is a remote name and value, that which is
+specified in the ~read~ function.  Our read function returned:
+~{:search ast ...}~
+
+In our ~send-to-chan~ function we pull out the characters of the query
+from the ~ast~.  The second arg to the ~:send~ function is a callback
+that should be called with the results of the response from the
+server.  The ~:send~ function in our example puts both the query
+string and the callback into the ~send-chan~ channel.
+
+Meanwhile we have a loop that is watching that channel.  It pulls out
+the callback and the query string, does the query, and calls the
+callback passing in a map whose key is ~:search/results~, and value a
+data structure that the component is looking for.
+
+
+First lets examine this piece of code:
+
+#+BEGIN_SRC clojure
+(defn search-field [ac query]
+  (dom/input
+    #js {:key "search-field"
+         :value query
+         :onChange
+         (fn [e]
+           (om/set-query! ac
+             {:params {:query (.. e -target -value)}}))}))
+#+END_SRC
+
+So there is an input field, that on change updates the parameters for
+the auto-completer component to have the values in the search box.
+
+We add an AutoCompleter to the page with: 
+
+#+BEGIN_SRC clojure
+(om/add-root! reconciler AutoCompleter
+  (gdom/getElement "app"))
+#+END_SRC
+
+We startup the ~search-loop~ code passing in a channel.
+
+So as keys are entered into the input field, the ~om/IQueryParams~
+value gets updated with the letters.  As the query params change, the
+query ~:search/results~ gets re-run.  This is defined in:
+
+#+BEGIN_SRC clojure
+(defmethod read :search/results
+#+END_SRC
+
+When the query is not blank AND is 3 chars or more, the read function
+also returns a remote ~:search~ with the ~ast~ Abstract Syntax Tree.
+Since we wired this into the reconciler with the ~:remotes~ key as a
+remote, the ~:send~ function gets run.  
+
+* datascript integration
+
+** data access layer
+
+In the first step we'll sort out our data access to the datascript
+database.  We can test this all server side since both om and
+datascript are written in ~cljc~ files, so we dont need any figwheel.
+Just the plain old cider and clojure debugger.
+
+First lets create a file called ~src/cljc/pcw/datascr.cljc~
+
+Lets imagine we want to do the classic todo app.  The data structure
+will look like:
+
+#+BEGIN_SRC clojure
+(ns pcw.datascr
+  (:require [datascript.core :as d]))
+
+(def schema {:todos {:db/type :db.type/ref
+                     :db/cardinality :db.cardinality/many}
+             :app-id {:db/unique :db.unique/identity}}) 
+
+(def conn (d/create-conn schema))
+
+(d/transact!
+ conn
+ [{:db/id -2
+   :title "get milk"
+   :done false
+   :visible true}
+  {:db/id -3
+   :title "fix car"
+   :done false
+   :visible true}
+  {:db/id -1
+   :app-id :todo-list
+   :todos [-2 -3]}])
+#+END_SRC
+
+Here we simply define a little what the data should look like. We sayy
+todos are of type ~ref~ and are a list, i.e. cardinality ~many~.
+
+We also created a property ~:app-id~ so we can just grab the list of
+todo's by the name ~:todo-list~.
+
+Now lets add a function to display all visible todos.
+
+#+BEGIN_SRC clojure
+(defn get-todos []
+  (d/q '[:find (pull ?tds [*])
+         :where
+         [[:app-id :todo-list] :todos ?tds]
+         [?tds :visible true]]
+       @conn))
+#+END_SRC
+
+Sample REPL interaction:
+
+#+BEGIN_SRC clojure
+pcw.datascr> (get-todos)
+([{:db/id 2, :done false, :title "fix car", :visible true}]
+ [{:db/id 1, :done false, :title "get milk", :visible true}])
+pcw.datascr> 
+#+END_SRC
+
+Okay we've created the basic todo scenario.  Now lets add functions to
+'delete' or make invisible a todo, and the other CRUD functions:
+
+#+BEGIN_SRC clojure
+(defn delete-todo [id]
+  (d/transact!
+   conn
+   [{:db/id id :visible false}])
+  nil)
+
+(defn add-todo [title]
+  (d/transact!
+   conn
+   [{:db/id -1 :visible true :done false :title title}
+    [:db/add [:app-id :todo-list] :todos -1]])
+  nil)
+
+(defn update-todo [id title]
+  (d/transact!
+   conn
+   [{:db/id id :title title}])
+  nil)
+#+END_SRC
+
+Some repl'ing:
+
+#+BEGIN_SRC clojure
+pcw.datascr> (get-todos)
+([{:db/id 2, :done false, :title "fix car", :visible true}]
+ [{:db/id 1, :done false, :title "get milk", :visible true}])
+pcw.datascr> (delete-todo 1)
+nil
+pcw.datascr> (get-todos)
+([{:db/id 2, :done false, :title "fix car", :visible true}])
+pcw.datascr> (add-todo "eat chocolate")
+nil
+pcw.datascr> (get-todos)
+([{:db/id 4,
+   :done false,
+   :title "eat chocolate",
+   :visible true}]
+ [{:db/id 2, :done false, :title "fix car", :visible true}])
+pcw.datascr> (update-todo 4 "eat food")
+nil
+pcw.datascr> (get-todos)
+([{:db/id 4, :done false, :title "eat food", :visible true}]
+ [{:db/id 2, :done false, :title "fix car", :visible true}])
+pcw.datascr> 
+#+END_SRC
+
+** Component
+
+Now lets look at how we might want to access this data from a
+component.  First we need to fetch our data with a query.
+
+#+BEGIN_SRC clojure
+(defui TodoList
+  static om/IQuery
+  (query [this] '[{:app-id :todo-list}])
+  Object
+  (render [this] (dom/div "Hello")))
+#+END_SRC
+
+This only interesting part here is the '[{:app-id :todo-list}] part.
+Basically specifying the attribute and value of the entity we want.
+
+Lets wire up the rest of the required parts of an om.next app now
+too.  
+
+We want our file structure to look like:
+
+#+BEGIN_SRC 
+src
+ |-- cljc
+ |   `-- pcw
+ |       |-- datascr.cljc
+ |       `-- parser.cljc
+ `-- cljs
+     `-- pcw
+         |-- component.cljs
+         `-- core.cljs
+#+END_SRC
+
+~core~ wires together the parser and the components.  While parser
+sits in front of datascr.  Since component, something that will render
+in a browser is only valid in the context of a browser, it needs to be
+a cljs file.  core, because it sees component also needs to be in a
+cljs file.  parser tho, can be developed server side, but later used
+client side.
+
+Here is a basic, almost non function parser
+
+#+BEGIN_SRC clojure
+(ns pcw.parser
+  (:require [pcw.datascr :as ds]
+            [om.next :as om]))
+
+(defmulti readr om/dispatch)
+
+(defmethod readr :default
+ [env keyz parms]
+  {:value 1})
+
+(def parser (om/parser {:read readr}))
+
+(def reconciler
+  (om/reconciler
+   {:state ds/conn
+    :parser parser}))
+#+END_SRC
+
+a simplistic component file:
+
+#+BEGIN_SRC clojure
+(ns pcw.component
+  (:require
+   [om.next :as om :refer-macros [defui]]
+   [om.dom :as dom]))
+
+(defui TodoList
+  static om/IQuery
+  (query [this] '[:app-id])
+  Object
+  (render [this] (dom/div nil "Hello")))
+#+END_SRC
+
+And finally a core file to tie it all together:
+
+#+BEGIN_SRC clojure
+(ns pcw.core
+  (:require
+   [goog.dom :as gdom]
+   [om.next :as om]
+   [pcw.parser :as p]
+   [pcw.component :as com]))
+
+(om/add-root!
+ p/reconciler
+ com/TodoList
+ (gdom/getElement "app"))
+#+END_SRC
+
+Fire up figwheel and make sure you can see the component: "Hello".
+
+See commit with comment: "basic component only".  Hash: 2ba3325
+
+Up to this point now we can see that the key passed to the reader is:
+~:app-id~.   Now if we were to use this directly against the
+datascript db we might think of doing the following:
+
+So lets play around with the parser:
+
+#+BEGIN_SRC clojure
+pcw.parser> (parser {:state ds/conn} [:app-id])
+{:app-id 1}
+pcw.parser> (parser {:state ds/conn} [:blah])
+{:blah 1}
+#+END_SRC
+
+#+BEGIN_SRC 
+pcw.datascr> (gen-get :app-id)
+([{:db/id 3,
+   :app-id :todo-list,
+   :todos [#:db{:id 1} #:db{:id 2}]}])
+pcw.datascr> 
+#+END_SRC
+
+
+read more
+
+https://github.com/omcljs/om/wiki/Components,-Identity-&-Normalization
+
+for how to have sub components like the actual todos...
+* tricks
+
+The following operate on the following code: 
+
+#+BEGIN_SRC clojure
+(ns omn1.core
+  (:require
+   [om.next :as om :refer-macros [defui]]
+   [om.dom :as dom :refer [div]]
+   [goog.dom :as gdom]))
+
+(defui MyComponent
+  static om/IQuery
+  (query [this] [:user])
+  Object
+  (render
+   [this]
+   (let [data (om/props this)]
+     (div nil (str data)))))
+
+(def app-state (atom {:user {:name "Fenton"}}))
+
+(defn reader [{q :query st :state} _ _]
+  (.log js/console (str "q: " q))
+  {:value (om/db->tree q @app-state @app-state)})
+
+(def parser (om/parser {:read reader}))
+
+(def reconciler
+  (om/reconciler
+   {:state app-state
+    :parser parser}))
+
+(om/add-root! reconciler MyComponent (gdom/getElement "app"))
+#+END_SRC
+
+** To test what data a query returns:
+
+#+BEGIN_SRC clojure
+(om/db->tree query derefed-app-state derefed-app-state)
+(om/db->tree [:current/user] @dat/app-state @dat/app-state)
+{:current/user {:user/name "Fenton"}}
+#+END_SRC
+
+** Test what parser returns
+
+#+BEGIN_SRC clojure
+(parser {:state app-state} [:current/user])
+#+END_SRC
+
+** Components
+
+Get component
+
+#+BEGIN_SRC clojure
+(om/component? (om/class->any reconciler MyComponent)) ; => true
+#+END_SRC
+
+Get its query
+
+#+BEGIN_SRC clojure
+(om/get-query MyComponent)
+#+END_SRC
+* bug report
+** 

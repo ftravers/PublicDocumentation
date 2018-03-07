@@ -1,0 +1,99 @@
+"home":../../index.html > "Projects":../index.html > GIT
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Current Task
+
+* A clean setup of eclipse/tomcat
+
+h1. Tasks
+
+h2. Setup a Web Service - DONE
+
+Setup a test web-service so we can opperate against it.  We'll use apache-axis for this.  See: "Web Services":../../training/SOA/webServices.html for more information.
+
+h3. References
+
+* "How to use maven with Axis":http://www.jroller.com/cdaniluk/entry/maven_and_axis2
+* "How to put Axis artifacts: AAR, MAR, into an EAR using Maven":http://devnulled.com/content/2008/01/maven-including-axis2-artifacts-into-ears/
+* "This plugin takes as input a WSDL and generates client and server stubs for calling or implementing a Web service matching the WSDL.":http://ws.apache.org/axis2/tools/1_2/maven-plugins/maven-wsdl2code-plugin.html
+
+h2. Setup a Web Service Client - DONE
+
+Next we will use Axis to generate a java proxy for the WSDL provded by our previous step.  We'll also use this for the web services provided for by CRMOD.
+
+h2. Setup a secure (SSL) web service - IN PROGRESS
+
+h3. References
+
+* "Calling a secure Axis web service via SSL, through a proxy":http://alweb.homeip.net/dw0rm/dblog/?p=38
+* "How to call a secure web service":http://www.eu-sol.net/science/bioinformatics/tutorials/secure-biomoby-web-services/how-to-call-a-secure-web-service
+* http://www.artima.com/forums/flat.jsp?forum=46&thread=106915
+* "Web Services Security":http://www.ibm.com/developerworks/webservices/library/ws-sec1.html
+
+h1. Current Issues
+
+Tried to access the CRMOD web services using their WSDL in SoapUI (even supplying the basic
+
+h1. Reference
+
+h2. CRMOD
+
+h3. Production:
+h4. URL/Login
+
+"https://secure-ausomxfba.crmondemand.com/OnDemand/user/Homepage":https://secure-ausomxfba.crmondemand.com/OnDemand/user/Homepage
+username:  ONGS-TEST/FENTON.TRAVERS@ORACLE.COM
+password: <usual>
+
+h3. Stage
+h4. URL / Login
+
+url: https://secure-ausomxfca.crmondemand.com
+user: ONGS/FENTON.TRAVERS@ORACLE.COM
+pass: <usual>
+
+h3. Production
+
+h4. URL / Login
+
+url: https://secure-ausomxfba.crmondemand.com
+user: ONGS/FENTON.TRAVERS@ORACLE.COM
+pass: <usual>
+
+https://secure-ausomxfba.crmondemand.com/OnDemand/?ssoid=ONGS
+user: fenton.travers@oracle.com
+pass: <Oracle SSO password>
+
+h3. SSO
+
+Application Name: itsupport
+Application Home URL: https://itsupport-stage.oracle.com/
+Application Success URL: https://itsupport-stage.oracle.com/osso_login_success 
+Application Logout URL: https://itsupport-stage.oracle.com/osso_logout_success 
+Administrator Email: jason.miao@oracle.com
+Application Description: CRMOD is a hosted Oracle CRM Applicaton.
+Site ID: D3F0925F 
+Site Token: YXFKL583D3F0925F 
+Encryption Key: 7B911B3DB59E8DCF 
+Single Sign-On URL: https://login-stage.oracle.com/pls/orasso/orasso.wwsso_app_admin.ls_login 
+Single Sign-Off URL: https://login-stage.oracle.com/pls/orasso/orasso.wwsso_app_admin.ls_logout 
+
+h3. WS Home Page
+
+"https://secure-ausomxfba.crmondemand.com/OnDemand/user/WebServAdmin":https://secure-ausomxfba.crmondemand.com/OnDemand/user/WebServAdmin
+
+h3. Sample WSDL
+
+@https://secure-ausomxfba.crmondemand.com/OnDemand/user/Account.wsdl?WSDLOBJ=Account&WSDLTYPE=CUSTOM&XSDOnly=N&ECBS=Y@
+
+h3. Cookies
+
+5 cookies when logged in, 4 when not (JSESSIONID) goes away.
+
+(domain:cookie_name(s))
+
+crmondemand.com:ORA_OD_LUG, ORA_OD_MC
+secure-ausomxfba.crmondemand.com:JSESSIONID, ORA_OD_LT, ORA_OD_OSI

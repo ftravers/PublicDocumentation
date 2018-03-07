@@ -1,0 +1,28 @@
+* basics
+
+** start deamon
+
+    % mpd
+
+** start client
+
+    % ncmpc
+
+** ncmpc
+
+*** Starting
+
+| 3     | browse screen                     |
+| SPC   | add item to playlist              |
+| 2     | goto play screen                  |
+| ENTER | start playing song                |
+| q     | leave client, music still playing |
+
+
+*** Misc
+
+| d            | delete current song from playlist |
+| S            | save playlist                     |
+| >/<          | next/prev track                   |
+| LEFT / RIGHT | up / down volume                  |
+|              |                                   |

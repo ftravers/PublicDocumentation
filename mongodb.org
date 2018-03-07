@@ -1,0 +1,170 @@
+* install
+
+: sudo pacman -S mongodb
+: sudo systemctl enable mongodb.service
+: sudo systemctl start mongodb.service
+
+* mongo shell
+
+: mongo
+
+** Definitions
+
+| mongo      | sql    |
+|------------+--------|
+| collection | table  |
+| document   | record |
+
+** insert document into collection
+
+Insert a record (document) into a table called =userlist=
+
+: db.userlist.insert({'username' : 'test1', 'email' : 'test1@test.com', 'gender' : 'Male'})
+
+** remove a collection
+
+To empty the =userlist= collection do:
+
+: db.userlist.remove()
+
+** drop whole database
+
+: db.dropDatabase()
+
+** show all databases
+
+: show dbs
+
+** show all tables/collections
+
+: show collections
+
+** bulk load a JSON file
+
+from command line, NOT MONGO SHELL!!!
+            
+| json file  | =data.js= |
+| collection | =people=  |
+| database   | =simple=  |
+
+#+BEGIN_SRC shell
+$ mongoimport --db simple --collection people --jsonArray data.js
+#+END_SRC
+
+** get documents from collection
+
+collection: =posts=
+
+db.posts.find()
+* Setup REST
+
+** Express
+
+: npm install -g express-generator
+
+Now lets say our project is going to be called: =abc123=, scaffold it
+out with:
+
+: express --ejs abc123
+: cd abc123; npm install
+
+** Mongoose 
+
+Tell node/express that we want to use =mongoose= as our javascript
+library to interact with MongoDB.
+
+: npm install --save mongoose
+
+To connect to a database called =test=, in =app.js= put:
+
+#+BEGIN_SRC javascript
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/test');
+#+END_SRC
+
+*TEST* you can now test the connection by seeing if starting node
+throws any errors
+
+: npm start
+
+** Model
+
+Now lets create a model called =Posts= which holds blog posts.  Lets
+create a folder to hold our models
+
+: mkdir Models 
+
+Here create the file =Posts.js= with the following contents:
+
+#+BEGIN_SRC javascript
+var mongoose = require('mongoose');
+var PostSchema = new mongoose.Schema({
+  title: String,
+  body: String,
+  upvotes: {type: Number, default: 0},
+});
+mongoose.model('Post', PostSchema);
+#+END_SRC
+
+** REST
+
+Now we want to interact with this model via REST.  We will setup
+routes for the GET action.
+
+: routes/index.js
+
+#+BEGIN_SRC javascript
+var mongoose = require('mongoose');
+var Post = mongoose.model('Post');
+router.get('/posts', function(req, res, next) {
+  Post.find(function(err, posts){
+    if(err){ return next(err); }
+    res.json(posts);
+  });
+});
+#+END_SRC
+
+** Wire routes to REST api
+
+In =app.js= we need to declare the Posts schema/model before it is
+used in the routes:
+
+#+BEGIN_SRC javascript
+require('./models/Posts');
+var routes = require('./routes/index');  
+#+END_SRC
+
+*TEST*: Now we can test!
+
+Start Node
+
+: npm start
+
+Insert a post via mongodb shell
+
+#+BEGIN_SRC javascript
+$ mongo
+> db.posts.insert({'title' : 'test title', 'body' : 'This is the body.', 'upvotes': 0})
+#+END_SRC
+
+Query all =posts= with CURL
+
+: curl http://localhost:3000/posts
+
+* add POST verb
+
+: router/index.js
+
+#+BEGIN_SRC javascript
+router.post('/posts', function(req, res, next) {
+  var post = new Post(req.body);
+  post.save(function(err, post){
+    if(err){ return next(err); }
+    res.json(post);
+  });
+});
+#+END_SRC
+
+*TEST*: Insert doc with CURL
+
+: curl --data 'short_description=Kensignton32GBUSB3.0Thumbdrive&price=500' http://localhost:3000/posts

@@ -1,0 +1,76 @@
+
+# Installation
+
+Some reference websites: [ref1](http://www.thegeekstuff.com/2010/05/install-bugzilla-on-linux/)
+
+## Install latest perl
+
+Ensure you have a least _a_ version of perl, and core development
+tools like gcc, make, etc...
+
+```bash
+# yum groupinstall -y 'Development Tools'
+```
+
+[Latest Download](http://www.activestate.com/activeperl/downloads)
+
+```bash
+# wget http://downloads.activestate.com/ActivePerl/releases/5.14.2.1402/ActivePerl-5.14.2.1402-i686-linux-glibc-2.3.6-295342.tar.gz
+# tar xvfz ActivePerl-5.14.2.1402-i686-linux-glibc-2.3.6-295342.tar.gz
+```
+
+## Create bugs user
+
+```bash
+[root@bugs ~]# useradd bugs
+[root@bugs ~]# passwd bugs
+Changing password for user bugs.
+New UNIX password: 
+BAD PASSWORD: it is based on a dictionary word
+Retype new UNIX password: 
+passwd: all authentication tokens updated successfully.
+[root@bugs ~]# su - bugs
+[bugs@bugs ~]$ 
+```
+
+## local::lib
+
+To help you install and manage your modules: `local::lib` enables you
+to install modules into a specified directory.
+
+Get latest link to `local::lib` from
+http://search.cpan.org/dist/local-lib/lib/local/lib.pm
+
+```bash
+$ wget http://search.cpan.org/CPAN/authors/id/A/AP/APEIRON/local-lib-1.008004.tar.gz
+$ tar xvfz local-lib-1.008004.tar.gz
+$ cd local-lib-1.008004
+$ perl Makefile.PL --bootstrap
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Download tgz
+
+Get latest download url from:
+
+http://www.bugzilla.org/download/#stable
+
+download it
+
+$ wget http://ftp.mozilla.org/pub/mozilla.org/webtools/bugzilla-4.0.3.tar.gz
+
+
+
+
+

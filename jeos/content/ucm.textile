@@ -1,0 +1,392 @@
+"home":../../index.html > "jeos":../index.html > "content":index.html > UCM
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Daily Use
+
+h2. Start stop instruction:
+
+service stellent { start | stop }
+
+
+h1. Installation 
+
+h2. OVM Template Info
+
+This tutorial uses:
+Template: System: 2048, Mem: 512, Swap: 512
+OS: OEL5U3 32bit
+
+h3. Attach shared disk
+
+bc. 
+[root@hp4 running_pool]# xm block-attach ucm2 file:/OVS/sharedDisk/data.img xvdb w
+[root@ucm2 ~]# mkdir /u02; mount /dev/xvdb /u02
+
+Version: Content Management System Server. Version 10.1.3.3.3 (080807), not patched.
+
+h3. Installing a webserver
+
+bc. 
+	[root@ucm1 u01]# useradd stellent; chmod 777 /u01; yum install -y httpd; chkconfig --level 345 httpd on; service httpd start; 
+
+h3. Create the database tables.
+
+Using the DB the UCM will pointing to.
+Run sqlplus (or SQL developer) and Create the database tables with the following commands.
+	
+bc. 
+create temporary tablespace idc2_temp tempfile '/u01/app/oracle/oradata/orcl/idc2_temp.dbf' SIZE 100M REUSE AUTOEXTEND ON NEXT 5120K MAXSIZE UNLIMITED;
+create tablespace idc2_sys datafile '/u01/app/oracle/oradata/orcl/idc2_sys.dbf' size 100M reuse autoextend on next 5120k maxsize unlimited;
+create USER idc2_user IDENTIFIED by idc2_user temporary tablespace idc2_temp default tablespace idc2_sys quota unlimited on idc2_sys;
+grant connect, resource to idc2_user;
+
+Install product as stellent user
+
+bc. 
+	[root@ucm1 linux64]# su - stellent
+	[stellent@ucm1 ~]$ /u02/content/ContentServer_Linux_10gR3_20080807/UCM/ContentServer/linux/
+
+Installer
+
+To run Installer from inside the directory:
+	
+bc. [stellent@ucmel linux]$ ./Installer
+
+Notes are only made where choices other than the default were specified.
+
+* Content Server Installation Directory
+Please enter the full pathname to the installation directory.
+
+bc. Content Server Core Folder [/oracle/ucm/server]:/u01/ucm
+
+* Enter the location of an executable to start your web browser. This browser will be used to
+display the online help.
+
+bc. Web Browser Path []:/bin/bash
+
+Remove attached disk:
+
+bc.	[root@hp4 running_pool]# xm block-remove ucm2 file:/OVS/sharedDisk/data.img xvdb w
+
+For Reference, these are all the settings that were chosen for the install.
+
+bc. 
+	Review install settings. . .
+	Content Server Core Folder: /u01/ucm
+	Java virtual machine: Sun Java 1.6.0 JDK
+	Content Server Native Vault Folder: /u01/ucm/vault/
+	Content Server Weblayout Folder: /u01/ucm/weblayout/
+	Proxy authentication through another server: no
+	Install admin server: yes
+	Web Browser Path: /bin/bash
+	Content Server System locale: English-US
+	Content Server Port: 4444
+	Admin Server Port: 4440
+	Incoming connection address filter: 127.0.0.1
+	Web Server Relative Root: /idc/
+	Company Mail Server: mail
+	Administrator E-Mail Address: sysadmin@mail
+	Web Server HTTP Address: ucm2
+	Server Instance Name: ucm2
+	Server Instance Label: ucm2
+	Server Description: Content Server idc
+	Web Server: Apache
+	Content Server Database: Oracle
+	Manually configure JDBC settings for this database: false
+	Oracle Server Hostname: db
+	Oracle Listener Port Number: 1521
+	Oracle User: idc2_user
+	Oracle Password: S8IfZ6qBKAZjHGyfQWGsIQUiMMHmlggzzS1lRQTTn6s=
+	Oracle Instance Name: xe
+	Configure the JVM to find the JDBC driver in a specific jar file: false
+	Attempt to create database tables: yes
+	Components: ContentFolios,Folders_g,LinkManager8,OracleTextSearch,ThreadedDiscussions
+	
+h3. Update the apache config file
+
+bc..	[root@ucm1 u01]# vi /etc/httpd/conf/httpd.conf
+	
+LoadModule IdcApacheAuth /u01/ucm/shared/os/linux/lib/IdcApache22Auth.so
+
+IdcUserDB idc /u01/ucm/data/users/userdb.txt
+
+Alias /idc /u01/ucm/weblayout
+
+<Location /idc>
+ DirectoryIndex portal.htm
+ IdcSecurity idc
+ Allow from all
+</Location>
+
+<Location />
+ IdcSecurity idc
+</Location>
+
+p. Restart webserver so changes take effect
+
+bc. 
+	[root@ucm1 u01]# service httpd restart
+	Stopping httpd:                                            [FAILED]
+	Starting httpd:                                            [  OK  ]
+
+h3. Create the startup script
+
+bc.. 
+	[root@ucm1 etc]# cat > /etc/init.d/stellent
+#!/bin/bash
+#
+#
+# chkconfig: 35 80 30
+# description: Content Server startup script
+
+# Source function library.
+
+. /etc/rc.d/init.d/functions
+
+STELLENT_OWNER="stellent"
+STELLENT_HOME="/u01/ucm/"
+
+start() {
+	su - $STELLENT_OWNER -c "$STELLENT_HOME/etc/idcserver_start"
+	su - $STELLENT_OWNER -c "$STELLENT_HOME/admin/etc/idcadmin_start"
+}
+stop() {
+	su - $STELLENT_OWNER -c "$STELLENT_HOME/etc/idcserver_stop"
+	su - $STELLENT_OWNER -c "$STELLENT_HOME/admin/etc/idcadmin_stop"
+}
+restart() {
+	stop
+	start
+}
+case "$1" in
+start)
+	start
+;;
+stop)
+	stop
+;;
+restart)
+	restart
+;;
+*)
+echo $"Usage: $0 {start|stop|restart}"
+esac
+
+p. Now add the script to the auto start mechanisms
+
+bc. 	[root@ucm1 init.d]# chmod 750 /etc/init.d/stellent; chkconfig --add stellent --level 0356;
+
+
+h2. Patch Content Server
+
+First we should patch this server.  Patching:
+
+1st
+---
+Applied: CS10gR35UpdateBundle-20090707-11.zip
+
+install the following with component manager:
+	/vm/install files/1st/CS10gR35UpdateBundle-20090707-11.zip
+
+	Accept all defaults.
+
+came from: V17289-01_UCM_10gPatchUpdateBundle, edelivery
+
+
+
+--------------
+2nd
+---
+
+unzip CS10gR34ContentAccessUpdate-20090505-4.zip
+use component ContentAccess-linux.zip
+
+Content Access: CS10gR34ContentAccessUpdate-20090505-4
+from edelivery: V17289-01_UCM_10gPatchUpdateBundle
+
+Component version before applied patch:
+
+	ContentAccess-linux
+	080222 (build $Rev: 64037 $)
+
+	Feature Extensions:ContentAccess:10gR3-8.1.9
+	Classpath:
+	Libpath:
+
+Component version after applied patch:
+	ContentAccess-linux
+	2009_04_01 (build $Rev: 72204 $) br-10g-10.1.3.4-release
+	
+	Feature Extensions:ContentAccess:10gR3-8.3.0
+	Classpath:
+	Libpath:
+
+There is a note in the readme
+
+	The new version of Content Access requires that Microsoft Visual C++ libraries
+	are installed. The package for this can be downloaded from
+	www.microsoft.com/downloads, search for "vcredist_x86.exe". The recommended
+	package is "Visual C++ 2005 SP1 Redistributable Package (x86)". ***
+
+However, I'm running linux so I don't see how this could work, so haven't installed
+any vcredist_x86.exe files anywhere.
+
+
+-------------
+3rd
+----
+stop ucm, admin, and httpd
+
+	[stellent@ucm2 etc]$ su -
+	[root@ucm2 ~]# service httpd stop              
+	[root@ucm2 ~]# service stellent stop
+	[root@ucm2 ucm]# su - stellent
+	[stellent@ucm2 etc]$ cd /u01/ucm
+
+\\192.168.9.105\Volume_2\vm\xen\jeos\install_files\content\patched_ucm
+
+Extract server-linux-shared.zip into the ucm folder... 
+	[stellent@ucm2 ucm]$ unzip server-linux-shared.zip 
+	[stellent@ucm2 ucm]$ chmod -R 755 shared/os
+
+start ( ucm, admin, and httpd ) back up.
+	[root@ucm4 ucm]# service stellent start
+	[root@ucm4 ucm]# service httpd start
+
+\/ \/ \/ \/ \/ \/ \/ \/ Do not install this \/ \/ \/ \/ \/ \/ \/ \/
+
+Tried installing NativeOsUtils, but it caused the server to not be able
+to install site studio component afterwards so reverted to old vm image
+and started again without updating the NativeOsUtils.
+
+After component install: NativeOsUtils-linux64.zip
+	NativeOsUtils
+	090415 (build $Rev: 73693 $)
+		
+	Feature Extensions:NativeOsUtils
+	Classpath: $COMPONENT_DIR/nativeosutils.jar
+	Libpath: $COMPONENT_DIR/lib/$PLATFORM/7.1.4.1
+
+/\ /\ /\ /\ /\ /\ /\ /\ Do not install this /\ /\ /\ /\ /\ /\ /\ /\
+----------------------------------------------
+Some general notes:
+-------------------
+General UCM Notes
+-----------------
+
+-----------------------------
+==> Changing IP address of OVM
+The are instructions for changing the IP address of the UCM instance.
+
+	[root@ucm2 etc]# vi /etc/sysconfig/network-scripts/ifcfg-eth0
+
+Update the line like:
+
+	IPADDR=192.168.8.118
+
+to have the IP address you want.  Restart the server.
+
+-----------------------------
+
+If you want to modify the web server name also do it in these places:
+
+Often you need to do this if the component manager won't let you 'install'
+a new component (notice it is pointing to an invalid webserver name)
+
+	config/config.cfg
+	admin/data/servers/idc/server.hda
+	admin/data/servers/servers.hda
+	admin/config/config.cfg
+
+
+
+
+h2. Adding desktop integration
+
+* Open the content server homepage in a  browser. Example: http://orcleucm/idc
+*  On the server install the Folders.zip component. In the component manage, ensure Folder_g component is installed. This component should be selected during the first time UCM install. If the component is not there:
+** Run the installer again chose update, and select Folder_g:
+
+@[stellent@oracleucm linux]$ ./Installer@
+
+@Select installation type from the list.@
+        @*1. Install new server@
+         @2. Update a server@
+@Choice? 2@
+
+@Content Server Installation Directory@
+
+@Please enter the full pathname to the installation directory.@
+@Content Server Core Folder [/oracle/ucm/server]:/u01/ucm@
+
+
+@Select components to install.@
+         @1. ContentFolios: Collect related items in folios@
+         @2. Folders_g: Organize content into hierarchical folders@
+        @3. LinkManager8: Hypertext link management support@
+         @4. OracleTextSearch: External Oracle 11g database as search indexer support@
+         @5. ThreadedDiscussions: Threaded discussion management@
+@Enter numbers separated by commas to toggle, 0 to unselect all, F to finish: 2@
+
+*  Install the DesktopIntegrationSuite.zip component
+*  On the content server goto folder admin and set the default metadata
+*  Install the setup.exe on the machine you want to include desktop integration on
+
+-------------------------------------------------
+Full Text Search:
+	required components:
+		OracleTextSearch: 2009_05_28 (build 32) 10.1.3.5-release
+
+	change config.cfg: database.fulltext
+SearchIndexerEngineName=DATABASE.FULLTEXT	
+	
+
+	run the following sql script as the content server db user:
+	[Install_Dir]/database/oracle/admin/batchsnippets.sql
+	
+	run stellentrole.sql
+	
+As the system db user:
+	grant stellent_role to user
+	grant unlimited tablespace to the user
+
+May need to create this index as wel:
+	CREATE INDEX idxFULLTEXT ON idc2_user.idccoll2(dDocFullText) INDEXTYPE IS CTXSYS.CONTEXT PARAMETERS ('SYNC (ON COMMIT)')
+
+-------------------------------------------------
+Adding Oracle Text as the search engine:
+doco:
+http://olympus.stellent.com/xpedio/groups/pubs/documents/documentation/admin_oracletextsearch_10g.pdf
+
+run scripts: 
+
+$ sqlplus system/welcome1
+SQL> @/opt/oracle/ucm/database/oracle/admin/contentserverrole.sql
+
+
+sqlplus <dbauser> @contentserverrole.sql
+
+$ sqlplus ucm_db_user/welcome1
+
+SQL> @/opt/oracle/ucm/database/oracle/admin/batchsnippet.sql
+
+SQL> exit
+
+
+3.	Full-Text Search.  To configure the database to enable Full-Text Searching for Content Server,
+ run the following scripts as the UCM database user:
+[OracleTextSearch_Component]\scripts\contentprocedures.sql
+(Where the latest OracleTextSearch component can be found in the p6907073_101333_Generic.zip file. 
+ See the Install Media section for more information)
+ 
+h1. Remote debug content server
+ 
+put this in the <server>/bin/intradoc.cfg file
+
+bc. JAVA_OPTIONS=-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n
+
+NOTE: both the normal server and the admin server look at this file when starting up and use it... So if you try to startup up both the regular server and the admin server, they'll both try to open up port 8000 for debugging...which will lead to port overuse... You therefore would need to comment out this line when starting up the admin server.
+

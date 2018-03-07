@@ -1,0 +1,15 @@
+* remove default wallpaper
+
+% tree /usr/share/slim/themes/
+.
+|-- default
+|   |-- background.jpg
+|   |-- panel.png
+|   `-- slim.theme
+`-- fenton
+    |-- background.jpg
+    |-- panel.png
+    `-- slim.theme
+
+copy default to fenton and change backgroud.jpg.  Adjust reference to
+theme in `/etc/slim.conf` to `fenton`

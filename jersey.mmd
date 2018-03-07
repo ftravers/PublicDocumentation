@@ -1,0 +1,432 @@
+CSS: style.css
+
+reference:
+
+-   [http://blogs.sun.com/japod/entry/building_simple_jersey_web_app](http://blogs.sun.com/japod/entry/building_simple_jersey_web_app)
+
+-   [http://blogs.sun.com/enterprisetechtips/entry/jersey_and_spring](http://blogs.sun.com/enterprisetechtips/entry/jersey_and_spring)
+
+    mvn archetype:create -DgroupId=com.oracle.git.ngsp -DartifactId=crmodRestServer -DarchetypeArtifactId=maven-archetype-webapp
+
+The java file:
+
+    package com.example.my;
+    import javax.ws.rs.GET;
+    import javax.ws.rs.ProduceMime;
+    import javax.ws.rs.Path;
+    // The Java class will be hosted at the URI path "/greeting"
+    @Path("greeting")
+    public class SimpleResource {
+        // and implement the following GET method 
+        @GET @ProduceMime("text/plain")
+        public String getGreeting() {
+            return "Hi there";
+        }
+    }
+
+Maven POM updates:
+
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey</artifactId>
+      <version>0.8-ea-SNAPSHOT</version>
+    </dependency>
+    <repositories>
+      <repository>
+        <id>maven2-repository.dev.java.net</id>
+        <name>Java.net Repository for Maven</name>
+        <url>http://download.java.net/maven/2/</url>
+        <layout>default</layout>
+      </repository>
+    </repositories>
+
+Here is some stuff so we can run it on tomcat:
+
+    <build>
+    <plugins>
+     <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>tomcat-maven-plugin</artifactId>
+     </plugin>
+     <plugin>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <configuration>
+       <source>1.6</source>
+       <target>1.6</target>
+      </configuration>
+     </plugin>
+    </plugins>
+    ...
+    </build>
+    The web.xml:
+
+    <!DOCTYPE web-app PUBLIC
+     "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+     "http://java.sun.com/dtd/web-app_2_3.dtd" >
+    <web-app>
+      <display-name>Archetype Created Web Application</display-name>
+      <servlet>
+        <servlet-name>Jersey Web Application</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+          <param-name>com.sun.jersey.config.property.resourceConfigClass</param-name>
+          <param-value>com.sun.jersey.api.core.PackagesResourceConfig</param-value>
+        </init-param>
+        <init-param>
+          <param-name>com.sun.jersey.config.property.packages</param-name>
+          <param-value>com.example.my</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+      </servlet>
+      <servlet-mapping>
+        <servlet-name>Jersey Web Application</servlet-name>
+        <url-pattern>/*</url-pattern>
+      </servlet-mapping>
+    </web-app>
+
+run the application:
+
+    mvn tomcat:run
+
+testing it:
+
+    curl -i http://localhost:8080/crmodRestServer/greeting 
+    HTTP/1.1 200 OK
+    Server: Apache-Coyote/1.1
+    Content-Type: text/plain
+    Transfer-Encoding: chunked
+    Date: Mon, 02 Jun 2008 13:49:18 GMT
+    Hi there
+
+## URL PATH Parameters
+
+Update the java code to:
+
+
+    // The Java class will be hosted at the URI path "/greeting"
+    @Path(“greeting/{name}”)
+    public class CrmodRestServer {
+     @GET
+     @ProduceMime(“text/plain”)
+     public String getGreeting(@PathParam(“name”) String name) {
+     return “Hi there ” + name;
+     }
+
+Test
+
+    curl -i http://localhost:8080/crmodRestServer/greeting/Fenton
+    HTTP/1.1 200 OK
+    Server: Apache-Coyote/1.1
+    Content-Type: text/plain
+    Transfer-Encoding: chunked
+    Date: Thu, 13 Jan 2011 07:01:00 GMT
+    Hi there Fenton
+
+## URL **QUERY** Parameters
+
+code:
+
+    @Path("greeting")
+    public class CrmodRestServer {
+        @GET
+        @ProduceMime("text/plain")
+        public String getGreeting(@QueryParam("name") String name) {
+            return "Hi there " + name;
+        }
+
+Test
+
+    curl -i http://localhost:8080/crmodRestServer/greeting?name=Fenton
+    HTTP/1.1 200 OK
+    Server: Apache-Coyote/1.1
+    Content-Type: text/plain
+    Transfer-Encoding: chunked
+    Date: Thu, 13 Jan 2011 07:07:39 GMT
+    Hi there Fenton
+
+### Multiple Params
+
+code:
+
+    public String getGreeting(
+           @QueryParam("name1") String name1, 
+           @QueryParam("name2") String name2) { return "Hi " + name1 + " " + name2; }
+
+test:
+
+    curl -i "http://localhost:8080/crmodRestServer/greeting?name1=Fenton&name2=Travers"
+
+# Using Netbeans
+
+Since it is desireable to be able to debug the web services, it’s
+helpful if we can run the REST server inside the IDE.
+
+    mvn archetype:generate -DgroupId=grp -DartifactId=art -Dversion=1.0-SNAPSHOT -Dpackage=grp -DarchetypeArtifactId=jersey-quickstart-webapp -DarchetypeVersion=1.5 -DarchetypeCatalog=http://download.java.net/maven/2 -DarchetypeGroupId=com.sun.jersey.archetypes --batch-mode
+
+-   Right-click project > Set as Main Project
+
+-   Open project in Netbeans. Right click project > Properties > Run
+   
+
+Select Glassfish.
+
+-   Create your rest web service class:
+
+Right-click on project > New > Category: Web Services, File Types:
+RESTful Web Services from Patterns > Simple Root Resource > put in
+your desired values
+
+1.  I chose my path: Autosr
+
+1.  Note your ‘Rest Resources Path’: resources
+
+> Radio button select: "Create default REST servlet
+adaptor in web.xml" > OK
+
+-   Update the method annotated with @GET to have a one-liner:
+
+    return "Hello World.";
+
+-   Launch the Server
+
+Debug Main Project: Ctrl-F5
+
+-   Test
+
+    http://localhost:8080/crmodRestServer4/resources/Autosr
+
+To figure out what the test URL should be:
+
+### Determine webapp url prefix
+
+search terms: web app root web.xml
+
+<pre><div class="sample_code">http://<span class="parameter">HOST</span>:<span class="parameter">PORT</span>/<span class="parameter">WEBAPP-NAME</span>/</div></pre>
+
+#### HOST & PORT
+
+In netbeans goto: Tools > Servers > select your glassfish server there > location.
+
+#### WEBAPP-NAME (CONTEXT ROOT)
+
+If you don't set this in: `src/main/webapp/WEB-INF/sun-web.xml` with something like the following:
+
+    <context-root>/myApp</context-root>
+
+then the context root will be something nasty.
+
+Note this shows up in Netbeans under:
+
+<pre><div class="sample_code"><span class="parameter">PROJECT-ROOT</span> / Web Pages / WEB-INF / sun-web.xml</div></pre>
+
+### Jersey Rest suffix
+
+<pre><div class="sample_code"><span class="parameter">RESOURCE</span>/<span class="parameter">PATH</span></div></pre>
+
+#### RESOURCE
+
+the next part comes from looking at the url-pattern for the Jersey
+servlet in `src/main/webapp/WEB-INF/web.xml`
+    <servlet-mapping>
+      <servlet-name>Jersey Web Application</servlet-name>
+      <url-pattern>/webresources/*</url-pattern>
+    </servlet-mapping>
+
+#### PATH
+
+the final part comes your java class you made into a Jersey rest
+service
+
+    import java.util.Map;
+    @Path("ottoEssAre")
+    @Component
+    @Scope("request")
+    public class AutoSrHttpListener {
+
+The `Path` annotation is what you are looking for
+
+### Deployed to app server as *.war
+
+#### port
+
+    grep network-listener /home/oracle/bin/glassfishv3/glassfish/domains/domain1/config/domain.xml
+
+#### webapp
+
+This will be the name of the war file that gets deployed. Or
+
+    /src/main/webapp/WEB-INF/sun-web.xml:  <context-root>/SES</context-root>
+
+#### resource
+
+Should be same as above.
+
+#### path
+
+Should be same as above.
+
+# Spring and Jersey
+
+reference:
+
+-   [file:///home/oracle/Desktop/desktop-tmp/Jersey%20and%20Spring.html](file:///home/oracle/Desktop/desktop-tmp/Jersey%20and%20Spring.html)
+
+## web.xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+        <servlet>
+            <servlet-name>Jersey Web Application</servlet-name>
+            <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+            <init-param>
+                <param-name>com.sun.jersey.config.property.packages</param-name>
+                <param-value>testgroup</param-value>
+            </init-param>
+            <load-on-startup>1</load-on-startup>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>Jersey Web Application</servlet-name>
+            <url-pattern>/service/*</url-pattern>
+        </servlet-mapping>
+        <context-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:applicationContext.xml</param-value>
+        </context-param>
+        <listener>
+            <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+        </listener>
+        <listener>
+            <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+        </listener>
+    </web-app>
+
+## pom.xml
+
+            <dependency>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-server</artifactId>
+                <version>${jersey-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-json</artifactId>
+                <version>${jersey-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>${jersey-version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.jersey.contribs</groupId>
+                <artifactId>jersey-spring</artifactId>
+                <version>1.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.distributions</groupId>
+                <artifactId>web-all</artifactId>
+                <version>10.0-build-20080430</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.embedded</groupId>
+                <artifactId>gf-embedded-api</artifactId>
+                <version>1.0-alpha-4</version>
+                <scope>test</scope>
+            </dependency>
+
+## *.java
+
+    import com.oracle.git.ngsp.crmodRestServer.ICrmodServer;
+    import com.oracle.git.ngsp.crmodRestServer.RestUtils;
+    import com.oracle.git.ngsp.crmodRestServer.ServiceException;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.context.annotation.Scope;
+    import org.springframework.stereotype.Component;
+    import javax.ws.rs.GET;
+    import javax.ws.rs.Path;
+    import javax.ws.rs.Produces;
+    import javax.ws.rs.QueryParam;
+    import javax.ws.rs.core.Context;
+    import javax.ws.rs.core.MultivaluedMap;
+    import javax.ws.rs.core.UriInfo;
+    import java.util.HashMap;
+    import java.util.Map;
+    @Path("execute")
+    @Component
+    @Scope("request")
+    public class AutoSrHttpListener {
+        @Autowired
+        private ServiceProxy serviceProxy;
+        @GET
+        @Produces("text/html")
+        public String getHtml() throws ServiceException {
+    ...
+
+in the above case the ServiceProxy has an external dependency that we
+will mock out with FakeCrmodServer during testing.
+
+## file structure
+
+    |-- pom.xml
+    `-- src
+         |-- main
+         |   |-- java
+         |   |   `-- crmodRestServer
+         |   |       |-- AutoSrDefaultValues.java
+         |   |       |-- fakeExternDep
+         |   |       |   `-- FakeCrmodServer.java
+         |   |       |-- hasExternDep
+         |   |       |   |-- AutoSrHttpListener.java
+         |   |       |   `-- ServiceProxy.java
+         |   |       |-- ICrmodServer.java
+         |   |       |-- isExternDep
+         |   |       |   `-- CrmodServer.java
+         |   |-- resources
+         |   |   |-- applicationContext.xml
+         |   |   `-- logback.xml
+         |   `-- webapp
+         |       `-- WEB-INF
+         |           |-- sun-web.xml
+         |           `-- web.xml
+         `-- test
+             |-- java
+             |   `-- crmodRestServer
+             |       `-- hasExternDep
+             |           `-- ServiceProxyTest.java
+             `-- resources
+                 |-- logback-test.xml
+                 `-- test-applicationContext.xml
+
+## directory structure
+
+    |--src
+        |-- main
+        |   |-- java
+        |   |   `-- crmodRestServer
+        |   |       |-- fakeExternDep
+        |   |       |-- hasExternDep
+        |   |       `-- isExternDep
+        |   |-- resources
+        |   `-- webapp
+        |       `-- WEB-INF
+        `-- test
+            |-- java
+            |   `-- crmodRestServer
+            |       `-- hasExternDep
+            `-- resources
+
+## files
+
+    @Service
+    public class ServiceProxy {
+        @Autowired
+        private ICrmodServer crmodServer;
+
+    @Service
+    public class CrmodServer implements ICrmodServer {
+
+    @Service
+    public class FakeCrmodServer implements ICrmodServer {

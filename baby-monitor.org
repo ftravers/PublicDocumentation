@@ -1,0 +1,87 @@
+Wanted to create a baby monitor.  The following is the setup.
+
+1 computer with cam and microphone where baby is.
+
+Other computers can be anywhere on local network.  Could easily adapt
+for internet too.
+
+* Assumptions
+
+    + using linux computers (must)
+    + using zsh (you can use another shell though, of course)
+    + monitoring computers have a known ip address
+
+* Get webcam working
+
+** basic 
+First step was to get the program 'monitor' working.  I did the
+install.  Then launched it with:
+
+    % sudo monitor
+
+In a browser go to: http://localhost:8081 to see if you can see the
+video.
+
+** enable viewing over network
+
+I found the configuration file at: 
+
+    /etc/motion/motion.conf
+
+so first I killed the running monitor with:
+
+    % sudo pkill monitor
+
+Then I set `webcam_localhost` to off:
+
+    webcam_localhost off
+
+** firing off a motion detection script
+
+*** Making some pre-recorded sounds
+
+Next I wanted a script to be run if there was motion.  In this case
+I'm going to play a pre-recorded message.  First I installed the
+program `audacity` to record some voice messages like: "Baby is
+moving!", etc...  I exported these as `ogg` files, which is a free
+alternative to mp3.
+
+Then I needed to script this so I used the play command like so:
+
+    % play baby_movement_sound.ogg
+
+*** the script
+
+    #!/usr/bin/env zsh
+    play ~fenton/bin/motion/baby_movement_sound.ogg
+
+make the script executable
+
+    % chmod +x motion_detected.zsh
+
+*** getting motion to call the script
+
+There is a parameter called `on_area_detected` that you can point to a
+script which will run if motion is detected.  So I update the config file
+with:
+
+    on_motion_detected ~fenton/bin/motion/motion_detected.zsh
+
+Also it's easier to test if you change the `gap` from 60 to, say, 3.
+
+    gap 3
+
+*** call the script on the remote computer
+
+Make another script called: `~fenton/bin/motion/play_remote_sound.zsh`
+with the following contents:
+
+    #!/usr/bin/env zsh
+    ssh fenton@192.168.1.35 './bin/motion/motion_detected.zsh' 
+
++ NOTE: make sure root can ssh to your machine without a password.
+  Hint: lookup: `ssh-copy-id`
+
+Update `motion.conf` with:
+
+    on_motion_detected ~fenton/bin/motion/play_remote_sound.zsh

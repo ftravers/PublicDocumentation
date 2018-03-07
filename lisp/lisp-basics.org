@@ -1,0 +1,155 @@
+Lisp has a number of built in data types. Integers and strings, for
+example, aren't much different from what you're used to. The meaning
+of 71 or "hello" is roughly the same in Lisp as in C++ or Java. What
+is of more interest to us are symbols, lists, and functions. I will
+spend the rest of this section describing these data types as well as
+how a Lisp environment compiles and executes the source code you type
+into it (this is called evaluation in Lisp lingo). Getting through
+this section in one piece is important for understanding true
+potential of Lisp's metaprogramming, the unity of code and data, and
+the notion of domain specific languages. Don't think of this section
+as a chore though, I'll try to make it fun and accessible. Hopefully
+you can pick up a few interesting ideas on the way. Ok. Let's start
+with Lisp's symbols.
+
+A symbol in Lisp is roughly equivalent to C++ or Java's notion of an
+identifier. It's a name you can use to access a variable (like
+currentTime, arrayCount, n, etc.) The difference is that a symbol in
+Lisp is a lot more liberal than its mainstream identifier
+alternative. In C++ or Java you're limited to alphanumeric characters
+and an underscore. In Lisp, you are not. For example + is a valid
+symbol. So is -, =, hello-world, hello+world, *, etc. (you can find
+the exact definition of valid Lisp symbols online). You can assign to
+these symbols any data-type you like. Let's ignore Lisp syntax and use
+pseudo-code for now. Assume that a function set assigns some value to
+a symbol (like = does in Java or C++). The following are all valid
+examples:
+
+set(test, 5)            // symbol 'test' will equal an integer 5
+set(=, 5)               // symbol '=' will equal an integer 5
+set(test, "hello")      // symbol 'test' will equal a string "hello"
+set(test, =)            // at this point symbol '=' is equal to 5
+                        // therefore symbol 'test' will equal to 5
+set(*, "hello")         // symbol '*' will equal a string "hello"
+
+At this point something must smell wrong. If we can assign strings and
+integers to symbols like *, how does Lisp do multiplication? After
+all, * means multiply, right? The answer is pretty simple. Functions
+in Lisp aren't special. There is a data-type, function, just like
+integer and string, that you assign to symbols. A multiplication
+function is built into Lisp and is assigned to a symbol *. You can
+reassign a different value to * and you'd lose the multiplication
+function. Or you can store the value of the function in some other
+variable. Again, using pseudo-code:
+
+*(3, 4)                 // multiplies 3 by 4, resulting in 12
+set(temp, *)            // symbol '*' is equal to the multiply function
+                        // so temp will equal to the multiply function
+set(*, 3)               // sets symbol '*' to equal to 3
+*(3, 4)                 // error, symbol '*' no longer equals to a function
+                        // it's equal to 3
+temp(3, 4)              // temp equals to a multiply function
+                        // so Lisp multiplies 3 by 4 resulting in 12
+set(*, temp)            // symbol '*' equals multiply function again
+*(3, 4)                 // multiplies 3 by 4, resulting in 12
+You can even do wacky stuff like reassigning plus to minus:
+
+set(+, -)               // the value of '-' is a built in minus function
+                        // so now symbol '+' equals to a minus function
++(5, 4)                 // since symbol '+' is equal to the minus function
+                        // this results in 1
+
+I've used functions quite liberally in these examples but I didn't
+describe them yet. A function in Lisp is just a data-type like an
+integer, a string, or a symbol. A function doesn't have a notion of a
+name like in Java or C++. Instead, it stands on its own. Effectively
+it is a pointer to a block of code along with some information (like a
+number of parameters it accepts). You only give the function a name by
+assigning it to a symbol, just like you assign an integer or a
+string. You can create a function by using a built in function for
+creating functions, assigned to a symbol 'fn'. Using pseudo-code:
+
+fn [a]
+{
+    return *(a, 2);
+}
+
+This returns a function that takes a single parameter named 'a' and
+doubles it. Note that the function has no name but you can assign it
+to a symbol:
+
+set(times-two, fn [a] { return *(a, 2); })
+We can now call this function:
+
+times-two(5)             // returns 10
+
+Now that we went over symbols and functions, what about lists? Well,
+you already know a lot about them. Lists are simply pieces of XML
+written in s-expression form. A list is specified by parentheses and
+contains Lisp data-types (including other lists) separated by a
+space. For example (this is real Lisp, note that we use semicolons for
+comments now):
+
+()                      ; an empty list
+(1)                     ; a list with a single element, 1
+(1 "test")              ; a list with two elements
+                        ; an integer 1 and a string "test"
+(test "hello")          ; a list with two elements
+                        ; a symbol test and a string "hello"
+(test (1 2) "hello")    ; a list with three elements, a symbol test
+                        ; a list of two integers 1 and 2
+                        ; and a string "hello"
+
+When a Lisp system encounters lists in the source code it acts exactly
+like Ant does when it encounters XML - it attempts to execute them. In
+fact, Lisp source code is only specified using lists, just like Ant
+source code is only specified using XML. Lisp executes lists in the
+following manner. The first element of the list is treated as the name
+of a function. The rest of the elements are treated as functions
+parameters. If one of the parameters is another list it is executed
+using the same principles and the result is passed as a parameter to
+the original function. That's it. We can write real code now:
+
+(* 3 4)                 ; equivalent to pseudo-code *(3, 4).
+                        ; Symbol '*' is a function
+                        ; 3 and 4 are its parameters.
+                        ; Returns 12.
+(times-two 5)           ; returns 10
+(3 4)                   ; error: 3 is not a function
+(times-two)              ; error, times-two expects one parameter
+(times-two 3 4)          ; error, times-two expects one parameter
+(set + -)               ; sets symbol '+' to be equal to whatever symbol '-'
+                        ; equals to, which is a minus function
+(+ 5 4)                 ; returns 1 since symbol '+' is now equal
+                        ; to the minus function
+(* 3 (* 2 2))           ; multiplies 3 by the second parameter
+                        ; (which is a function call that returns 4).
+                        ; Returns 12.
+
+Note that so far every list we've specified was treated by a Lisp
+system as code. But how can we treat a list as data? Again, imagine an
+Ant task that accepts XML as one of its parameters. In Lisp we do this
+using a quote operator ' like so:
+
+(set test '(1 2))       ; test is equal to a list of two integers, 1 and 2
+(set test (1 2))        ; error, 1 is not a function
+(set test '(* 3 4))     ; sets test to a list of three elements,
+                        ; a symbol *, an integer 3, and an integer 4
+
+We can use a built in function head to return the first element of the
+list, and a built in function tail to return the rest of the list's
+elements:
+
+(head '(* 3 4))         ; returns a symbol '*'
+(tail '(* 3 4))         ; returns a list (3 4)
+(head (tail '( * 3 4))) ; (tail '(* 3 4)) returns a list (3 4)
+                        ; and (head '(3 4)) returns 3.
+(head test)             ; test was set to a list in previous example
+                        ; returns a symbol '*'
+
+You can think of built in Lisp functions as you think of Ant
+tasks. The difference is that we don't have to extend Lisp in another
+language (although we can), we can extend it in Lisp itself as we did
+with the times-two example. Lisp comes with a very compact set of
+built in functions - the necessary minimum. The rest of the language
+is implemented as a standard library in Lisp itself.

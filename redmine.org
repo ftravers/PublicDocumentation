@@ -1,0 +1,13 @@
+* Adding git repos
+In order to do add a repository:
+
+sudo su - redmine
+cd /usr/share/webapps/redmine/git
+git clone --mirror git@v5.spicevan.com:pcbe-web.git
+(exit)
+cd /usr/share/webapps/redmine/git
+sudo chown -R http:redmine pcbe-web.git
+sudo find . -type f -print0 | xargs -0 sudo chmod 664
+sudo find . -type d -print0 | xargs -0 sudo chmod 775
+
+and remember to add the local path in Settings->Repositories (e.g.: /usr/local/redmine/git/pcbe-web.git)

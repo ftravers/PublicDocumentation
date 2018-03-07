@@ -1,0 +1,56 @@
+* Assumptions
+
+Using Elephant and SQLite.
+
+* Install
+
+    (ql:quickload "clsql")
+    (ql:quickload "elephant")
+
+* load
+
+    (asdf:operate 'asdf:load-op 'clsql)
+    (asdf:operate 'asdf:load-op 'elephant)
+
+* sample class:
+
+```
+(elephant:defpclass task ()
+  ((title :initarg :title
+          :accessor title
+          :index t)
+   (location :initarg :location
+             :accessor location
+             :index t)
+   (what :initarg :what
+         :accessor what)
+   (timestamp :initarg :timestamp
+              :accessor timestamp
+              :initform (get-universal-time)
+              :index t)))
+```
+
+* create a store:
+
+    (defvar *elephant-store* (elephant:open-store '(:clsql (:sqlite3
+    "/tmp/tasks.db"))))
+
+* insert
+
+    (make-instance 'task :title "Get soap." :assigned-to "bob" :location "pharmacy")
+
+* all instances
+
+Get all instances of class: `task`
+
+    (get-instances-by-class 'task)
+
+Get instance(s) with criteria:
+
+first task only
+
+    (get-instance-by-value 'task 'assigned-to "bob") ;; 
+
+all tasks that meet criteria
+
+    (get-instances-by-value 'task 'assigned-to "bob") ;; 

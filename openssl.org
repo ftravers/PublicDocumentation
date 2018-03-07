@@ -1,0 +1,34 @@
+Buy a domain, use google apps to be the email server (MX records) for
+the domain.  Certify ownership of the domain with StartSSL.  Send them
+an CSR (see below), get a CA signed SSL certificate back from them.
+This is like a public key that is verified to be from you.
+
+Create a new key and Certificat Signing Request (CSR)
+
+: openssl req -new -newkey rsa:2048 -nodes -keyout spicevan.com.key -out spicevan.com.csr
+
+Send StartSSL the CSR: 
+
+: spicevan.com.csr
+
+They will return a file that after being unzip once and once again for
+your server, in our case nginx, finally contains the file:
+
+: 1_spicevan.com_bundle.crt
+
+The below example is setting up SSL for nginx.
+
+drop the two files: spicevan.com.key and 1_spicevan.com_bundle.crt
+
+into /etc/nginx and set their permissions to 600
+
+Your nginx.conf file's server section should have these values:
+
+#+BEGIN_SRC conf
+server {
+      listen       443 ssl;
+      server_name  spicevan.com;
+      ssl_certificate 1_spicevan.com_bundle.crt;
+      ssl_certificate_key spicevan.com.key;
+#+END_SRC
+

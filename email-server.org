@@ -1,0 +1,75 @@
+* ref
+
+http://arstechnica.com/information-technology/2014/02/how-to-run-your-own-e-mail-server-with-your-own-domain-part-1/
+
+
+
+* MTA
+
+Mail Transport Agent
+
+This is the core application that actually transmits e-mail around
+between servers—applications like Exim, sendmail, Postfix, and qmail.
+
+* MUA
+
+Mail User Agent
+
+More commonly called an "e-mail client" or an "e-mail program." An MUA
+is a program like Outlook or Thunderbird—it's the thing you run on
+your computer that you send and receive e-mail with. E-mail is a
+standardized tool, and you can generally use whatever MUA makes you
+happy.
+
+* MDA
+
+Mail Delivery Agent
+
+Sandwiched in the middle between the MUA on your desktop and the MTA
+on the server is another application category: the MDA, or Mail
+Delivery Agent. The MDA gets messages from the mail server into the
+users' inboxes, most commonly with the POP or IMAP mail protocols.
+Except under some very limited circumstances, an MTA isn't going to do
+you much good without an MDA, so we're going to be using Dovecot as
+our MDA.
+
+* Our Setup:
+
++ MTA: Postfix
++ MDA: Dovecot.  IMAP. (courier-imap is an alternative)
++ MUA: Thunderbird
++ SpamAssassin, to keep spam out of your inbox
++ ClamAV, to filter out viruses
++ Sieve, to set up mail filters and rules
++ Roundcube, for webmail (squirrelmail is an alternative)
++ PostgreSQL (or MySQL/MariaDB), for Roundcube's database
++ Nginx and PHP-FPM, to serve out Roundcube over the Web
+
+* Install
+
+** packages
+
+#+BEGIN_SRC 
+% sudo pacman -S dovecot pam postfix
+#+END_SRC
+
+** create virtual mail user
+
+*as root*
+
+#+BEGIN_SRC 
+groupadd vmail
+useradd -g vmail -d /home/vmailer -s /bin/false vmailer
+mkdir /home/vmailer
+chown vmailer:vmail /home/vmailer
+chmod -R 750 /home/vmailer
+echo "vmailer:_some_password_" | chpasswd
+#+END_SRC
+
+** postfix
+
+follow these instructions:
+
+https://wiki.archlinux.org/index.php/postfix
+
+

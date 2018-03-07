@@ -1,0 +1,469 @@
+"home":/index.html > SLIME
+
+p(toc). Table of Contents
+
+{toc}
+
+h1. Getting Started
+
+h2. Code & Data modes
+
+The Lisp compiler uses two modes when it reads your code: 
+
+* A Code Mode and a 
+* Data Mode. 
+
+When you're in Data Mode, you can put anything you want into your
+lists. However, the compiler first starts off reading your code in
+Code Mode.
+
+In Code Mode, your lists need to be a special type of list called a
+form:
+
+bc. (command param1 param2 param3 ... )
+
+A form is a list where the first symbol in the list has to be a
+special word that the compiler can understand- Usually the name of a
+function. In this case, the compiler will send the other items of the
+list to the function as parameters. When it reads the text for these
+parameters, it will usually assume that they are also in Code Mode,
+unless you tell it to flip into data mode.
+
+bc. (setf *objects* '(whiskey-bottle bucket frog chain))
+                    
+Ok, now let's dissect this line an see what it means: Since a Lisp
+compiler always starts reading things in Code Mode and expects a form,
+the first symbol, setf, must be a command. In this case, the command
+sets a variable to a value: The variable is @*objects*@ (Lispers like to
+put stars around the names for global variables as a convention) and
+the value we are setting it to is a list of the four objects. Now,
+since the list is data (i.e. we don't want the compiler to try and
+call a function called whiskey-bottle) we need to "flip" the compiler
+into Data Mode when reading the list. The single quote in front of the
+list is the command that tells the compiler to flip:
+
+!lisp_flipDataMode.jpg!
+
+h3. Flip, flop
+
+bc. 
+(defun describe-path (path)
+  `(there is a ,(second path) going ,(first path) from here.))
+
+Ok, now this function looks pretty strange: It almost looks more like
+a piece of data than a function.
+
+Now when we look at the function again, we can see that the function
+"looks" a lot like the data it produces: It basically just splices the
+first and second item from the path into a declared sentence. How does
+it do this? It uses back-quoting!
+
+Remember that we've used a quote before to flip the compiler from Code
+Mode to Data Mode- Well, by using the the back-quote (the quote in the
+upper left corner of the keyboard) we can not only flip, but then also
+flop back into Code Mode by using a comma:
+
+
+
+h2. Functional Programming Definition
+
+The Functional Programming Style
+
+You may have noticed that our describe-location function seems pretty
+awkward in several different ways. First of all, why are we passing in
+the variables for location and map as parameters, instead of just
+reading our global variables directly? The reason is that Lispers
+often like to write code in the Functional Programming Style (To be
+clear, this is completely unrelated in any way to the concept called
+"procedural programming" or "structural programming" that you might
+have learned about in high school...). In this style, the goal is to
+write functions that always follow the following rules:
+
+1. You only read variables that are passed into the function or are
+created by the function (So you don't read any global variables)
+
+2. You never change the value of a variable that has already been set
+(So no incrementing variables or other such foolishness)
+
+3. You never interact with the outside world, besides returning a
+result value. (So no writing to files, no writing messages for the
+user)
+
+In emacs execute:
+
+bc. Alt-x slime
+
+h1. Commands
+
+h2. Printing
+
+bc. (format t "hello, world")
+
+Format directives start with ~ (much the way printf’s directives start
+with %).
+
+The ~t directive is for tabulating. The ~10t tells FORMAT to emit enough spaces to move to
+the tenth column before processing the next ~a. A ~t doesn’t consume any arguments.
+
+CL-USER>  (format t "~a:~10t~a" :artist "Dixie Chicks")
+ARTIST:   Dixie Chicks
+NIL
+
+Now things get slightly more complicated. When FORMAT sees ~{ the next
+argument to be consumed must be a list. FORMAT loops over that list,
+processing the directives between the ~{ and ~}, consuming as many
+elements of the list as needed each time through the list.
+
+In dump-db, the FORMAT loop will consume one keyword and one value
+from the list each time through the loop. The ~% directive doesn’t
+consume any arguments but tells FORMAT to emit a newline. Then after
+the ~} ends the loop, the last ~% tells FORMAT to emit one more
+newline to put a blank line between each CD.
+
+bc. 
+(defun dump-db ()
+ (dolist (cd *db*)
+  (format t "~{~a:~10t~a~%~}~%" cd)))
+
+
+You can also see the current value of @*db*@ whenever you want by typing @*db*@ at the REPL.
+
+bc. 
+CL-USER> *db*
+((:TITLE "Home" :ARTIST "Dixie Chicks" :RATING 9 :RIPPED T)
+ (:TITLE "Fly" :ARTIST "Dixie Chicks" :RATING 8 :RIPPED T)
+ (:TITLE"Roses" :ARTIST "Kathy Mattea" :RATING 7 :RIPPED T))
+
+Technically, you could have also used FORMAT to loop over the database
+itself, turning our dump-db function into a one-liner.
+
+bc. 
+(defun dump-db ()
+(format t "~{~{~a:~10t~a~%~}~%~}" *db*))
+
+h2. User Input
+
+h3. Streams
+
+h4. Out
+
+t is shorthand for the stream *standard-output*
+
+h4. In
+
+The variable *query-io* is a global variable (which you can tell
+because of the * naming convention for global variables) that contains
+the input stream connected to the terminal.
+
+
+h3. Strings 
+
+The variable *query-io* is a global variable (which you can tell
+because of the * naming convention for global variables) that contains
+the input stream connected to the terminal.
+
+bc. 
+(defun prompt-read (prompt)
+ (format *query-io* "~a: " prompt)
+ (force-output *query-io*)
+ (read-line *query-io*))
+
+Note that there’s no ~% in the format string, so the cursor will stay
+on the same line. The call to FORCE-OUTPUT is necessary in some
+implementations to ensure that Lisp doesn’t wait for a newline before
+it prints the prompt.
+
+Then you can read a single line of text with the aptly named READ-LINE
+function.
+
+h3. Integers
+
+prompt-read returns a string, what about numbers/booleans?
+
+bc. (parse-integer (prompt-read "Age"))
+
+Unfortunately, the default behavior of PARSE-INTEGER is to signal an
+error if it can’t parse an integer out of the string or if there’s any
+non-numeric junk in the string. However, it takes an optional keyword
+argument :junk-allowed, which tells it to relax a bit.
+
+bc. (parse-integer (prompt-read "Rating") :junk-allowed t)
+
+But there’s still one problem: if it can’t find an integer amidst all
+the junk, PARSE-INTEGER will return NIL rather than a number. In
+keeping with the quick-and-dirty approach, you may just want to call
+that 0 and continue. Lisp’s OR macro is just the thing you need
+here. It’s similar to the “short-circuiting” || in Perl, Python, Java,
+and C; it takes a series of expressions, evalu- ates them one at a
+time, and returns the first non-nil value (or NIL if they’re all
+NIL). So you can use the following:
+
+bc. (or (parse-integer (prompt-read "Rating") :junk-allowed t) 0)
+
+h3. Conditionals, Booleans
+
+h4. if
+
+bc. (if <condition> <do this if true> <do this if false>)
+
+h4. or
+
+Lisp’s OR macro is just the thing you need here. It’s similar to the
+“short-circuiting” || in Perl, Python, Java, and C; it takes a series
+of expressions, evalu- ates them one at a time, and returns the first
+non-nil value (or NIL if they’re all NIL).
+
+h4. t
+
+@t@ = Lisp’s version of truth
+
+
+Fixing the code to prompt for Ripped is quite a bit simpler. You can just use the Common
+Lisp function Y-OR-N-P.
+
+bc. (y-or-n-p "Ripped [y/n]: ")
+
+Putting it all together:
+
+bc. 
+(defun prompt-for-cd ()
+ (make-cd
+ (prompt-read "Title")
+ (prompt-read "Artist")
+ (or (parse-integer (prompt-read "Rating") :junk-allowed t) 0)
+ (y-or-n-p "Ripped [y/n]: ")))
+
+h2. File I/O
+
+h3. Write to file
+
+The @WITH-OPEN-FILE@ macro opens a file, binds the stream to a variable,
+executes a set of expressions, and then closes the file. It also makes
+sure the file is closed even if something goes wrong while evaluating
+the body. The list directly after @WITH-OPEN-FILE@ isn’t a function call
+but rather part of the syntax defined by @WITH-OPEN-FILE@. 
+
+@out@ = It contains the name of the variable that will hold the file stream to
+which you’ll write within the body of @WITH-OPEN-FILE@,
+
+@filename@ = a value that must be a file name,
+
+and then some options that control how the file is
+opened. Here you specify that you’re opening the file for writing with
+@:direction :output@ and that you want to overwrite an existing file of
+the same name if it exists with @:if-exists :supersede@.
+
+Once you have the file open, all you have to do is print the contents
+of the database with @(print *db* out)@. Unlike @FORMAT, PRINT@ prints
+Lisp objects in a form that can be read back in by the Lisp
+reader. The macro @WITH-STANDARD-IO-SYNTAX@ ensures that certain
+variables that affect the behavior of @PRINT@ are set to their standard
+values. You’ll use the same macro when you read the data back in to
+make sure the Lisp reader and printer are operating compatibly.
+
+bc. 
+(defun save-db (filename)
+ (with-open-file (out filename
+  :direction :output
+  :if-exists :supersede)
+ (with-standard-io-syntax
+ (print *db* out))))
+
+h3. Read from file
+
+bc. 
+(defun load-db (filename)
+ (with-open-file (in filename)
+ (with-standard-io-syntax
+ (setf *db* (read in)))))
+
+This time you don’t need to specify :direction in the options to
+WITH-OPEN-FILE, since you want the default of :input. And instead of
+printing, you use the function READ to read from the stream @in@.
+
+The @SETF@ macro is Common Lisp’s main assignment operator. It sets its first argument to
+the result of evaluating its second argument. So in @load-db@ the @*db*@ variable will contain the
+object read from the file, namely, the list of lists written by save-db. You do need to be careful
+about one thing—load-db clobbers whatever was in @*db*@ before the call. So if you’ve added
+records with add-record or add-cds that haven’t been saved with save-db, you’ll lose them.
+
+h2. List Processing 
+
+h3. REMOVE-IF-NOT
+
+The function @REMOVE-IF-NOT@ takes a predicate and a list and returns a list containing only
+the elements of the original list that match the predicate. In other words, it has removed all the
+elements that don’t match the predicate. However, @REMOVE-IF-NOT@ doesn’t really remove
+anything—it creates a new list, leaving the original list untouched. 
+
+bc. 
+CL-USER> (remove-if-not #'evenp '(1 2 3 4 5 6 7 8 9 10))
+(2 4 6 8 10)
+
+h3. Passing functions as parameters
+
+In this case, the predicate is the function EVENP, which returns true if its argument is an
+even number. The funny notation #' is shorthand for “Get me the function with the following
+name.” Without the #', Lisp would treat evenp as the name of a variable and look up the value
+of the variable, not the function.
+
+h3. Anonymous functions (lambdas)
+
+You can also pass REMOVE-IF-NOT an anonymous function. For instance, if EVENP didn’t
+exist, you could write the previous expression as the following:
+
+bc. 
+CL-USER> (remove-if-not #'(lambda (x) (= 0 (mod x 2))) '(1 2 3 4 5 6 7 8 9 10))
+(2 4 6 8 10)
+
+In this case, the predicate is this anonymous function:
+
+bc. (lambda (x) (= 0 (mod x 2)))
+
+h3. mapcar
+
+mapcar simply applies another function to every object in the list
+
+a function MAPCAR that maps over a list, *db* in this case, and
+returns a new list containing the results of calling a function on
+each item in the original list.
+
+
+h3. DOLIST
+
+The @DOLIST@ macro works by looping over all the elements of @*db*@ with
+the @DOLIST@ macro, binding each element to the variable cd in turn. For
+each value of cd, you use the @FORMAT@ function to print it.
+
+bc. 
+(defun dump-db ()
+ (dolist (cd *db*)
+  (format t "~{~a:~10t~a~%~}~%" cd)))
+
+h2. Other Commands
+
+h3. Define a new function
+
+bc. (defun <function_name> <paren_list> <function>)
+
+h3. Keyword Functions
+
+In the functions you’ve written so far, you’ve specified a simple list
+of parameters, which are bound to the corresponding arguments in the
+call to the function. For instance, the following function:
+
+bc. (defun foo (a b c) (list a b c))
+
+has three parameters, a, b, and c, and must be called with three
+arguments. But sometimes you may want to write a function that can be
+called with varying numbers of arguments. Keyword parameters are one
+way to achieve this. A version of foo that uses keyword parameters
+might look like this:
+
+bc. (defun foo (&key a b c) (list a b c))
+
+The only difference is the &key at the beginning of the argument
+list. However, the calls to this new foo will look quite
+different. These are all legal calls with the result to the right of
+the:
+
+bc. 
+(foo :a 1 :b 2 :c 3) => (1 2 3)
+(foo :c 3 :b 2 :a 1) => (1 2 3)
+(foo :a 1 :c 3) => (1 NIL 3)
+(foo) => (NIL NIL NIL)
+
+As these examples show, the value of the variables a, b, and c are
+bound to the values that follow the corresponding keyword. And if a
+particular keyword isn’t present in the call, the corre- sponding
+variable is set to NIL. I’m glossing over a bunch of details of how
+keyword parameters are specified and how they relate to other kinds of
+parameters, but you need to know one more detail.
+
+Normally if a function is called with no argument for a particular
+keyword parameter, the parameter will have the value NIL. However,
+sometimes you’ll want to be able to distinguish between a NIL that was
+explicitly passed as the argument to a keyword parameter and the
+default value NIL. To allow this, when you specify a keyword parameter
+you can replace the simple name with a 
+
+p{color:red;margin:30px}. list consisting of the name of the
+parameter, a default value, and another parameter name, called a
+supplied-p parameter. The supplied-p parameter will be set to true or
+false depending on whether an argument was actually passed for that
+keyword parameter in a particular call to the function.
+
+p. Here’s a version of foo that uses this feature:
+
+bc. (defun foo (&key a (b 20) (c 30 c-p)) (list a b c c-p))
+
+Now the same calls from earlier yield these results:
+
+bc. 
+(foo :a 1 :b 2 :c 3) -> (1 2 3 T)
+(foo :c 3 :b 2 :a 1) -> (1 2 3 T)
+(foo :a 1 :c 3) -> (1 20 3 T)
+(foo) -> (NIL 20 30 NIL)
+
+h3. Define a variable (with DEFVAR macro)
+
+bc. (defvar *data* nil)
+
+h3. cddr
+
+The cddr command chops the first two item from the front of the list (so only the path data remains). 
+
+h2. String functions
+
+h3. EQUAL
+
+The function EQUAL, when given string arguments, compares them
+character by character
+
+So @(equal (getf cd :artist) "Dixie Chicks")@ will test whether the
+artist field of a given CD is equal to "Dixie Chicks"
+
+
+h3. Loading a file full of lisp
+
+bc. (load "myFunctions.lisp")
+
+h3. Load defun into lisp 
+
+(do anywhere in or immediately after defun)
+
+bc. C-c C-c
+
+h3. Switch to the REPL
+
+bc. C-c C-z
+
+* Quit
+
+bc. , quit
+
+* Exit the debugger
+
+bc. q
+
+* Compile a file, creates "hello.fasl" (FASt Load)
+
+bc. (compile-file "hello.lisp")
+
+* Compile and load the file in the current buffer
+
+bc. C-c C-k
+
+* Make a list function, constructs a list from its arguments
+
+bc. (list 1 2 3)
+(1 2 3)
+
+* A plist or property list (like a hash map) contains key=>value pairs. A plist is a list where every other element, starting with the first, is a symbol that describes what the next element in the list is. A keyword is any name that starts with a colon (:), for instance, :foo. 
+
+bc. (list :a 1 :b 2 :c 3)
+
+* The function GETF, which takes a plist and a symbol and returns the value in the plist following the symbol
+
+bc. (GETF (list :a 1 :b 2 :c 3) :a)
+(1)

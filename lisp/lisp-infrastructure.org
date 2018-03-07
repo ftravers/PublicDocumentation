@@ -1,0 +1,96 @@
+* Overview
+
+The file `~/.sbclrc` is run by SBCL on startup.
+
+We use ASDF to manage 'systems' aka: packages or projects.  In
+`~/.sbclrc` we specify the folder to find systems in.  This folder
+contains soft links to the `*.asd` system definition files.
+
+To manage two code bases, we'll use two users, each with their own
+~/.sbclrc file pointing to their own system folder.
+
+* All Environments
+
+|----------------------+-------------------------|
+| System Folder        | ~/projects/lisp/systems |
+| Lisp Projects Folder | ~/projects/lisp         |
+|----------------------+-------------------------|
+
+** setup
+
+% mkdir -p ~/projects/lisp/systems
+
+* Development
+
+|-----------------+--------|
+| User            | fenton |
+| SBCL Swank Port |   4005 |
+|-----------------+--------|
+
+* Production
+
+|-----------------+------|
+| User            |  prd |
+| SBCL Swank Port | 4006 |
+|-----------------+------|
+
+** setup
+
+    % sudo useradd -m -g users -s /usr/bin/zsh prd
+    % sudo passwd prd
+    % sudo cp ~fenton/.sbclrc ~prd/
+    % su - prd
+    % sed -i 's/fenton/prd/' .sbclrc
+    % sed -i 's/4082/4080/' .sbclrc
+    % sed -i 's/8082/80/' .sbclrc
+    % mv .sbclrc .sbclrc.bak
+    % sbcl --load quicklisp.lisp
+    * (quicklisp-quickstart:install)
+    * (ql:quickload "quicklisp-slime-helper")
+    * (SB-EXT:EXIT)
+    % mv .sbclrc.bak .sbclrc
+    % sbcl
+    * (SB-EXT:EXIT)
+    % git clone ft_git3@spicevan.com:basic-user-settings.git
+    % mv basic-user-settings prd
+    % tar cvf prd.tar prd
+    # cp ~prd/prd.tar /home
+    % cd /home
+    % tar xvf prd.tar
+
+* Code Promotion
+
+1. Commit development code to git.
+2. As `prdusr` pull code.
+3. Connect with REPL from emacs and re: ASDF load the system.
+
+* ~/.sbclrc sample
+
+```
+(require :asdf)
+
+;; Add my systems dir onto the registry path
+(push #p"/home/fenton/projects/lisp/systems/" asdf:*central-registry*)
+
+;; Setup quicklisp
+#-quicklisp
+(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname))))
+  (when (probe-file quicklisp-init) (load quicklisp-init)))
+
+;; Start swank server
+(ql:quickload "swank")
+(swank:create-server :port 4006)
+```
+
+* Connecting to each others servers
+
+** Development SBCL
+
+    ssh -L4005:127.0.0.1:4005 fenton@webhostsunshine.com
+
+** Prod
+
+    ssh -L4005:127.0.0.1:4005 fenton@webhostsunshine.com
+
+
+

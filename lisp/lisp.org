@@ -1,0 +1,666 @@
+COMMON LISP
+* The Basics
+
+This section will go over the bare bones of lisp.  In one of your
+emacs buffers put the following line:
+
+    (setq myvar "Hello World")
+
+put the cursor after the last param and type
+
+    C-x C-e
+
+which means hold down the Ctrl key and press x, then e.  You have
+just created a variable `myvar` and gave it the string value: `Hello
+World`.  Add the following line:
+
+    (message myvar)
+
+and evaluate it again with C-x C-e.  You should see "Hello World"
+appear in the mini-buffer.
+
+Now go read the following: [[file:lisp-basics.org][Lisp Basics]], it comes from The Nature of
+Lisp article, so no need to repeat it.
+
+* Projects
+
+** Todo List
+
+    '(:description "Buy Milk" :location "7-Eleven" :due-by "02-15-2013")
+
+Lets set this to a variable:
+
+    (setq todo1 '(:description "Buy Milk" :location "7-Eleven" :due-by
+    "02-15-2013"))
+
+Okay, lets grab the due-by date:
+
+    (getf todo1 :due-by)
+
+Lets create a second task:
+
+    (setq todo2 '(:description "Take out garbage" :location "Home" :due-by
+    "02-14-2013"))
+
+Now we want to create a list of all of our todos:
+
+    (setq todos (list todo1 todo2))
+
+So now `todos` is a list of lists or a list of plists.  Lets create a
+function to get the description:
+
+    (defun get-description (prop-list)
+      (getf prop-list :description))
+
+Now lets use this function to pull out all the descriptions:
+
+    (mapcar 'get-description todos)
+
+Lets persist our 'database' of todos:
+
+* Debugger
+
+Hit `RET` on any line of stack to get more info.
+
+* Macros
+
+** Basic
+
+A back quote (`) before an expression stops evaluation just like a
+forward quote.  
+
+in a back-quoted expression, any subexpression that’s
+preceded by a comma is evaluated.
+
+    `(1 2 ,(+ 1 2)) => (1 2 3)
+
+** Splice List Arguments ,@
+
+If you use the ,@ (splice) unescape instead of just a comma (,) unescape, then
+your parameter, which must be a list, will be removed from it's list.
+
+```
+(defmacro SIMPLE (arg)
+  `'("abc" ,arg))
+(defmacro SPLICE (arg)
+  `'("abc" ,@arg))
+(macroexpand (SIMPLE (1 2 3))) ;; ====> ("abc" (1 2 3)) 
+(macroexpand (SPLICE (1 2 3))) ;; ====> ("abc" 1 2 3)
+```
+
+** Why Use (Motivation)
+
+The reason to use macros is to follow the DRY (Dont Repeat Yourself)
+principle.   
+
+
+(defun paint (items-to-paint) 
+  ())
+(paint "house" "car" "fence")
+(clean house car pool)
+
+* Functions
+** Higher Order
+
+Must use `funcall` to call the function
+
+    (defun add-one (a) (+ 1 a))
+    (defun user-func (fn b) (funcall fn b)) 
+    (user-func #'add-one 10) => 11
+
+** Strings
+
+CONCATENATE creates new sequence and fills it with data from arguments. See also MAPCAN.
+
+    (concatenate 'string "hello" " " "world") => "hello world"
+    (concatenate 'list "hello" " " "world") => (#\h #\e #\l #\l #\o #\  #\w #\o #\r #\l #\d)
+    (concatenate 'vector "hello" " " "world") => #(#\h #\e #\l #\l #\o #\  #\w #\o #\r #\l #\d)
+    (concatenate 'vector '(1 2) '(3 4)) => #(1 2 3 4)
+
+** plist
+
+GETF searches supplied plist for value with matching key
+
+    (setf plist '(:name "Fenton" :age "10"))
+    (getf plist :name) => "Fenton"
+
+LET local variable binding
+
+    (let ((x 10) (y 20) z) ...)
+
+nice ref: http://jtra.cz/stuff/lisp/sclr/index.html
+
+|-------------+-------------------------------------------------|
+| function    | purpose                                         |
+|-------------+-------------------------------------------------|
+| apply       | call supplied function with specified arguments |
+| concatenate | like append but creates new list                |
+| append      | concatenates list arguments into one list       |
+| assoc       | find element in alist                           |
+|-------------+-------------------------------------------------|
+
+* Priting
+  
+** FORMAT
+
+    format destination control-string args(zero or more) => string or NIL
+
+    (setf x 10)
+    (format t "~d " x)
+
+t is output.  ~d is integer
+
+~a - output with aesthetics
+~s - standard output
+~% newline
+tilde parenthesis - flow control
+tilde tilde - escape sequence for tilde
+
+    (format nil "Items in list:~%~{~a, ~}" '(1 2 3 4)) => "Items in list:
+    1, 2, 3, 4, "
+    (format nil "~{~a~^, ~}" '(1 2 3 4)) => "1, 2, 3, 4"
+    (format nil "~f" 3.141592) => "3.141592"
+    (format nil "~2,3f" 3.141592) => "3.142"
+    (format nil "~7,3f" 3.141592) => "  3.142"
+    (format nil "~a ~s" "xyz" "xyz") => "xyz \"xyz\""
+
+* Loops
+** DOTIMES
+
+    (dotimes (x 10) (format t "~d " x))
+
+** LOOP
+
+Vectors: for x across vector
+
+```
+(with-output-to-string 
+  (final-string)
+  (loop
+   for curr-element across my-sequence
+   do (write-string curr-element final-string)))
+```
+
+Looping putting output into `final-string`.  Loop over
+`my-sequence`.  Each element goes into: `curr-element`
+
+Lists: for x in list
+
+* Setup Environment
+
+** Connect from Emacs
+
+    A-x slime-connect
+
+** Sample .emacs
+
+(eval-after-load “slime”
+‘(progn
+(setq slime-lisp-implementations
+‘((sbcl (“/usr/bin/sbcl”))
+(clisp (“/usr/bin/clisp”)))
+common-lisp-hyperspec-root “/home/sujoy/documents/hyperspec/”)
+(slime-setup ‘(slime-asdf
+slime-autodoc
+slime-editing-commands
+slime-fancy-inspector
+slime-fontifying-fu
+slime-fuzzy
+slime-indentation
+slime-mdot-fu
+slime-package-fu
+slime-references
+slime-repl
+slime-sbcl-exts
+slime-scratch
+slime-xref-browser))
+(slime-autodoc-mode)
+(setq slime-complete-symbol*-fancy t)
+(setq slime-complete-symbol-function ‘slime-fuzzy-complete-symbol)
+(add-hook ‘lisp-mode-hook (lambda () (slime-mode t)))))
+
+(require ‘slime)
+
+** Quicklisp
+
+Install/Setup quicklisp: http://www.quicklisp.org
+
+    (ql:quickload "pkg")
+
+quickload will download the package if it doesn't have it, and then
+it will load the system, using asdf.
+
+|-----------------------------------+-----------------------------------------------------|
+| command                           | effect                                              |
+|-----------------------------------+-----------------------------------------------------|
+| (ql:quickload "swank")            | install swank into sbcl                             |
+| (ql:system-apropos "some-string") | search for package: "some-string" in quicklist repo |
+|-----------------------------------+-----------------------------------------------------|
+
+** Swank on SBCL
+
+add following into: `~/.sbclrc` to start swank on sbcl startup.
+
+    (ql:quickload "swank")
+    (swank:create-server)
+
+fire up sbcl
+
+    $ sbcl
+
+swank will now be running in sbcl and you can connect to it from
+emacs. 
+
+** SBCL
+
+Download and install SBCL via pacman
+
+    $ sudo pacman -S sbcl
+
+in `~/.sbclrc` put:
+
+    (require :asdf)
+
+* REPL
+
+| key   | effect                         |
+|-------+--------------------------------|
+| A-C-x | Evaluate current toplevel form |
+|       |                                |
+
+* Tutorial
+
+A variable
+
+```
+CL-USER> (defparameter my-age 19)
+MY-AGE
+CL-USER> my-age
+19
+```
+
+Redefine the variable:
+
+```
+CL-USER> (defparameter my-age 20)
+MY-AGE
+CL-USER> my-age
+20
+```
+
+* System (package) Management ASDF
+** Defining a System
+*** Basics
+
+Say you have a project with name:
+
+    body-parts
+
+Put that in a folder called `body-parts`, with a file at the top level
+called: 
+
+    body-parts/body-parts.asd
+
+in `body-parts.asd`, at the top, as usual, put:
+
+```
+(defpackage #:body-parts
+  (:use :cl :asdf))
+(in-package :body-parts)
+```
+
+then the asdf specific part after that is:
+
+```
+(defsystem body-parts
+  :name "body-parts"
+  :version "0.0.0"
+  :maintainer "T. God"
+  :author "Desmon Table"
+  :licence "BSD sans advertising clause (see file COPYING for details)"
+  :description "Body-Parts"
+  :long-description "Lisp implementation of the body."
+```
+
+only `:name` is required, the others are optional.
+
+*** Specify Dependencies
+**** Simple
+
+The simplest case is when your dependencies are linear.  For example: 
+
+`head.lisp` depends on `torso.lisp` depends on `legs.lisp`
+
+In the asdf file this is specified like so:
+
+```
+:components ((:file "legs")
+             (:file "torso" :depends-on ("legs"))
+             (:file "head" :depends-on ("torso")))
+```
+
+`torso` depends on legs, and `head` depends on `torso` and hence
+transitively on `legs`.
+
+So the whole file at this point looks like this:
+
+```
+(defpackage #:body-parts
+  (:use :cl :asdf))
+(in-package :body-parts)
+(defsystem body-parts
+  :name "body-parts"
+  :version "0.0.0"
+  :components ((:file "legs")
+               (:file "torso" :depends-on ("legs"))
+               (:file "head" :depends-on ("torso"))))
+```
+
+i dropped the optional parts of the `defsystem` form for brevity, the
+folder would look like:
+
+```
+body-parts/
+|-- body-parts.asd
+|-- head.lisp
+|-- legs.lisp
+`-- torso.lisp
+```
+
+**** Sub-Systems / Modules
+
+A subsytem, or module, will be a sub-folder of `body-parts`, lets call
+it `art`, and put the files `tattoo.lisp` and `ink.lisp` in
+there.
+
+The folder tree looks like:
+
+```
+body-parts/
+|-- art
+|   |-- ink.lisp
+|   `-- tattoo.lisp
+|-- body-parts.asd
+|-- head.lisp
+|-- legs.lisp
+`-- torso.lisp
+```
+
+we add the following to the defsystem form:
+
+(:module circulation
+   :components ((:file "ink")
+                (:file "tattoo" :depends-on "ink")))
+
+So the file with a bit more context looks like:
+
+```
+(defsystem body-parts
+  :name "body-parts"
+  :version "0.0.0"
+  :components ((:file "legs")
+               (:file "torso" :depends-on ("legs"))
+               (:file "head" :depends-on ("torso"))
+               (:module circulation
+                  :components ((:file "ink")
+                               (:file "tattoo" :depends-on "ink")))))
+```
+
+NOTE: It is important to note that dependencies can only be defined
+inside a given set of components. So, the file `torso.lisp` cannot
+depend on the file `ink.lisp`, which is a component of a submodule.
+
+**** Depending on another System
+
+Just add a `:depends-on` parameter to the defsystem form.
+
+(defsystem body-parts
+  ;;; ...
+  :components (...)
+  :depends-on ("other-system"))
+
+** Using a System
+
+So in our `~/.sbclrc` file we'd put:
+
+```
+(require :asdf)
+(push "/home/fenton/projects/lisp/systems/" asdf:*central-registry*)
+```
+In the previous section we created a system called `body-parts`, lets
+say our folder system looks like this:
+
+```
+/home/
+`-- fenton/
+    `-- projects/
+        `-- lisp/
+            |-- body-parts/
+            `-- systems/
+```
+
+We simply create a symbolic link to `body-parts.asd` in
+`/home/fenton/projects/lisp/systems`:
+
+```
+$ cd /home/fenton/projects/systems
+$ ln -s /home/fenton/projects/body-parts/body-parts.asd
+```
+
+and then in SBCl we can load the `body-parts` project with:
+
+(asdf:operate 'asdf:load-op 'body-parts)
+
+** References
+
+[[http://common-lisp.net/~mmommer/asdf-howto.shtml][Getting Started with ASDF]]
+
+* packages
+** overview
+
++ single colon `:` will access only symbols that the package author has
+externalized.  
+
+    package:symbol-name
+
++ access NON externalized symbols.  BAD idea normally.
+
+    package::symbol-name
+
++ to get a specified package
+
+    (find-package "pkg-name")
+
++ a synonym for the CURRENT package
+
+    *PACKAGE*
+
++ `intern` like `find-symbol` except if not found creates (intern)
+`symbol-name` 
+
+
+    (find-symbol "symbol-name")
+    (intern "symbol-name")
+
++ similar to regular keywords, except NOT interned in the KEYWORDS
+package. 
+
+    #:symbol-name
+
++ When I `use` another package, I inherit all it's `external` symbols.
+Symbols are made external by `exporting` them.
+
+    :use "package-name"
+
++ you can import a symbol without using it's home package, thereby
+adding that symbol into your name-to-symbol table.
+
+    importing
+
+
+** find all symbols
+
+(do-external-symbols (s (find-package "PACKAGE"))
+  (print s))
+
+* Web - Hunchentoot
+
+you may need to run the following command to allow binding to a low '<1024' 
+'root' port:
+
+    $ sudo setcap 'cap_net_bind_service=+ep' /usr/bin/sbcl
+
+** references 
+
+Two great articles:
+
+http://www.adampetersen.se/articles/lispweb.htm
+
+and
+
+http://msnyder.info/posts/2011/07/lisp-for-the-web-part-ii/
+
+** Install / Setup
+
+I'll abbreviate Hutchentoot to just H.
+
+To install H., just do the following once:
+
+    (ql:quickload "hunchentoot")
+
+To start the server:
+
+    (hunchentoot:start (make-instance 'hunchentoot:easy-acceptor :port 4242))
+
+Test it out in a browser:
+
+    http://127.0.0.1:4242/
+
+** Routing
+
+now we want to route certain URLs to create different pages.  H. has
+a global variable:
+
+    *dispatch-table*
+
+that contains a `list` dispatch routes.  Example:
+
+```
+(defun ctrlr-index () "this is the index")
+(defun ctrlr-about () "this is the about")
+(setq *dispatch-table*
+ (list
+  (create-regex-dispatcher "^/index" 'controller-index)
+  (create-regex-dispatcher "^/about" 'controller-about)))
+```
+
+So any url with `/index` after the machine name, will execute the `controller
+** URL Params
+** Templating cl-who
+
+    (ql:quickload "cl-who")
+
+(defpackage #:my-package
+  (:use :cl :asdf :cl-who))
+
+
+```
+(defun ctrlr-index () 
+  (with-html-output-to-string
+      (*standard-output* nil :prologue t)
+    (:html
+     (:head (:title "Hello, world!"))
+     (:body
+      (:h1 "Hello, world!")
+      (:p "This is my Lisp web server, running on Hunchentoot,"
+          " as described in "
+          (:a :href
+              "http://newartisans.com/blog_files/hunchentoot.primer.php"
+              "this blog entry")
+          " on Common Lisp and Hunchentoot.")))))
+```
+
+* SQL - Elephant
+
+Documentation for reference:
+
+http://common-lisp.net/project/elephant/doc/
+http://common-lisp.net/project/elephant/doc/Tutorial.html#Tutorial
+
+See the notes in the elephant.lisp file:
+
+[[file:lisp-examples/elephant.lisp][file:~/projects/docs-DIR/documentation/lisp-examples/elephant.lisp]]
+* CLOS Objects
+
+** Define a class
+
+
+(defclass name (direct-superclass-name*)
+(slot-specifier*))
+* Symbols, Packages
+
+Bookmark File: lisp-examples.bkmk
+
+when u want to use function `foo` from package `lib-package` you use
+double colon `::`
+
+    lib-package::foo
+
+you must export that function in `lib-package`
+
+* Cookbook longer examples
+
+** Reading / Writing files
+
+In this example I want to manipulate 'rc' (resource configuration)
+files.  These files are ubiquitous in unix, and usually have the
+following qualities:
+
+- Comments begin with a hash
+- parameter names and values are spearated by a space
+- neither param names or values may contain a space
+
+```
+# this is a comment and should be ignored
+this.is.a.param.name this.is.the.value
+```
+* testing: lisp-unit
+
+** package.lisp
+in `<project>/test/package.lisp` put:
+
+```
+(defpackage #:<package-name>
+  (:use :cl :asdf :lisp-unit)
+  ...)
+```
+
+** <project-name>-test.lisp
+* equality predicates
+
+http://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node74.html
+
+** eq
+
+(eq x y) is true if and only if x and y are the same identical
+object. (Implementationally, x and y are usually eq if and only if
+they address the same identical memory location.)
+
+It should be noted that things that print the same are not necessarily
+eq to each other. Symbols with the same print name usually are eq to
+each other because of the use of the intern function. However, numbers
+with the same value need not be eq, and two similar lists are usually
+not eq. For example:
+
+** eql x y
+
+The eql predicate is true if its arguments are eq, or if they are
+numbers of the same type with the same value, or if they are character
+objects that represent the same character.
+
+** equal x y
+
+The equal predicate is true if its arguments are structurally similar
+(isomorphic) objects. A rough rule of thumb is that two objects are
+equal if and only if their printed representations are the same.
+

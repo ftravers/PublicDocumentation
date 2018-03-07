@@ -1,0 +1,10 @@
+[root@localhost u02]# ./portal103_linux32.bin
+
+!!!!!!!!!!!!!!!
+
+** The product maintenance level of the current installer (WebLogic Server:10.3.0.0) is not 
+** compatible with the maintenance level of the product installed on your system (WebLogic 
+** Server:10.3.1.0) . Please obtain a compatible installer or perform maintenance on your 
+** current system to achieve the desired level.
+
+

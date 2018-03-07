@@ -1,0 +1,218 @@
+** run solr as a service on linux
+
+[ref][r1]
+
+Use `runit`, i.e. run-it.
+
+```bash
+$ sudo apt-get install runit
+$ sudo mkdir -p /etc/sv/solr
+$ cd /etc/sv/solr; cat run
+#!/bin/sh
+cd /home/fenton/bin/solr/example
+exec chpst -ufenton java -Xmx1G -jar start.jar
+```
+
+above line means to run as user (-u) `fenton`.
+
+```
+$ sudo chmod +x run
+$ ls -l run 
+-rwxr-xr-x 1 root root 90 run
+$ cd /etc/service
+/etc/service $ sudo ln -s /etc/sv/solr solr
+/etc/service $ ls -l
+lrwxrwxrwx 1 root root 12 solr -> /etc/sv/solr
+```
+
+to start, status and stop:
+
+```
+$ sudo sv stop solr
+$ sudo sv start solr
+$ sudo sv status solr
+```
+
+*** Test
+
+```
+http://127.0.0.1:8983/solr/admin/
+```
+
+*** Logging
+ 
+By default, Solr logs to STD ERROR. You likely want to add a log
+configuration file to have the most control over how Solr logs – see
+http://wiki.apache.org/solr/LoggingInDefaultJettySetup. To be lazy
+though (and perhaps safe), let’s make sure STD OUT and STD ERR are
+nicely logged for us by runit.  This method just logs STD OUT, so lets
+first edit our Solr run script to redirect STD ERR to STD OUT, with
+`2>&1`
+
+```bash
+$ cd /etc/sv/solr/
+$ cat run
+#!/bin/sh
+cd /home/fenton/bin/solr/example
+exec chpst -ufenton java -Xmx1G -jar start.jar 2>&1
+```
+
+Now create a new directory called log in the /etc/sv/solr service
+directory. Inside this, create another script called run. This script
+will start the log service, run it under the user `fenton`, and put the
+log files in the log directory we just made (we use . for the current
+working directory).
+
+```bash
+$ mkdir -p /etc/sv/solr/log/
+$ cat /etc/sv/solr/log/run
+#!/bin/sh
+exec chpst -ufenton svlogd -tt .
+$ 
+```
+
+As we are running as `fenton`, change the owner of the log dir to
+`fenton` so that the log files can be created: 
+
+```
+sudo chown fenton /etc/sv/solr/log
+```
+
+Now make the new run script executable.
+
+```bash
+sudo chmod +x /etc/sv/solr/log/run
+```
+ 
+The next time runit starts, Solr logs will be logged to the
+/etc/sv/solr/log/current file and auto rolled for you.
+
+** Install solr
+
+
+```bash
+$ tar xvfz apache-solr-3.5.0.tgz
+$ cd example/
+$ java -jar start.jar 
+http://<hostname>:8983/solr/admin/
+```
+
+Now we want to index our documentation that is in html format.
+
+copy in the schema.xml document into: example/solr/conf/schema.xml
+
+Ctrl-c and restart solr to pickup the new schema.
+
+
+** Delete the index
+
+clean, scrub, empty
+
+```
+http://127.0.0.1:8983/solr/update?commit=true&stream.body=<delete><query>*:*</query></delete>
+```
+
+** Highlighting found terms
+
+```
+http://192.168.0.22:8983/solr/select?q=fenton&hl=true&hl.fl=*
+```
+* Publishing System Architecture
+
+Source files are edited using [markdown][md] syntax.  They are stored
+in a git project, `documentation`, that is expected to be here:
+`/home/fenton/project/documentation`.  Just that folder is searched,
+not child folders.
+
+The conversion from markdown to html is done with a ruby program that
+is stored in the project called `it_tools`.  The main source file is
+found at: `it_tools/lib/it_tools/html_publish.rb`.  Its published as a
+ruby gem to [rubygems.org][rg] and can be installed using: `gem install
+it_tools`. 
+
+There is [solr][sl] indexer running at:
+
+```
+SOLR_ROOT = fenton@192.168.0.22:/home/fenton/bin/apache-solr-3.5.0/example/
+```
+
+Which can be run from the command line in that folder using:
+
+```
+java -jar start.jar
+```
+
+The admin url is: 
+
+```
+http://192.168.0.22:8983/solr/admin/
+```
+
+The solr `schema.xml` located at `SOLR_ROOT/solr/conf/schema.xml`, has
+been replaced by the schema stored in the `it_tools` project `config` folder.
+
+There is a simple html and js page that send queries to a listening
+ruby [sinatra][sin] application.  These file are located with the
+source mmd files in the `documentation` git project.
+
+The Sinatra application is also contained in `it_tools`, it is located
+at:
+
+```
+it_tools/lib/it_tools/solr.rb
+```
+
+It can be started for development like so: ( you can leave off -p 4567
+if you don't want to specify the port)
+
+```
+~/projects/it_tools $ bundle exec shotgun -p 4567
+```
+
+Using this `shotgun` approach means that each time the service is hit,
+it will reload `solr.rb` from the file system automatically, so any
+changes to `solr.rb` get picked up without having to restart the
+sinatra application.  Great for testing.
+
+To kill `shotgun`, run (use a different port if required):
+  
+```
+lsof -i :4567
+```
+
+to get the PID then do `kill -9 <PID>`.  
+
+To run in production do (again u can leave off the -p 4567 if you dont
+want to specify the port):
+
+```
+~/projects/it_tools $ rackup -p 4567
+```
+
+These serve up the published html, as specified by the line:
+
+```
+set :public_folder, '/home/fenton/bin/website'
+```
+
+in `solr.rb`.  It also responds to requests at the `/srch` url which
+the `search.js` file sends its queries to.  This then sends the query
+to the solr server, asking for the results to be returned in ruby
+format with the `wt=ruby` url parameter.  These get `eval()`'d into a
+ruby hash which we can then process.
+
+We extract the `response/docs` list and pass that to an [erb][erb]
+template which loops over the results and creates the result list html.
+
+
+
+
+
+
+
+[erb]: http://www.stuartellis.eu/articles/erb/
+[md]: http://daringfireball.net/projects/markdown/
+[rg]: http://rubygems.org/
+[sin]: http://www.sinatrarb.com/
+[sl]: http://lucene.apache.org/solr/
+[r1]: http://www.lucidimagination.com/blog/2011/08/10/running-solr-as-a-service-on-linux/

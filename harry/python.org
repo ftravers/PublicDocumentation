@@ -1,0 +1,96 @@
+* Data Types
+
+Here are some data types:
+
+** Atomic
+
++ String
+
+: "Abc"
+
++ Integer
+
+: 1
+
+An integer is a whole number, with no fractional part.
+
++ Float
+
+: 1.3
+
+A float is a number with a decimal, fractional part.
+** Compound
+
+We can have data types that are lists and maps too.  They can hold
+multiple atomic variables.
+
+*** Lists
+
+When we want to make a list, we surround the data in square brackets,
+like so:
+
+#+BEGIN_SRC python
+my_list = [ 1, 2, 3 ]
+#+END_SRC
+
+*** Maps (hash, dictionary)
+
+#+BEGIN_SRC python
+my_hash = { 
+  "name": "harry",
+  "name": "bob"
+}
+#+END_SRC
+
+A hash is a list of key/value pairs.
+
+Here the first *key* is "name" and the first value is "harry".
+* Functions
+
+Functions are defined like so:
+
+#+BEGIN_SRC python
+def func_name(param):
+    a = param + 1
+    return a
+#+END_SRC
+
+The above function should take a number and return it plus one.
+
+We could call that function like so:
+
+#+BEGIN_SRC python
+num = 42
+bigger = func_name(num)
+#+END_SRC
+
+now bigger should contain the number '43'
+
+* Printing
+
+When we want to write out to the terminal we use the print function.  
+
+#+BEGIN_SRC python
+print("hello")
+#+END_SRC
+
+would print the word 'hello'.
+
+* for loops 
+
+when you want to process a loop it is good to use a 'for' loop.
+
+#+BEGIN_SRC python
+my_list = [1,2,3]
+
+for my_num in my_list:
+    print ("The number is: " + str(my_num))
+#+END_SRC
+
+output:
+
+#+BEGIN_SRC 
+The number is: 1
+The number is: 2
+The number is: 3
+#+END_SRC

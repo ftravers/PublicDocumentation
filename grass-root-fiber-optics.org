@@ -1,0 +1,93 @@
+* Overview
+
+Make a plan for grass-roots gigabit enabling a community.
+
+* Status Quo, the Problem
+
+Incumbents, Shaw, Telus, etc., would prefer to not compete and
+innovate, so the chances that they will offer cost effective gigabit
+are low.  Innovative technologies depend on high speed, low cost
+networking, so to spur economic growth in our communities, we need to
+take responsibility for this at a grass roots level.
+
+* Organization
+
+Have the organization be as community oriented as possible.
+Non-profit, grassroots.  Perhaps concessions can be obtained if
+organized as a community non-profit.
+
+* Deployment Options
+
+** Municipal Poles
+
+Stringing cable on municipally owned poles is one option.  It would
+be good to see if some arrangement could be made where the community
+didn't have to pay extra to use the poles.  
+
+** Private land only
+
+Another option for stringing cable would be to only go on/over
+privately owned land.  Trenches or masts could be dug/erected.  This
+way there wouldn't be any on-going expenses after the initial
+hardware capital expenditure.
+
+* Topology
+
+Each home would have a single connection to a switch shared among the
+people on their block.
+
+* Connection Sharing
+
+A high-speed connection could be brought in and share among however
+many people are on the network.
+
+* Hardware
+
+Need to source the following:
+
+** Neighbourhood block switches
+
+** Cable
+
+There are two types of cable
+
+** Tools
+
+Tools are required for putting ends on fiber optic cable
+
+** Fiber to Ethernet converters
+
+These are for the in-home conversion to match peoples existing
+routers/wifi, etc.
+
+* Network Providers
+
+May be possible to work with: http://onegigabit.ca/, in order to
+source gigabit networking.
+
+* Traffic Shaping
+
+Will be important to setup a router between the incoming gigabit and
+the community network.  Some user may saturate the connection, so
+when there is contention their traffic should be shaped to be
+equitably shared among neighbours.
+
+* Challenges
+
+** Connection Sharing
+
+Sharing regular consumer internet may violate terms of service, so
+more expensive network connections will need to be purchased to be
+shared.
+
+** Municipal Poles
+
+Incumbents network providers will try to ensure that competitors pay
+at least as much as they do for pole use.
+
+*** Mitigation
+
+Perhaps the different status, community, non-profit, will enable free
+pole use?
+
+

@@ -1,0 +1,48 @@
+* Install
+
+: el-get-install simple-httpd js2-mode skewer-mode skewer-less
+
+* Config
+
+In =.emacs= set
+
+: (setq httpd-root "/home/fenton/projects/ng/mean_pc/app")
+
+to be the root of your application.
+
+Put
+
+: <script src="/skewer"></script>
+
+at the top of your =index.html= file.
+
+* Use
+
+: M-x httpd-start
+
+Open a browser at
+
+: http://localhost:8080/index.html
+
+Have a JS file in a buffer in =js2-mode= and then you can interact
+with the repl.
+
+| C-c C-k | Load current buffer                                                  |
+| C-c C-z | Select REPL buffer                                                   |
+| C-x C-e | Eval form before point, result -> minibuffer, w prefix -> cur buffer |
+|         |                                                                      |
+
+// index.html has: <body ng-app="pricecompare" id="pricecompareApp">
+var app = angular.element($("#pricecompareApp"))
+var injector = app.injector()
+
+// to get the current app injector:
+angular.element(domElement).injector()
+
+// get Angular scope from the known DOM element
+e = document.getElementById('HomeCtrlID');
+scope = angular.element(e).scope();
+// update the model with a wrap in $apply(fn) which will refresh the view for us
+scope.$apply(function() {
+    scope.controllerMethod(val);
+}); 

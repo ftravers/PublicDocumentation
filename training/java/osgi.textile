@@ -1,0 +1,14 @@
+"home":../../index.html > "training":../index.html > OSGI
+
+p(toc). Table of Contents
+
+{toc}
+
+
+h1. Reference / Background
+
+* "Overview of OSGI and why it is important":http://rcpquickstart.com/2009/05/04/why-is-osgi-important/
+
+* "Using different version of a given library":http://seewah.blogspot.com/2009/05/osgi-next-big-thing-beginners-view.html
+
+* "Interesting tutorial":http://www.turmoildrivendevelopment.com/2009/05/osgi-with-scala-java-groovy-maven-and.html 

@@ -1,0 +1,68 @@
+* Get pictures/videos off phone
+
+Seems need to use: go-mtpfs
+
+see arch-wiki for how to connect.
+
+Don't let phone screen saver turn on.  In developer options: 'Stay Awake'4
+
+** first time
+
+#+BEGIN_SRC bash
+% sudo su -
+# pacman -S mtpfs libmtp
+# the_dir="/mnt/android"
+# mkdir -p ${the_dir}
+# sudo chgrp users ${the_dir}
+# sudo chmod g+w ${the_dir}
+# sed -i "s/#user_allow_other/user_allow_other/" /etc/fuse.conf
+#+END_SRC   
+
+** each time
+
+Ensure you unlock your phone screen
+
++ mount the drive:
+
+ : % mtpfs -o allow_other /mnt/android
+
+now you can transfer your files ala:
+
+ : % src="/mnt/android/Internal storage/DCIM/Camera"
+ : % rsync -avP --stats ${src}/*.jpg ~fenton/data/fenton/pics
+ : % rsync -avP --stats ${src}/*.mp4 ~fenton/data/fenton/video
+
++ unmount
+
+++ regular user
+
+ : % fusermount -u /mnt/android
+  
+++ or as root
+
+ : # umount /mnt/android
+
+** backup to server
+
+#+BEGIN_SRC 
+cd
+rsync -avP --stats data/ v3h:~/data/
+
+#+END_SRC
+
+** backup mom
+mtpfs -o allow_other /mnt/android
+cd "/mnt/android/Internal storage/DCIM/Camera"
+rsync -avP --stats *.jpg ~fenton/data/mom/pics
+rsync -avP --stats *.mp4 ~fenton/data/mom/video
+fusermount -u /mnt/android
+
+try to find this image: (krista picking up dog) 
+IMG_20130221_130346.jpg
+
+* google+
+
+#+BEGIN_SRC 
+mv *.jpg ~/data/fenton/pics
+mv *.mp4 ~/data/fenton/video
+#+END_SRC

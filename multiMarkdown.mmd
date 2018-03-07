@@ -1,0 +1,142 @@
+CSS: style.css
+
+# Markdown
+
+* [Ref1](http://daringfireball.net/projects/markdown/syntax)
+* [Ref2](http://hw.libsyn.com/p/8/3/3/8339a864bb8faa83/Markdown_Cheat_Sheet.pdf?sid=fda9900ffcd7dc268604feaec384aa35&l_sid=29457&l_eid=&l_mid=2413681)
+
+## Images
+
+    ![Alt text](/path/to/img.jpg "Optional title")
+
+## Headers
+
+Headers are specified by the number of `#` (hash) symbols you use at
+the beginning of a line.
+
+    # This is header1
+    ## This is header2, etc...
+
+## Links
+
+To create an inline link, use a set of regular parentheses immediately
+after the link text’s closing square bracket. Inside the parentheses,
+put the URL where you want the link to point, along with an optional
+title for the link, surrounded in quotes. For example:
+
+    This is [an example](http://example.com/ "Title") inline link.
+
+    [This link](http://example.net/) has no title attribute.
+
+## Block Code
+
+To produce a code block in Markdown, simply indent every line of the
+block by at least 4 spaces or 1 tab. For example, given this input:
+
+    This will be regular text.
+        But this line will be block code because I'm indented 4 spaces.
+
+## Inline Code
+
+To indicate a span of code, wrap it with backtick quotes (`). Unlike a
+pre-formatted code block, a code span indicates code within a normal
+paragraph. For example:
+
+    Use the `printf()` function.
+
+## Emphasis
+
+EMPHASIS
+
+Markdown treats asterisks (*) and underscores (_) as indicators of
+emphasis. Text wrapped with one * or _ will be wrapped with an HTML
+<em> tag; double *’s or _’s will be wrapped with an HTML <strong>
+tag. E.g., this input:
+
+*single asterisks*
+
+_single underscores_
+
+**double asterisks**
+
+__double underscores__
+
+## Convert textile -> markdown
+
+Easiest to just convert already converted HTML into Markdown.  The
+following converts a file called emacs.html into emacs.mmd
+(multi-markdown)
+ 
+    pandoc -f html -t markdown emacs.html > emacs.mmd
+
+## Lists
+
+### Unordered 
+
+Can use *, +, or - for unordered lists.
+
+### Ordered
+
+Any number followed by a period.
+
+    1.
+    3.
+    3.
+
+Still produces, 1, 2, 3.  (Actual number used is unimportant)
+
+## Tables
+
+sample:
+    
+    | | Grouping ||
+    First Header | Second Header | Third Header |
+    | :----------- | :-----------: | ------------
+    Content | *Long Cell* ||
+    Content | **Cell** | Cell |
+    New section | More | Data |
+    And more | And more |
+    [Prototype table]
+
+
+The requirements are:
+
+* There must be at least one | per line
+* The second line must contain only `|,-,:,.,` or spaces
+* Cell content must be on one line only
+* Columns are separated by |
+* The ﬁrst line of the table, and the alignment/divider line, must
+start at the beginning of the line
+
+Other notes:
+
+* It is optional whether you have |’s at the beginning and end of lines.
+* To set alignment, you can use a colon to designate left or right
+alignment, or a colon at each end to designate center alignment, as
+above. If no colon is present, the default alignment of your system is
+selected (left in most cases). If you use a period character (.), then
+char alignment is used - in the future this will allow columns of
+decimal formatted numbers to be aligned on the decimal
+character. Browsers do not currently support this feature, so it is
+somewhat useless at the moment. It could be used in an XSLT stylesheet
+for other output formats (e.g. LaTeX).
+
+* To indicate that a cell should span multiple columns, there simply
+add additional pipes (|) at the end of the cell, as shown in the
+example. If the cell in question is at the end of the row, then of
+course that means that pipes are not optional at the end of that
+row. . . .
+
+
+# Footnotes
+
+The footnote itself must be at the start of a line, just like links by reference
+
+    Here is some text containing a footnote.[^somesamplefootnote]
+
+# Definition Lists
+
+    Apple
+    : A fruit you eat or throw
+    Orange
+    : A color derived from a fruit

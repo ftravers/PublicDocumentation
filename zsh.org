@@ -1,0 +1,603 @@
+* Git Prompt
+
+Enable vcs_info and call it in a pre-command:
+
+```
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+precmd() {
+    vcs_info
+}
+setopt prompt_subst
+```
+
+Next we have zstyle lines, that write to the `vcs_info_msg_0_` and
+`vcs_info_msg_1_` variables, which we'll assign to PROMPT and
+RPROMPT, like so:
+
+PROMPT='${vcs_info_msg_0_}'
+RPROMPT='${vcs_info_msg_1_}'
+
+PROMPT = regular prompt
+RPROMPT = right prompt
+
+There three different prompt scenarios we'll consider, each have a
+label.  
+
+|---------------+-------------------------------------------------------------|
+| label         | meaning                                                     |
+|---------------+-------------------------------------------------------------|
+| formats       | when we are in a git repository folder                      |
+| nvcsformat    | when we are not in a git repo folder                        |
+| actionformats | when we have a pending git action like merge, rebase, etc.. |
+|---------------+-------------------------------------------------------------|
+
+
+The following works on the `formats` prompt:
+
+```
+zstyle ':vcs_info:git*' formats "%s  %r/%S %b %m%u%c "
+```
+
+|----+------------------------------------------------------------|
+| %s | The current version control system, like git or svn.       |
+| %r | The name of the root directory of the repository           |
+| %S | The current path relative to the repository root directory |
+| %b | Branch information, like master                            |
+| %m | In case of Git, show information about stashes             |
+| %u | Show unstaged changes in the repository                    |
+| %c | Show staged changes in the repository                      |
+| %a | ‘actions’ i.e.: currently performing a merge or rebase     |
+|----+------------------------------------------------------------|
+
+`check-for-changes` is disabled by default because it might slow
+things down, it tell the back-end to check for working-copy changes
+and staged changes, so you can use the %c and %u sequences. Enable it
+with:
+
+```
+zstyle ':vcs_info:*' check-for-changes true 
+```
+
+So here is a full example:
+
+```
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+precmd() {
+    vcs_info
+}
+ 
+setopt prompt_subst
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:*'    formats "%f[%%n@%%m %1~] $ " "%f%a %F{3}%m%u%c %f%b:%r/%S" 
+zstyle ':vcs_info:*'    nvcsformats   "%f[%n@%m %1~]$ " ""
+zstyle ':vcs_info:*'    actionformats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
+
+PROMPT='${vcs_info_msg_0_}'
+RPROMPT='${vcs_info_msg_1_}'
+```
+
+* arrays
+
++ initialize 
+
+    % myarr=(2 4 3)  
+
++ access, index
+
+ Access starts from 1 not 0
+
+    % echo $myarr[2]
+    4
+
++ access: negative index
+
+    % echo $myarr[-1]
+    3
+
++ append
+
+#+BEGIN_SRC sh
+var=1
+myarr=()
+myarr+=($var)
+#+END_SRC
+
++ delete element
+
+    % myarr[2]=()
+    % print $myarr
+    2 3
+
++ for ((i = 0; i < 42; i++)); do 
+    somecommand; 
+  done
+
++ loop over array
+
+    myarray=(1 2 3 4 7)
+    for i in $myarray;
+    do
+      print $i;
+    done
+
+* hashes
+
+    % typeset -A hash
+    % hash=(wife emily)
+    % print $hash
+    emily
+    % print $hash[wife]
+    james
+
++ add element
+
+    % hash[child]=kevin
+    % print $hash
+    emily kevin
+    % print $hash[child]
+    kevin
+
++ remove elements
+
+    % unset "hash[child]"
+    % print $hash
+    emily
+* arithmatic
+a=1
+b=1
+((c=a+b))
+* zparseopts
+
+reference:
+http://lavica.fesb.hr/cgi-bin/info2html?(zsh)The%20zsh/zutil%20Module
+
+** option
+*** using -a flag
+
+look for a single `-f` flag passed to script.  If found put into
+array called: `my_options_array`.
+
+test.sh:
+
+    zparseopts -a my_options_array f
+    echo $my_options_array[1]
+
+output:
+
+    % ./test.sh -f
+    -f
+
+*** two (or more ) positional options
+
+To parse the following:
+
+    % ./junk.sh -ab                                                                                                       U fenton/.
+    % ./junk.sh -a -b   
+
+you can do:
+
+    zparseopts -a ma a b
+    echo $ma[1]
+    echo $ma[2]
+
+results:
+
+    % ./junk.sh -a -b                                                                                                     U fenton/.
+    -a
+    -b
+    % ./junk.sh -ab                                                                                                       U fenton/.
+    -a
+    -b
+
+The problem with the above approach is that it is positional
+
+    % ./junk.sh -b                                                                                                        U fenton/.
+    -b
+     
+    %
+
+So $ma[1] now contains '-b', not '-a'
+
+*** store each option in it's own named array
+
+Instead of putting all options into a single array, you can specify
+one array per option by appending the option with: '=<array_name>'
+like so:
+
+    zparseopts l=long_array t=time_array 
+    echo "l: $long_array[1]"
+    echo "t: $time_array[1]"
+
+output:
+
+    % ./test.sh -lt
+    -f
+    -t
+
+** option with required value
+
+We add a single colon `:` after the required parameter name.
+
+test.sh:
+
+    zparseopts -a my_options_array f:
+    echo $my_options_array[1]
+    echo $my_options_array[2]
+
+output
+
+    % ./test.sh -f abc
+    -f
+    abc
+    % ./test.sh -f
+    ./test.sh:zparseopts:4: missing argument for option: f
+
+** a longname option
+
+We can take an options like: `--file abc.txt` instead of just `-f
+abc` by preceeding the option with a `-`
+
+test.sh:
+
+    zparseopts -a my_options_array -file
+    echo $my_options_array[1]
+
+output:
+
+    % ./test.sh --file
+    --file
+
+** skip (dont stop at) unknown options
+
+Normally processing stops when we encounter an option we didn't tell
+`zparseopts` about.  
+
+    zparseopts -a a_option a
+    echo $a_option[1]
+
+output:
+
+    % ./test.sh -b -a
+     
+    ~ % ./test.sh -a -b
+    -a
+
+However we can use the -E flag to carry on processing all the
+arguments:
+
+test.sh:
+
+    zparseopts -E -a a_option a
+    echo $a_option[1]
+
+output:
+
+    % ./test.sh -b -a
+    -a
+
+** a long AND short option
+
+Maybe we want an option to be specified at either `-f` or `--file`
+
+Here we check the length of the array with the `$#` notation.  So
+`$#file_option` is the length of the `file_option` array.
+
+test.sh:
+
+#+BEGIN_SRC SH
+
+    zparseopts f=file_option -file=file_option
+    if [[ $#file_option -ge 1 ]]; then
+      echo "either an -f or an --file option was used"
+    fi
+
+#+END_SRC
+
+output:
+
+     ./test.sh --file
+    either an -f or an --file option was used
+     ./test.sh -f
+    either an -f or an --file option was used
+     ./test.sh -f --file
+    either an -f or an --file option was used
+     ./test.sh
+                     
+** Other notes
+
+*** Hash instead of array.
+
+a hash or associative array can be used in place of an array.
+
+    zparseopts -A my_opt_hash a:b:c:
+
+The keys of the hash will be the options, the values will be the
+option if it doesn't have a required value, or the value if it does. 
+
+
+*** Optional values to options
+
+if you want to be able to do:
+
+    test.sh -f
+
+or
+
+    test.sh -f fenton.txt
+
+you use double colon, as in:
+
+    zparseopts -a my_opts f::
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+looks for a parameter 
+
+$foo = -a    
+
+-D = Remove the parameter for the options list after it is processed
+-E = Keep parsing options even if you run into one that isn't asked
+for (specified/known) in your script
+-A = put args into an Associative/Hash.  Key is argument name, value
+is what was passed in.
+* output shell script usage string
+
+usage() {
+  cat <<EOF
+
+specify one of -u (install to USB) or -c (install to computer), not
+both or neither :)
+
+specify device with -d <device>.  For example: `-d /dev/sdb`.
+EOF
+}
+* functions
+
+** Simple
+
+You can use exit or return codes to signal errors.  =exit= will kill
+the (sub)shell, whereas =return= wont.
+
+#+BEGIN_SRC sh
+greet() {
+    echo "hello $1"
+    echo "goodbye"
+    return "2"
+    }
+abc=`greet fenton`
+echo $?
+echo $abc
+#+END_SRC
+
+* completions
+** setup
+Zsh completion system loads completion functions from the 
+directories listed in `$fpath` variable:
+
+I created a separate directory for my functions: `~/.zsh`
+So, to initialize the compsys add the following code into 
+your `.zshrc` file:
+
+
+    # COMPLETION SETTINGS
+    # add custom completion scripts
+    fpath=(~/.zsh $fpath) 
+    
+    # remove the zcompdump file which is like a cached version
+    # of your completions if you want new definitions to show up
+    rm -f ~/.zcompdump
+
+    # compsys initialization
+    autoload -Uz compinit
+    compinit
+
+    # show completion menu when number of options is at least 2
+    zstyle ':completion:*' menu select=2
+
+** custom completions
+
+put in folder: ~/.zsh/
+
+begin filename with underscore, if have a function called: 'c' 
+then filename should be:
+
+    ~/.zsh/_c
+
+Top of file should have:
+
+    #compdef c
+    typeset -A opt_args
+    local state context line
+
+*** breakdown
+
+    #compdef c
+
+This means this file is for completing the command: 'c'
+    
+    opt_args
+
+is an associative array that contains command-line options like -d or
+-f as its keys and the actual parameters to those options (if any) as
+its values.
+
+    $state 
+
+is a scalar variable used by the state mechanism in the _arguments()
+function (we’ll talk about state later on in this article). 
+
+    $words
+
+contains list of words from current command line
+
+    $context $line
+
+The other two variables, $context and $line won’t be used directly in
+this function, but _arguments() uses them behind the scenes.
+
+** _arguments
+
+[[http://www.linux-mag.com/id/1106/][ref]]
+
+*** single letter options
+
+_arguments -s -S \
+     "(-l -c -r)-x[use default justification of font]" \
+
+looking at the above line the first set of parameters is an exclusion
+list.  Meaning if you are using the option '-x', you cannot also use
+-l, -c or -r.
+
+Then comes the option itself -x
+
+Finally the helptext is in square brackets.
+
+*** options with a value
+
+    "(-t)-w+[specify output width]:output width (in columns):" \
+
+The '+' after 'w' means: this option can take another argument in the
+ same word or in the next word. For example, -w 64 and -w72 would both
+ be valid.
+
+The second difference is that there’s an additional string after the
+help text that’s used as a hint when the user presses the tab key
+(output width (in columns)). However, this text is displayed only if
+you’ve enabled verbose mode
+
+Set verbose with:
+
+    zstyle ':completion:*' verbose yes
+
+The final colon is a separator between the hint and an action, but
+there’s no action for -w.
+
+*** with action
+
+    "(-v)-I+[display info]:info code:(-1 0 1 2 3 4)" \
+
+Here the option (-I) takes an argument. There are only six possible
+ values that can be used with -I; after the hint, we list those six
+ arguments in parentheses.
+
+*** file completion as arg value
+
+    "-d+[specify font directory]:font directory:_files -/" \
+
+The -d option requires a directory as an argument. We use the zsh
+internal function called _files() to build and present the list. We
+pass -/ as an argument so that only directories are presented in the
+completion list.
+
+*** custom
+
+    "-f+[specify font]:font:->fonts" \
+
+Sometimes, building a completion list for an option’s arguments is
+non-trivial and might have to be done with custom code. That’s when we
+use the state mechanism. See where it says, "->fonts"? That means,
+"Set the $state variable to ‘fonts’ and let me handle it."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+** junk
+#---------------------------
+
+
+    _arguments "1: :(docs projects)"                    
+
+Lets breakdown: "1: :(docs projects)" 
+
+| 1               | Means the first argument of the function.           |
+| :Directories:   | "Directories" will be displayed in completion menu. |
+| (docs projects) | completion options                                  |
+
+the single word list: `(World)`.
+
+. We don't need any message here because no menu 
+will be shown as there is only one option.                
+                    
+* if/else
+** numeric comparison 
+
+#+BEGIN_SRC sh
+if [[ 2 -gt 3]]; then
+    echo "weird!"
+fi
+#+END_SRC
+
+** string comparison
+
+#+BEGIN_SRC sh
+if [[ "two" == "$number" ]]; then
+    echo "number is two!"
+fi
+#+END_SRC
+
+** if elif else
+
+#+BEGIN_SRC sh
+if [[ $# -ge 3 ]]; then
+    echo cd: too many arguments >&2
+elif [[ $# -eq 2 ]]; then
+    builtin cd $newdir
+else
+    builtin cd
+fi
+#+END_SRC

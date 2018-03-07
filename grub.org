@@ -1,0 +1,136 @@
+* How GRUB works
+
+In the configuration files you'll see reference to two files, the
+`initrd` file and the `vmlinuz` file.
+
+`initrd`, is the temporary root file system that is loaded into memory
+to make preparations before the real root file system can be mounted.
+
+`vmlinuz` is the statically linked executable file that contains the
+Linux kernel.
+
+You will see lines that begin with the command: "insmod", which
+is a contraction of "install module".  These will be linked into the
+linux kernel, thereby extending the functionality of it.
+
+There is an other command: `rmmod`, which removes a module.  The
+command `modprobe` is a superset of `insmod` and `rmmod`, it can load
+or unload a module.
+
+** Specify the partition
+
+You will see a line like:
+
+    set root='hd0,gpt2'
+
+| parameter            | meaning                                      |
+|----------------------+----------------------------------------------|
+| hd                   | is hard drive                                |
+| hd0                  | means the first hard drive (counting from 0) |
+| gpt                  | GUID Partition Table                         |
+| the '2' from: 'gpt2' | means the 3rd partition                      |
+
+aside: a GPT is a newer replacement for MBR (Master Boot Record), and
+you should consider using it instead of MBR.
+
+** Regenerate grub.cfg
+
+The main configuration files for GRUB are: `/etc/default/grub` and
+`/etc/grub.d/*`.
+
+To regenerate grub.cfg after updating configuration or boot script
+files do:
+
+    % sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+** Change Timeout
+
+Normally I set the timeout for GRUB to be 1 second, because I like to
+keep my reboot time to a minimum.  But when we need to have time to
+choose other OS's to load we may want to change that.
+
+| File              | Setting      | Meaning         |
+|-------------------+--------------+-----------------|
+| /etc/default/grub | GRUB_TIMEOUT | time in seconds |
+
+** Booting from an ISO - GParted
+
+Now lets say we'd like to be able to boot from an ISO image, such as
+a GParted iso image so we can, in future, more easily rearrange our
+partitions. 
+
+NOTE: this info comes from: http://gparted.sourceforge.net/livehd.php
+
+Any file that is put into the folder:
+
+    /etc/grub.d/
+
+and has an execute permission set will run.  To achieve this we could
+append the following to the file: `/etc/grub.d/40_custom`
+
+```
+menuentry "Gparted live" {
+     set isofile="/boot/isos/gparted-live-0.5.2-9.iso"
+     loopback loop $isofile
+     linux (loop)/live/vmlinuz boot=live config union=aufs noswap noprompt vga=788 ip=frommedia toram=filesystem.squashfs findiso=$isofile
+     initrd (loop)/live/initrd.img
+   }
+```
+
+Remember to put your iso image in the `/boot/isos` folder as per above.
+
+** FreeDOS
+
+I installed syslinux with: "pacman -S syslinux" then I copied the
+memdisk from `/usr/lib/syslinux/memdisk` to `/boot/memdisk`.
+
+Then i put the freedos iso here: `/boot/isos/freedos-1.1.iso`
+
+I appended the file: `/etc/grub.d/40_custom`, with:
+
+menuentry "FreeDOS" {
+    linux16 /boot/memdisk iso 
+    initrd16 /boot/isos/freedos-1.1.iso
+}
+
+** biosdisk
+
+ref: https://wiki.ubuntu.com/DellBIOS
+
+menuentry "BIOS Updater" {
+    linux16 /boot/memdisk raw 
+    initrd16 /boot/dosdisk8192.img
+}
+
+** memdisk types
+
+menuentry "Boot Hardware Detection Tool from floppy" {
+   linux16 /memdisk
+   initrd16 /hdt.img
+ }
+
+ menuentry "Boot Hardware Detection Tool from iso" {
+   linux16 /memdisk iso
+   initrd16 /hdt.iso
+ }
+
+ menuentry "Boot DOS from floppy image (with 'raw' parameter)" {
+   linux16 /memdisk raw
+   initrd16 /dosboot.img
+ }
+
+** Booting another OS
+
+One thing we could do is have 2 arch linuxes running, and select
+which we want to load from GRUB.  To achieve this we could append the
+following to the file: `/etc/grub.d/40_custom`
+
+```
+menuentry "GParted live" {
+      set root=(hd0,4)
+      linux /live-hd/vmlinuz boot=live config union=aufs noswap noprompt vga=788 ip=frommedia live-media-path=/live-hd bootfrom=/dev/hda4 toram=filesystem.squashfs
+      initrd /live-hd/initrd.img
+    }
+```
+
+

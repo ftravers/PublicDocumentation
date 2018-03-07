@@ -1,0 +1,240 @@
+* Terminology
+
+** Project vs. App
+
+A project is a collection of Apps.  An app may be a forum, a weblog,
+etc that you can put together to form a website.  They need not be
+managed under the same source tree, and actually shouldn't be.
+
+Your apps can live anywhere on your Python path.
+
+* create blank project
+
+    % django-admin.py startproject <proj>
+
+Create a folder under <proj> with a blank template project.
+
+Now make a: [[file:~/projects/docs-DIR/documentation/postgresql.org::*New%20user%20&%20database][New Postgres User & Database]]
+
+* config
+
+Edit: `<proj>/settings.py` with your DB settings.
+
+* create an app
+
+Best to keep your work in a separate app inside your project
+
+** Create App
+
+    % python manage.py startapp <app>
+
+** Enable App
+
+  + <app>
+   
+  Add to string: `INSTALLED_APPS` in `settings.py`.
+   
+  + admin
+   
+  Might as well enable the admin app too, while your here.
+
+* sync db / start server 
+
+Good time to test the above by syncing db and starting server and
+seeing starting page:
+
+** sync DB
+
+    % python manage.py syncdb
+
+The syncdb command looks at the INSTALLED_APPS setting and creates any
+necessary database tables according to the database settings in your
+mysite/settings.py file.
+
+** start server
+
+  Start the app server:
+
+    % python manage.py runserver
+
+  Have a look: http://127.0.0.1:8000
+
+* virtual env
+
+Soon you'll start adding pypi packages, so lets `virtualenv`
+ourselves to keep our system independent.
+
+    % ve tre
+
+** Install packages required:
+
+    % pip install django psycopg2
+
+* Routing
+
+Lets assume our app was called `forums`, then in file:
+`<proj>/<proj>/urls.py` we'd put:
+
+    url(r'^forums/', include('forums.urls')),
+
+In file: `<proj>/forums/urls.py` add:
+
+    from django.conf.urls import patterns, url
+    from forums import views
+    urlpatterns = patterns('',
+        url(r'^$', views.index, name='index'),
+    )
+
+* view
+
+In file: `<proj>/forums/views.py` add:
+
+    from django.http import HttpResponse
+    def index(request):
+        return HttpResponse("Hello, world. You're at the forum index.")
+
+* templates
+
+Create a folder called `templates/<app>/index.html` in your app folder.
+
+    {% load i18n %}
+    <h1>{% trans "This is the title." %}</h1>
+
+* Localization i18n
+
+  + [[https://docs.djangoproject.com/en/dev/topics/i18n/][Reference]] 
+
+* Localized View 
+
+Assuming app called: `tre`
+
+    from django.http import HttpResponse
+    from django.template import RequestContext, loader
+    def index(request):
+        template = loader.get_template('tre/index.html')
+        context = RequestContext(request, {})
+        return HttpResponse(template.render(context))
+
+Restart server and reload page.
+
+** Message Files
+
+Django comes with a tool, `django-admin.py makemessages`, that
+automates the creation and upkeep of these files. To create or update
+a message file for the thai `th` language, run this command from you
+<app> folder:
+
+    % django-admin.py makemessages -l th
+
+now you would edit the file:
+
+    <proj>/<app>/locale/th/LC_MESSAGES/django.po
+
+Then you need to compile the messages with:
+
+    % django-admin.py compilemessages
+
+Now update the `settings.py` file to reflect thai language support. 
+
+add 'django.middleware.locale.LocaleMiddleware' to your
+MIDDLEWARE_CLASSES.  Make sure it is near the top but after
+SessionMiddleware.  If you use CacheMiddleware then put it after that
+as well.
+
+Set the following too:
+
+    ugettext = lambda s: s
+    LANGUAGES = (
+      ('en', ugettext('English')),
+      ('th', ugettext('Thai')),
+    )
+
+** Allow selecting language in view
+
+    <form action="/i18n/setlang/" method="post">
+    {% csrf_token %}
+    <input name="next" type="hidden" value="/next/page/" />
+    <select name="language">
+        {% for lang in LANGUAGES %}
+        <option value="{{ lang.0 }}">{{ lang.1 }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Go" />
+    </form>
+
+** add the route for i18n action
+
+<proj>/<proj>/urls.py
+
+   (r'^i18n/', include('django.conf.urls.i18n')),
+
+* User registration
+
+** install
+try: `django-registration`.
+
+    % pip install django-registration
+
+** config
+
+* model
+
+Edit the file: `<app>/models.py`, you can put something like the
+following: 
+
+    from django.db import models
+    class Poll(models.Model):
+        question = models.CharField(max_length=200)
+        pub_date = models.DateTimeField('date published')
+
+* See the create SQL for app
+
+    % python manage.py sql <app>
+
+To actually run it, do `syncdb` again as above.
+
+* Python Django Shell
+
+    % python manage.py shell
+
+** DB API
+
+    >>> from polls.models import Poll, Choice
+    >>> Poll.objects.all()
+    []
+    >>> from django.utils import timezone
+    >>> p = Poll(question="What's new?", pub_date=timezone.now())
+    >>> p.save()
+    >>> p.id
+    1
+    >>> p.question
+    "What's new?"
+    >>> p.pub_date
+    datetime.datetime(2012, 2, 26, 13, 0, 0, 775217, tzinfo=<UTC>)
+    # Change values by changing the attributes, then calling save().
+    >>> p.question = "What's up?"
+    >>> p.save()
+    # objects.all() displays all the polls in the database.
+    >>> Poll.objects.all()
+    [<Poll: Poll object>]
+     
+*** Query
+
+    >>> Poll.objects.filter(id=1)
+    >>> Poll.objects.filter(question__startswith='What')
+     
+    >>> from django.utils import timezone
+    >>> current_year = timezone.now().year
+    >>> Poll.objects.get(pub_date__year=current_year)
+
+    # Lookup by a primary key is the most common case, so Django provides a
+    # shortcut for primary-key exact lookups.
+    # The following is identical to Poll.objects.get(id=1).
+    >>> Poll.objects.get(pk=1)
+
+
+
+
+
+
+

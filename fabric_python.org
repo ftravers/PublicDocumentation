@@ -1,0 +1,50 @@
+* first step
+** steps
+requires python 2
+
+in file: `fabfile.py` put:
+
+    def hello():
+        print("Hello world!")
+
+from command prompt:
+
+    % fab hello
+
+** interpretation
+
+`fab` will look for a file called: `fabfile.py` for defined methods to
+run in it. 
+
+** using ssh key
+
+In 'fabfile.py':
+
+    from fabric.api import run, env
+    env.use_ssh_config = True
+    env.key_filename = "/home/fenton/.ssh/id_rsa.pub"
+    env.hosts = ['spicevan.com']
+    env.user = 'fenton'
+    def host_type():
+        run('uname -a')
+
+Then running it:
+
+     % fab host_type                                                                          sierra.spicevan.com/.
+    [spicevan.com] Executing task 'host_type'
+    [spicevan.com] run: uname -a
+    [spicevan.com] out: Linux b-dell 3.11.6-1-ARCH #1 SMP PREEMPT Fri Oct 18 23:22:36 CEST 2013 x86_64 GNU/Linux
+
+** git and change directory
+
+from fabric.api import run, env
+from fabric.context_managers import cd
+
+env.use_ssh_config = True
+env.key_filename = "/home/fenton/.ssh/id_rsa.pub"
+env.hosts = ['spicevan.com']
+env.user = 'qa'
+
+def deploy_qa():
+    with cd('projects/python/sierra.spicevan.com'):
+        run('git pull origin master')

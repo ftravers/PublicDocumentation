@@ -1,0 +1,29 @@
+Task 1
+======
+Get the required Metadata, Usernames/UserIds.
+
+Task 2 
+=======
+Creating a simple two step document workflow based on the metadata.
+Based on the criteria workflow gets initiated.
+
+Step 1 (Reviewer):
+Reviwer will only review the document when he click on the web-viewable link
+from his e-mail which will redirect him to portal to review the document on portal.
+After his review the next step in the workflow will be initiated.
+
+Step 2 (Approver): 
+As the Approver gets an e-mail notification he will go to the portal by clicking on the link from his e-mail.
+On the portal he will review the document and can Approve/Reject the same.
+
+As soon as he approves the document gets released.
+
+Task 3
+=======
+Creation of a workflow portlet and deploy it on Oracle Portal.
+The portal will contain the list of all the pending task he need to do (Approve / Reject).
+Two buttons will be provided on the portal to approve/reject the content.
+
+Task 4
+=======
+Email notification to be sent to the user in case of delay from the Reviwere/Approver. 

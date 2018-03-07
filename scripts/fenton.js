@@ -1,0 +1,4 @@
+function createToc()
+{
+  alert("hello");
+}

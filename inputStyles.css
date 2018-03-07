@@ -1,0 +1,9 @@
+.toc1 { margin:0px; padding:0px; border-top-width:0px; border-bottom-width:0px; height:0px }
+.toc2 { text-indent:20px; margin:0px; padding:0px; border-top-width:0px; border-bottom-width:0px; height:0px }
+.toc3 { text-indent:40px; margin:0px; padding:0px; border-top-width:0px; border-bottom-width:0px; height:0px }
+.toc4 { text-indent:60px; margin:0px; padding:0px; border-top-width:0px; border-bottom-width:0px; height:0px }
+
+a {text-decoration:none;}
+a:hover {text-decoration:underline;}
+em {color:red}
+.click_me_span {color:blue}

@@ -1,0 +1,39 @@
+* Address Barmovement
+| A-d/C-l | cursor to Address Bar |
+|         |                       |
+
+* View Web Pages
+
+| F6           | Alternate between web page and address bar |
+| A-Left/Right | Back/Forward web page history              |
+
+* Within Web pages
+
+| Tab/S-Tab | next/prev link                  |
+| Enter     | open current link               |
+| C-Enter   | open link in new background tab |
+| A-Enter   | download link                   |
+
+* Browser Features
+
+| C-s | Save current webpage |
+| C-p | print webpage        |
+| C-h | history              |
+| C-j | downloads            |
+| A-f | Settings             |
+| C-o | open file            |
+|     |                      |
+  
+* bookmarks
+
+| C-d    | Add bookmark              |
+| C-S-d  | Add bookmark with details |
+| C-S-b  | toggle show bookmarks     |
+
+* tabs
+| C-t           | new tab           |
+| C-(1-9)       | goto tab # (1-9)  |
+| C-w           | close tab         |
+| C-S-t         | reopen closed tab |
+| C-TAB/C-S-TAB | prev/next tab     |
+|               |                   |

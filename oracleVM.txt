@@ -1,0 +1,38 @@
+==> Create a new disk
+	notes: the following creates a 2GB disk
+# dd if=/dev/zero of=data.img bs=1M count=10240
+
+==> ATTACH DISK
+	notes: Attach a disk to a running instance
+	=> Attach the disk from the OVM Server
+xm block-attach <vm_name> file:<path_to_file> <device> w 
+xm block-attach bpel file:/OVS/sharedDisk/data.img xvdb w
+	=> Inside the VM mount the device to a dir you created
+mount /dev/xvdb /u02
+
+==> REMOVE A DISK
+	notes: from a running instance
+xm block-detach bpel file:/OVS/sharedDisk/data.img xvdb w
+
+==> To install Windows (or any OS from ISO, normally this will be an HVM install)
+	> Upload an ISO to OVM Manager 
+	> OVM Manager > Resources > ISO Files > Import
+	> Put the ISO file somewhere that it can be accessed by either HTTP or FTP
+	> OVM Manager > Virtual Machines > Create Virtual Machine > Create from installation media
+	
+==> To find out what VNC port an instance is using:
+	> virsh dumpxml <domainID>
+	
+==> Use a specific VNC port: 'vncdisplay': 
+vfb = [ 'type=vnc,vnclisten=0.0.0.0,vncdisplay=1,vncpassword=welcome1' ] 
+
+# The backend listens on 127.0.0.1 port 5900+N by default, where N is 
+# the domain ID.  You can override both address and N: 
+# 
+# vfb = [ 'type=vnc,vnclisten=127.0.0.1,vncdisplay=1' ] 
+# 
+# Or you can bind the first unused port above 5900: 
+# 
+# vfb = [ 'type=vnc,vnclisten=0.0.0.0,vnunused=1' ]
+	
+	

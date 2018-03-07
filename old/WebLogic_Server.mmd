@@ -1,0 +1,537 @@
+CSS: style.css
+
+## Install Files:
+
+Suitable OVM Template Sizing:
+	OS: OEL5U3 32bit
+	System: 8192M
+	RAM: 1536M
+	Swap: 1536M
+
+Create a user to do the install as:
+
+	chmod 777 /u01; useradd oracle; passwd oracle
+	su - oracle
+
+## Install Base WebLogic Server
+
+    $ chmod a+x wls1032_linux32.bin; ./wls1032_linux32.bin -mode=console
+
+if you have a *.bin wls, if you have a *.jar wls, then do:
+
+    $ java -jar wls1032_linux32.jar
+
+## Configure your install
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/wlserver_10.3/common/bin/config.sh -mode=console</div></pre>
+
+* Choose all defaults, except for:
+* Choose production mode
+* Set administrator password
+* Add an Administration Server in the Optional Components section.
+* port: 7001
+
+## Finalize setup
+
+Start the admin server (you'll need to supply username and password:
+
+    $ bin/startWeblogic.sh
+
+Stop the server and create a `boot.properties` file.
+
+    $ mkdir servers/AdminServer/security
+    $ cat > servers/AdminServer/security/boot.properties
+    username=weblogic
+    password=welcome1
+
+
+For each managed server repeat the above process, except start the server like so (in this case the server name is `srv1`):
+
+    $ bin/startManagedServer.sh srv1
+
+
+## Start and Stop WLS
+
+<pre><div class="sample_code">nohup <span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh &gt; log.txt 2&gt;&amp;1 &amp;</div>
+<div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/stopWeblogic.sh</div></pre>
+
+It is safe to restart the Admin server, it won't affect managed
+servers.
+
+Managed Servers can always function without the presence a running
+Administration Server. When a Managed Server starts, it contacts the
+Administration Server to retrieve its configuration information. If a
+Managed Server is unable to connect to the specified Administration
+Server during startup, it can retrieve its configuration directly by
+reading a copy of the config.xml file and other files located on the
+Managed Server's own file system.
+
+## Remove
+
+To delete a WebLogic Domain is to just delete the folder. No
+additional steps need to be taken.
+
+## Admin Access
+
+[Ensure port is open](firewall_iptables.html)
+	
+    http://wls1032.ftravers.com:7001/console
+    username:weblogic password:welcome1 (or whatever you set above)
+
+## Deployment
+
+put your war in folder:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/base_domain/autodeploy</div></pre>
+
+## Remote Debug
+
+Copy and edit file:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh</div></pre>
+
+new contents:
+
+<pre><div class="sample_code"><div class="highlight">JAVA_OPTIONS="${JAVA_OPTIONS} -Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8888,server=y,suspend=n"</div>
+
+# START WEBLOGIC
+
+echo "starting weblogic with Java version:"
+</div></pre>
+
+### Ports
+
+[Check if the port is open](linux.html#portScan) from the perspective of the client machine.
+
+If the port isn't open, on RedHat machines you can open the port with:
+
+[Quickly add ports to firewall](firewall_iptables.html#quickFirewall)
+
+## Helpful Aliases
+
+Edit file:
+
+    ~/.bashrc
+
+new contents:
+
+<pre><div class="sample_code"># User specific aliases and functions
+<div class="highlight">export WLS_DIR='/home/oracle/wls/user_projects/domains/base_domain'
+alias bin="cd ${WLS_DIR}/bin" 
+alias start="nohup ${WLS_DIR}/bin/startWebLogic.sh &amp;"
+alias stop="${WLS_DIR}/bin/stopWebLogic.sh"
+alias debug="${WLS_DIR}/bin/startWebLogicDebug.sh"</div></div></pre>
+
+# Setting up a clustered, load balanced, production ready environment
+
+Credit: I have to note that this whole section was patiently
+demonstrated to by by Jean-Philipe (JP) Gal, my friend, colleague, and
+mentor.
+
+## Components & Definitions
+
+| Component               | Role                                  |
+| ----------------------- | ------------------------------------- |
+Apache                    | load balancing, client point of contact
+WebLogic Managed Server   | wls instance that handles actual requests
+WebLogic Admin Server     | coordinates WL Managed Servers
+WebLogic Cluster          | Admin Server and Managed Servers inside same cluster
+
+Initially we'll use just one physical server.  Then we'll show how to
+distribute the load to additional physical (or virtual) machines.
+
+## Installation & Configuration
+
+We assume you have done a [Install Base WebLogic Server][]
+installation.  The next step is to do the configuration.
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/bin/startWeblogic.sh</div></pre>
+
+Start to [Configure your install][], choose all defaults except for when you get to the section: 
+
+    Select Optional Configuration:
+    ------------------------------
+       1|Administration Server [x]
+       2|Managed Servers, Clusters and Machines [x]
+       3|RDBMS Security Store [ ]
+
+    Configure the Administration Server:
+    ------------------------------------
+        |       Name       |        Value        |
+       _|__________________|_____________________|
+       1|      *Name:      |     AdminServer     |
+       2| *Listen address: | All Local Addresses |
+       3|   Listen port:   |        2080         |
+       4| SSL listen port: |        2443         |
+       5|   SSL enabled:   |        true         |
+
+I've got non-standard port 2080 instead of 7001 and 2443 instead of
+7002.  Choose whichever ports you want for your WLS to listen to.
+
+    Configure Managed Servers:
+    --------------------------
+        |   Name*    | Listen address*  |Listen port|SSL listen port|SSL enabled|
+       _|____________|__________________|___________|_______________|___________|
+       1|autosr2_srv1|All Local Addre...|   10501   |      N/A      |   false   |
+     2->|autosr2_srv2|All Local Addre...|   10502   |      N/A      |   false   |
+
+You can choose whatever names/ports you want for you managed servers,
+above is just an example.
+
+Create a cluster, my cluster is called: `autosr2_cluster`
+
+     |    Name*    |Cluster messagi...|Multicast a...|Multicast...|Cluster ad...|   
+    _|_____________|__________________|______________|____________|_____________|   
+    1|autosr2_cl...|     unicast      |     N/A      |    N/A     |             |
+
+In sections: 
+     
+    Configure Machines:
+
+and
+
+    Configure Unix Machines:
+
+we don't need to add any machines, since there are no remote hosts
+hosting any WLS instances that are part of this cluster yet.  Finish
+the configuration with defaults.
+
+### Start Admin Server
+
+#### If Production Mode:
+
+The next steps allow us to setup the admin server so it can start
+without having to supply a username and password each time.First start
+admin server.  This creates a folder structure that we need for the
+next steps.
+
+see section: [Start and Stop WLS][]
+
+Create file: (note you may have to create the folder called `security` in that location)
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/<span class="highlight">AdminServer</span>/security/boot.properties</div></pre>
+
+put the following into the file:
+
+<pre><div class="sample_code">username=<span class="parameter">USERNAME</span>
+password=<span class="parameter">PASSWORD</span></div></pre>
+
+example:
+
+<pre><div class="sample_code">username=<span class="highlight">weblogic</span>
+password=<span class="highlight">welcome1</span></div></pre>
+
+Now that the domain has been created, lets start up the Admin Server,
+see section: [Start and Stop WLS][], for how to do this.
+
+Connect to the admin console in our case:
+
+<pre><div class="sample_code">https://<span class="parameter">HOSTNAME:PORT</span>/console</div></pre>
+
+Try to start and stop your managed servers:
+
+    cd ${WLS_HOME}/user_projects/domains/DOMAIN_NAME/bin/
+    ./startManagedWebLogic.sh srv1 https://sta00418.us.oracle.com:2443
+    ./stopManagedWebLogic.sh srv1
+
+Do the same for each managed server.
+
+put a file called `boot.properties` at the locations (NOTE: you will
+have to create each security folder under each server yourself):
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/<span class="highlight">autosr2_srv1</span>/security/boot.properties</div></pre>
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/<span class="highlight">autosr2_srv2</span>/security/boot.properties</div></pre>
+
+put the following into the file:
+
+<pre><div class="sample_code">username=<span class="parameter">USERNAME</span>
+password=<span class="parameter">PASSWORD</span></div></pre>
+
+example:
+
+<pre><div class="sample_code">username=<span class="highlight">weblogic</span>
+password=<span class="highlight">welcome1</span></div></pre>
+
+Startup the servers to run even after you log off now:
+
+    mkdir ../logs
+    nohup ./startManagedWebLogic.sh srv1 https://sta00418.us.oracle.com:2443 > ${WLS_LOGS}/srv1.log 2>&1 &
+
+
+## Apache Load Balancer
+
+Now setup and install apache2.  Once installed with a basic setup add
+the following to the end of `httpd.conf`:
+
+    Include conf/weblogic.conf
+
+Create the file `conf/weblogic.conf` and insert the following:
+
+<pre><div class="sample_code">LoadModule weblogic_module modules/mod_wl_22.so
+&lt;IfModule mod_weblogic.c&gt;
+        WebLogicCluster <span class="highlight">amtv1062.us.oracle.com:10501,amtv1062.us.oracle.com:10502</span>
+        Debug ON
+        DebugConfigInfo ON
+        WLLogFile /tmp/mod_weblogic.log
+&lt;/IfModule&gt;
+ 
+&lt;Location /<span class="highlight">load&gt;</span>
+        SetHandler weblogic-handler
+&lt;/Location&gt;</div></pre>
+
+Where the parameter `WebLogicCluster` has the correct hosts and port
+numbers for each of your servers, excluding your AdminServer.  If
+you've forgotten the port numbers of the hosts you can find them at:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/config/config.xml</div></pre>
+
+Here the Location `/load` can be whatever you want.  The `WLLogFile`
+param also has an arbitrary value which you can change to suite your
+needs.
+
+Copy over the `mod_wl_22.so` file from
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/wlserver_10.3/server/plugin/<span class="parameter">PLATFORM</span>/mod_wl_22.so</div></pre>
+
+to
+
+<pre><div class="sample_code"><span class="parameter">APACHE_HOME</span>/modules/</div></pre>
+
+At this point we have three servers.  Admin(2080:http, 2443:https),
+srv1(10501:http), and srv2(10502:http).  Lets deploy an app, so we can
+test that the load balancing is working.
+
+## Deployment
+
+There are many ways to deploy.  Initially we'll just use the admin
+console for expediency, later we may look at doing this from the
+command line for future automation.
+
+Upload your *.war, *.ear to your domain home.
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/</div></pre>
+
+Click `Lock & Edit`. Click: Deployments (leftnav) > Install (button).
+Navigate and select the *.war (*.ear), Next.  Keep following all the
+prompts and finally when done, click: `Release Configuration`.
+
+On the left nav there is a section called: `How do I`, with a
+sub-section called: `Install a Web application`.  You can use these as
+reference.
+
+### Rollback
+
+Check
+[here](http://download.oracle.com/docs/cd/E12840_01/wls/docs103/deployment/redeploy.html#revert)
+for application rollback information.
+
+## Moving to SSL
+
+The first thing we'll want to do is setup SSL on the apache load
+balancer (LB), so our communication between the client and the LB will
+be encrypted.
+
+# Unfinished / untested:
+
+### weblogic.deployer
+
+You need to have weblogic installed in the machine you are deploying
+from, even if you are deploying to another machine.
+
+Running the following command will output two variables CLASSPATH,
+PATH, 
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/wlserver_10.3/server/bin/setWLSEnv.sh</div></pre>
+
+cut and paste these into your `.bashrc`, prepending `export` like:
+
+    export PATH=/u01/app/oracle/ngsp/wls/wlserver_10.3/server/bin:/u01/app/oracle/ngsp/wls/modules/org.apache.ant_1.7.1/bin:/u01/app/oracle/ngsp/jdk1.6.0_24/jre/bin:/u01/app/oracle/ngsp/jdk1.6.0_24/bin:/u01/app/oracle/ngsp/jdk1.6.0_24/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin
+
+
+
+### Maven Deployment
+
+We will use the maven plugin, `weblogic-maven-plugin-10.3.4.jar`, to
+do application deployment to the cluster.
+
+[Reference](http://technology.amis.nl/blog/10692/weblogic-deployment-using-the-oracle-weblogic-maven-plugin)
+
+* Generate Plugin
+
+Go to <pre><div class="sample_code"><span
+class="parameter">WLS_HOME</span>/wlserver_10.3/server/lib/</div></pre>
+and issue the command:
+
+    java -jar wljarbuilder.jar -profile weblogic-maven-plugin
+
+* [Deploy the plugin to your local repository](maven.html#installingjartolocalrepo).
+
+#### Create Deployment Project
+
+There are two maven projects you need to be aware of.  The first is
+your application project.  The second is the deployer project.  The
+deployer project deploys your application project into the WebLogic Servers.  
+
+As you'll notice from the pom of the deployer project below, we set the parent project
+of the project, to be the application project.
+
+* [Create a simple Maven project](maven.html#generic)
+
+    mvn archetype:generate -B -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.1 -Dversion=1.0 -DgroupId=com.oracle.git.ngsp -DartifactId=autosr2_deployer
+
+* Now setup your pom.xml to something similar to what is below:
+
+    <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+      <modelVersion>4.0.0</modelVersion>
+      <parent>
+        <groupId>com.oracle.git.ngsp.autosr2</groupId>
+        <artifactId>autoSR2</artifactId>
+        <version>0.5.12</version>
+      </parent>
+      <groupId>com.oracle.git.ngsp</groupId>
+      <artifactId>autosr2_deployer</artifactId>
+      <packaging>pom</packaging>
+      <name>${project.artifactId}</name>
+      <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <app.deploy.version>${project.version}</app.deploy.version>
+        <app.filename>${project.build.directory}\autoSR2-${app.deploy.version}.war</app.filename>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.oracle.git.ngsp.autosr2</groupId>
+          <artifactId>autoSR2</artifactId>
+          <version>0.5.12</version>
+        </dependency>
+      </dependencies>
+      <build>
+         <plugins>
+           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>2.5</version>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+          <plugin>
+             <groupId>com.oracle.weblogicServer</groupId>
+             <artifactId>weblogic-maven-plugin</artifactId>
+             <version>10.3.4</version>
+             <configuration>
+               <adminurl>${wls.admin.url}</adminurl>
+               <user>${wls.admin.username}</user>
+               <password>${wls.admin.password}</password>
+               <upload>true</upload>
+               <action>deploy</action>
+               <remote>true</remote>
+               <verbose>true</verbose>
+               <source>${app.filename}</source>
+               <name>${project.parent.artifactId></name>
+             </configuration>
+           </plugin>
+           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.1</version>
+            <executions>
+              <execution>
+                <id>copy-app</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>${project.parent.groupId}</groupId>
+                      <artifactId>${project.parent.artifactId></artifactId>
+                      <version>${app.deploy.version}</version>
+                      <type>war</type>
+                      <overWrite>true</overWrite>
+                      <outputDirectory>target</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+       </build>
+    </project>
+
+Also, add credential and server parameters to your
+`~/.m2/settings.xml` file.  Note you always want to store your
+passwords to your servers in `settings.xml`, not in your project
+pom.xml, for security sake.
+
+    ...
+    <settings...>
+      ....
+      <profiles>
+        <profile>
+          <id>dev</id>
+          <properties>
+            <wls.admin.url>t3://dev:2443</wls.admin.url>
+            <wls.admin.username>weblogic</wls.admin.username>
+            <wls.admin.password>welcome1</wls.admin.password>
+          </properties>
+        </profile>
+        <profile>
+          <id>prod</id>
+          <properties>
+            <wls.admin.url>t3://prod:2443</wls.admin.url>
+            <wls.admin.username>weblogic</wls.admin.username>
+            <wls.admin.password>SeCuRePaSsWoRd</wls.admin.password>
+          </properties>
+        </profile>
+      </profiles>
+    </settings>
+
+Now deploy your project with:
+
+    mvn com.oracle.weblogic:weblogic-maven-plugin:deploy2
+
+The other commands you have at your disposal are: 
+
+    ndeploy, redeploy, start-app, stop-app, list-app, update-app, help
+
+see the comment at the reference web site above for issues with these
+commands.  Also note the[weblogic.deployer reference
+site](http://download.oracle.com/docs/cd/E13222_01/wls/docs90/deployment/wldeployer.html)
+
+
+# Change Password for Admin Console
+
+    export CLASSPATH=$CLASSPATH:/u01/app/oracle/ngsp/stage/wls1/wlserver_10.3/server/lib/weblogic.jar
+    java weblogic.security.utils.AdminAccount weblogic welcome1 .
+
+This will create the file: `DefaultAuthenticatorInit.ldift`, wherever
+you execute the above command from.  Replace the existing file with
+the new one at the following location:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/AdminServer/security</div></pre>
+
+Even after the above command, password change for admin console 
+didn't work and admin server wouldn't start. 
+
+Solution: Creating the `DefaultAuthenticatorInit.ldift` file 
+in the following folder molder made the server to start:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/security</div></pre>
+
+Rename the ldap directory at:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/AdminServer/data</div></pre>
+
+Delete the `boot.properties` file at:
+
+<pre><div class="sample_code"><span class="parameter">WLS_HOME</span>/user_projects/domains/<span class="parameter">DOMAIN_NAME</span>/servers/AdminServer/security</div></pre>
+
+Now you can put a new boot.properties file here with the new username
+and password, like so:
+
+    username=newUsername
+    password=newPassword

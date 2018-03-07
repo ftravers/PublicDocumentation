@@ -1,0 +1,133 @@
+* Install
+
+#+BEGIN_SRC 
+sudo -i -u postgres
+initdb --locale en_US.UTF-8 -E UTF8 -D '/home/postgres-data'
+#+END_SRC
+
+** mod service file
+
+=/usr/lib/systemd/system/postgresql.service=:
+
+#+BEGIN_SRC 
+...
+Environment=PGROOT=/home/postgres
+SyslogIdentifier=postgres
+PIDFile=/home/postgres/postmaster.pid
+ExecStartPre=/usr/bin/postgresql-check-db-dir ${PGROOT}
+ExecStart= /usr/bin/pg_ctl -s -D ${PGROOT} start -w -t 120
+ExecReload=/usr/bin/pg_ctl -s -D ${PGROOT} reload
+ExecStop=  /usr/bin/pg_ctl -s -D ${PGROOT} stop -m fast
+...
+#+END_SRC
+
+* New user & database
+
+    % sudo -u postgres createuser -d -R -P <username>
+
+Next line O is an 'Oh' not a Zero.
+
+    % sudo -u postgres createdb -O <username> <dbname>
+
+* Daily Commands
+| psql -l                             | list all databases             |
+| % psql <dbname>                     | login to psql with <dbname> DB |
+| \c <db>                             | connect to <db>                |
+| \du                                 | display users                  |
+| \dt                                 | display tables                 |
+| \q or C-d                           | quit                           |
+| % sudo systemctl restart postgresql | Restart Daemon                 |
+
+* More Commands
+| drop database "<DBNAME>" | drop a database (use double quotes) |
+| \l                       | list all DBs                        |
+| connect <dbname>         | switch to <dbname>                  |
+
+| select current_user;     | show current user                        |
+| show search_path         | show which schemas the user will look in |
+|                          |                                          |
+
+
+** drop all tables
+
+DONT DO THIS!
+
+#+BEGIN_SRC
+drop schema public cascade;
+create schema public;
+#+END_SRC
+
+Do this:
+
+#+BEGIN_SRC 
+drop user abc_user;
+
+#+END_SRC
+
+** Dump DB contents via script:
+
+psql --host=localhost --dbname=<dbname> --port=<Port Number>
+     --username=<dbuser> --file=C:\PSQL_Script.txt
+     --output=C:\PSQL_Output.txt
+
+Example: 
+
+| DB Name | 
+* PG System Views
+
+pg_tables, pg_shadow, pg_settings
+
+* User management
+
+| create user     | CREATE USER george WITH PASSWORD 'password';       |
+| change password | ALTER USER postgres PASSWORD '[Iv;=v,u';           |
+| show user info  | SELECT * FROM pg_shadow;                           |
+| grant all       | GRANT ALL PRIVILEGES ON DATABASE money TO cashier; |
+| revoke          | REVOKE ALL PRIVILEGES ON money FROM cashier;       |
+
+* Describe Table
+
+#+BEGIN_SRC psql
+\d+ <tablename>
+#+END_SRC
+
+* Help
+
+#+BEGIN_SRC psql
+\?
+#+END_SRC 
+
+is quite good help!
+
+
+
+
+  
+
+
+
+
+
+* Scripting
+
+http://www.onlamp.com/pub/a/onlamp/2004/12/09/pg_automation.html
+
+** overview 
+
+To run the script =script.sql= on the database =dbname= by the user
+=dbuser= do:
+
+: psql -f script.sql dbname dbuser
+
+Create a file called =script.sql= with the following contents:
+
+#+BEGIN_SRC 
+select email from people;
+#+END_SRC
+
+Then run it like:
+
+: psql -f script.sql famtree_db famtree_user
+
+** reporting
+

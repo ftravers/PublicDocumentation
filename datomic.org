@@ -1,0 +1,280 @@
+* installation log file locations
+
+Logs location
+
+: /var/lib/datomic/log
+
+Datomic config
+
+: /usr/lib/datomic/config/transactor.properties
+
+Log configuration
+
+: /usr/lib/datomic/bin/logback.xml
+
+* Id's, Ident's
+
+Id's are unique numbers for each entity.  Ident's are programmer
+supplied, human friendly names.
+
+#+BEGIN_SRC clojure
+{:db/id #db/id[:db.part/db]
+ :db/ident :person/loves}
+#+END_SRC
+
+* Schema
+** create db
+
+To create a database named dev-db:
+
+#+BEGIN_SRC clojure
+(create-database "datomic:free://localhost:4334/dev-db")
+#+END_SRC
+
+To get the current db:
+
+#+BEGIN_SRC clojure
+(->> db-uri db/connect db/db)
+#+END_SRC
+
+** Data model overview
+
+In Datomic, a schema defines a core set of attributes which
+effectively act as data types. An entity can possess any attribute
+without restriction. 
+
+Entity: A map of attribute/value pairs. Entities have no
+fixed shape; they can be comprised of any attributes defined in the
+schema.  
+
+Attribute: Name + data type + cardinality. Attributes
+themselves can be thought of as data types. 
+
+A datum is the combination of [entity] [attribute] [value].
+
+To create a schema we create attributes.
+
+** create attribute
+
+Attribute Namespace: vendor
+
+Attribute Name: name
+
+This is meant to store the names of shops like '7-11' or 'London
+Drugs', etc...
+
+** Partitions
+
+All entities created in a database reside within a partition.  There
+are three default partitions:
+
+| Partition     | Purpose                    |
+|---------------+----------------------------|
+| :db.part/db   | System, used for schema    |
+| :db.part/tx   | Transaction                |
+| :db.part/user | User, application entities |
+
+
+Create the following file: vendor-schema.edn
+
+#+BEGIN_SRC clojure
+[{
+  :db/id #db/id[:db.part/db] ; this creates a unique id
+  :db/ident :vendor/name     ; specify namespace/name
+  :db/valueType :db.type/string ; field type
+  :db/cardinality :db.cardinality/one ; one or more values
+  :db/doc "I.e. 7-11, or London Drugs"
+  :db.install/_attribute :db.part/db ; installs attribute
+}]
+#+END_SRC
+
+In addition, every attribute must be installed, by creating a
+:db.install attribute reference from :db.part/db to the new attribute
+id. The example above takes advantage of reverse attribute navigation:
+the underscore in the name :db.install/_attribute reverses the
+direction of the attribute reference, creating the needed reference
+from :db.part/db to the new attribute.
+
+** Attribute type: Ref
+
+An attribute of type :db.type/ref value must be a reference to
+another entity.
+* Query
+
+ref: https://www.youtube.com/watch?v=bAilFQdaiHk
+
+Query components: Variables, Constants, Where (data patterns,
+rules), Find, and In clauses
+
+** Variables
+
+Begin with question mark (?).  Eg: ?customer, ?product, ?email.
+
+** Keywords
+
+Can be prefixed with a namespace: :user/name.  Mostly used to name
+attributes in the database.
+
+** Where Clause
+
+*** Data Patterns
+
+Constrains the result returned, binds variables.  Is a list.  Can omit
+tail portion you don't care about.
+
+: [entity attribute value tx]
+
+eg:
+
+: [?customer :email ?email]
+
+Here :email is a constant that constrains query to say: find me the
+datums that have the attribute :email.  ?customer and ?email are
+variables that will be bound by the query engine, once for each
+matching datum.
+
+Find the email of a specific entity:
+
+: [42 :email ?email]
+
+What attributes does a given entity have.  We've dropped the value
+portion so we'll only get attributes, not values:
+
+: [42 ?attribute]
+
+If you want those values do:
+
+: [42 ?attribute ?value]
+
+** Find Clause
+
+Specifies which variables to return.  Return ?customers that have the
+:email attribute.
+
+[:find ?customer 
+ :where [?customer :email]]
+
+If variable occurs more than once, it creates an implicit join:
+
+[:find ?customer
+ :where [?customer :email]
+        [?customer :orders]]
+
+In the above, every customer has an email but only some have orders.
+The above will retrieve those customers.
+
+** In Clause
+
+Allow you to provide inputs to variables, aka: parameterized queries. 
+
+:in $ ?email
+
+$ means use the default database, which corresponds to the second arg
+of the query (q) function.  ?email being second in the :in clause, is
+therefore the 3rd arg.
+
+(q [:find ?customer
+    :in $ ?email
+    :where [?customer :email ?email]]
+   db
+   "joe@bloe.com")
+
+Functional constraints can appear in a :where clause.
+
+[(> ?price 50)]
+
+Predicates can simply be dropped into a :where clause where they
+further constrain a :where clause.
+
+[:find ?item
+ :where [?item :item/price ?price]
+        [(> ?price 50)]]
+
+** (BYO) Query Functions
+
+Can call a function in the middle of your where clause.  Take bound
+variables and bind variable with output:
+
+[(shipping-cost ?zip ?weight) ?cost)]
+
+Example to find products whos total cost is dominated by the shipping
+cost: 
+
+#+BEGIN_SRC clojure
+[:find ?customer ?product
+ :where [?customer :ship-address ?addr]
+        [?addr :zip ?zip]
+        [?product :product/weight ?weight]
+        [?product :product/price ?price]
+        [(shipping-cost ?zip ?weight) ?ship-cost]
+        [(<= ?price ?ship-cost)]]
+
+
+#+END_SRC
+
+** (BYO) Data
+
+You don't have to query against the database, the following finds out
+which system properties are path related:
+
+#+BEGIN_SRC clojure
+(q '[:find ?v
+     :in [[?k ?v]]
+     :where [(.endsWith ?k "path")]]
+   (System/getProperties))
+#+END_SRC
+
+** Rules
+
+Build named combination of query patterns.
+
+#+BEGIN_SRC clojure
+[(relatedProduct ?p1 ?p2)  ; rule head names the rule and establishes variable names
+ [?p1 :category :c]        ; rule body
+ [?p2 :category :c]        ; rule body 
+ [(!= ?p1 ?p2)]]           ; rule body 
+#+END_SRC
+
+Each query pattern in the body must be true for the entire rule to be
+true.  Can now use this where you'd normally use a simple data
+pattern.
+
+Rules are passed to function q as simply another input
+
+#+BEGIN_SRC clojure
+(q '[:find ?p2
+     :in $ %
+     :where [(expensiveChocolate p1)
+             (relatedProduct p1 p2)]]
+   db
+   rules)
+#+END_SRC
+
+Find all products related to expensive chocolate
+
+** Full Text
+
+Find all chocolate
+
+#+BEGIN_SRC clojure
+[:find ?product
+ :where 
+ [(fulltext $ :description "chocolate") [[?product]]]]
+#+END_SRC
+
+% is placeholder for a collection of rules.
+* Pull
+
+from: http://gigasquidsoftware.com/blog/2015/08/15/conversations-with-datomic/
+
+#+BEGIN_SRC clojure
+'[:find [(pull ?dog [:dog/name :dog/breed]) ...]
+  :where [?dog :dog/favorite-treat "Cheese"]]
+#+END_SRC
+
+result:
+
+#+BEGIN_SRC clojure
+[{:dog/name "Fluffy", :dog/breed "Poodle"}
+ {:dog/name "Tiny", :dog/breed "Great Dane"}]
+#+END_SRC

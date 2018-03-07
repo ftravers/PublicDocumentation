@@ -1,0 +1,295 @@
+* perfect forward secrecy
+
+the ciphersuites that use ephemeral Diffie-Hellman (DHE) or the
+elliptic-curve variant (ECDHE) will have perfect forward secrecy while
+the other options will not.
+
+** nginx 
+
+http://crypto.stackexchange.com/questions/8933/how-can-i-use-ssl-tls-with-perfect-forward-secrecy
+
+how to enable FPS with NGINX
+
+* Getting a signed security certificate:
+
+* http://my.oracle.com/site/git/2727/11529/11536/11537/index.htm
+
+* Windows, Linux, OS/X
+
+If you are using a linux or OS/X you probably don’t have to do much
+to make things work here.   
+If you are using windows, you’ll need to install cygwin. Please
+goto: http://www.cygwin.com/  
+Cygwin, gives you the power of Linux on a windows box. Just go
+through the default install.
+
+When you are installing, specifically add: `OpenSSH` to the items
+to install. If you need git specifically search for and add it too.
+Several options will come up…just add them all.
+
+![image](/images/installGitCygwin.png)
+
+* Setup automatic login to ssh server
+
+** Generate your public/private key pair
+
+If you already have a private key DON’T create a new one. The
+following command will let you know if you already have one.
+
+    [root@del ~]# ssh-keygen
+
+** Copy to server
+
+Copy your public key to the server.
+
+Command Format:
+
+    ssh-copy-id [username]@[host]
+
+Example:
+
+    ssh-copy-id ftravers@spicevan.com
+
+Test this works by logging into the server, and ensure it DOESN’T
+ask you for a password now.
+
+    [root@del ~]# ssh ftravers@spicevan.com
+
+If u get error message: No identities found do:
+
+```bash
+$ ssh-copy-id oracle@myhelpstage.sg.oracle.com
+/usr/bin/ssh-copy-id: ERROR: No identities found
+$ ssh-agent $SHELL; ssh-add
+Identity added: /home/oracle/.ssh/id_rsa (/home/oracle/.ssh/id_rsa)
+$ ssh-copy-id oracle@myhelpstage.sg.oracle.com
+```
+
+* sshd config
+
+** Slow logins
+
+in file: `/etc/ssh/sshd_config` set the following:
+
+    GSSAPIAuthentication no
+    UseDNS no
+
+* have sshd run on another port
+
+Add line like:   
+Port 10122  
+to:  
+/etc/ssh/sshd\_config
+
+-   Debian
+
+sudo /etc/init.d/ssh restart
+
+-   Redhat
+
+[root@proddb ssh]\# service sshd reload
+
+To test:
+
+    ssh -p <port-number> <user>@<ipAddress>
+
+update firewall:  
+To add a new port, run the following and  
+[root@ucm3 \~]\# /usr/bin/system-config-securitylevel-tui  
+Choose Customize, add a line like:   
+8888:tcp  
+to the other ports section, OK, OK.  
+[root@ucm3 \~]\# service iptables restart
+
+==\> Automatically log into servers:  
+\> If you haven’t already generated your key pair with: ssh-keygen
+-t rsa, do so.  
+\> grab the file: id\_rsa.pub and get it into the server you want
+to auto ssh into, put it in  
+the root directory /root.  
+\> ssh into the host then do:   
+cd /root/.ssh; cat ../id\_rsa.pub \>\> authorized\_keys; chmod 600
+authorized\_keys; rm -f ../id\_rsa.pub
+
+* SSL
+
+To display certificate request information.
+
+    openssl req -in server.csr -noout -text
+
+Display certificate info:
+
+    openssl x509 -in cert.cer -noout -text
+
+Display private key information.
+
+    openssl rsa -in key.pem -noout -text
+
+* SSH Tips
+
+[ref](http://www.itworld.com/it-managementstrategy/261500/16-ultimate-openssh-hacks)
+
+** SSH tip #11: SSHFS is better than NFS
+
+sshfs is better than NFS for a single user with multiple machines. I
+keep a herd of computers running because it's part of my job to always
+be testing stuff. I like having nice friendly herds of computers. Some
+people collect Elvis plates, I gather computers. At any rate opening
+files one at a time over an SSH session for editing is slow; with
+sshfs you can mount entire directories from remote computers. First
+create a directory to mount your sshfs share in:
+
+    $ mkdir remote2
+
+Then mount whatever remote directory you want like this:
+
+    $ sshfs user@remote2:/home/user/documents remote2/
+
+Now you can browse the remote directory just as though it were local,
+and read, copy, move, and edit files all you want. The neat thing
+about sshfs is all you need is sshd running on your remote machines,
+and the sshfs command installed on your client PCs.
+
+** SSH tip #10: Log in and run a command in one step
+
+You can log in and establish your SSH session and then run commands,
+but when you have a single command to run why not eliminate a step and
+do it with a single command? Suppose you want to power off a remote
+computer; you can log in and run the command in one step:
+
+    carla@local:~$ ssh user@remotehost sudo poweroff
+
+This works for any command or script. (The example assumes you have a
+sudo user set up with appropriate restrictions, because allowing a
+root login over SSH is considered an unsafe practice.) What if you
+want to run a long complex command, and don't want to type it out
+every time? One way is to put it in a Bash alias and use that. Another
+way is to put your long complex command in a text file and run it
+according to tip #9.
+
+** SSH tip #9: Putting long commands in text files
+
+Put your long command in a plain text file on your local PC, and then
+use it this way to log in and run it on the remote PC:
+
+    carla@local:~$ ssh user@remotehost "`cat filename.txt`"
+
+Mind that you use straight quotations marks and not fancy ones copied
+from a Web page, and back-ticks, not single apostrophes.
+
+** SSH tip #7: Give SSH keys unique names
+
+Speaking of key names, did you know you can name them anything you
+want? This helps when you're administering a number of remote
+computers, like this example which creates then private key web-admin
+and public key web-admin.pub:
+
+    $ ssh-keygen -t rsa -f .ssh/web-admin
+
+** SSH tip #6: Give SSH keys informative comments
+
+Another useful way to label keys is with a comment:
+
+    $ ssh-keygen -t rsa -C "downtown lan webserver" -f .ssh/web-admin
+
+Then you can read your comment which is appended to the end of the
+public key.
+
+** SSH tip #5: Read public key comments
+
+    $ less .ssh/web-admin.pub
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1 
+    [snip] KCLAqwTv8rhp downtown lan webserver
+ 
+** SSH tip #4: Logging in with server-specific keys
+
+Then when you log in, specify which key to use with the -i switch:
+
+    $ ssh -i .ssh/web-admin.pub user@webserver
+
+** SSH tip #3: Fast easy known_hosts key management
+
+I love this one because it's a nice time-saver, and it keeps my
+~/.ssh/known_hosts files tidy: using ssh-keygen to remove host keys
+from the ~/.ssh/known_hosts file. When the remote machine gets new SSH
+keys you'll get a warning, when you try to log in, that the key has
+changed. Using this is much faster than manually editing the file and
+counting down to the correct line to delete:
+
+$ ssh-keygen -R remote-hostname
+
+Computers are supposed to make our lives easier, and it's ever so
+lovely when they do.
+
+** SSH tip #2: SSH tunnel for road warriors
+
+When you're at the mercy of hotel and coffee shop Internet, a nice
+secure SSH tunnel makes your online adventures safer. To make this
+work you need a server that you control to act as a central node for
+escaping from hotspot follies. I have a server set up at home to
+accept remote SSH logins, and then use an SSH tunnel to route traffic
+through it. This is useful for a lot of different tasks. For example I
+can use my normal email client to send email, instead of hassling with
+Web mail or changing SMTP server configuration, and all traffic
+between my laptop and home server is encrypted. First create the
+tunnel to your personal server:
+
+    carla@hotel:~$ ssh -f carla@homeserver.com -L 9999:homeserver.com:25 -N
+
+This binds port 9999 on your mobile machine to port 25 on your remote
+server. The remote port must be whatever you've configured your server
+to listen on. Then configure your mail client to use localhost:9999 as
+the SMTP server and you're in business. I use Kmail, which lets me
+configure multiple SMTP server accounts and then choose which one I
+want to use when I send messages, or simply change the default with a
+mouse click. You can adapt this for any kind of service that you
+normally use from your home base, and need access to when you're on
+the road.
+
+ 
+
+** No. 1 Favorite SSH tip: Evading silly web restrictions
+
+The wise assumption is that any public Internet is untrustworthy, so
+you can tunnel your Web surfing too. My #1 SSH tip gets you past
+untrustworthy networks that might have snoopers, and past any barriers
+to unfettered Web-surfing. Just like in tip #2 you need a server that
+you control to act as a secure relay; first setup an SSH tunnel to
+this server:
+
+    carla@hotel:~$ ssh -D 9999 -C carla@homeserver.com
+
+Then configure your Web browser to use port 9999 as a SOCKS 5
+proxy. Figure 1 shows how this looks in Firefox.
+
+![Figure 1: Configuring Firefox to use your SSH tunnel as a SOCKS proxy.](images/fig-1-socks_0.jpeg
+ "Figure 1: Configuring Firefox to use your SSH tunnel as a SOCKS
+ proxy.")
+
+An easy way to test this is on your home or business network. Set up
+the tunnel to a neighboring PC and surf some external Web sites. When
+this works go back and change the SOCKS port number to the wrong
+number. This should prevent your Web browser from connecting to any
+sites, and you'll know you set up your tunnel correctly.
+
+How do you know which port numbers to use? Port numbers above 1024 do
+not require root privileges, so use these on your laptop or whatever
+you're using in your travels. Always check /etc/services first to find
+unassigned ports. The remote port you're binding to must be a port a
+server is listening on, and there has to be a path through your
+firewall to get to it.
+
+To learn more try the excellent Pro OpenSSH by Michael Stahnke, and my
+own Linux Networking Cookbook has more on secure remote administration
+including SSH, OpenVPN, and remote graphical sessions, and configuring
+firewalls.
+
+
+
+* Securing Web Application
+
+** references: 
+
+https://juxt.pro/blog/posts/securing-your-clojurescript-app.html
+http://kendru.github.io/restful-clojure/2015/03/13/securing-service-restful-clojure-part-4/
+http://rundis.github.io/blog/2015/buddy_auth_part1.html

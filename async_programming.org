@@ -1,0 +1,154 @@
+* Asynchronous Programming in Javascript
+
+In javascript we don't have threads to work with, there is only the
+one thread.  If we perform an action in this thread that blocks, then
+everything is halted, including UI like click and scroll in the
+browser.  As such the programming frameworks that we'll use, the MEAN
+stack, are all based on the use of asynchronous (or approximately,
+event-based) models.  There has been an explosion in interest in this
+type of architecture because asynchronous programs are easier to
+reason about than threaded ones and they don't suffer from blocking
+calls.  The web, client/server, is a perfect candidate for this arch.
+
+Compared to the synchronous model, the asynchronous model performs
+best when:
+
+ * There are a large number of tasks so there is likely always at least
+one task that can make progress.
+
+ * The tasks perform lots of I/O, causing a synchronous program to waste
+lots of time blocking when other tasks could be running.
+
+ * The tasks are largely independent from one another so there is little
+need for inter-task communication (and thus for one task to wait upon
+another).  
+
+These conditions almost perfectly characterize a typical busy network
+server (like a web server) in a client-server environment.
+
+* Doing Async Programming
+
+The first way to do async programming is with call backs.  You call an
+async function and give that function another function to call when
+the first function has the data you requested.  It might look like:
+
+#+BEGIN_SRC javascript
+// define your functions
+function my_callback(data) {} // work with data
+function async_func(callback_func){...}
+// use it
+async_func(my_callback(data))
+#+END_SRC
+
+** Pitfalls
+
+The problem with callbacks is that they turn into the [[http://tritarget.org/blog/2012/11/28/the-pyramid-of-doom-a-javascript-style-trap/][Pyramid of
+Doom]] or [[http://callbackhell.com/][Callback Hell]].  This is where your program starts to expand
+to the right more than the typical downwards.  Also it becomes
+challenging to reason about the program because you can't read your
+program sequentially anymore.
+
+* Review Sequential Programming
+
+Typically we expect a program to work like:
+
+#+BEGIN_SRC javascript
+// define a function that returns a value
+function blocking_func_call(){ ... return some_data; }
+// call func and get return value
+data = blocking_func_call();
+// do something with data
+#+END_SRC
+
+we call =blocking_func_call= get a return value and continue.  In
+async with callbacks we have:
+
+#+BEGIN_SRC javascript
+// define functions
+function my_callback(data){} // do something with data
+function non_blocking_func_call(your_callback){}
+// call it
+non_blocking_func_call(my_callback(the_data))
+// ??? um...when/where do i get my result?
+#+END_SRC
+
+we NEVER return a value from the non-blocking call OR the callback, so
+our standard reasoning about functions and return values, goes out the
+window somewhat.
+
+An improvement on callbacks is another style called promises.
+
+* Promises
+
+Promises are async functions that DO return a value...a promise
+object.  It initially doesn't have your data in it...after all this is
+async, we DONT get the data right away.  What we do with promises is
+call the =then()= method on them, where we handle the return value.
+They might look like:
+
+#+BEGIN_SRC javascript
+// call async function and store promise in variable myPromise
+var myPromise = call_async_func();
+// register a callback with the then() method
+myPromise.then(function(data){}) // handle the data here
+// ??? hmmm still no return value :(
+#+END_SRC
+
+at first glance this hardly seems much of an improvement over
+callbacks, and indeed it suffers from the same non-sequential looking
+code that becomes harder to reason about.  However it's only when we
+finally pair this with one more concept that we can restore the
+appearance of sequential programming in an async environment.
+
+* Await
+
+There is a final construct that can make the program look sequential
+again.  Here is an example:
+
+#+BEGIN_SRC javascript
+var myData = await callAsyncFunc();
+#+END_SRC
+
+here we use the await keyword which tells us to...well await the
+return of =callAsyncFunc=.  This relinques control, but when the async
+call resolves, the data is inserted into =myData=, and we proceed as
+normal.  Now we have all the benefits of async programming with the
+nice flow look of synchronous programming.
+
+* Epilogue
+
+The current generation of javascript is ECMA 5.  This is what is
+available natively in all the browsers.  It is what Node.js is
+compliant with.  ECMA 6 just got finalized and it will take some time
+for the spec's features to show up in browsers and Node.  ECMA 7 will
+only appear in the far future.  EMCA 6 includes promises, but not the
+=await= keyword.  In the meantime combination of libraries that extend
+ECMA 5 to have both promises and an =await= like syntax are used.
+* Reference
+
+The following method returns a promise, NOT an integer.
+
+#+BEGIN_SRC javascript
+var numFilesInCurrDir = async(function() {
+  var numFiles = await(countFilesInDir(".");
+  return numFiles;
+});
+#+END_SRC
+
+It would be used like:
+
+#+BEGIN_SRC javascript
+numFilesInCurrDir.then(function(numFiles){ console.log("number of files in curr dir are: " + numFiles); });
+#+END_SRC
+
+But we can use it like an integer in another =async= function.
+
+#+BEGIN_SRC javascript
+var numFilesPlus10 = async(function() {
+  var numFilesInCurrDir = await(numFilesInCurrDir());
+  return numFilesInCurrDir + 10;
+});
+#+END_SRC
+
+However, =numFilesPlus10= still returns a promise, that we have to
+=then()= to access it's output.

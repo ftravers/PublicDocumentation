@@ -1,0 +1,17 @@
+Glossary:
+
+	Entity Objects:
+An entity object is a java object (instantiated) that represents one row of a database table.  There are some nuances here but principally think of it as the same thing as a database row...just in java code so you can work with it.
+
+	View Objects:
+Gives a “view” of your data. Define which attributes are “visible”. Set filter criteria: Order by, Where. Can query data from one or more tables. Implement master/detail coordination. Defined in XML. Java can be exposed as needed.
+
+	Application Modules
+Consists of one or more view objects. Handles the connection with the database. Handles the database transaction. Defined in XML. Java can be exposed as needed
+
+	Data Controls
+
+	Managed Bean
+This is a java class that is 'behind' a given jsp/f page that helps with all the interactions between the elements on the page.
+For example you might want to click a button and copy the text from one cell to another cell.  This can be accomplished
+with the managaged 'backing' bean.

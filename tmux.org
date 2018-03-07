@@ -1,0 +1,74 @@
+
+| ? | List all keybindings    |
+
+* Quickies
+
+| tmux ls                       | list sessions             |
+| tmux attach -t <session_name> | attached to named session |
+| n                             | Move to the next window   |
+
+* Sessions
+
+| tmux new -s <session_name>    | create sess with name                 |
+| tmux attach -t <session_name> | attached to named session             |
+| tmux ls                       | list sessions                         |
+| tmux attach -d                | re-attach detaching other connections |
+| tmux kill-session -t myname   | kill named session                    |
+
+
+* Share session with another user
+
+#+BEGIN_SRC bash
+# specify the name of your tmux socket with -S when creating it
+$ tmux -S /tmp/pair
+# chmod to allow other users to access it
+$ chmod 777 /tmp/pair
+# now the other user can connect with
+$ tmux -S /tmp/pair attach
+#+END_SRC
+
+* Windows
+
+PREFIX KEY: Ctrl-b 
+
+
+** Create
+
+| c | Create new window       |
+| & | Kill the current window |
+| d | Detach current client   |
+
+** Movement
+
+| l | Move to previously selected window |
+| n | Move to the next window            |
+| p | Move to the previous window        |
+
+* Panes
+
+** creation
+
+| % | split vertical |
+| " | horizontal     |
+| x | close          |
+
+** movement
+
+| (arrows) | movement                |
+| o        | Switch to the next pane |
+| ;        | previously active pane  |
+| C-o      | rotate panes            |
+
+** resizing panes
+
+| C-(arrows)   | one cell steps |
+| C-A-(arrows) | 5 cell steps   |
+
+* Copy Mode
+
+| [ | enter copy mode |
+
+Now arrows or pg-up/down will scroll window
+
+| ] | paste from copy mode |
+

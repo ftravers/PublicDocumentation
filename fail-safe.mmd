@@ -1,0 +1,124 @@
+  # Fail-safe maven plugin
+  
+  Used for integration tests as opposed to sure-fire, which does unit testing.
+  
+  ## Usage
+  
+  Have a folder renamed to IT or Integration Test in src/test/java
+  Integration-test runs test classes named **/IT*.java, **/*IT.java, and **/*ITCase.java
+  
+  Example: LoadSpreadSheetIT.java
+  
+  Include the fail-safe plugin in pom.xml
+  
+  ```
+  <plugin>                     
+  	<groupId>org.apache.maven.plugins</groupId>                     
+  	<artifactId>maven-surefire-plugin</artifactId>                     
+  	<configuration>                      	   
+  		<excludes>                             
+  			<exclude>**/*Test.java</exclude>                         
+  		</excludes>                     
+  	</configuration>                 
+  </plugin> 
+  <plugin>
+  	<groupId>org.apache.maven.plugins</groupId>
+  	<artifactId>maven-failsafe-plugin</artifactId>
+  	<version>2.8.1</version>
+  	<configuration>
+  		<excludes>           
+  			<exclude>**/*Test.java</exclude>         
+  		</excludes>
+  		<includes>               
+  			<include>**/*IT.java</include>             
+  		</includes> 
+  	</configuration>
+  	<executions>
+  		<execution>
+  			<id>failsafe-integration-tests</id>
+  			<phase>integration-test</phase>
+  			<goals>
+  				<goal>integration-test</goal>
+  			</goals>
+  		</execution>
+  		<execution>
+  			<id>failsafe-verify</id>
+  				<phase>verify</phase>
+  				<goals>
+  					<goal>verify</goal>
+  				</goals>
+  		</execution>
+  	</executions>
+  </plugin>
+  ```			
+  			
+  If you want unit tests to be run as well, remove:
+  
+  ```				
+  <excludes>                             
+ 	<exclude>**/*Test.java</exclude>                         
+  </excludes>   
+  ```
+  
+  ## Goal:
+  
+  Jenkins goal for autoSR2: clean failsafe:verify package deploy site-deploy
+  
+  ## Test Reports:
+  
+  Tests Reports can be found in **/target/failsafe-reports of the project.
+  		
+  		
+  ## Some Notes:
+  
+  Run mvn failsafe:verify goal instead of failsafe:integration-test as 
+  verify completes the post-integration steps like shutting down tomcat, clearing 
+  resources after tests are run.
+  
+  With fail-safe, build continues even if integration tests fail. It runs after 
+  "package", so if you run "mvn verify", "mvn install", or "mvn deploy", 
+  integration tests will be run along the way.
+  
+  But with mvn-install and mvn-deploy, only integration-test is run and not post-
+  integration tests are run. So, its better to have failsafe:verify goal, which 
+  does pre and post integration test phases as well.
+  
+  
+  ## With tomcat maven plugin:
+  
+  Fail-safe can be used in conjunction with mvn tomcat plugin with following 
+  tomcat plugin in pom.xml: 
+  
+  ```
+  <plugin>     
+  	<groupId>org.codehaus.mojo</groupId>     
+  	<artifactId>tomcat-maven-plugin</artifactId>     
+  	<version>1.1</version>     
+  	<configuration>         
+  		<fork>true</fork>         
+  		<port>8081</port>     
+  	</configuration>     
+  	<executions>         
+  		<execution>             
+  			<id>start-tc</id>             
+  			<phase>pre-integration-test</phase>             
+  			<goals>
+  			<goal>run-war-only</goal>             
+  			</goals>         
+  		</execution>         
+  		<execution>             
+  			<id>stop-tc</id>             
+  			<phase>post-integration-test</phase>             
+  			<goals>                 
+  			<goal>shutdown</goal>             
+  			</goals>         
+  		</execution>     
+  	</executions> 
+</plugin> 
+```
+
+and the goal: mvn clean tomcat:run
+  
+
+  
+  

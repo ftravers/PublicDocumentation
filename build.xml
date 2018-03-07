@@ -1,0 +1,38 @@
+ <project default="deploy" name="Documentation">
+  <property name="webFinalDir" value="${user.home}/bin/website" />
+  
+	<path id="wikitext.classpath">
+		<fileset dir="${user.home}/bin/mylyn-wikitext-standalone">
+			<include name="org.eclipse.mylyn.wikitext.*core*.jar" />
+		</fileset>
+	</path>
+
+	<taskdef classpathref="wikitext.classpath" resource="org/eclipse/mylyn/wikitext/core/util/anttask/tasks.properties" />
+
+	<target name="generate-html" description="Generate HTML from textile source">
+		<wikitext-to-html markupLanguage="Textile">
+			<fileset dir=".">
+				<include name="**/*.textile" />
+			</fileset>
+			<stylesheet url="/styles/main.css" />
+		</wikitext-to-html>
+		<copy todir="${webFinalDir}">
+			<fileset dir=".">
+				<exclude name="website/**" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.png" />
+				<include name="**/*.jpg" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+                <include name="**/*.js" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="rsync">
+		<exec executable="rsync">
+			<arg line="rsync -avP ${webFinalDir} ftravers@spicevan.com:/home/ftravers/mohe.spicevan.com" />
+		</exec>
+	</target>
+</project>

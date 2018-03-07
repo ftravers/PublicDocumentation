@@ -1,0 +1,109 @@
+* basics
+calling a built-in function:
+
+#+BEGIN_SRC elixir
+iex(9)> round 200/15
+13
+#+END_SRC
+
+define a function:
+
+#+BEGIN_SRC elixir
+my_func = fn (a_num) -> a_num * 2 end
+my_func.(5)
+10
+#+END_SRC
+
+why have a dot after my defined function and not the round above?
+
+anonymous function shortcut &
+
+#+BEGIN_SRC elixir
+my_func = &(&1 * 2)
+my_func.(5)
+10
+#+END_SRC
+
+* Modules
+
+name the file the lowercase of module name (dot ex, i.e.: blah.ex) for
+module Blah.
+
+Module Blah with function fall_velocity defined.
+
+#+BEGIN_SRC elixir
+  defmodule Blah do
+    def fall_velocity (distance) do
+      distance * 10
+    end
+  end
+#+END_SRC
+
+functions defined with def are visible outside module, use defp for
+private functions.
+
+Can compile module with: 
+
+: iex(1)> c("blah.ex")
+: [Blah]
+
+Creates file: Elixir.Blah.beam.
+
+Call module functions:
+
+: Blah.fall_velocity(10)
+: 100
+
+Modules can access each other if in the same directory.
+
+Pipe forward |>, lets you put the result of one function into the
+first argument of the next function
+
+: Drop.fall_velocity(meters) |> Convert.mps_to_mph
+
+If you import a module, then you dont have to prefix its functions
+with the module name anymore.
+
+To import an Erlang module, prefix the module name with a colon and
+don’t start the name with an uppercase letter
+
+: import :math
+
+just import some functions do:
+
+: import :math, only: [sqrt: 1]
+
+if import is only needed in one function you can import INSIDE your
+function definition:
+
+#+BEGIN_SRC elixir
+  defmodule Drop do
+    def fall_velocity(distance) do
+      import :math, only: [sqrt: 1]
+      sqrt(2 * 9.8 * distance)
+    end
+  end
+#+END_SRC
+
+Default argument values:  param \\ default_val, gravity \\ 9.8
+
+# for comments
+
+function doc:
+
+#+BEGIN_SRC elixir
+  defmodule Drop do
+    @doc """
+    Calculates the velocity of an object falling on Earth
+    as if it were in a vacuum (no air resistance). The distance is
+    the height from which the object falls, specified in meters,
+    and the function returns a velocity in meters per second.
+    """
+    def fall_velocity(distance) do
+      import :math, only: [sqrt: 1]
+      sqrt(2 * 9.8 * distance)
+    end
+  end
+#+END_SRC
+
+Atoms are like clojure keywords.  Often used for pattern matching.

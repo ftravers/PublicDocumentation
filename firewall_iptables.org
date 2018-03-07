@@ -1,0 +1,193 @@
+* IPTABLES	
+
+View all rules:
+
+    # iptables -L
+
+Delete all existing rules: 
+    
+    # iptables -F
+
+Allow incoming ssh
+
+    # iptables -A INPUT -i enp0s25 -p tcp --dport 22 -j ACCEPT
+
+Drop all other incoming
+
+    # iptables -A INPUT -j DROP
+
+No need to forward any packets (not acting like NAT, etc...)
+
+    # iptables -P FORWARD DROP
+
+Allow outgoing packets
+
+    # iptables -P OUTPUT ACCEPT
+
+
+** INPUT
+*** Which is used to grant or deny incoming connections to your machine.
+
+** OUTPUT
+*** Which is used to grant or deny outgoing connections from your machine.
+
+** FORWARD
+*** Which is used to for forwarding packages across interfaces, only really needed (in general) when you're setting up a gateway machine.
+
+     # First of all delete any existing rules.
+     #
+     # This means you're back to a known state:
+     #
+     /sbin/iptables -F
+     /sbin/iptables -t nat -F
+     /sbin/iptables -t mangle -F
+     /sbin/iptables -X
+     #
+     #	 Block all access to port 21 (ftpd)
+     #
+     #	 BUT allow host 11.22.33.44
+     #
+     sbin/iptables -A INPUT -p tcp -m state --state NEW --dport 21 --source 11.22.33.44 -j ACCEPT
+     /sbin/iptables -A INPUT -p tcp -m state --state NEW --dport 21 -j DROP
+
+
+** Delete any prior rules to make sure when we run this again we won't have any problems.
+** Add two rules to the INPUT chain, which means they will apply to incoming connections:
+*** 1. Allow incoming connections to port 21 from one IP address 11.22.33.44.
+*** 2. Deny all other incoming connections to port 21.
+	 
+*** General form of command is:
+
+    iptables -A CHAIN -p tcp/udp [options] -j ACTION
+
+The CHAIN we've briefly covered before, "INPUT", "OUTPUT", "FORWARD", etc.
+Here "-A INPUT" means "append this rule to the input chain".
+
+The "-p tcp" means this rule applies only to TCP connections, not UDP. (To
+specify UDP connections you'd use "-p udp" instead.)
+
+"[options]" is where you specify what you wish to match against. "-m state
+--state NEW --dport 21" to match against new connections to port 21.
+
+Finally "-j ACTION" is used to specify what to do to packets which match your
+rule. Usually an action will be one of "-j DROP" to drop the package, "-j
+ACCEPT", to accept the packet or "-j LOG" to log it.
+
+*** Gateway machine:
+
+If you have a gateway machine and wish to forward connections on port
+80 to an internal machine then you'd create the following rules:
+
+    iptables -A PREROUTING -t nat -i eth1 -p tcp --dport 80 -j DNAT --to 192.168.1.50:80
+    iptables -A INPUT -p tcp -m state --state NEW --dport 80 -i eth1 -j ACCEPT
+	
+These two rules are fairly simple - the first says that all incoming
+tcp connections arriving destined for port 80 should be sent to the
+internal machine 192.168.1.50 (also on port 80).
+	
+This rule alone doesn't do the job though, we also have to accept the
+incoming connection. This is the job of the second rule which says
+that new connections on port 80 should be accepted on the external
+device eth1.
+	
+To increase security you could limit this forwarding to only work when
+connections are coming from a particular address with the use of the
+"--source" flag:
+	
+    iptables -A PREROUTING -t nat -i eth1 -p tcp --source 11.22.33.44 --dport 80 -j DNAT --to 192.168.1.50:80
+* Firewalls and IPTables
+
+** Wholesale On/Off
+
+Sometimes you just want to get your firewall turned off, because you
+are testing something else.  Here is how you do it:
+
+    [root@localhost ~]# service iptables stop
+    [root@localhost ~]# service ip6tables stop
+    [root@localhost ~]# chkconfig --del iptables
+    [root@localhost ~]# chkconfig --del ip6tables
+
+The first command 'service iptables stop' just stops the firewall
+right now.  However, on a reboot the firewall would start back up
+again.  That's what the second command 'chkconfig' is for.  It removes
+it from the startup process, so on reboot the firewall will still not
+be restarted.
+	
+** Add Port to Firewall
+
+<a name="quickFirewall">To add a new port, run the following and</a>
+
+<pre><div class="sample_code">/usr/bin/system-config-securitylevel-tui --quiet --port=<span class="parameter">PORT</span></div></pre>
+
+Restart the firewall
+
+    service iptables restart
+
+Where <span class="parameter">PORT</span> could be a name, number, and
+optional adding of `tcp` and `udp` protocols on that port
+
+    --port=http 
+    --port=138:udp 
+    --port=445:tcp
+
+| State      | Meaning                            |
+| ---------- | ---------------------------------- |
+  filtered   | The firewall is blocking this port 
+  closed     | Port is open but nothing is listenning on it
+  open       | Port is open and service is listenning
+*** Port Names
+
+Look [here](http://www.iana.org/assignments/port-numbers) to figure
+out port the names of ports.
+
+Choose Customize, add a line like: 8888:tcp, to the other ports
+section, OK, OK.  Restart the firewall with:
+
+    [root@ucm3 ~]# service iptables restart
+
+The following command will show you if your changes worked...
+
+    [root@ucm3 ~]# cat /etc/sysconfig/iptables
+
+The rest below is just additional background info about the firewall:
+
+First backup your current IP Tables settings:
+
+    [root@hp4 etc]# cp /etc/sysconfig/iptables /etc/sysconfig/iptables.orig 
+	
+Restore original tables:
+
+    [root@hp2 ~]# cp /etc/sysconfig/iptables.orig /etc/sysconfig/iptables
+	
+Start, stop, restart the iptables ( will reload /etc/sysconfig/iptables rules )
+
+    [root@hp2 ~]# service iptables [restart|start|stop]
+	
+Examine what the tables currently have in them:
+
+    [root@hp2 ~]# iptables -L
+    # /usr/bin/system-config-securitylevel
+    8888:tcp,8899:tcp 
+	
+Save the changes so they persist after a reboot with:
+
+    [root@hp2 ~]# /sbin/service iptables save
+	
+	 
+Now lets allow a user to ssh into port 10322
+	
+    iptables -A INPUT -p tcp -m state --state NEW --dport 10322 -j ACCEPT
+    iptables -A INPUT -p tcp --dport 10322 -j ACCEPT
+        
+    iptables -A INPUT -p tcp --dport ssh -j ACCEPT
+    iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+	
+** Lingo/Glossary 
+
+	Rule:
+	Chain:
+	Policy:
+	
+The firewall on Oracle enterprise Linux is called IP tables
+	
+To start off with there are three real "chains" which iptables uses:

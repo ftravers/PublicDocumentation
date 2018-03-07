@@ -1,0 +1,46 @@
+#+TITLE: python - json
+
+* json basics
+
+: filename: test.json
+
+#+BEGIN_SRC json
+{ 
+  "first_name": "fenton", 
+  "last_name": "travers",
+  "age": 25,
+  "height": 1.85,
+  "male": true,
+  "spouse": null,
+  "children": 
+  [
+    { 
+      "name": "joe",
+      "age": 10
+    },
+    {
+      "name": "ann",
+      "age": 11
+    }
+  ]
+}
+#+END_SRC
+
+Use [] for lists.
+
+Above we show string, integer, float, boolean and null values.
+
+JSON -> Python: json.loads()
+Python -> JSON: json.dumps()
+
+#+BEGIN_SRC python
+import json, unittest
+class TestMyViews(unittest.TestCase):
+    def test_json1(self):
+        testdir = "flights/tests"
+        with open (testdir + "/test.json", "r") as json_file:
+            data=json_file.read().replace('\n', '')
+        py_data = json.loads(data)
+        self.assertEqual(py_data["height"], 1.85)
+#+END_SRC
+

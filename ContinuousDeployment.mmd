@@ -1,0 +1,186 @@
+# Work In Progress
+
+## Testing - Fitnesse
+
+* [Reference 1](http://johannesbrodwall.com/2008/03/19/some-fitnesse-tricks-classpath-and-debugging/)
+
+### Launch Fitnesse
+
+```bash
+$ java -jar fitnesse.jar -p 8081
+```
+
+### Quick Start
+
+```
+!path target/classes
+!path /.m2/repository/org/fitnesse/fitnesse/20060719/fitnesse-20060719.jar
+!path /.m2/repository/org/fitnesse/fitlibrary/20060719/fitlibrary-20060719.jar
+
+!|my.test.ExampleFixture|
+|first|second|sum?|product?|
+|10|10|20|100|
+|1|0|1|0|
+|10000|1|10001|10000|
+```
+
+### Fitnesse and GIT
+
+This will create a subfolder in the folder specified by the -d
+parameter, called FitnesseRoot, if it doesn't already exist, with all
+the stuff it needs to run.
+
+# General Problem
+
+*This documentation is NOT completed*
+
+In the image below we depict that the project `GUI` _depends on_ the
+project `Lib`.
+
+![Project Dependency](images/project-dependency.png "Project Dependency")
+
+Normally I like to set these up as _SNAPSHOT_ dependencies, which I
+define as `GUI` depends on the latest version of `Lib`.  In maven we
+achieve this by setting GUI's pom.xml to have a line like the
+following:
+
+```xml
+<project>
+  <artifactId>GUI</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+    <dependency>
+      <artifactId>Lib</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+```
+
+and in Lib's pom.xml an entry like:
+
+```xml
+<project>
+  <artifactId>Lib</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+```
+
+So the way I'd like my system to work is that for all code under my
+control, I would set it's version to be a SNAPSHOT version.  Then when
+I'm happy with it, I'd like to press one button and have the required
+projects get released with NON-SNAPSHOT versions.  In the above
+scenario, I can release either the Lib or GUI projects.  I can only
+ever pick one project to release.  If dependencies require, a
+cascading release may occur.  So lets examine the scenarios of
+releasing GUI or releasing Lib.
+
+## Releasing the Lib code
+
+So Lib code is _depended on_ by other code but it doesn't _depend on_
+any code itself.  So this use case could be called: "Releasing code
+that doesn't depend on anything, but other code depends on it".
+
+Use Case Steps: When I trigger the release action on the build server
+for the code for Lib, I'd like the following to happen:
+
+1. The system checks out the Lib code.
+
+1. The system should scan for any other projects that depend on the
+`0.0.1-SNAPSHOT` version of Lib, and save that list, lets call that
+list the: `projects-that-depend-on-me` list.
+
+1. The project should be built and tested, any failures cause the release
+to fail, and the process halted.
+
+1. The pom.xml should have its version incremented from 0.0.1-SNAPSHOT to
+0.0.2-SNAPSHOT, and get checked back into the vcs, tagging it as: 0.0.1
+
+1. The project should be installed into the local maven repository as
+the 0.0.1 & 0.0.2-SNAPSHOT releases, and published to any remote maven
+repositories as well.  It should only remotely send the file once and
+then do a local copy on the remote repos as opposed to sending twice,
+over slow network links.
+
+2. Next the VCS would go through the list of
+`projects-that-depende-on-me`, check them out, and modify their
+dependency references to Lib to adjust the version from 0.0.1-SNAPSHOT
+to be 0.0.2-SNAPSHOT.  It should then check these projects back in.
+
+Statistics:
+
+* Number of builds: 1
+* Number of artifact sends to remote repositories: 1
+* Number of checkouts on the VCS: 1
+* Number of revisions added to the VCS: 1
+
+That is the end of the use case.  The second use case is when we
+update the GUI code.
+
+## Updating the GUI code
+
+In this use case we are releasing code for a project that has SNAPSHOT
+dependencies, which we need to avoid for repeatable builds.  So when I
+trigger a release in the build server for an artifact that has
+SNAPSHOT dependencies I'd like the following steps to occur:
+
+1. The code is checkout out.
+
+1. It is determined that I am both a SNAPSHOT project AND I have
+SNAPSHOT dependencies.
+
+1. A list of all SNAPSHOT projects I depend on AND SNAPSHOT projects
+that they in turn depend on, should be created, and lets call this
+tree the: `SNAPSHOT-dependency-tree`
+
+1. When the VCS receives my commit request it analyses my pom and
+identifies that I have SNAPSHOT dependencies AND this project itself
+is a SNAPSHOT version.
+
+*TO BE FINISHED SPECIFYING HERE...*
+
+## Cascading Release
+
+So I have two maven projects that I control.  One depends on another,
+say webapp depends on jar library.  I'm trying to setup continuous
+deployment, so I have the webapp depending on the SNAPSHOT version of
+the jar library.  Now when I check-in code to the jar and push to the
+git server, the webapp gets nicely built.  I've setup a post-receive
+hook on the git server to trigger the jar lib build in jenkins.
+
+Now I'd like to have a one-step (button click) process that would do
+the following:
+
+assume for starters the pom's have the following in them:
+
+```xml
+<artifactId>jarlib</artifactId>
+<versionId>0.0.1-SNAPSHOT</versionId>
+```
+
+and
+
+```xml
+<artifactId>webapp</artifactId>
+<versionId>0.0.1-SNAPSHOT</versionId>
+...
+<dependency>
+  <artifactId>jarlib</artifactId>
+  <versionId>0.0.1-SNAPSHOT</versionId>
+...
+```
+
+I'd like two artifacts to be released webapp:0.0.1 and jarlib:0.0.1.  I'd like the poms to now look like:
+
+```xml
+<artifactId>jarlib</artifactId>
+<versionId>0.0.2-SNAPSHOT</versionId>
+```
+
+and
+
+```xml
+<artifactId>webapp</artifactId>
+<versionId>0.0.2-SNAPSHOT</versionId>
+...
+<dependency>
+  <artifactId>jarlib</artifactId>
+  <versionId>0.0.2-SNAPSHOT</versionId>
+...
+```

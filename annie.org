@@ -1,0 +1,72 @@
+
+* Start Web Server
+
+  Goto to directory:
+
+    % c 1
+
+  Start virtual environment `pyr`:
+
+    % v pyr
+
+  Start web server:
+
+    % pserve development.ini
+    
+* Start Livereload 
+~ % c 1
+~/projects/python/annie ~
+annie % v pyr
+(pyr)annie % livereload
+
+* Terminal/shell
+
+  | WK-ENTER | open terminal           |
+  | WK-r     | run program             |
+  | C-r      | search previous command |
+  | sd       | shutdown computer       |
+  |          |                         |
+* emacs
+
+| C-x C-s | save        |
+| C-x C-f | open        |
+| C-x C-c | close emacs |
+
+** select/copy/paste
+| C-SPC     | start select             |
+| C-k       | kill to end of line      |
+| C-y       | yank (paste)             |
+| A-w       | copy selected            |
+| C-w       | cut selected             |
+
+** movement
+| A-<       | top of file              |
+| A->       | end of file              |
+| C-s / C-r | forward / reverse search |
+| C-n / C-p | next / previous line     |
+| C-a / C-e | beging / end of line     |
+
+** windows
+| C-x 2 | split horizontal     |
+| C-x 3 | split vertical       |
+| C-x 0 | close windows        |
+| C-x 1 | close others windows |
+| C-x o | go to other window   |
+|       |                      |
+
+
+* pyramid 
+
+[[file:python/pyramid.org::*start%20project][Pyramid Notes]]
+
+* git
+
+| st                    | git status       |
+| git add -f <filename> | add file to git  |
+| com                   | commit changes   |
+| pus                   | push to server   |
+| pul                   | pull from server |
+|                       |                  |
+
+
+

@@ -1,0 +1,175 @@
+* After you buy a new BBB
+
+This guide is for using Arch Linux with your Beagle Bone Black.
+
+Before you connect your BBB to your computer run: `ifconfig -a` and
+note which interfaces you have, mine has: eth0, lo, and wlan0.
+
+This assumes you are ONLY connecting to your BBB via a USB cable.
+
+After you've plugged it in you can do an `lsblk` to determine the
+device, mine was `/dev/sdc`.
+
+You can mount and browse this easily enough with:
+
+    % sudo mkdir -p /mnt/bbb
+    % sudo mount /dev/sdc /mnt/bbb
+    % cd /mnt/bbb; ls
+
+Next you want to issue: `ipconfig -a`, my system shows: eth0, eth1,
+lo, wlan0, after having connected the BBB, therefore the network
+device that will connect to the BBB is eth1.
+
+I used `netctl`.  I copied and edited the `
+
+    % cd /etc/netctl
+    % sudo cp /examples/ethernet-dhcp bbb
+    % cat bbb
+    Description='A basic dhcp ethernet connection'
+    Interface=eth1
+    Connection=ethernet
+    IP=dhcp
+
+I enabled and started the network with: 
+
+    % sudo netctl enable bbb
+    % sudo netctl start bbb
+
+I also enable the dhcp client with:
+ 
+    % sudo systemctl enable dhcpcd.service
+
+Now `ifconfig -a` reveals the IP address, which is 192.168.7.1.  Keep
+in mind that this is the computer side of the network's IP, the BBB
+should have the IP address: 192.168.7.2.  So you can now browse via a
+browser, or ssh in.  There is no password for the `root` user.
+
+    % ssh root@192.168.7.2
+
+Now get your Angstrom version:
+
+    # cat /etc/dogtag 
+    Cloud9 GNOME Image 2013.06.20
+
+* Updating to the latest Angstrom
+
+Someone recommended doing this as a first step with my BBB.  So I
+bought a 16GB uSD flash card.  Apparently anything 4GB and up is okay.
+
+Went here: http://beagleboard.org/latest-images
+
+Got the image that is for the BBB.  On my Arch Linux i had to install
+7zip
+
+    % sudo pacman -S p7zip
+
+Extract the file with:
+
+    % 7za e demo_beaglebone_BBB-eMMC-flasher-2013.06.20.img.xz
+
+Copy it over to the uSD card with:
+
+    % time sudo dd if=demo_beaglebone_BBB-eMMC-flasher-2013.06.20.img of=/dev/sdb bs=1M
+
+It took a long time, maybe more than 10 minutes for the previous step.
+
++ Then in the powered down BBB I put the micro SD (uSD) card in.  
+
++ I used a 5V/2A wall-wart power supply (do NOT power through even a
+powered USB), and while holding the boot button, plugged the device
+in.  The boot button is the one near the uSD card side.
+
++ Hold the button down until the 4 LEDs all light simultaneously.  This
+took about 6 seconds.
+
++ Then release the BBB boot button, and came back maybe 65 minutes
+later.  All four LEDs will be constantly on when the process is
+finished.
+
++ Yank the power cord.  Remove the SD card.  Reinsert the power and off
+you go!
+
+* Install Arch Linux
+
+ref: http://archlinuxarm.org/platforms/armv7/ti/beaglebone-black
+
+If re-installing make sure to delete the files under /boot/* and
+/root/* since a 'tar xf' will not overwrite files with the same name
+that already exist.  
+
+** Ensure your resolv.conf
+
+/etc/resolv.conf file gets a nameserver of 8.8.8.8
+
+Actually the boot files get modified on the SD card and we must copy
+those over to the eMMC boot dir.
+
+# mkdir good_boot
+# mount /dev/mmcblk0p1 good_boot
+# mount /dev/mmcblk1p1 boot
+# rm -f boot/*
+# cp good_boot/MLO boot/
+# cp good_boot/u* boot/
+# umount boot; umount good_boot; poweroff
+
+** packages
+
+*** all packages together
+rxvt-unicode hdparm zsh sudo git
+
+*** test hard drive speed:
+hdparm
+hdparm -tT /dev/
+
+*** proper terminal
+rxvt-unicode
+
+* Arch Setup
+** on bbb
+#+BEGIN_SRC shell
+useradd -m -g users -s /usr/bin/zsh fenton
+echo "fenton:welcome1" | chpasswd
+printf "\nfenton ALL=(ALL) NOPASSWD: ALL\n" >> /etc/sudoers
+ssh-keygen
+#+END_SRC
+
+** from installing laptop
+
+#+BEGIN_SRC shell
+scp bbf:~/.ssh/id_rsa.pub ~/projects/gitolite-admin/keydir
+#+END_SRC
+
+** Have more space on eMMC
+
+on your install SD card, create two partitions, the first for /usr and
+second for /home.  Maybe 4 GB and 12 GB respectively.
+
+boot up with card in and do:
+
+    # mkdir /mnt/new_usr
+    # mount /dev/mmcblk1p1 /mnt/newusr
+    # cp -a /usr/* /mnt/newusr/
+
+Add a line like the following to /etc/fstab
+
+/dev/mmcblk0p1  /usr   ext4    defaults        0       2
+
+reboot
+
+CANNOT delete old '/usr' as I believe it is used in the bootup
+process before the '/etc/fstab' is read.  So just leave it there...
+then lets delete the old /usr to free up space:
+
+** Wireless USB
+
+It's a realtek 
+
+    # pacman -S dkms-8188eu
+
+maybe dont take the armv7 headers, maybe use default of am33
+
+** Video
+
+Install this driver:
+
+    % sudo pacman -S xf86-video-fbdev

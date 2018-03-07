@@ -1,0 +1,38 @@
+
+Creating a wood working bench plan tutorial.
+
+* Units
+
+Change units to feet/inches
+
+: Edit > Preferences > Units
+
+US Customary
+
+* Create first leg
+
+SEE:
+
+http://www.freecadweb.org/wiki/index.php?title=Basic_modeling_tutorial
+
+put leg dimensions of: 34.5" x 3.5" x 3.5"
+
+* Zoom level
+
+Now we want to make sure we can see the whole thing properly, right
+click on diagram back ground and select:
+
+: Fit All
+
+There is an icon on the far left of the toolbar that does the same
+thing.
+
+* Copy & Paste
+
+: Ctrl-c & Ctrl-v
+
+The leg 3 times to get 3 more legs.
+
+
+
+

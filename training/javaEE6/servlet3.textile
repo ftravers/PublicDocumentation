@@ -1,0 +1,105 @@
+h1. web.xml
+
+The important parts to note are:
+
+* @metadata-complete="false"@
+
+This means that annotations will be used otherwise your annotations won't be leveraged.
+
+bc. 
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	metadata-complete="false" 
+	version="3.0" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+  <display-name>t4</display-name>
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.jsf</url-pattern>
+  </servlet-mapping>
+  <context-param>
+    <param-name>javax.faces.CONFIG_FILES</param-name>
+    <param-value>/WEB-INF/web.xml</param-value>
+  </context-param>
+  <context-param>
+    <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>client</param-value>
+  </context-param>
+  <context-param>
+    <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+    <param-value>resources.application</param-value>
+  </context-param>
+  <listener>
+    <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+  </listener>
+</web-app>
+
+h1. File Upload
+
+<filelocation> [root]/WebContent/upload.xhtml
+
+bc. 
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+  <body>
+    <ui:include src="navigation.xhtml"/>
+    About PAGE...
+        <form action="upload" method="post" enctype="multipart/form-data">
+            File: <input type="file" id="file" name="file"/>
+        </form>
+    </body>
+</html>
+
+<filelocation> [root]/src/main/java/com/spicevan/controller/UploadServlet.java
+
+bc. 
+package test;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Collection;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+@WebServlet(urlPatterns = { "/upload" })
+@MultipartConfig(location = "/upload", maxFileSize = 10485760L) // 10MB.
+public class UploadServlet extends HttpServlet {
+	private static final String CONTENT_DISPOSITION = "content-disposition";
+    private static final String CONTENT_DISPOSITION_FILENAME = "filename";
+	private static final long serialVersionUID = -8527958473522059467L;
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+    	PrintWriter out = response.getWriter();
+    	Collection<Part> parts = request.getParts();
+    	for ( Part part : parts ) {
+        	String filename = getFilename(part);
+        	part.write(filename);    
+        	out.println("Wrote filename: " + filename) ;
+    	}
+    }
+     // Returns the filename from the content-disposition header of the given part.
+    private String getFilename(Part part) {
+        for (String cd : part.getHeader(CONTENT_DISPOSITION).split(";")) {
+            if (cd.trim().startsWith(CONTENT_DISPOSITION_FILENAME)) {
+                return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
+}

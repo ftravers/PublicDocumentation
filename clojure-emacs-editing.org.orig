@@ -1,0 +1,28 @@
+* Clojure Refactor
+
+Prefix: C-c C-m
+
+<<<<<<< HEAD
+| fu |   | Find Usages |
+| rl |   | remove let  |
+=======
+| fu | Find Usages     |
+| rl | remove let      |
+| cn | clean namespace |
+|    |                 |
+>>>>>>> 25e788ab5ea61f50cb9f5e45bd8a91cc8694ceca
+
+* Cider
+** REPL
+
+| C-u C-c A-z | Compile file and load NS into REPL |
+| C-c ,       | Run Tests for NS                   |
+| C-c C-,     | Re-run failures for NS             |
+| C-c A-,     | Run test at point                  |
+| C-c C-t     | Show Test Report Buffer            |
+
+** Test Report
+
+| t or A-. | Goto test definition     |
+| d        | Diff actual vs. expected |
+

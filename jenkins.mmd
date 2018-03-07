@@ -1,0 +1,66 @@
+* [Plugin Tutorial](https://wiki.jenkins-ci.org/display/JENKINS/Plugin+tutorial)
+
+# Sample Project
+
+## Source Code Management > Git > 
+
+* Repository URL: git@linux1.hk.oracle.com:CRMOD_WS_Writer.git
+* Branches to build: master
+
+## Build Triggers > Build whenever a SNAPSHOT dependency is built (CHECKED)
+
+## Build
+
+* Root POM: pom.xml
+* Goals and options: clean package deploy site-deploy
+
+The next setting (Post Steps) is only set if this artifact needs to be
+copied out to some production server somewhere.
+
+## Post Steps
+
+* Run only if build succeeds: (CHECKED)
+* Execute shell > Command: ./deploy.py newstg
+
+The above is a script that copies the artifact from here to the
+location where it should go.
+
+## Build Settings
+
+* Email Notifications: do what u want here
+
+## Post-build Actions
+
+* Deploy artifacts to Maven repository
+
+* Advanced > Repository URL: scp://linux1.hk.oracle.com/var/www/html/maven2/
+* Advanced > Repository ID: linux1
+
+# Jenkins Startup Script
+
+```bash
+$ cat ./startJenkins.sh 
+#!/bin/bash
+nohup java -Dhttp.proxyHost=www-proxy.sg.oracle.com -Duser.timezone=GMT+8 -jar jenkins.war &
+```
+
+# Triggering Builds
+
+Whenever we check in a change to our GIT server we need it to tell
+Jenkins to do a build.  The following line triggers the `autoSR2`
+build: 
+
+    wget http://linux1.hk.oracle.com:8080/job/autoSR2/build -O /dev/null
+
+Basically this touches the URL above, triggering the build, then
+throws the output into `/dev/null` as all we are interested in doing
+is triggering the build, not actually the output of the above page.
+
+This gets placed into the file `hooks/post-receive`.  You must remove
+the `.sample` from the files in the hooks directory if you want them
+to run.
+
+
+
+
+

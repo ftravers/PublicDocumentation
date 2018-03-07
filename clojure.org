@@ -1,0 +1,296 @@
+* CIDER REPL
+
+| Keys    | Meaning                          |
+|---------+----------------------------------|
+| C-c A-j | Start REPL                       |
+| C-c A-n | Change Namespace to that of file |
+* WebSockets
+
+** Client
+
+In =project.clj= put:
+
+[org.clojure/google-closure-library "0.0-20140226-71326067"]
+
+#+BEGIN_SRC clojurescript
+(:require [goog.net.WebSocket :as ws]))
+(defn do-websocket []
+  (let [url "ws://localhost:8080"
+        ws (js/WebSocket. url)]
+    (set! (.-onmessage ws) (fn [evt] (js/alert (.-data evt))))
+    (set! (.-onclose ws) (fn [evt] (js/alert "closed")))
+    (set! (.-onopen ws) (fn [evt] (.send ws "hello")))))
+#+END_SRC
+
+** Server
+
+In =project.clj= put:
+
+ [http-kit "2.1.19"]
+
+This comes from the httpkit example server.  This an echo server that
+you can also test from a chrome WebSocket tester app.
+
+#+BEGIN_SRC clojure
+(ns pcbe.httpkit-server
+  (:require
+   [org.httpkit.server
+    :refer [with-channel on-close websocket? on-receive send! run-server]]))
+(defonce server (atom nil))
+(defn stop-server []
+  (when-not (nil? @server)
+    (@server :timeout 100)
+    (reset! server nil)))
+(defn handler [req]
+  (with-channel req channel
+    (on-close channel (fn [status]
+                        (println "channel closed")))
+    (if (websocket? channel)
+      (println "WebSocket channel")
+      (println "HTTP channel"))
+    (on-receive
+     channel
+     (fn [data]                   
+       (send! channel data)))))   
+(defn -main [&args]
+  (reset! server (run-server handler {:port 8080})))
+#+END_SRC
+* core.async - pub/sub
+
+The requires:
+
+: (:require-macros [cljs.core.async.macros :refer [go]])
+: (:require [cljs.core.async :refer [<! >! chan pub sub]])
+
+Create a channel
+
+: (def input-chan (chan))
+
+Now overlay that channel with a `publication`
+
+: (def our-pub (pub input-chan :msg-type))
+
+Here *:msg-type* is our function that is used to filter messages sent
+over the channel.
+
+To use the publish-channel we just write messages to the original
+channel: 
+
+: (go (>! input-chan {:msg-type :greeting :text "hello"}))
+
+This doesn't block, because we have overlayed the publication flavor
+onto the channel.  Since there are no subscribers as yet, this message
+just dissappears into the ether! :)
+
+To receive messages of :msg-type :greeting we need to to subscribe to
+our publication with the *sub* function.
+
+: (def output-chan (chan))
+: (sub our-pub :greeting output-chan)
+
+sub takes a publication, a topic, and a subscribing channel. The
+subscribing channel will receive all values from the publication for
+which (= (topic-fn pub-msg) topic):
+
+We can handle the received values like so:
+
+#+BEGIN_SRC clojure
+(go-loop []
+  (let [{:keys [text]} (<! output-chan)]
+    (println text)
+    (recur)))
+#+END_SRC
+
+We create a new channel.  Then we subscribe, passing our publication
+as the first arg, the value to match on, and finally the channel to
+put our matches on.
+
+Now when we put a message on the original channel it will be 'caught'
+by the subscribed channel
+
+: (go (>! input-chan {:msg-type :greeting :text "Hi there"}))
+* fast repl start
+
+You can create a classpath file with
+
+: lein classpath > my.cp
+
+Run java quickly with: drip
+https://github.com/ninjudd/drip
+
+drip -cp $(cat my.cp) clojure.main -r
+
+
+DRIP_INIT_CLASS="pcbe.http-test" drip -cp $(cat my.cp) clojure.main
+
+rlwrap -a,, -pBlue drip -cp clojure.jar clojure.main
+
+
+I'm not sure if there is way to use drip to speed up the launching and running of tests, but that would be great if there was.
+* sayid
+
+ref: http://bpiel.github.io/sayid/
+
+add ~[com.billpiel/sayid "0.0.10"]~ as a PLUGIN dependency to project.cljc
+
+eval the namespace you care about in the REPL
+
+trace the namespace with ~C-c s t p~, eg: ~om.*~
+
+run some code that uses that namespace.
+
+get report with ~C-c s w~
+
+Go to any line and hit ~i~ (inspect).  ~BACKSPACE~ to collapse.
+
+C-c s t D -- Disable all traces
+* lein repl
+
+When I start the repl I land in this namespace:
+
+#+BEGIN_SRC clojure
+  omn1be.core=> 
+#+END_SRC
+
+Here is the src tree:
+
+#+BEGIN_SRC 
+% tree src      
+src
+`-- omn1be
+    |-- core.clj
+    `-- websocket.clj
+#+END_SRC
+
+Now I can load the websocket file with:
+
+#+BEGIN_SRC clojure
+  omn1be.core=> (load "websocket")
+#+END_SRC
+
+if I was only in the ~omn1be~ namespace then the load command would
+look like:
+
+#+BEGIN_SRC clojure
+  omn1be=> (load "omn1be/websocket")
+#+END_SRC
+
+I can move around to different namespaces with the ~in-ns~ function:
+
+#+BEGIN_SRC clojure
+  omn1be=> (in-ns 'omn1be.websocket)
+  #namespace[omn1be.websocket]
+  omn1be.websocket=>
+#+END_SRC
+* destructuring
+* transducers
+
+Normally, we'd process a sequence like so:
+
+#+BEGIN_SRC clojure
+(->> aseq (map inc) (filter even?))
+#+END_SRC
+
+Instead we gather up our list processing functions like so:
+
+#+BEGIN_SRC clojure
+(def xform (comp (map inc) (filter even?)))
+#+END_SRC
+
+Then we can use ~xform~ in a couple of ways:
+
+lazily transform the data (one lazy sequence, not three as with composed sequence functions)
+
+#+BEGIN_SRC clojure
+(sequence xform data)
+#+END_SRC
+
+reduce with a transformation (no laziness, just a loop)
+
+#+BEGIN_SRC clojure
+(transduce xform + 0 data)
+#+END_SRC
+
+build one collection from a transformation of another, again no laziness
+
+#+BEGIN_SRC clojure
+(into [] xform data)
+#+END_SRC
+
+create a recipe for a transformation, which can be subsequently sequenced, iterated or reduced
+
+#+BEGIN_SRC clojure
+(iteration xform data)
+#+END_SRC
+
+or use the same transducer to transform everything that goes through a channel
+
+#+BEGIN_SRC clojure
+(chan 1 xform)
+#+END_SRC
+* publishing to clojars
+* clojure spec
+
+** setup
+
+project.clj dependencies 
+
+: [org.clojure/clojure "1.9.0-alpha16"]
+
+namespace require
+
+: (:require [clojure.spec.alpha :as s])
+
+** map with required keys
+
+#+BEGIN_SRC clojure
+(s/def :event/type keyword?)
+(s/def :event/timestamp int?)
+(s/def :search/url string?)
+(s/def :error/message string?)
+(s/def :error/code int?)
+(defmulti event-type :event/type)
+(defmethod event-type :event/search [_]
+  (s/keys :req [:event/type :event/timestamp :search/url]))
+(defmethod event-type :event/error [_]
+  (s/keys :req [:event/type :event/timestamp :error/message :error/code]))
+#+END_SRC
+* dirac devtools clojurescript
+
+steps taken to setup
+
+    % git clone https://github.com/binaryage/dirac-sample.git
+    % cd dirac-sample
+    % lein demo
+
+in another console:
+
+    % cd dirac-sample
+    % lein repl
+    ...
+    user=> 
+    Dirac Agent v1.2.17
+    Connected to nREPL server at nrepl://localhost:8230.
+    Agent is accepting connections at ws://localhost:8231.
+
+Open Chromium with command:
+
+    % /usr/bin/chromium --remote-debugging-port=9222 --no-first-run --user-data-dir=~/.dirac 
+
+Dirac Devtools already installed to this Chromium
+
+In Chromium open page: 
+
+    http://localhost:9977
+
+When there click on the 'Click to open Dirac Devtools' green squiggly
+line icon.
+
+Devtools is opened with the green underline highlight not blue.
+
+On webpage click on 'demo a breakpoint'
+
+Nothing shows up in the green underline hightlight devtools, but a
+'Paused in Debugger' overlay is on the webpage.
+
+Not sure what I'm doing wrong

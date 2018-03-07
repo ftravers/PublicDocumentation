@@ -1,0 +1,8 @@
+en1 = wireless
+en0 = wired
+
+Add a route to the routing table
+	sudo route -nv add -net 192.168.8 -interface en0
+
+list the routing table:
+	netstat -nr

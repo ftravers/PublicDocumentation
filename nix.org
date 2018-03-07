@@ -1,0 +1,421 @@
+* Install
+** first steps
+https://chris-martin.org/2015/installing-nixos
+https://nixos.org/nixos/manual/
+
+*** Discover your wireless device name with: 
+
+: ip a
+
+Disable and manually enable wireless:
+
+#+BEGIN_SRC 
+systemctl stop wpa_supplicant.service
+wpa_supplicant -B -i interface -c <(wpa_passphrase 'SSID' 'key')
+#+END_SRC
+
+sub: interface, SSID and key, with appropriate values
+
+*** setup hard disk partition:
+
+#+BEGIN_SRC 
+# fdisk /dev/sda
+make a dos boot partition 'o' i think
+make one partition
+make bootable with 'a'
+#+END_SRC
+
+*** format disk
+
+mkfs.ext4 -L nixos /dev/sda1
+mkswap -L nixos-swap /dev/sda2
+swapon /dev/sda2
+
+*** mount
+
+mount /dev/disk/by-label/nixos /mnt
+
+*** generate config
+
+nixos-generate-config --root /mnt
+
+*** When editing config, uncomment
+
+boot.loader.grub.device = "/dev/sda";
+
+enable wireless networking, i18n, timezone, systemPackages, enable
+ssh, disable firewall, X11, touchpad support, KDE environment, add a
+fenton user.
+
+
+** config the machine
+
+ * add the network widget and connect to the wifi
+ * install firefox via configuration.nix
+ * goto github ftravers and repo: nixos/configuration.nix  
+
+copy over whatever config you'd like to have there.  
+
+Change:
+
+  * ip address
+  * gateway
+  * networking device name
+
+rebuild the machine
+
+** configure from laptop
+
+now that it has a valid IP address, user and associated keys, you can
+log into it and:
+
+ * put your private keys into the fenton users directory
+
+#+BEGIN_SRC 
+tar cvfz ssh.tgz .ssh
+scp ssh.tgz fenton@192.168.0.150:~
+#+END_SRC
+
+On server:
+
+#+BEGIN_SRC 
+cd ~fenton
+tar xvfz ssh.tgz
+#+END_SRC
+** ZSH
+
+*not sure if this is required*
+
+download with:
+
+: curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh > install.sh
+
+comment out the search for zsh in ~install.sh~, run shell:
+
+: chmod +x install.sh; ./install.sh
+
+** copy root github project
+
+#+BEGIN_SRC
+git clone git@github.com:ftravers/nixos-root-home.git
+cd nixos-root-home
+cp -a .* /root 
+#+END_SRC
+
+** copy fenton github project
+
+#+BEGIN_SRC
+git clone git@github.com:ftravers/nixos-home.git
+cd nixos-home
+cp -a .* ~fenton/
+#+END_SRC
+
+* Commands
+** nixos
+
+|--------+----------------------------------------|
+| what   | command                                |
+|--------+----------------------------------------|
+| test   | sudo nixos-rebuild test                |
+| switch | sudo nixos-rebuild switch -p somename  |
+|--------+----------------------------------------|
+
+where some-name is a label that this build will fall under, do not add
+any dashes -, period ., etc to this label
+
+** Container Commands
+
+|------------+--------------------------------------|
+| what       | command                              |
+|------------+--------------------------------------|
+| status     | sudo systemctl status container@foo  |
+| restart    | sudo systemctl restart container@foo |
+| start      | sudo nixos-container start foo       |
+| stop       | sudo nixos-container stop foo        |
+| root login | sudo nixos-container root-login foo  |
+| get ip     | sudo nixos-container show-ip foo     |
+| update     | sudo nixos-container update foo      |
+| list       | sudo nixos-containertc/ list         |
+|------------+--------------------------------------|
+
+* containers
+** from master config
+
+Having a section in your: ~/etc/nixos/configuration.nix~ file like:
+
+#+BEGIN_SRC 
+{ config, pkgs, ... }:
+{
+  containers.foo = {
+    autoStart = true;
+    config =
+      { config, pkgs, ...}: {
+      # Set your time zone.
+      time.timeZone = "America/Vancouver";
+    };
+  };
+}
+
+#+END_SRC
+
+Then we need to do:
+
+#+BEGIN_SRC 
+$ sudo nixos-rebuild test
+$ sudo nixos-rebuild switch
+$ sudo nixos-container update foo
+#+END_SRC
+
+to realize any changes.  So we need to process the master config, then
+tell the container to update itself.
+
+** basic container setup
+
++ copy over private keys. from laptop do: 
+
+: scp -r ~/.ssh f4:~
+
++ get basic files.  from container do:
+
+#+BEGIN_SRC 
+git init .
+git remote add origin git@github.com:ftravers/nix-home.git
+git pull origin master
+#+END_SRC
+
++ download emacs files by starting emacs
+
+** clojure/datomic container
+#+END_SRC
+** clojure/datomic container
+
+* jUNK
+
+** from separate config
+
+We can also have our own config file located at:
+
+: /var/lib/container/foo/etc/nixos/configuration.nix
+
+Where you'd replace ~foo~ with the name of the continer.
+
+#+BEGIN_SRC ruby
+  containers.web1 = {
+      privateNetwork = true;
+      hostAddress = "192.168.101.10";
+      localAddress = "192.168.101.11";
+      
+      config = { config, pkgs, ... }: { 
+        networking.firewall = {
+          enable = true;
+          allowedTCPPorts = [ 80 443 ];
+        };
+        services.httpd = {
+          enable = true;
+          enableSSL = false;
+          adminAddr = "web1@example.org";
+          documentRoot = "/webroot";
+          # we override the php version for all uses of pkgs.php with this, 
+          #  nix-env -qa --xml | grep php
+          # lists available versions of php
+          extraModules = [
+            { name = "php5"; path = "${pkgs.php}/modules/libphp5.so"; }
+          ];
+        };
+      };
+    };
+#+END_SRC
+
+* install samsung series 9
+
+Not disabling wireless to begin with.  Will get wifi through KDE
+desktop, and do install from there...
+
+Starting display manager to see if i can get wireless to work first.  
+
+Starting wifi, but using classic, blowfish, other doesn't work?
+
+Okay internet works...
+inet: 192.168.1.106
+
+cat /etc/resolv.conf:
+
+#+BEGIN_SRC 
+nameserver 115.178.58.26
+#+END_SRC
+
+route -n => default GW: 192.168.1.1
+
+: ip a 
+=> wlp1s0, annie lenovo: wlp9s0
+
+do fdisk, make 2 partitions, 2nd is swap.  first is 230G.  Make DOS
+and first one bootable, as per instructions.
+
+format as ext4: mkfs.ext4 /dev/sda1
+mkswap /dev/sda2
+swapon /dev/sda2
+
+
+get config file from:
+
+https://github.com/ftravers/nixos/tree/master/samsung-series-9
+
+nixos-rebuild test
+
+nixos-install
+
+reboot (pull out usb)
+
+now should be able to ssh into the server:
+
+: ssh fenton@192.168.1.115 (or whatever you set the ip to be)
+
+Get your keys over to the nix box, and clone the useful setup
+
+#+BEGIN_SRC 
+tar cvf ssh.tar .ssh 
+scp ssh.tar 192.168.1.115:~/ssh.tar
+ssh 192.168.1.115
+tar xvf ssh.tar
+git clone git@github.com:ftravers/nix-home.git
+cp -a nix-home/.* .
+cd /etc/nixos
+sudo rm -f configuration.nix
+sudo ln -s ~/nixos/samsung-series-9/configuration.nix .
+git config --global user.email "fenton.travers@gmail.com"
+git config --global user.name "Fenton Travers"
+
+#+END_SRC
+
+* install datomic
+here we are going to install datomic into nixos container.  yes we
+aren't doing this declaratively because there isn't a datomic packages
+for nixos :(
+
+download latest
+
+* building a datomic derivation
+
+Nix Pills:
+https://nixos.org/nixos/nix-pills/index.html
+
+Nix Package Manual
+https://nixos.org/nixpkgs/manual/
+
+
+To test whether the package builds, run the following command from the root of the nixpkgs source tree:
+
+$ cd /home/fenton/nixpkgs
+$ nix-build -A datomic
+
+Edit derivation:
+
+$ cd nixpkgs/pkgs/servers/datomic                                                                                                                                  ±[●][master]
+$ emacs default.nix     
+
+** nix-repl
+
+#+BEGIN_SRC 
+[fenton@ss9 ~/nixpkgs]$ nix-repl                                                                                                                                                ±[●●][master]
+nix-repl> :l <nixpkgs>
+Added 7883 variables.
+#+END_SRC
+
+fetchurl attribute map:
+
+#+BEGIN_SRC 
+  version = "0.9.5561"
+  name    = "datomic-${version}"
+  src = fetchurl {url    = "https://my.datomic.com/downloads/free/${version}";
+                  sha256 = "145c3yx9ylmvvxmwgk2s14cdirxasdlglq3vs9qsnhyaz5jp1xjh";}
+  builtins.attrNames src
+
+
+
+nix-repl> fua = {
+                  url = "https://my.datomic.com/downloads/free/0.9.5561";
+                  sha256 = "145c3yx9ylmvvxmwgk2s14cdirxasdlglq3vs9qsnhyaz5jp1xjh";
+                }
+nix-repl> d = fetchurl fua
+nix-repl> builtins.attrNames d
+ [ "__ignoreNulls" "all" "args" "buildInputs" "builder" "configureFlags"
+ "curlOpts" "downloadToTemp" "drvAttrs" "drvPath" "executable"
+ "impureEnvVars" "meta" "mirrorsFile" "name" "nativeBuildInputs"
+ "out" "outPath" "outputHash" "outputHashAlgo" "outputHashMode"
+ "outputName" "outputUnspecified" "overrideAttrs" "passthru" "postFetch"
+ "postHook" "preferHashedMirrors" "preferLocalBuild" "propagatedBuildInputs"
+ "propagatedNativeBuildInputs" "showURLs" "stdenv" "system" "type" "urls"
+ "userHook" ]
+nix-repl> builtins.attrNames builtins
+ [ "abort" "add" "addErrorContext" "all" "any" "attrNames" "attrValues"
+ "baseNameOf" "builtins" "catAttrs" "compareVersions" "concatLists"
+ "concatStringsSep" "currentSystem" "currentTime" "deepSeq"
+ "derivation" "derivationStrict" "dirOf" "div" "elem" "elemAt" "false"
+ "fetchTarball" "fetchurl" "filter" "filterSource" "findFile" "foldl'"
+ "fromJSON" "functionArgs" "genList" "genericClosure" "getAttr"
+ "getEnv" "hasAttr" "hashString" "head" "import" "intersectAttrs"
+ "isAttrs" "isBool" "isFunction" "isInt" "isList" "isNull" "isString"
+ "langVersion" "length" "lessThan" "listToAttrs" "map" "match" "mul"
+ "nixPath" "nixVersion" "null" "parseDrvName" "pathExists" "readDir"
+ "readFile" "removeAttrs" "replaceStrings" "scopedImport" "seq" "sort"
+ "storeDir" "storePath" "stringLength" "sub" "substring" "tail" "throw"
+ "toFile" "toJSON" "toPath" "toString" "toXML" "trace" "true" "tryEval"
+ "typeOf" "unsafeDiscardOutputDependency" "unsafeDiscardStringContext"
+ "unsafeGetAttrPos" "valueSize" ]
+
+
+#+END_SRC
+
+
+
+: datomic.nix
+
+#+BEGIN_SRC nix
+{ stdenv, fetchurl, unzip }:
+
+stdenv.mkDerivation rec {
+  name    = "datomic-${version}";
+  version = "0.9.5561";
+
+  src = fetchurl {
+    url    = "https://my.datomic.com/downloads/free/${version}";
+    sha256 = "145c3yx9ylmvvxmwgk2s14cdirxasdlglq3vs9qsnhyaz5jp1xjh";
+  };
+
+  buildInputs = [ unzip ];
+
+  installPhase = ''
+    mkdir -p $out/bin
+    cp ${src} $out/bin/coursier
+    chmod +x $out/bin/coursier
+  '';
+}
+#+END_SRC
+
+So I found out that to download this zip we need to do:
+
+$ nix-prefetch-url https://my.datomic.com/downloads/free/0.9.5561
+
+To get the program `nix-prefetch-url`, we must install the packages:
+
+: nix-prefetch-scripts 
+
+Then we can get the sha256 by doing
+
+$ nix-prefetch-url --type sha256 https://my.datomic.com/downloads/free/0.9.5561
+
+produces:
+
+145c3yx9ylmvvxmwgk2s14cdirxasdlglq3vs9qsnhyaz5jp1xjh
+
+which we can add to our derivations file here:
+
+#+BEGIN_SRC 
+  src = fetchurl {
+    url    = "https://my.datomic.com/downloads/free/${version}";
+    sha256 = "145c3yx9ylmvvxmwgk2s14cdirxasdlglq3vs9qsnhyaz5jp1xjh";
+  };
+#+END_SRC
+
+We need to unzip this result so

@@ -1,0 +1,5 @@
+1) In WEB INF of eclipse project,
+
+
+
+2) create folder called src in the parent directory of the Jdev project.

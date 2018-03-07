@@ -1,0 +1,1611 @@
+| prev-radius | average | radius | count |
+|-------------+---------+--------+-------|
+|           0 | 25      |   50.1 |     1 |
+|        50.1 |         |        |       |
+
+* Project Setup
+** declare dependencies
+
+: package.json
+
+#+BEGIN_SRC javascript
+{
+    "name": "Mean_PC",
+    "namelower": "mean_pc",
+    "version": "0.0.1",
+    "description": "An example AngularJS project",
+    "readme": "README.md",
+    "repository": {
+        "type": "git",
+        "url": "git@v9c:mean_pc.git"
+    },  
+    "dependencies": {
+        "angular": "^1.4",
+        "bootstrap": "^3.3.5",
+        "ui.router": "^0.2.15"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.7.13",
+        "gulp": "^3.8.8",
+        "gulp-notify": "^2.2.0",
+    },
+    "scripts": {
+        "postinstall": "bower install"
+    }
+}
+#+END_SRC
+
+** build file - in gulp
+
+#+BEGIN_SRC javascript
+var gulp = require('gulp');
+gulp.task('default', function() {
+  // place code for your default task here
+});
+#+END_SRC
+
+** Lauch Project
+
+: npm install && bower install && gulp watch
+
+* Workflow Plugins
+
+** Browser Sync
+
+When you change a file, it is automatically reloaded in all open
+browsers.  You may be building a site for both mobile and desktop, so
+you might have two browsers open, anything you do in one will
+automatically be done in another.  Very cool.
+
+: package.json
+
+#+BEGIN_SRC javascript
+"devDependencies": { "browser-sync": "^2.0" }
+#+END_SRC
+
+: gulpfile.js
+
+** gulp-livereload
+** gulp-notify
+
+Send notifications to =notify-send= on linux, so you get popup
+messages when errors, etc... occur.
+
+: package.json
+
+#+BEGIN_SRC javascript
+"devDependencies": { "gulp-notify": "^2.2.0" }
+#+END_SRC
+
+: gulpfile.js
+
+* Basic layout
+
+-- app
+   |-- index.html
+   |-- scripts
+   |   |-- app.coffee
+   |   |-- controllers
+   |   |   `-- login.coffee
+   |   `-- services
+   |       `-- service.coffee
+   `-- views
+       |-- user_home.html
+       `-- login.html
+
+** URL to file flow - Routing
+
+Say we use the URL: http://0.0.0.0:9000/#/anon/login
+
+First we check/setup routing in: 
+
+: app/scripts/app.coffee
+
+Here we find:
+
+#+BEGIN_SRC javascript
+angular
+  .config(...) ->
+    $stateProvider
+      .state 'anon.login', {
+        url: '/login',
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl' }
+#+END_SRC
+
+This means, when we are in state: 'anon' (i'll explain that more
+later), and access the url: 
+
+: anon/login
+
+we first run the 
+
+: LoginCtrl
+
+Controller, we find this is defined in:
+
+: app/scripts/controllers/login.coffee
+
+which has the following code:
+
+#+BEGIN_SRC coffee
+next_state = 'user'
+$scope.login = -> 
+  Principal.authenticate $scope.user.email, $scope.user.password, next_state, $scope.user.rememberme
+$scope.princ = Principal
+#+END_SRC
+
+Here we define the function =login=, which presumably we'll use in the
+template.  Looking at the template, =app/views/login.html= we get:
+
+#+BEGIN_SRC html
+<form name="loginForm"
+      ng-submit="login()">
+#+END_SRC
+
+We see that when the form is submitted it executes the =login()=
+function we added to the scope.  This in turn calls the
+=Principal.authenticate()= method.  The =Principal= service is defined
+in: =app/scripts/services/service.coffee=:
+
+#+BEGIN_SRC coffee
+authenticate: (email, password, next_state, rememberme) ->
+  Login.save {
+    'email': email,
+    'password': password }, (resp) ->
+      $log.debug(resp)
+      # TODO:
+      # here we can check for success/failure in the json returned from the server
+      # { status: "success", "fail", "error"
+      #   data: { token: "abc123" }
+      # }
+      if resp.token
+        _login(resp.token, email, next_state, rememberme)
+      else
+        _logout()
+        $log.error "Unsuccessful authentication"
+#+END_SRC
+
+This calls the =Login.save= method, which is define in the same file
+like so:
+
+#+BEGIN_SRC coffee
+  .factory 'Login', [ '$resource', 'BACKENDURL', ($resource, BACKENDURL) ->
+    login_uri = BACKENDURL + "/login"
+    $resource login_uri
+  ]
+#+END_SRC
+
+=BACKENDURL= is a constant defined on the angular app in =app.coffee=
+
+#+BEGIN_SRC coffee
+angular.constant("BACKENDURL", "http://localhost:5000/famtree/api/v1.0")
+#+END_SRC
+
+This just basically identifies the backend url of:
+
+: http://localhost:5000/famtree/api/v1.0/login
+
+The =Login.save()= method takes hash to =POST= to the url, in our
+case:
+
+#+BEGIN_SRC javascript
+{
+  'email': email,
+  'password': password
+}
+#+END_SRC
+
+The second arg: =(resp)= is the response to the =POST=.  Since we are
+returning a JSON object this response will be nothing more than a
+javascript object, with members being the JSON variables sent back.
+
+#+BEGIN_SRC javascript
+"data": {
+    "token": "bgP ... $-Q"
+},
+"status": "success"
+#+END_SRC
+
+finally we check for the existence of the =token=, and if found call
+the =_login= function.
+
+#+BEGIN_SRC coffee
+if resp.token
+  _login(resp.token, email, next_state, rememberme)
+#+END_SRC
+
+which is defined as:
+
+#+BEGIN_SRC coffee
+_login = (token, email, next_state, rememberme) ->
+  _identity = token
+  _authenticated = true
+  _email = email
+  if rememberme
+    _persist()
+  $state.go next_state
+#+END_SRC
+
+We set properties: identity, authenticated, and email of the
+=Principal= service/(object).
+
+If the =rememberme= flag is passed, we persist the token to the
+clients local storage:
+
+#+BEGIN_SRC coffee
+_persist = ->
+  user_info =
+    'identity': _identity,
+    'email': _email
+  localStorageService.set 'user_info', user_info
+#+END_SRC
+
+Finally, we tell the app to go to the next state, which is =user=.
+Going back to 
+
+: app/scripts/app.coffee
+
+we've defined this like so:
+
+#+BEGIN_SRC coffee
+.state 'user', {
+  url: '/user',
+  templateUrl: 'views/user_home.html',
+  controller: 'MainCtrl' }
+#+END_SRC
+
+So we change the url to: =/user=, run the =MainCtrl= controller, and
+go to the =app/views/user_home.html= template.
+
+* References
+
+Reference tutorial, building the phone catalog app:
+
+https://docs.angularjs.org/tutorial
+
+Beginner tutorial
+
+http://campus.codeschool.com/courses/shaping-up-with-angular-js/intro
+
+* Quickstart
+
+Create an empty project folder, and add two files: =index.html= and
+=app.js=.
+
+#+BEGIN_SRC html index.html
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body ng-app="myApp" ng-controller="MyCtrl">
+    <div>
+      {{test}}
+    </div>
+  </body>
+</html>
+#+END_SRC
+
+#+BEGIN_SRC javascript app.js
+var app = angular.module('myApp', []);
+
+app.controller('MyCtrl', [
+'$scope',
+function($scope){
+  $scope.test = 'Hello world!';
+}]);
+#+END_SRC
+
+Now run the simple =http-server= and navigate to:
+
+: http://127.0.0.1:8080/index.html
+
+NOTE: if you haven't got =http-server= installed you can do so with:
+
+: sudo npm install -g http-server
+
+* Angular
+
+** include angular
+
+in file: =app/index.html=
+
+#+BEGIN_SRC javascript
+<script src="bower_components/angular/angular.js">
+#+END_SRC
+
+** scaffold app
+
+Go to your front end project folder and do
+
+: yo angular --coffee
+
+Creates a web app configured for the angular framework and uses coffee
+script instead of Javascript and Sass/Scss instead of CSS.
+
+** dependencies
+
+list dependencies in file: =bower.json= 
+
+** Create Module
+
+In =app.js= file:
+
+#+BEGIN_SRC javascript
+var app = angular.module('gemStore',[]);
+#+END_SRC
+
+here the second param, the empty list [], means there are no
+dependencies.
+
+** Attach to HTML page
+
+#+BEGIN_SRC html
+<html ng-app="gemStore">
+  <body>
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
+#+END_SRC
+
+** Hello World!
+
+#+BEGIN_SRC html
+{{ "Hello World!" }}
+#+END_SRC
+
+
+** Controller
+
+in *.js:
+
+#+BEGIN_SRC javascript
+app.controller('StoreController', function() {
+
+});
+#+END_SRC
+
+** Data
+
+in *.js:
+
+#+BEGIN_SRC javascript
+app.controller('StoreController', function() {
+    this.product = gem;
+});
+var gem = {
+    name = "Ruby",
+    price = 3.4
+}
+#+END_SRC
+
+** Connect *.js Controller to HTML
+
+#+BEGIN_SRC html
+<div ng-controller="StoreController as store">
+    Name:  {{ store.product.name }}<br/>
+    Price: {{ store.product.price }}
+</div>
+#+END_SRC
+
+** ng-show directive
+
+in *.js
+
+#+BEGIN_SRC javascript
+app.controller('StoreController', function() {
+    this.product = gem;
+});
+var gem = {
+    name = "Ruby",
+    price = 3.4,
+    canPurchase = false
+}
+#+END_SRC
+
+in *.html
+
+#+BEGIN_SRC html
+<button ng-show="store.product.canPurchase">Add to Cart</button>
+#+END_SRC
+
+** ng-hide
+
+Adding a param: =soldOut=
+
+#+BEGIN_SRC javascript
+var gem = {
+    name = "Ruby",
+    price = 3.4,
+    canPurchase = false,
+    soldOut = true
+}
+#+END_SRC
+
+#+BEGIN_SRC html
+<div ng-hide="store.product.soldOut">
+    Name: {{ store.product.name }}
+</div>
+#+END_SRC
+
+
+** Arrays
+
+#+BEGIN_SRC javascript
+var gems = [
+{
+    name = "Ruby",
+    price = 3.4,
+    canPurchase = false,
+    soldOut = true
+}
+#+END_SRC
+
+#+BEGIN_SRC html
+<div ng-repeat="product in store.products">
+  Name: {{ product.name }}<br/>
+  Price: {{ product.price }}
+</div>
+#+END_SRC
+
+** Filters
+
+#+BEGIN_SRC html
+Price: {{ price | currency }}
+{{ data | filter:options }}
+{{ '12312312312' | date:'MM/dd/yyyy @ h:mma'}} -> 12/27/2014 @ 12:50AM
+{{ 'fenton' | uppercase }}
+{{ 'Wonderful World' | limitTo:8 }}
+<li ng-repeat='production in store.products | orderBy:'-price'">
+#+END_SRC
+
+** Image Array
+
+#+BEGIN_SRC javascript
+var images = [{ thumb: 'ruby.thumb.gif',
+                full: 'ruby.gif' },
+              { thumb: 'diamond.thumb.gif',
+                full: 'diamond.gif' }]
+app.controller('StoreController', function () {
+    this.images = images;
+});
+#+END_SRC
+
+Use it:
+
+#+BEGIN_SRC html
+<img ng-src="{{ store.images[0].full }}"/>
+#+END_SRC
+
+** ng-click
+
+#+BEGIN_SRC html
+<li><a href ng-click="tab = 1">Description</a></li>
+{{ tab }}
+#+END_SRC
+
+When link is clicked attribute =tab= is set to value =1=
+
+** ng-class
+
+Set the class to =active=, if: 
+
+ tab === 1
+
+#+BEGIN_SRC html
+<li ng-class="{ active:tab === 1 }"> 
+  <a href ng-click="tab = 1">Description</a>
+</li>
+#+END_SRC
+
+** Example
+
+#+BEGIN_SRC html
+<section ng-init="tab = 1">
+  <ul class="nav nav-pills">
+    <li ng-class="{ active:tab === 1 }"> <a href ng-click="tab = 1">Description</a></li>
+    <li ng-class="{ active:tab === 2 }"> <a href ng-click="tab = 2">Specification</a></li>
+    <li ng-class="{ active:tab === 3 }"> <a href ng-click="tab = 3">Reviews</a></li>
+  </ul>
+</section>
+<div class="panel" ng-show="tab === 1">
+  <h4>Description</h4>
+  <p>{{product.description}}</p>
+</div>
+<div class="panel" ng-show="tab === 2">
+  <h4>Specification</h4>
+  <p>{{product.description}}</p>
+</div>
+<div class="panel" ng-show="tab === 3">
+  <h4>Reviews</h4>
+  <p>{{product.description}}</p>
+</div>
+#+END_SRC
+
+** move into *.js
+
+#+BEGIN_SRC javascript
+app.controller('PanelController', function () {
+    this.tab = 1;
+    this.selectTab = function(setTab) {
+        this.tab = setTab
+    };
+    this.isSelected = function(checkTab) {
+        return this.tab === checkTab
+    };
+#+END_SRC
+
+** ng-model
+
+binding data:
+
+#+BEGIN_SRC html
+<select ng-model="review.stars">
+  <option value='1'>1 star</option>
+  <option value='2'>2 stars</option>
+</select>
+<input type="checkbox" ng-model="review.terms"/>I agree.
+Favorite Color:
+<input type="radio" ng-model="review.color" value="blue"/>Blue
+<input type="radio" ng-model="review.color" value="red"/>Red
+#+END_SRC
+
+** form acontrollers
+
+#+BEGIN_SRC html
+<form name="reviewForm"
+      ng-controller="ReviewController as reviewCtrl"
+      ng-submit="reviewCtrl.addReview(product)">
+#+END_SRC
+
+associated js function:
+
+#+BEGIN_SRC javascript
+app.controller('ReviewController', function() {
+    this.review = {};
+    this.addReview = function(product) {
+        product.reviews.push(this.review);
+        this.review = {}
+    };
+#+END_SRC
+
+** Validation
+
+Turn off default validation:
+
+#+BEGIN_SRC html
+<form name="reviewForm"
+      ng-controller="ReviewController as reviewCtrl"
+      ng-submit="reviewCtrl.addReview(product)"
+      novalidate>
+  <!-- input elements here -->
+  <input type="submit" id="submit" value="Submit" />
+</form>
+#+END_SRC
+
+Indicate required fields
+
+#+BEGIN_SRC html
+<select ng-model="review.stars" required>
+#+END_SRC
+
+Show validity
+
+#+BEGIN_SRC html
+<div> Review Form is {{reviewForm.$valid}}</div>
+#+END_SRC
+
+Prevent form submission if form is invalid:
+
+#+BEGIN_SRC html
+ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)"
+
+#+END_SRC
+
+Indicate to user field is valid or not:
+
+| class       | meaning           |
+|-------------+-------------------|
+| ng-pristine | nothing typed yet |
+| ng-invalid  | not valid yet     |
+| ng-valid    | valid             |
+| ng-dirty    | something typed   |
+
+#+BEGIN_SRC css
+.ng-invalid.ng-dirty {
+    /* red border for invalid */
+    border-color: #FA787E;
+}
+.ng-valid.ng-dirty {
+    /* green border for valid */
+    border-color: #78FA89;
+}
+#+END_SRC
+
+Built in validations for:
+
+#+BEGIN_SRC html
+<input type="email" name="email">
+<input type="url" name="homepage">
+<input type="number" name="age" min="0" max="110">
+#+END_SRC
+
+
+** Includes / Partials
+
+in file =product-title.html=
+
+#+BEGIN_SRC html
+Name: {{ product.name }}<br/>
+Price: {{ product.price | currency }}<br/>
+#+END_SRC
+
+in =index.html=
+
+<h3 ng-include="'product-title.html'"></h3>     
+      
+** Custom Directives
+
+=index.html=
+
+#+BEGIN_SRC html
+<product-title></product-title>
+#+END_SRC
+
+Dash in HTML corresponds to CamelCase in javascript
+
+=app.js=
+
+#+BEGIN_SRC javascript
+app.directive('productTitle', function() {
+    return {
+        restrict: 'E',  // E for element
+        templateUrl: 'product-title.html'
+    };
+});
+#+END_SRC
+
+Can be an Element or Attribute directive.  Use Element for UI widgets,
+and use Attributes for mixin behaviours like: tool-tips.
+
+| Element                         | Attribute               |
+|---------------------------------+-------------------------|
+| <product-title></product-title> | <h3 product-title></h3> |
+
+** Directive options
+
+*** replace
+
+Replace the old tag with the template, otherwise just the 'inner html'
+will be replaced, leaving the old tag surrounding the template.
+
+*** transclude
+
+Let user specify some stuff that will go into directive template.
+
+#+BEGIN_SRC html
+<my-directive>
+  <b>Hello World!</b>
+</my-directive>
+#+END_SRC
+
+#+BEGIN_SRC coffee
+.directive 'myDirective', ->
+  restrict: 'E',
+  replace: true,
+  transclude: true,
+  template: '<h1><ng-transclude></ng-transclude></h1>'
+#+END_SRC
+
+result:
+
+#+BEGIN_SRC html
+<h1>
+  <b>Hello World!</b>
+</h1>
+#+END_SRC
+
+*** scope
+
++ true
+
+=scope= can be =true=, or ={}=.  If =true= then it will get a new
+scope that inherits scope from parent, but scope changed here wont go
+into the parent (usually the controller) scope.
+
++ {}
+
+If set to ={}=, then we DONT inherit scope at all, we have an
+*isolated* scope.
+
+| "@" | Text binding / one-way binding         |
+| "=" | Direct model binding / two-way binding |
+| "&" | Behaviour binding / Method binding     |
+
+
+
+
+** Combine directives and controllers
+
+#+BEGIN_SRC html
+<my-directive ng-contoller="MyController as myCtrl"></my-directive>
+#+END_SRC
+
+use controller in =my-directive.html=
+
+#+BEGIN_SRC html
+<div ng-hide="myCtrl.soldOut">
+...
+</div>
+#+END_SRC
+
+Move controller inside directive, =app.js=
+
+** Breaking off/out dependencies
+
+Create another *.js file
+
+Have it create it's own angular module.
+
+In the first module, add the broken out module into the dependencies
+array
+
+*** Example
+
+=products.js=
+
+#+BEGIN_SRC javascript
+var app = angular.module('store-products',[]);
+#+END_SRC
+
+=app.js=
+
+#+BEGIN_SRC javascript
+var app = angular.module('gemStore',['store-products']);
+#+END_SRC
+
+Include the file in =index.html=
+
+#+BEGIN_SRC html
+<script src="products.js"></script>
+#+END_SRC
+
+* Services
+** Mechanics
+
+#+BEGIN_SRC coffee
+angular.module( 'familyTreeService', [])
+  .factory 'Principal', [ ->
+    print1: ->
+      "1"
+    print2: ->
+      "2" ]
+#+END_SRC
+
+Now we can use: =Principal.print1()= which will return the string
+"1". 
+
+Here we are returning an Object literal, that has two properties that
+are functions.
+
+** examples
+
+Get JSON from a URL
+
+#+BEGIN_SRC javascript
+$http.get('/products.json', { apiKey: 'MyKey' });
+#+END_SRC
+
+Controllers can use a service like so:
+
+#+BEGIN_SRC javascript
+app.controller('MyController', ['$http', function($http) { }]);
+#+END_SRC
+
+More than one service:
+
+#+BEGIN_SRC javascript
+app.controller('MyController', ['$http', '$log', function($http, $log) { }]);
+#+END_SRC
+
+Put in an example with =success= callback:
+
+#+BEGIN_SRC javascript
+app.controller('MyController', ['$http', function($http) {
+    var store = this;
+    store.products = [ ];
+    $http.get('/products.json').success( function(data) {
+        store.products = data;
+    });
+}]);
+#+END_SRC
+
+** POST'ing
+
+#+BEGIN_SRC javascript
+$http.post( '/update.json', { param: 'value' });
+#+END_SRC
+
+* RESTful API
+
+The RESTful functionality is provided by Angular in the ngResource
+module. 
+
+update =bower.json= dependencies:
+
+#+BEGIN_SRC conf
+"dependencies": {
+  ...
+  "angular-resource": "~1.3.0"
+}
+#+END_SRC
+
+fetch dependencies
+
+: npm install
+
+inspect =app/bower_components= to see dependencies.
+
+** create service
+
+https://docs.angularjs.org/api/ngResource/service/$resource
+
+in =app/js/services.js=
+
+#+BEGIN_SRC javascript
+var phonecatServices = angular.module('phonecatServices', ['ngResource']);
+phonecatServices.factory('Phone', ['$resource',
+  function($resource){
+    return $resource('phones/:phoneId.json', {}, {
+      query: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+    });
+  }]);
+#+END_SRC
+
+Add the dependency:
+
+#+BEGIN_SRC javascript
+angular.module('phonecatApp', ['ngRoute', 'phonecatControllers','phonecatFilters', 'phonecatServices']).
+#+END_SRC
+
+** In Coffee Script
+
+First we create a new module, =houseServices=.  Then to this we use a
+factory method to create a service called =House=.  
+
+=app/scripts/services/services.coffee=
+
+#+BEGIN_SRC coffee
+houseServices = angular
+  .module('houseServices', ['ngResource']);
+houseServices
+  .factory('House', ['$resource',
+    ($resource) -> 
+      return $resource('http://0.0.0.0:6543/test_json', {}, {
+        query: {method:'GET', params:{}, isArray:false}
+    })
+  ])
+#+END_SRC
+
+The JSON that =/test_json= returns is:
+
+#+BEGIN_SRC javascript
+{"data":
+ [ {"age": 23, "name": "fenton"},
+   {"age": 25, "name": "joe"} ]}
+#+END_SRC
+
+Next we need to add this module dependency into our application.
+
+=app/scripts/app.coffee=
+
+#+BEGIN_SRC coffee
+angular
+  .module(
+    'houseApp', [
+      'ngResource',
+      'houseServices'
+    ])
+#+END_SRC
+
+We make sure to include the coffee/js file in =app/index.html=
+
+#+BEGIN_SRC html
+<script src="scripts/services/services.js"></script>
+#+END_SRC
+
+Then we inject this service into the controller we want to use it in. 
+
+=app/scripts/controllers/main.coffee=
+
+#+BEGIN_SRC coffee
+angular.module('houseApp')
+  .controller 'MainCtrl', ($scope, House) ->
+    $scope.people = House.query()
+#+END_SRC
+
+Then we use the data in 
+
+=app/views/main.html=
+
+#+BEGIN_SRC html
+people
+<ul>
+  <li ng-repeat="person in people">
+    Name: {{ person.name }}<br/>
+    Age: {{ person.age }}
+  </li>
+</ul>
+#+END_SRC
+
+See your list of people at: http://localhost:9000/
+
+** Example 2
+
+=app/scripts/services/services.coffee=
+
+#+BEGIN_SRC coffee
+healthServices = angular
+  .module('healthServices', ['ngResource']);
+healthServices
+  .factory('User', ['$resource',
+    ($resource) ->
+      return $resource('http://localhost:5000/health/api/v1.0/users', {}, {
+        query: {method:'GET', params:{}, isArray:false}
+      })
+  ])
+#+END_SRC
+
+=app/scripts/controllers/main.coffee=
+
+#+BEGIN_SRC coffee
+'use strict'
+angular.module('healthApp')
+  .controller 'MainCtrl', ($scope, User) ->
+    $scope.data = User.query()
+#+END_SRC
+
+=json data=
+
+#+BEGIN_SRC javascript
+{
+  "json_list": [
+    {
+      "email": "admin@example.com",
+      "id": "http://localhost:5000/health/api/v1.0/users/1",
+      "username": "admin"
+    },
+    {
+      "email": "guest@example.com",
+      "id": "http://localhost:5000/health/api/v1.0/users/2",
+      "username": "Freddy Fun"
+    }
+  ]
+}
+#+END_SRC
+
+=app/views/main.html=
+
+#+BEGIN_SRC html
+people
+<ul>
+  <li ng-repeat="person in data.json_list">
+    Name: {{ person.username }}<br/>
+    Email: {{ person.email }}
+  </li>
+</ul>
+#+END_SRC
+
+=app/index.html=
+
+#+BEGIN_SRC html
+<script src="scripts/services/services.js"></script>
+#+END_SRC
+
+=app/scripts/app.coffee=
+
+#+BEGIN_SRC coffee
+angular
+  .module('healthApp', [
+    'ngRoute',
+    'ngResource',
+    'healthServices'
+  ])
+#+END_SRC
+
+* REST: simplified
+
+see commit: d49ce6b 
+on project: health_fe
+
+AND
+
+commit: ea5c8e3
+project: health_be
+
+* REST: add GET by ID
+
+* ngResource: post
+** service
+
+#+BEGIN_SRC javascript
+url = "http://localhost:5000/fam_tree/api/v1.0/login"
+angular
+  .module('famtreeServices', ['ngResource']);
+    .factory('Login', ['$resource',
+      ($resource) ->
+        return $resource url, {}, {}
+    ])
+#+END_SRC
+
+Actually there is basically nothing in the service, except for naming
+it =Login= and the url endpoint.
+
+** html
+
+In the HTML you create a model with your fields like so:
+
+#+BEGIN_SRC html
+<label for="">Name</label> <input ng-model="addUser.username"> <br/>
+<label for="">Email</label> <input ng-model="addUser.email"> <br/>
+<button ng-click="submit()">Submit Form</button>
+#+END_SRC
+
+** controller
+
+#+BEGIN_SRC javascript
+angular.module('healthApp')
+  .controller 'UserCtrl', ($scope, User) ->
+    $scope.submit = ->
+      u1 = new User()
+      u1.username = $scope.addUser.username
+      u1.email = $scope.addUser.email
+      User.save(u1, (data) -> )
+#+END_SRC
+
+Here we inject the =User= service.  We simply create a =new User()=
+and set whatever properties we want to send across in the post.
+
+Calling =User.save(u1, (data) -> )= posts the info in =u1=, and the
+second arg =(data)= is the success callback.
+
+** app.coffee
+
+Nothing special here, just add your dependency on =ngResource=, and
+wire your =UserCtrl= into your view.
+
+#+BEGIN_SRC javascript
+angular
+  .module('healthApp', [
+    'ngRoute',
+    'ngResource',
+    'healthServices'
+  ])
+  .config ($routeProvider) ->
+    $routeProvider
+      .when '/',
+        templateUrl: 'views/main.html'
+        controller: 'UserCtrl'
+#+END_SRC
+
+* interceptors $http
+
+$http has an array of =$httpProvider.interceptors=.  They are just
+regular factory services.
+
+#+BEGIN_SRC coffee
+module.factory 'myInterceptor', ['$log', ($log) ->
+  myInterceptor =  () ->
+    $log "see we injected the $log, like a normal service" ]
+#+END_SRC
+
+we register at config time:
+
+#+BEGIN_SRC coffee
+module.config ['$httpProvider', ($httpProvider) ->
+    $httpProvider.interceptors.push 'myInterceptor']
+#+END_SRC
+
+* Animation
+
+=bower.json=
+
+: "angular-animate": "~1.3.0"
+
+
+
+* Routing...
+
+** reference 'current' view
+
+This is the layout template:
+
+=app/index.html=
+
+#+BEGIN_SRC html
+<div ng-view></div>
+#+END_SRC
+
+** content
+
+Here is the content that goes in the layout template
+
+=app/partials/test.html=
+
+put some html here
+
+** wire together
+
+=app/js/app.js=
+
+#+BEGIN_SRC javascript
+var myApp = angular.module('myApp', ['ngRoute', 'myControllers']);
+myApp.config([
+    '$routeProvider',
+    function($routeProvider) {
+        $routeProvider.
+            when('/phones', {
+                templateUrl: 'partials/phone-list.html',
+                controller: 'PhoneListCtrl'
+            }).
+            when('/phones/:phoneId', {
+                templateUrl: 'partials/phone-detail.html',
+                controller: 'PhoneDetailCtrl'
+            }).
+            otherwise({
+                redirectTo: '/phones'
+            });
+    }]);
+#+END_SRC
+
+** extract url params
+
+We extract URL params from =$routeParams=
+
+=app/js/controllers.js=
+
+#+BEGIN_SRC javascript
+phonecatControllers.controller(
+    'PhoneDetailCtrl',
+    ['$scope', '$routeParams',
+     function($scope, $routeParams) {
+         $scope.phoneId = $routeParams.phoneId;
+     }]);
+#+END_SRC
+
+* Coffee Script
+
+REF: http://coffeescript.org/
+* Building a Type Ahead
+
+** version 1.0
+Assume we have a restful source of data, say accessible like:
+
+% curl http://localhost:3000/products
+
+#+BEGIN_SRC javascript
+[{"_id":"55962164cca62d070e5db9af",
+  "short_description":"Kensignton32GBUSB3.0Thumbdrive",
+  "price":500,
+  "__v":0}]
+#+END_SRC
+
+=app/scripts/services.coffee=
+
+#+BEGIN_SRC coffee
+angular
+  .module('healthServices', ['ngResource'])
+    .factory('Procedure', ['$resource',
+      ($resource) ->
+        uri = "http://localhost:5000/health/api/v1.0/procedures"
+        return $resource(uri + '/:id', {id: '@id'}, {})
+    ])
+#+END_SRC
+
+in our controller we populate a list with those values:
+
+=app/scripts/controllers/main.coffee=
+
+#+BEGIN_SRC coffee
+angular.module('healthApp')
+  .controller 'ClinicCtrl', ($scope, Clinic, Procedure) ->
+    $scope.all_procedures = Procedure.query()
+#+END_SRC
+
+in our view we can do a basic sort of type ahead with:
+
+=app/view/clinics.html=
+
+#+BEGIN_SRC html
+<h2>Search Procedures</h2>
+  <label for="">Procedure Name</label>
+  <input ng-model="procTypeAhead"> <br/>
+  <ul>
+    <li ng-repeat="proc in all_procedures | filter:procTypeAhead">
+      {{proc.name}}
+  </ul>
+#+END_SRC
+
+Now what we type into the =procTypeAhead= model input will be used to
+filter the list shown in: =proc in all_procedures=.
+
+** hide results when nothing typed
+
+Now it would be better to hide results if nothing is entered and to
+have a simple instructional placeholder
+
+placeholder:
+
+#+BEGIN_SRC html
+<input ng-model="procTypeAhead" 
+       placeholder="Enter a procedure such as 'hip replacement'">
+#+END_SRC
+
+Now lets hide results when nothing is typed into search box
+
+We wrap in a =<div>=, that hides when ther
+
+#+BEGIN_SRC html
+<div ng-hide="!procTypeAhead.length">
+  <ul>
+    <li ng-repeat="proc in all_procedures | filter:procTypeAhead">
+      {{$index}} {{proc.name}}
+  </ul>
+</div>
+#+END_SRC
+
+** limit results
+
+use: =limitTo:3= or any other number besides 3
+
+#+BEGIN_SRC html
+<li ng-repeat="proc in all_procedures | filter:procTypeAhead | limitTo:3">
+#+END_SRC
+* production deployment setup
+
+Go to project directory, clone latest and do
+
+: grunt build
+
+this puts website into the =dist= folder.
+
+serve with nginx
+
+** supervisor for nginx
+
+#+BEGIN_SRC conf
+[program:sh]
+user=fenton
+autorestart=true
+# /home/fenton/projects/pyr1/scripts/prod_deamon_start.sh --port 1050 --user fenton --virtualenv pyr --projdir /home/fenton/projects/python/pyr1
+command=/usr/bin/pidproxy /home/fenton/projects/python/pyr1/pserve_50%(process_num)02d.pid /home/fenton/projects/python/pyr1/pyr1/scripts/prod_deamon_start.sh --port 50%(process_num)02d --virtualenv pyr --projdir /home/fenton/projects/python/pyr1 --user fenton
+process_name=%(program_name)s-%(process_num)01d
+numprocs=1
+numprocs_start=0
+redirect_stderr=true
+stdout_logfile=/home/fenton/projects/python/pyr1/%(program_name)s-%(process_num)01d.log
+#+END_SRC
+
+
+* UI Router
+** basics
+*** ui.router inclusion
+
+: index.html
+
+#+BEGIN_SRC html
+<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+#+END_SRC
+
+: app.js
+
+#+BEGIN_SRC javascript
+angular.module('myApp', ['ui.router'])
+#+END_SRC
+
+*** Router config: url/controller/template
+
+: app.js
+
+#+BEGIN_SRC javascript
+app.config([
+'$stateProvider',
+'$urlRouterProvider',
+function($stateProvider, $urlRouterProvider) {
+
+  $stateProvider
+    .state('home', {
+      url: '/home',
+      templateUrl: '/home.html',
+      controller: 'MainCtrl'
+    });
+
+  $urlRouterProvider.otherwise('home');
+}]);
+#+END_SRC
+
+*** Inline HTML template
+
+put this at the bottom, just before the closing =</body>= tag:
+
+: index.html
+
+#+BEGIN_SRC html
+<script type="text/ng-template" id="/home.html">
+  <div class="page-header">
+    <h1>My Cool App</h1>
+  </div>
+
+  <!-- rest of template -->
+</script>
+#+END_SRC
+
+*** Template insertion point
+
+You need to put the =<ui-view>= tag where you want your inline
+templates to appear in your page.
+
+:index.html
+
+#+BEGIN_SRC html
+<body ng-app="flapperNews">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <ui-view></ui-view>
+    </div>
+  </div>
+#+END_SRC
+
+** authentication
+Conditionally show stuff in web site if authenticated, or have a given
+role:
+
+https://gist.github.com/bvaughn/90343c06467e9bcb8d27
+
+#+BEGIN_SRC javascript
+$stateProvider.state('authenticated.someState', {
+  url: '/some-url',
+  templateUrl: 'views/some-state-view.html',
+  controller: 'SomeStateController',
+  permission: 'admin'
+});
+#+END_SRC
+
+UI Router allows your states to define a resolves object which
+specifies dependencies that must be loaded before your state can be
+entered.
+
+So in a parent, of the above, state = 'authenticated', 
+#+BEGIN_SRC javascript
+resolve: {
+  currentUser: function(Session) {
+    return Session.isAuthenticated();
+  }
+}
+#+END_SRC
+* Angular Messages
+
+: bower install angular-messages --save
+
+Add a <script> to your index.html:
+
+: <script src="/bower_components/angular-messages/angular-messages.js"></script>
+
+Then add ngMessages as a dependency for your app:
+
+: angular.module('myApp', ['ngMessages']);
+
+* Testing
+** Example
+Say we have a login form and the backend determines that you have
+supplied the incorrect password.  In angular we would have a page that
+gets routed to from the =app.coffee= with:
+
+#+BEGIN_SRC coffee
+url: '/login',
+templateUrl: 'views/login.html',
+controller: 'LoginCtrl' }
+#+END_SRC
+
+in =login.html= our form has:
+
+#+BEGIN_SRC html
+<form ng-submit="login()"
+#+END_SRC
+
+which is defined in the controller =LoginCtrl=, found in file:
+=app/scripts/controllers/login.coffee= which has:
+
+#+BEGIN_SRC coffee
+.controller 'LoginCtrl', [
+  '$scope', 'Principal', '$state', ($scope, Principal, $state) ->
+    next_state = 'user'
+    $scope.login = -> 
+      Principal.authenticate $scope, next_state
+#+END_SRC
+
+Here we inject the =Principal= service, and call authenticate on it.
+Defined in file: =app/scripts/services/service.coffee=, it looks like: 
+
+#+BEGIN_SRC coffee
+authenticate: (form_scope, next_state) ->
+  # First extract data from scope we need
+  email = form_scope.user.email
+  password = form_scope.user.password
+  rememberme = form_scope.user.rememberme
+
+  # Now call the login service
+  Login.save {
+    'email': email,
+    'password': password }, (resp) ->
+      $log.debug(resp)
+      # { "status": "success",
+      #   "data": { "token": "bgP ... $-Q" }}
+      data = resp.data
+      if resp.status == "success" and data.token
+        _login(data.token, email, next_state, rememberme)
+      # { "status": "fail",
+      #   "data": {
+      #     "field": "password"
+      #     "message": "Incorrect Password" }}
+      if resp.status == "fail"
+        if data.field == "password"
+          form_scope.user.password.$invalid = true
+          error_msg = data.message
+          form_scope.user.password.error_msg = error_msg
+        # need to extract failure message
+        # determine the bad data fields, and their associated message
+        # then pass this to the angular validation framework so those fields
+        # are highlighted in form
+      else
+        _logout()
+        $log.error "Unsuccessful authentication"
+#+END_SRC
+
+** Definitions
+Testacular/karma = test runner
+Mocha = test suite
+chai = assertions
+** End to End (integration/system/functional)
+*** additional setup required
+
+When setting up protractor with yoeman scaffolded app follow:
+
+http://stackoverflow.com/questions/19066747/integrating-protractor-for-e2e-testing-with-yeoman-in-grunt-file-for-angular-j
+
+: npm install protractor grunt-protractor-runner --save-dev
+  
+=test/protractor.conf.js=
+
+#+BEGIN_SRC javascript
+    // seleniumAddress: 'http://localhost:4444/wd/hub',
+    specs: [
+        'e2e/*.js', 'test/e2e/*_test.js'
+    ],
+    capabilities: {
+        'browserName': 'chrome'
+    },
+    baseUrl: 'http://localhost:9000/',
+    chromeOnly: true,
+#+END_SRC     
+
+=Gruntfile.js=
+
+dont forget comma after preceding item
+
+#+BEGIN_SRC javascript
+        }, 
+        protractor: {
+            options: {
+                keepAlive: true,
+                configFile: "test/protractor.conf.js"
+            },
+            run: {}
+        }
+#+END_SRC
+
+I think the rest you can follow the stack overflow answer for, however
+run it with:
+
+: grunt protractor
+
+if u just want to run the e2e tests.
+
+*** background
+
+Protractor is used to run end to end (e2e) tests.  
+
++ test files location:
+
+: test/e2e
+
+Since e2e interacts with our application as a user would, we need to
+start the application first:
+
+: npm start
+
+Now perform the e2e tests:
+
+: npm run protractor
+
+e2e testing is good if you change HTML, or just want to verify the
+whole app works.  Do before committing.
+
+
+#+BEGIN_SRC javascript
+describe('PhoneCat App', function() {
+    it('should redirect index.html to index.html#/phones', function() {
+        browser.get('app/index.html');
+        browser.getLocationAbsUrl().then(function(url) {
+            expect(url.split('#')[1]).toBe('/phones');
+        });
+    });
+    describe('Phone detail view', function() {
+        beforeEach(function() {
+            browser.get('app/index.html#/phones/nexus-s');
+        });
+        it('should display placeholder page with phoneId', function() {
+            expect(element(by.binding('phoneId')).getText()).toBe('nexus-s');
+        });
+    });
+#+END_SRC
+** Setup
+
+Install mocha and chai:
+
+: sudo npm install -g mocha
+: sudo npm install -g chai
+
+mocha --compilers coffee:coffee-script/register
+
+** Maybe additional setup
+
+: sudo npm install -g karma-cli
+: npm install karma-sinon --save-dev
+: npm install karma-chai --save-dev
+:  npm install karma-mocha --save-dev
+
+** Unit
+
+Karma is used for unit testing.
+
++ test files location:
+
+: test/unit
+
++ Launch unit tests
+
+: karma start
+
+runs Karma unit tests and watches the test folder...you can therefore
+leave running for instant feedback.
+
+** Unit 2
+
+Install the karma-cli 'command line interface' globally
+
+: npm install -g karma-cli
+
+Make a project dir
+
+: mkdir karma3
+: cd karma3
+
+npm init it
+
+: npm init
+
+Install tools we'll be using
+
+: npm install --save-dev karma karma-mocha karma-chai karma-phantomjs-launcher
+
+Create a basic =karma.conf.js= config file
+
+: karma init
+
+* installing node
+
+see: http://blog.seanclayton.me/installing-node-js-on-arch-linux/
+

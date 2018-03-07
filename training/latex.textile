@@ -1,0 +1,444 @@
+p(toc). Table of Contents
+
+{toc}
+
+h1. Reference
+
+* "Decent Samples":http://www.andy-roberts.net/misc/latex/
+* "Latex wiki book":http://en.wikibooks.org/wiki/LaTeX/Basics
+* "Another handy manual":http://www.personal.ceu.hu/tex/latex.htm
+
+h1. Commands
+
+|_. Command |_. Comment |
+| \newpage                 | Create a new page |
+| \tableofcontents         | Insert the table of contents |
+| \setcounter{tocdepth}{4} | This will make the table of contents include everything down to paragraphs see: "Section Depth":#section_depth, defaults to 3 levels |
+|  \chapter[optional]{title} | Sectioning takes this general form see: "Section Depth":#section_depth |
+| \listoffigures and \listoftables | work in exactly the same way as \tableofcontents |
+| \emph{italics}     | italics |
+| \textbf{bold face} | bold    |
+|\textit{ Italic } | italics |
+|\underline{ Underline } | underline |
+
+h1. Samples
+
+h2. A basic document
+
+bc. 
+\documentclass{article}
+\begin{document}
+This is a simple document...
+\end{document}
+
+h1. General Notes
+
+* leave a completely blank line between paragraphs
+* How to produce left and right double quotes:
+
+bc. 
+ ``You \emph{were} a little grave,'' said Alice. 
+
+h1. Sections
+
+Section headings of various sizes are produced (in the article document style) using the commands \section,\subsection and \subsubsection.
+
+bc. \section{Section Headings}
+
+The sectioning commands have *-forms that print a title, but do not include a number and do not make an entry in the table of contents.
+
+bc. \section*{Section Headings}
+
+h3(#section_depth). Section Depth
+
+|_. Command                    |_. Level |_. Comment|
+| \part{part}		       | 1       | not in letters|
+| \chapter{chapter}	       | 0       | only books and reports|
+| \section{section}	       | 1       | not in letters|
+| \subsection{subsection}      | 2       | not in letters|
+| \subsubsection{subsubsection}| 3       | not in letters|
+| \paragraph{paragraph}	       | 4       | not in letters|
+| \subparagraph{subparagraph}  | 5       | not in letters|
+
+h1. Documentclass types
+
+h2. Samples
+
+bc. \documentclass[final,letterpaper,twoside,12pt]{article}
+
+book
+report
+article
+letter
+
+All of them are similar, except letter. The main differences can be summerised as follows:
+
+An “article” does not provide “chapter”, whereas “book” and “report” do. Thus, the first structuring element of an “article” is \section{name}.  In a “book”, a header is automatically added to each page indicating the page number as well as the chapter name on even pages and the section name on odd pages A “book” is always 2-sided whereas in a “report” or “article” you have to specify it by using the “twoside” option. In addition, in a “book” and “report” the “titlepage” and “abstract” will take a whole page each, which is not the case for “article”. In an “article”, you can use the options “titlepage” and “abstract”.  The “letter” provides a US-type letter format.
+
+
+h1. Images / Pictures
+
+h2. Cheatsheet
+
+bc. 
+\usepackage{graphicx}
+\setlength\fboxsep{1pt}
+\setlength\fboxrule{0.5pt}
+...
+\begin{document}
+...
+\begin{figure}[h!]
+  \centering
+  \fbox{\includegraphics[width=130mm]{images/BasicArchitecture}}
+  \caption{Basic Architecture}
+  \label{basicArch}
+\end{figure}
+\newpage
+\clearpage
+...
+See figure~\ref{basicArch} on page~\pageref{basicArch}.
+
+
+|_. Command                                 |_. Comment|
+| \usepackage{graphicx}	                    | put in top matter to be able to use graphics |
+| \includegraphics[width=60mm]{bird}        | command to include graphic called bird.jpg, no extension necessary | 
+| \setlength\fboxsep{0pt}                   | prepare the padding for a border |
+| \setlength\fboxrule{0.5pt}                | prepare the thickness of a border |
+| \fbox{\includegraphics{bird}}             | use the prepared border on an image called bird.jpg |
+
+* Converting *.tiff -> *.pdf: @tiff2pdf ApplicationDave.tiff > app.pdf@
+
+You can use jpg,png, etc.. if you use toggle into "PDF mode":#create_pdf converter.  The standard converter latex -> dvi will only accept *.eps graphics.
+
+bc. 
+\documentclass[final,letterpaper,twoside,12pt]{article}
+\usepackage{graphicx}
+\begin{document}
+\includegraphics[width=60mm]{filesystem}
+\end{document}
+
+* Centering
+
+bc. 
+\begin{center}
+\includegraphics{myimage.png}
+\end{center}
+
+* Borders
+
+bc. 
+\setlength\fboxsep{0pt}
+\setlength\fboxrule{0.5pt}
+\fbox{\includegraphics{chick}}
+
+You need to convert png/jpg/etc... images to postscript images using the following batch script:
+
+bc. 
+# creates the eps image
+for f in *.png;
+do
+    echo "Processing $f"
+    sam2p $f EPS: ${f/.png}.eps
+done
+
+h2. Quoting
+
+bc. 
+\begin{quote}
+    ``...\emph{As it is a private shared residential home it does not come
+    under the Landlord Tenancy Act}''
+\end{quote}
+
+h1. Cross Linking between viewer and source
+
+This allows you to click on a section of the output *.dvi or *.pdf and have that take you back to the source, latex code.  Useful for debugging a document.
+
+* put @(setq TeX-source-specials-mode t)@ into your @~/.emacs@. 
+
+* @C-c C-c@ to compile to *.dvi 
+
+* @C-c C-c@ again to view, you can @C-left mouse click@ in *.dvi file to go to corresponding line source *.tex file.
+
+h2(#create_pdf). Create PDF
+
+* @C-c C-t C-p@ to toggle into PDF mode.
+* @C-c C-c@ to compile to *.pdf
+* @C-c C-c@ again to view
+
+h1. Master/Slave files
+
+There are a couple of techniques.  Use the first, however, if you don't like it use the second.
+
+h2. \input
+
+In your master document put a @\input{filenameNoExtension}@ where you want to include your child file.
+
+Your child file should not have any @\begin{document}@ syntax.
+
+The following is a good start for your Master file, so just cut and paste it.  Just modify the @\input{...}@ sections at the end to be the name of your child *.tex files.  Note: you don't need to supply the *.tex extension in your reference to the child docs, just as I haven't.
+
+bc. 
+\documentclass[final,letterpaper,12pt]{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{perpage}
+\usepackage{array}
+\MakeSorted{figure}
+\MakeSorted{table}
+\title{
+  Departmental Migration to UCM\\
+  Japan LOB}
+\date{Sept 20, 2010}
+\author{Fenton Travers}
+\begin{document}
+\setlength\fboxsep{1pt}
+\setlength\fboxrule{0.5pt}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+\listoffigures   
+\newpage
+\section{Overview} 
+\input{JapanTrainingOverview}  
+\clearpage
+\input{ContentManagementOverview}
+\clearpage
+\end{document}
+
+I usually put 'sections' in the master document and leave subsections for the 'input'ed documents.  So in your child you might have some stuff like:
+
+bc. 
+\section{Architecture Version 1}
+We are going to work on several versions of a basic architecture.
+\begin{figure}[h!]
+  \centering
+  \fbox{\includegraphics[width=130mm]{images/BasicArchitecture}}
+  \caption{Basic Architecture}
+\end{figure}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "oraVcsBook"
+%%% End: 
+
+
+h2. Subfiles
+
+Use this method if you want your child files to be full latex files in their own right.  I discourage this technique.
+
+Master
+
+bc. 
+\documentclass[final,letterpaper,twoside,12pt]{article}
+\usepackage{subfiles}
+\begin{document}
+\subfile{slave.tex}
+\end{document}
+
+Slave
+bc
+.\documentclass[master.tex]{subfiles}
+\begin{document}
+This is a simple document...
+\end{document}
+
+h1. Appendices
+
+\usepackage{appendix}
+\renewcommand{\appendixtocname}{TOC appendix title}
+\renewcommand{\appendixpagename}{Inline appendix title}
+...
+\appendix
+\appendixpage
+\addappheadtotoc
+\section{1st appendix section}
+
+|_. Command |_. Comment |
+| \newpage                 | Create a new page |
+
+
+h1. Tabular Data
+
+h2. Reference
+
+"Table Layout Reference":http://www.andy-roberts.net/misc/latex/latextutorial4.html
+
+h2. Sample
+
+bc.. 
+\usepackage{array}
+
+\begin{tabular}{ l c r } 
+1 & 2 & 3 \\ 
+4 & 5 & 6 \\ 
+7 & 8 & 9 \\ 
+\end{tabular}
+
+bc. 
+\begin{center} \begin{tabular}{ l | c || r | } 
+\hline 
+1 & 2 & 3 \\ \hline 
+4 & 5 & 6 \\ \hline 
+7 & 8 & 9 \\ \hline 
+\end{tabular} 
+\end{center}
+
+bc. 
+\begin{tabular*}{0.75\textwidth}{@{\extracolsep{\fill}} | c | c | c | r | } 
+\hline 
+label 1 & label 2 & label 3 & label 4 \\ 
+\hline 
+item 1 & item 2 & item 3 & item 4 \\ 
+\hline 
+\end{tabular*}
+
+Column span
+
+bc. 
+\begin{tabular}{|l|l|} 
+\hline 
+\multicolumn{2}{|c|}{Team sheet} \\ 
+\hline 
+GK & Paul Robinson \\
+LB & Lucus Radebe \\
+\hline
+\end{tabular}
+
+
+
+
+
+
+h2. Notes
+
+bc. 
+l	left-justified column
+c	centered column
+r	right-justified column
+|	vertical line
+||	double vertical line
+
+
+Read more: Getting to Grips with Latex - Tables - Latex Tutorials by Andrew Roberts @ School of Computing, University of Leeds http://www.andy-roberts.net/misc/latex/latextutorial4.html#ixzz0zaCwG1NY
+| &      | column separator |
+| \\     | start new row |
+| \hline | horizontal line |
+
+
+Read more: Getting to Grips with Latex - Tables - Latex Tutorials by Andrew Roberts @ School of Computing, University of Leeds http://www.andy-roberts.net/misc/latex/latextutorial4.html#ixzz0zaCRkOU0
+
+
+h2. Top Matter
+
+bc.. 
+\documentclass[final,letterpaper,twoside,12pt]{report}
+% if you use "report", you get a seperate title page
+%\documentclass[final,letterpaper,twoside,12pt]{article}
+%
+\author{Terry~Sturtevant \thanks{Physics Lab Supervisor}}
+\date{\today}
+\title{PC132 Lab Project}
+\begin{document}
+\maketitle
+Here is my text.
+\end{document}
+
+h1. Cheatsheet
+
+h2. Comments
+
+@%@ is used at the beginning of a line to make a comment
+
+If you put \usepackage{verbatim} at the start of your file, 
+you can do multiline comments like this:
+
+\begin{comment}
+Here is the first line of the comment.
+Here is the second line.
+\end{comment}
+
+h2. Lists
+
+h3. Bullet
+
+bc. 
+\begin{itemize}
+\item Here is a bullet.
+\item Here is another bullet.
+\end{itemize}
+
+h3. Numbered
+
+bc. 
+\begin{enumerate}
+\item Here is item one.
+\item Here is item two.
+\end{enumerate}
+
+h2. Special Characters
+
+Prefix the following characters with a backslash to have them display as is.
+
+bc. 
+\ { } $ ^ _ % ~ # &
+
+ampersand, tilde, dollar sign, underscore, carrot, hash, percent, parenthesis, back slash
+
+h2. Label and Cross-Referencing
+
+First label your spot with:
+
+bc. \label{marker}
+
+Then you can reference it with:
+
+bc. 
+See figure~\ref{marker} on page~\pageref{marker}.
+
+"Reference":http://en.wikibooks.org/wiki/LaTeX/Labels_and_Cross-referencing
+
+h2. Sample Letter
+
+bc. 
+\documentclass[final,letterpaper,12pt]{letter}
+\date{\today}
+\name
+{
+Fenton Oliver Travers\\
+G/F 68 Wang Long Village\\
+Lamma Island, Hong Kong
+}
+\begin{document}
+\def \body
+{
+This letter authorizes Margaret Squires, to apply for a Secondary Suite
+in the basement of 1527 East 19th Avenue, Vancouver, BC, V5N 2T8, on my
+behalf.
+}
+\begin{letter}{
+COMMUNITY SERVICES GROUP \\
+Licences and Inspections \\
+By-Law Administration and \\
+Records Services Branch
+}
+\opening{Dear Sir or Madam:} \body \closing{Respectfully,}
+\end{letter}
+\end{document}
+
+h1. Programming
+
+In latex you can define sections that you later use by using the @\def@ syntax.
+
+bc. 
+\documentclass[10pt]{letter}
+\name{Laura A. Taalman}
+\begin{document}
+\def \customLetBody
+{This is a request under the Freedom of Information Act. Thank you for your consideration of this request.}
+\begin{letter}{Tom Jones}               
+\opening \customLetBody \closing{Respectfully,}
+\end{letter}
+\begin{letter}{Freddy Wood}               
+\opening \customLetBody \closing{Respectfully,}
+\end{letter}
+\end{document}

@@ -1,0 +1,37 @@
+* Access Object Properties
+
+To access an objects properties (including functions you want as a
+value) use a leading dash:
+
+Here the object `navigator` has a property `geolocation` access like so:
+
+#+BEGIN_SRC clojurescript
+(.-geolocation js/navigator)
+#+END_SRC
+
+* Geolocation
+
+#+BEGIN_SRC javascript
+navigator.geolocation.getCurrentPosition(showPosition);
+#+END_SRC
+
+To access an objects properties (including functions you want as a
+value) use a leading dash:
+
+#+BEGIN_SRC clojurescript
+(.getCurrentPosition (.-geolocation js/navigator) (fn [pos] (put! out pos)))
+#+END_SRC
+
+data_tables.core.main();
+(.main (-.core js/data_tables))
+* Debugging
+
+In the browser console you can access your objects via:
+
+(1) change dashes (-) to underscores (_)
+
+So in ns: pcbe-web.views.debug we have a def:
+
+(def cljs-repl-atom (atom ""))
+
+In console as we type, there will be autocompletion

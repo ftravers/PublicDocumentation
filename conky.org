@@ -1,0 +1,21 @@
+* With Awesome WM
+
+Awesome is configured with file: ~/.config/awesome/rc.lua
+
+here we put the commands to run conky.
+
+#+BEGIN_SRC lua
+awful.util.spawn_with_shell("conky -c ~/.conky/left")
+awful.util.spawn_with_shell("conky -c ~/.conky/center -x 550")
+awful.util.spawn_with_shell("conky -c ~/.conky/right -x 1100")
+#+END_SRC
+
+#+BEGIN_SRC 
+~ % cd .conky/
+.conky % ls
+center.acer  center.ss9  left.acer  left.ss9  right.acer  right.ss9
+.conky % cp left.acer left.chromebook
+.conky % cp center.acer center.chromebook
+.conky % ln -s center.chromebook center
+.conky % ln -s left.chromebook left
+#+END_SRC

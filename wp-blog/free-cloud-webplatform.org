@@ -1,0 +1,7 @@
+#+DATE: [2013-04-17 Wed 14:12]
+#+OPTIONS: toc:nil num:nil todo:nil pri:nil tags:nil ^:nil TeX:nil
+#+CATEGORY: freedom computing
+#+TAGS:
+#+DESCRIPTION:
+#+TITLE: Computing Freedom
+

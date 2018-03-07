@@ -1,0 +1,465 @@
+	=> rebuild your eclipse configuration files 
+cd ~/maven_tutorial/<project_name>; mvn eclipse:clean eclipse:eclipse
+
+
+One time only step:
+	=> set your MVN_REPO classpath variable in eclipse (ensure eclipse is not running)
+mvn -Declipse.workspace=/Users/fentontravers/Documents/workspace4 eclipse:add-maven-repo
+
+cd ~/maven_tutorial
+
+	=> create a maven web app
+mvn archetype:generate -DinteractiveMode=n -DgroupId=com.spicevan -DartifactId=simpleWeb -DarchetypeArtifactId=maven-archetype-webapp
+cd simpleWeb
+
+	=> make your project suitable for using with eclipse
+mvn eclipse:eclipse 
+
+	=> Open eclipse and choose: File > Import > Import Existing Projects into Workspace
+
+	=> add the following into your pom.xml
+	<repositories>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>simpleWeb2</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.0.2</version>
+					<configuration>
+						<source>1.5</source>
+						<target>1.5</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.7</version>
+					<configuration>
+						<downloadSources>false</downloadSources>
+						<wtpversion>2.0</wtpversion>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	=> rebuild your eclipse configuration files 
+mvn eclipse:clean eclipse:eclipse
+
+==> Add the Faces Servlet mapping into your web.xml
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping> 
+
+==> Create a folder: java at: src/main/, right click and choose use as a source folder,
+right click project > Build Path > Configure Build Path > Order and Export
+put your java folder at the top of the list
+
+==> Create the following managed bean:
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean(name = "welcome", eager = true)
+public class WelcomeBean {
+    public WelcomeBean() {
+        System.out.println("WelcomeBean instantiated");
+    }
+    public String getMessage() {
+        return "I'm alive!";
+    }
+}
+
+==> Create your first view template: /src/main/webapp/home.xhtml
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Hello JSF 2!</title>
+    </head>
+    <body>
+       #{welcome.message}
+    </body>
+</html>
+
+
+	==> Templating
+create: src/main/WEB-INF/templates/mastertemplate.xhtml
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+  <head>
+    <title>
+      <ui:insert name="title">Default Title</ui:insert>
+    </title>
+  </head>
+  <body>
+    <ui:insert name="heading"/>
+    <ui:insert name="content"/>
+  </body>
+</html>
+
+pair this with: src/main/WEB-INF/home.xhtml
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets">
+  <body>
+    <ui:composition template="/layout.xhtml">
+      <ui:define name="title">A List of Contacts</ui:define>
+      <ui:define name="heading">Contacts</ui:define>
+      <ui:define name="content">
+        <ui:include src="contactsTable.xhtml" />
+      </ui:define>
+    </ui:composition>
+  </body>
+</html>
+
+----------------------------------------------------------------
+Persistence: http://www.vogella.de/articles/JavaPersistenceAPI/article.html
+Eclipse toplink and apache derby added to POM:
+
+	<repository>
+		<id>EclipseLink Repo</id>
+		<url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
+	</repository>
+	<dependency>
+		<groupId>org.apache.derby</groupId>
+		<artifactId>derby</artifactId>
+		<version>10.5.3.0_1</version>
+		<scope>runtime</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.eclipse.persistence</groupId>
+		<artifactId>eclipselink</artifactId>
+		<version>2.0.0</version>
+		<scope>compile</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.eclipse.persistence</groupId>
+		<artifactId>javax.persistence</artifactId>
+		<version>2.0.0</version>
+		<scope>compile</scope>
+	</dependency>
+
+Here are some examples:
+
+==> Basics:
+	=> Table Creation
+		* A persistable class must be annotated with javax.persistence.Entity. 
+		* Entity classes (annotated with @Entity) will become a table in a relational database. 
+		* The instances of the class will be a row in the table. 
+		* The Java Persistence API implementation will create a table for the entity in your relational database. 
+		* By default, the table name corresponds to the class name.
+	=> Keys
+		* All entities must have a primary key (annotated with @Id). Keys can be a single field or a combination of fields.
+		* JPA allows also to auto generate the primary key in the database (annotated with @GeneratedValue)
+	=> Columns/Fields
+		* By default each field is mapped to a column with the name of the field
+		* All fields that should not be persisted must be explicitly marked with @Transient
+		
+Create your pojo and annotate like the following:
+@Entity
+public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	private int id;
+
+	
+==> Mapped By:
+In a bi-directional relationship (both sides have a reference to each other) you must declare an arbitrary owner.  You do this with the 'mappedBy' setting.  For example, in the relationship between a team and a player, we declare the owner to be the team by putting the 'mappedBy' setting into the player class below.  The value of the mappedBy setting is the name of the field in the owning class that refers to the owned class.
+
+So in the team class we have a List of players like:
+public class Team() {
+	private List<Player> players;
+	@OneToMany
+	public List<Player> getPlayers() {}
+}
+
+and the Player class has a link to the team he plays on
+public class Player() {
+	private Team team;
+	@ManyToOne(mappedBy = "players")
+	public Team getTeam() {}
+}
+
+==> JPA Query
+public List findWithName(String name) {
+return em.createQuery(
+    "SELECT c FROM Customer c WHERE c.name LIKE :custName")
+    .setParameter("custName", name)
+    .setMaxResults(10)
+    .getResultList();
+}
+
+-----------------------------------------------------------------
+	==> String Externalization
+		=> Create: 
+src/main/resources/com/spicevan/languages/messages.properties
+		=> with contents:
+hello=Hello World!
+
+		=> in src/main/webapp/home.xhtml put:
+<html xmlns:f="http://java.sun.com/jsf/core">
+<f:loadBundle basename="com.spicevan.language.messages" var="msgs" />
+Greetings: #{msgs.hello}
+
+	==> Alternative, perhaps better as we don't have to define in every page then.
+You may want to only specify the message string once, to do so put the following
+in your /src/main/webapp/WEB-INF/faces-config.xml
+
+<?xml version="1.0"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+              version="2.0">
+  <application>
+    <resource-bundle>
+      <base-name>com.spicevan.language.messages</base-name>
+      <var>msgs</var>
+    </resource-bundle>
+  </application>              
+</faces-config>
+
+-------------------------------------------------------------------
+
+	==> Including Images:
+stick graphics here: src/main/resources/images
+
+<h:graphicImage value="#{resource['images:Picture 1.png']}"/>
+
+I believe resource is a hashmap.
+
+	
+
+
+
+==> Internationalization
+
+Set your firefox to desire the french language first:
+Preferences > Content > Languages (choose) > put 'fr' at the top.  Reload the page.
+
+		=> Do same for french version
+src/main/resources/com/spicevan/languages/messages_fr.properties
+hello=Bonjour Monde!
+
+
+If a view is not associated with a locale explicity, JSF uses "Accept-Language" 
+header in request data from browser to find out the locale to be picked. It 
+compares the header's values with the ones configured in faces-config.xml and 
+if no match is found default locale is selected. 
+
+How to associate a view with a locale?
+
+From: http://www.i-coding.de/www/en/jsf/application/locale.html
+
+But my preferred solution is to use an custom ViewHandler, which extends 
+the JSF ViewHandler [5] or the Facelets ViewHandler [6]. Only thing to 
+use this class is to register it in the faces config file. 
+
+<application>  <view-handler>de.icoding.CustomViewHandler</view-handler> </application>
+
+In order to set the locale for all pages after own conditions, just overwrite the method 
+calculateLocale. For example in an SEO application just write: 
+
+public Locale calculateLocale(FacesContext context) { String path = null; 
+path = context.getExternalContext().getRequestServletPath(); 
+if (path.indexOf("/de/") > 0) 
+ return Locale.GERMAN; else return Locale.ENGLISH; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+========================
+==> Tutorials
+
+http://www.javaserverfaces.org/get-started
+
+Seems like a good tutorial:
+http://www.vogella.de/articles/JavaServerFaces/article.html
+
+JSF & JPA, persistence tutorial:
+http://blogs.sun.com/carolmcdonald/entry/sample_application_using_jsf_spring
+
+http://andyschwartz.wordpress.com/2009/07/31/whats-new-in-jsf-2/
+
+http://info.rmatics.org/2009/10/17/jsf2_tutorial_0/
+
+http://www.ibm.com/developerworks/java/library/j-jsf2fu1/index.html
+
+
+========================
+junk notes below
+
+
+
+	=> Determin if you have maven installed
+mvn --version
+	=> locate it's location
+which mvn
+	=> go there and edit the conf file specifying your repo location
+cd /usr/share/maven/conf
+vi settings.xml 
+sudo vi settings.xml
+	=> go to your home folder and create a folder to hold your maven projects.
+cd 
+mkdir maven_tutorial
+cd maven_tutorial/
+	=> create a basic maven project.
+mvn archetype:create -DgroupId=com.mytutorial  -DartifactId=simple
+	=> set your MVN_REPO classpath variable in eclipse (ensure eclipse is not running)
+mvn -Declipse.workspace=/Users/fentontravers/Documents/workspace2 eclipse:add-maven-repo
+cd simple
+	=> make your project suitable for using with eclipse
+mvn eclipse:eclipse 
+	=> run your project
+java -cp ./target/simple-1.0-SNAPSHOT.jar  com.mytutorial.App 
+	=> put your project in your repository for sharing
+mvn install
+cd ~/maven_tutorial/
+	=> create a maven web app
+mvn archetype:create -DgroupId=com.mytutorial -DartifactId=simpleWeb -DarchetypeArtifactId=maven-archetype-webapp
+cd simpleWeb
+mvn eclipse:eclipse 
+	=> add this into your POM
+
+	=> rebuild your eclipse configuration files 
+	(note: this command will delete and then rebuild the eclipse files. This 
+	means that you don’t have to check-in these eclipse related files and folders into your source 
+	control. You can add .project, .classpath and .settings files/folder to subversion ignore list.)
+mvn eclipse:clean eclipse:eclipse
+	=> build the war file
+mvn package
+	=> add the following to your pom.xml
+
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.mytutorial</groupId>
+	<artifactId>simpleWeb2</artifactId>
+	<packaging>war</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>simpleWeb2 Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<repositories>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>simpleWeb2</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.0.2</version>
+					<configuration>
+						<source>1.5</source>
+						<target>1.5</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.7</version>
+					<configuration>
+						<downloadSources>false</downloadSources>
+						<wtpversion>2.0</wtpversion>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
+
+
+-----------
+
+mvn eclipse:eclipse -Dwtpversion=2.0
+
+	=> build the war file
+mvn package
+	=> add the following to your pom.xml

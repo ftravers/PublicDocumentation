@@ -1,0 +1,87 @@
+* Vocab
+
+** Cylinder
+
+This is the number of rings.  The same track on each platter/surface
+is what makes up one cylinder.  A cylinder pierces through all
+platters. 
+
+** Heads
+
+These are the number of reading platters.
+
+If we multiply the number of rings (cylinders) by the number of
+platters/surfaces/heads
+
+In example below:
+
+: 31130*255 = 7938150 tracks
+
+** Track
+
+A track is one ring around one platter surface.
+
+Then we can multiply this by 63 sectors/track to get
+
+: 500103450 sectors
+
+And finally we have 512 bytes/sector so we get:
+
+: 256052966400 bytes
+
+In easier to understand units, divide by 1024*1024*1024 ( 1 gigabyte
+). 
+
+: ~238 GigaBytes
+
+Display in units of cylinders (+/-) is a rounded up or down
+number...so not exact.
+
+#+BEGIN_SRC 
+$ sfdisk -l
+
+Disk /dev/sda: 31130 cylinders, 255 heads, 63 sectors/track
+Units: cylinders of 8225280 bytes, blocks of 1024 bytes, counting from 0
+
+   Device Boot Start     End   #cyls    #blocks   Id  System
+/dev/sda1   *      0+   1866    1867-  14996646   83  Linux
+/dev/sda2       1867   26841-  24975- 200607546+  83  Linux
+/dev/sda3      27363+  31130-   3768-  30261248   82  Linux swap / Solaris
+/dev/sda4          0       -       0          0    0  Empty
+#+END_SRC
+
+Or we can get exact values by using units of sectors with:
+
+#+BEGIN_SRC 
+$ sfdisk -l -u S
+
+Disk /dev/sda: 31130 cylinders, 255 heads, 63 sectors/track
+Units: sectors of 512 bytes, counting from 0
+
+   Device Boot    Start       End   #sectors  Id  System
+/dev/sda1   *        63  29993354   29993292  83  Linux
+/dev/sda2      29993355 431208447  401215093  83  Linux
+/dev/sda3     439595008 500117503   60522496  82  Linux swap / Solaris
+/dev/sda4             0         -          0   0  Empty
+#+END_SRC
+* Remove partition
+
+Start =parted= with device you want to work with:
+
+: parted /dev/sda
+
+Show details of device:
+
+: print
+
+Remove the third partition
+
+: rm 3
+* Resize partition
+** Shrink
+If you want to shrink an ext4 partition other than root, you can boot
+into single user mode by appending an
+
+: -s
+
+to the end of the kernal boot up parameters.

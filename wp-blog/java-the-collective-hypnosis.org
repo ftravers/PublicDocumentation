@@ -1,0 +1,14 @@
+#+DATE: [2013-05-24 Fri 18:51]
+#+OPTIONS: toc:nil num:nil todo:nil pri:nil tags:nil ^:nil TeX:nil
+#+CATEGORY: programming, lisp, java
+#+TAGS:
+#+DESCRIPTION:
+#+TITLE: The Duke wears no clothes!
+
+I was born in 1973, which made me a Java devotee.  Now 40 years later,
+and 15 years spent in the Java cult, I'm finally emerging from from
+the stupor of that collective hypnosis.  At the time of my
+induction, I was clueless to programming history, and my world was
+shaped by a distaste for all things Microsoft.  Java seemed like the
+righteous path, breaking platform lock-in.  It was easier than C++
+with garbage collection.

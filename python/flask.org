@@ -1,0 +1,153 @@
+REF: https://pythonhosted.org/Flask-SQLAlchemy/quickstart.html
+
+* flask SQLAlchemy create tables
+
+here we create all the tables and add some users, do this inside an
+interactive python shell
+
+#+BEGIN_SRC python
+from health_db import db
+db.create_all()
+from health_db import User
+admin = User('admin', 'admin@example.com')
+guest = User('guest', 'guest@example.com')
+db.session.add(admin)
+db.session.add(guest)
+db.session.commit()
+users = User.query.all()
+#+END_SRC
+
+use =db.drop_all()= to drop DB.
+
+* flask RESTful API
+
+** First a simple =GET=
+
+#+BEGIN_SRC python
+from flask import Flask, jsonify
+from health_db import User
+@app.route("/", methods=['GET'])
+def get_users():
+    users = User.query.all()
+    return jsonify(json_list=[user.serialize() for user in users])
+#+END_SRC
+
+=health_db.py=
+
+#+BEGIN_SRC python
+from flask import Flask
+from flask.ext.sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://health_user:welcome1@localhost/health_db"
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+    email = db.Column(db.String(120), unique=True)
+
+    def serialize(self):
+        return { 'id': self.id,
+                 'username': self.username,
+                 'email': self.email }
+#+END_SRC
+
+Test with curl:
+
+: curl -i http://localhost:5000/health/api/v1.0/users
+
+** =GET= with id
+
+Error handling is also added here for trying to get a user with wrong
+ID. 
+
+#+BEGIN_SRC python
+from flask import abort, make_response
+@app.route(user_resource + '/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user == None:
+        abort(404)
+    return jsonify(user.serialize())
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+#+END_SRC
+
+: curl -i http://localhost:5000/health/api/v1.0/users/2
+
+** POSTing
+
+#+BEGIN_SRC python
+from flask import request
+@app.route(user_resource, methods=['POST'])
+def create_user():
+    if not request.json or not 'title' in request.json:
+        abort(400)
+    user = User(request.json['username'],
+                request.json['email'])
+    db.session.add(user)
+    db.session.commit()
+    return jsonify(user.serialize()), 201
+#+END_SRC
+
+curl test:
+
+: curl -i -H "Content-Type: application/json" -X POST -d '{"username":"Joe Blow", "email":"joe@blow.com"}' http://localhost:5000/health/api/v1.0/users
+
+** Updating
+
+Here is the curl test
+
+: curl -i -H "Content-Type: application/json" -X PUT -d '{"username":"Freddy Fun"}' http://localhost:5000/health/api/v1.0/users/2
+
+You might want to check the data that comes back is correct type, and
+if not =abort(400)= it.
+
+#+BEGIN_SRC python
+@app.route(user_resource + '/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user == None:
+        abort(404)
+    if not request.json:
+        abort(400)
+    if 'username' in request.json:
+        user.username = request.json['username']
+    if 'email' in request.json:
+        user.email = request.json['email']
+    db.session.commit()
+    return jsonify(user.serialize())
+#+END_SRC
+
+** DELETE
+
+#+BEGIN_SRC python
+@app.route(user_resource + '/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user == None:
+        abort(404)
+    db.session.delete(user)
+    return jsonify({'result': True})
+#+END_SRC
+
+curl test it
+
+: curl -i -X DELETE http://localhost:5000/health/api/v1.0/users/2
+
+** not using internal =ID= 
+
+#+BEGIN_SRC python
+from flask import url_for
+def make_public_user(user):
+
+    new_task = {}
+    for field in task:
+        if field == 'id':
+            new_task['uri'] = url_for('get_task', task_id=task['id'], _external=True)
+        else:
+            new_task[field] = task[field]
+    return new_task
+#+END_SRC

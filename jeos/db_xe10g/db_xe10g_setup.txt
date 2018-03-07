@@ -1,0 +1,43 @@
+db0.tar.gz
+	This is clean database that has nothing in it.
+
+
+	Summary
+	What: Oracle DB XE 10.2
+	OS: OEL5U3 64bit
+	Zipped Size	486 MB
+	Unzipped Size on disk	4.3 GB
+	RAM	512 (when idle 170MB to spare)
+	Free Disk Space	1.2 GB
+	Root Password	ovsroot
+	
+	Build Procedure
+	Oracle XE JeOS Image Build
+	An Oracle XE image is pretty much going to be the foundation of any packaging I create. Right now my focus is on developers not production so I use XE instead of the full-blown Oracle DB. However, eventually I would have a separate full-blown Oracle DB image for production deployment.
+	After some experimentation I have settled on building the following base image
+	•	No added packages
+	•	System disk size of 2300 MB (leaves us with about 1.5 GB for database data)
+	•	Swap 1024 MB
+	•	RAM 512
+	  After I got the basic system up I needed to do a few additional things.
+	Remove Firewall
+	Remove the firewall for now.
+	# chkconfig --del iptables
+	 IP address and hostname
+	Make sure your hostname and ipaddress are what you want them to be in: 
+	# cat /etc/sysconfig/network-scripts/ifcfg-eth0
+	HOSTNAME=db5
+	IPADDR=192.168.8.114
+	# cat /etc/hosts
+	127.0.0.1       localhost.localdomain   localhost db5
+	Make the changes stick
+	# service network restart
+	Install prerequisite packages
+	Install the required prerequisite 
+	# yum install –y libaio 
+	# yum install -y bc
+
+
+	==> Increase the number of processes that can connect to the xe db
+		run the SQL command:
+		ALTER SYSTEM SET PROCESSES=150 SCOPE=SPFILE

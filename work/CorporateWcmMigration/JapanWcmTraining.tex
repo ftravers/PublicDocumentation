@@ -1,0 +1,56 @@
+\documentclass[final,letterpaper,twoside,12pt]{report}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{perpage}
+\usepackage{array}
+\MakeSorted{figure}
+\MakeSorted{table}
+\title{
+  Departmental Migration to UCM\\
+  Japan LOB}
+\date{Sept 20, 2010}
+\author{Fenton Travers}
+\begin{document}
+\maketitle
+\setlength\fboxsep{1pt}
+\setlength\fboxrule{0.5pt}
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\clearpage
+
+\section{Overview}
+
+This document will go over the basic information needed to become fluent in using Oracle Web Content Management.  This document is targetted at any department who needs to move their web site from the legacy Oracle Portal to the new Oracle UCM infrastructure.
+
+\section{Important Links}
+
+There are several important web sites that you need to be aware of.
+
+\begin{tabular}{|l l|} 
+\hline
+Web Site           & Function \\
+\hline 
+my.oracle.com      & Corporate home page \\ 
+content.oracle.com & Corporate Content Management System \\ 
+search.oracle.com  & Corporate Search Engine \\
+\hline
+\end{tabular}
+
+
+When you update your content on your web site, that content will then become searchable.  If we go to the URL:
+
+\begin{verbatim}
+http://my.oracle.com/site/japan/index.htm
+\end{verbatim}
+
+We can see the text: ``MyOracle Japan (Employee Portal for Oracle Japan)'' there.  Next we can navigate to:
+
+\begin{verbatim}
+http://my.oracle.com
+\end{verbatim}
+
+and in the ``Search OracleWeb'' on the top left we can put the following in:  ``MyOracle Japan Employee Portal for Oracle Japan'', and press search.  We notice that the top hit is indeed: ``http://my.oracle.com/site/japan/index.htm''.
+\end{document}
