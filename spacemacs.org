@@ -1,14 +1,20 @@
-* Windows
-| w m      | maximize (keep only this window) |
-| w v      | split vertical                   |
-| w (hjkl) | move to window in that direction |
+https://github.com/syl20bnr/spacemacs/blob/master/doc/DOCUMENTATION.org
 
+* Windows: SPC w
+| m      | maximize (keep only this window) |
+| m      | split vertical                   |
+| (hjkl) | move to window in that direction |
+| >      | increase/decrease.               |
+
+** transient mode: SPC w .
+| [ / ] | shrink/enlarg window horizontally |
+* neotree: SPC f t
+| K | up dir |   |
 * Elixir
 
 https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Blang/elixir
 
 | m m c | mix compile |
-|       |             |
 
 * Clojure - Evil Lisp State
 
@@ -30,10 +36,10 @@ Get into lisp structural editing with 'SPC k'.
 | h/l | prev/next symbol                |
 | H/L | prev/next sexp                  |
 | j/k | next closing/prev opening paren |
-|     |                                 |
 
-Prepen  ~w~ with a number to indicate the number of sexp's to wrap
+Prepend ~w~ with a number to indicate the number of sexp's to wrap.
 
+How to clone sexp?
 Maybe missing to add:
 sp-clone-sexp
 
@@ -53,13 +59,6 @@ Leader Key: SPC a
 | T     | insert todo                     |
 
 | A j/k | move item (row, paragraph, etc...) up down |
-|       |                                            |
-
-o,O, H, L
 
 ** evil-org-mode
 Leader Key: SPC m
-
-
-
-
