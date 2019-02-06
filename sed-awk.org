@@ -8,9 +8,6 @@ Use =-n= and =/p=
 
 ** print matching line
 
-
-
-
     % sed -n '/word/p' input.file
 
 | -n | quiet |
@@ -19,6 +16,16 @@ Use =-n= and =/p=
 ** Inplace edit
 
 use the `-i` flag
+
+** Insert line in file:
+
+Insert a line at line 8 of file:
+
+: sed -i '8iThis is Line 8' FILE
+
+** delete matching line
+
+: sed -i '/pattern to match/d' FILE
 
 ** Delete line #5 from a file...
 
@@ -36,7 +43,6 @@ replace 'fenton' with 'bob' in file.txt
 
 % echo "a10b" | sed 's/a\(.*\)b/x\1/'                                                          U fenton/bin
 x10
-
 
 ** search hex character
 
@@ -89,3 +95,12 @@ special variable that holds the *number of fields*.
 My kill chromium alias:
 
 alias kc='kill `ps -ef | awk "/chromium/ {print \\$2}" | head -1`'
+
+All release fixes are cut from release.
+
+The fix is PR'd into release.
+
+The fix is also then rebased off develop, and PR'd back into develop. 
+
+Merging the fix back into develop, ensures fixes are not lost.  Keeping the fix
+in it's own branch and no need for tag merge into trunk!

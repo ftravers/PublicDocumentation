@@ -1,4 +1,21 @@
+* Collections
+
+https://elixirschool.com/en/lessons/basics/collections/
+
+** list - [3.14, :pie, "Apple"]
+
+** tuples - {3.14, :pie, "Apple"}
+
+** keyword list - [foo: "bar", hello: "world"]
+
+Another way to do a keyword list
+
+: [{:foo, "bar"}, {:hello, "world"}]
+
+** map - %{:foo => "bar", "hello" => :world}
+
 * basics
+
 calling a built-in function:
 
 #+BEGIN_SRC elixir
@@ -107,3 +124,67 @@ function doc:
 #+END_SRC
 
 Atoms are like clojure keywords.  Often used for pattern matching.
+* Abraxas
+** Backend Daily Work
+
+*** Start REPL
+
+In elixir buffer 
+
+: , s I RET 
+
+*** Send region to REPL
+
+Highlight region then...
+
+: , s r
+
+*** Send line to REPL
+
+: , s l
+
+*** Compile Buffer
+
+: , m c RET
+
+Keep compile buffer open.  
+Each file save causes compilation.
+
+* Testing
+
+Run test at point:
+
+: , t t
+
+
+** Ecto
+
+~Region~ module uses a ~defstruct~
+~Image~ module uses Ecto to make structs, ~%Image{}~
+
+This can be done like so:
+
+#+BEGIN_SRC elixir
+  use Ecto.Schema
+  @fields [:name]
+  schema "dummy" do
+    field :name, :string
+  end
+#+END_SRC
+
+** Ecto Changeset
+
+This creates some kind of object so running this doesn't make too much sense to
+see the output
+
+#+BEGIN_SRC elixir
+Ecto.Changeset.cast(%Image{},%{},[:name])
+#+END_SRC
+
+** Poison Encoder
+
+Poison encode:
+
+#+BEGIN_SRC elixir
+Poison.encode!(%I{})
+#+END_SRC

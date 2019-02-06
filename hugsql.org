@@ -1,0 +1,62 @@
+REF: https://www.hugsql.org/#start
+
+* Keys
+
+| :name    | name of function to create |
+| :doc     | docstring of funciton      |
+| :command | underlying command to run  |
+| :result  | expected result type       |
+
+:snip, :meta, :require (see docs)
+
+* Commands
+
+| :?  | query          |
+| :!  | any statement} |
+| :<! | returning      |
+
+* Result
+
+| :1   | one                     |
+| :*   | many                    |
+| :n   | number of rows affected |
+| :raw | passthru result         |
+
+* Parameter Types
+
+: :param-name
+
+- or -
+
+: :param-type:param-name
+
+* Deep Get
+
+The parameter name can optionally use a "deep get" syntax to drill
+down into a parameter data structure. This syntax consists of keywords
+and integers joined by a period .. A keyword is a key for a
+hashmap. An integer is a vector index. For example: 
+
+#+BEGIN_SRC 
+-- first-employee :? :1
+select * from employees where id = :value:employees.0.id
+#+END_SRC
+
+#+BEGIN_SRC 
+(first-employee db {:employees [{:id 1} {:id 2}]})
+;=> {:id 1 :name "Al"}
+
+#+END_SRC
+* Returning ID of inserted
+
+It is often the case that you want to return the record just inserted
+or at least the auto-generated ID.
+
+You can specify your SQL insert statement command type to be
+:returning-execute, or :<! for short: 
+
+#+BEGIN_SRC 
+-- :name insert-into-test-table-returning :<!
+-- :doc insert with an sql returning clause
+insert into test (id, name) values (:id, :name) returning id
+#+END_SRC

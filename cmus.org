@@ -1,0 +1,44 @@
+Add music:
+
+5 - file browser mode
+a - add file or dir
+
+
+Toggle Play Stop Music:
+
+: c
+
+
+Volume:
+
+: +/- :vol +10%  / :vol -10%
+
+
+
+|--------------+---------------------------------------|
+| 5            | file browser                          |
+| j/k/RET      | navigation / Play                     |
+| left / right | seek by 10s                           |
+| , / .        | seek by 1m                            |
+| z / b        | play prev/next track                  |
+| a            | add track to playlist                 |
+| q            | quit                                  |
+|--------------+---------------------------------------|
+| 1            | regular (tree) view                   |
+| 2            | simple library (sorted) view          |
+| 3            | playlist                              |
+| 4            | play queue                            |
+| p/P          | move song up/down queue               |
+| D            | delete song from queue                |
+| m            | cycle through play modes              |
+|--------------+---------------------------------------|
+| C            | continue (if off stops after track)   |
+| r            | toggle repeat                         |
+| s            | toggle shuffle                        |
+| f            | currently selected track will be next |
+| e            | en-queue a track to be played next    |
+|--------------+---------------------------------------|
+
+: c 
+start/stop playing
+

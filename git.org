@@ -161,37 +161,6 @@ purposes), then you can force push your changes with:
 Please dont allow others to share this branch because their history
 will now be messed up otherwise.
 
-
-* Stash
-
-Save your work to the stash
-
-: git stash
-
-Show whats in the stash queue
-
-: git stash list
-
-Make a branch from your stash
-
-: git stash branch <branch_name>
-
-Commit the changes there
-
-: git commit .
-
-Switch to master
-
-: git checkout master
-
-See which files differ from branch and master
-
-: git diff --name-status master..<branch_name>
-
-Diff files on branch with master
-
-: git diff <branch_name> master -- <file_name>
-
 * Use Cases
 
 Somehow your current/working copy file is corrupt, you'd like to go
@@ -205,7 +174,6 @@ Now to find out what is in that stash that you might need you can do:
 * gitolite for security
 
 + [[https://wiki.archlinux.org/index.php/gitolite][Reference]]
-
 
 * Adding a new Repository
 
@@ -1448,7 +1416,6 @@ the master branch, they'll be able to trivially merge the changes
 onto the latest master.
 
 * Cookbook Recipies
-
 ** Reduce Repo Size
 
 Sometimes you checked in and committed a file that down the road you

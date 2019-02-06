@@ -1,9 +1,14 @@
 * wifi-menu -o
 * fdisk /dev/sda
+
 make a dos boot partition 'o' i think
-1: 60G (use 'a' to make bootable)
-2: 170G
-3: 8.5 Swap
+
+1: +60G (use 'a' to make bootable)
+2: +170G
+3: +8 Swap
+
+set type with ~t~.  83 = linux, 82 = swap.  1,2 are linux, 3 is swap.
+
 * mkfs.ext4 /dev/sda1 & /dev/sda2
 * mkswap /dev/sda3; swapon /dev/sda3
 * mount /dev/sda1 /mnt
@@ -48,15 +53,20 @@ remove USB boot media
 wifi-menu -o
 + reboot
 
-* slim login (display) manager
- + systemctl enable slim
+* add user
+useradd -m -G wheel -s /bin/zsh fenton
+ + visudo, uncomment wheel no passwd 
 
-+ edit /root/xinitrc
++ edit /home/fenton/xinitrc
    
    exec awesome
 
-useradd -m -G wheel -s /bin/zsh fenton
- + visudo, uncomment wheel no passwd 
+login as fenton and press 0 for a default .zshrc file
+
+edit /etc/slim.conf so auto login the fenton user
+
+* slim login (display) manager
++ systemctl enable slim
 
 * adjust grub timeout in:
 /etc/default/grub
@@ -69,8 +79,11 @@ then regenerate grub config with:
 mount usb install media on old computer
 cp -a .ssh usb
 
+on new computer
+cp -a usb/.ssh .
 chmod -R 644 .ssh/*
-chmod 600 authorized_ keys id_ rsa
+cd .ssh
+chmod 600 authorized_keys id_rsa
 
 
 git clone git@github.com:ftravers/arch-home.git
@@ -110,12 +123,44 @@ download, unzip, drop in /bin
 
 * brother printer
 
+** yaourt
+Below might be all you have to do
+
+yaourt brother-hll2340dw
+
+Ensure cups is installed.
+
+Go to admin and add printer:
+
+http://localhost:631
+
+** otherwise
+The below may or may not help at all.
 : sudo pacman -S rpmextract
 
 download lpr and cups hll2320d rpm wrapped drivers from brothers
 website
 
+#+BEGIN_SRC 
+╭─fenton@archlinux ~/Downloads  ‹master*› 
+╰─➤  cd /
+╭─fenton@archlinux /  
+╰─➤  sudo rpmextract.sh hll2320dcupswrapper-3.2.0-1.i386.rpm 
+╭─fenton@archlinux /  
+╰─➤  sudo rpmextract.sh hll2320dlpr-3.2.0-1.i386.rpm 
+#+END_SRC
+
+#+BEGIN_SRC 
+╭─fenton@archlinux ~/docs-DIR/data/brother-printer-drivers  ‹master*› 
+╰─➤  pwd
+/home/fenton/docs-DIR/data/brother-printer-drivers
+╭─fenton@archlinux ~/docs-DIR/data/brother-printer-drivers  ‹master*› 
+╰─➤  ls
+hll2320dcupswrapper-3.2.0-1.i386.rpm  hll2320dlpr-3.2.0-1.i386.rpm
+#+END_SRC
+
 : sudo systemctl enable org.cups.cupsd.service
+
 * gnupg lein
 
 in order to release libraries into clojars need to have dirs:

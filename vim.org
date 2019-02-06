@@ -1,10 +1,357 @@
+* Vim Fu
+** double up capslock as escape and ctrl
+** j, k, l, h, w, e
+** i, a, I and A
+** f(value)
+** o
+** s
+** xp
+** "dotting", "dotable", "dotability"
+** ct_, ct)
+** ca( and ci( in combinations with .
+example, extract `(@game.right_boundary - @game.left_boundary)` to a variable called world width
+
+world_width =
+
+if intent == :east_small
+  execute_move(@game.circle_x + (@game.right_boundary - @game.left_boundary) * (0.25 * note_progress),
+               @game.circle_y)
+elsif intent == :east_large
+  execute_move(@game.circle_x + (@game.right_boundary - @game.left_boundary) * (0.50 * note_progress),
+               @game.circle_y)
+elsif intent == :west_small
+  execute_move(@game.circle_x - (@game.right_boundary - @game.left_boundary) * (0.25 * note_progress),
+               @game.circle_y)
+elsif intent == :west_large
+  execute_move(@game.circle_x - (@game.right_boundary - @game.left_boundary) * (0.50 * note_progress),
+               @game.circle_y)
+end
+** cw word, with "." operator to renam variable
+replaces all instance of distance to cover with world_width
+#+begin_src
+distance_to_cover = (@game.right_boundary - @game.left_boundary)
+
+if intent == :east_small
+    execute_move(starting_x + (distance_to_cover * 0.25).fdiv(note[:total_played_notes]),
+                starting_y)
+elsif intent == :east_large
+    execute_move(starting_x + (distance_to_cover * 0.50).fdiv(note[:total_played_notes]),
+                starting_y)
+elsif intent == :west_small
+    execute_move(starting_x - (distance_to_cover * 0.25).fdiv(note[:total_played_notes]),
+                starting_y)
+elsif intent == :west_large
+    execute_move(starting_x - (distance_to_cover * 0.50).fdiv(note[:total_played_notes]),
+                starting_y)
+elsif intent == :north_small
+    execute_move(starting_x,
+                starting_y + (device_screen_height * 0.25).fdiv(note[:total_played_notes]))
+elsif intent == :north_large
+    execute_move(starting_x,
+                starting_y + (device_screen_height * 0.50).fdiv(note[:total_played_notes]))
+elsif intent == :south_small
+    execute_move(starting_x,
+                starting_y - (device_screen_height * 0.10).fdiv(note[:total_played_notes]))
+elsif intent == :north_east_small
+    execute_move(starting_x + (distance_to_cover * 0.10).fdiv(note[:total_played_notes]),
+                starting_y + (device_screen_height * 0.10).fdiv(note[:total_played_notes]))
+elsif intent == :north_east_large
+    execute_move(starting_x + (distance_to_cover * 0.20).fdiv(note[:total_played_notes]),
+                starting_y + (device_screen_height * 0.20).fdiv(note[:total_played_notes]))
+elsif intent == :north_west_small
+    execute_move(starting_x - (distance_to_cover * 0.10).fdiv(note[:total_played_notes]),
+                starting_y + (device_screen_height * 0.10).fdiv(note[:total_played_notes]))
+elsif intent == :north_west_large
+    execute_move(starting_x - (distance_to_cover * 0.20).fdiv(note[:total_played_notes]),
+                starting_y + (device_screen_height * 0.20).fdiv(note[:total_played_notes]))
+elsif intent == :south_east_small
+    execute_move(starting_x + (distance_to_cover * 0.10).fdiv(note[:total_played_notes]),
+                starting_y - (device_screen_height * 0.10).fdiv(note[:total_played_notes]))
+elsif intent == :south_west_small
+    execute_move(starting_x - (distance_to_cover * 0.10).fdiv(note[:total_played_notes]),
+                starting_y - (device_screen_height * 0.10).fdiv(note[:total_played_notes]))
+end
+#+end_src
+** D, C
+** D, u to copy till to the end of the line
+** g; last edit point
+** diw, X
+Deleting the last word in this list and then remove the extra space at the end
+#+begin_src
+----------------------+
+                      |
+                      |
+                      +  place cursor over the "e": diw, X
+(str to be or not to be)
+#+end_src
+** %s/
+** s with ".*" wild card to make substitution require less typing
+** %s/\n\n//g
+** r + enter, J, V, J (new line fu)
+** shift + v, s/before/after, gv, s/before/after
+** yiw, /searchterm/<enter>, viw, p
+** swapping inside of an if/else statment using visual mode
+** another ctrl+v, c, J manipulation
+before:
+#+begin_src
+em [:nn]
+em [:nn]
+em [:nn]
+em [:nn]
+em [:nn]
+em [:nn]
+em [:nn]
+em [:nn]
+em [:nn]
+em [:ne]
+em [:nn]
+em [:nw]
+em [:nn]
+em [:nn]
+#+end_src
+
+after:
+#+begin_src
+#+end_src
+em [:nn, :nn, :nn, :nn, :nn, :nn, :nn, :nn, :nn, :ne, :nn, :nw, :nn, :nn]
+** ctrl+v, $, A: append value to each line. for example each one of these instance variables should have `.update` called on them
+#+begin_src
+@button_north        =   add_button(center_x,       center_y +  55,           0, 75, 'button_small.png', self)
+@button_norther      =   add_button(center_x,       center_y + 130,           0, 75, 'button.png', self)
+
+@button_north_east   =   add_button(center_x +  75, center_y +  75, -pi.fdiv(4), 75, 'button_small.png', self)
+@button_north_easter =   add_button(center_x + 130, center_y + 130, -pi.fdiv(4), 75, 'button.png', self)
+
+@button_north_west   =   add_button(center_x -  75, center_y +  75,  pi.fdiv(4), 75, 'button_small.png', self)
+@button_north_wester =   add_button(center_x - 130, center_y + 130,  pi.fdiv(4), 75, 'button.png', self)
+
+@button_east         =   add_button(center_x +  55, center_y,       -pi.fdiv(2), 75, 'button_small.png', self)
+@button_easter       =   add_button(center_x + 130, center_y,       -pi.fdiv(2), 75, 'button.png', self)
+
+@button_south        =   add_button(center_x,       center_y -  55,         -pi, 75, 'button_small.png', self)
+
+@button_south_east   =   add_button(center_x +  75, center_y -  75, -3 * pi.fdiv(4), 75, 'button_small.png', self)
+
+@button_south_west   =   add_button(center_x -  75, center_y -  75,  3 * pi.fdiv(4), 75, 'button_small.png', self)
+
+@button_west         =   add_button(center_x -  55, center_y,        pi.fdiv(2), 75, 'button_small.png', self)
+@button_wester       =   add_button(center_x - 130, center_y,        pi.fdiv(2), 75, 'button.png', self)
+#+end_src
+** Figure out an effecient way to do this
+Convert this:
+#+BEGIN_SRC
+:ticks_before_paratroopers_player
+:number_of_paratroopers_to_add_player
+:ticks_before_paratroopers_opponent
+:number_of_paratroopers_to_add_opponent
+#+END_SRC
+
+to this:
+#+BEGIN_SRC ruby
+game.ticks_before_paratroopers_player = hash['ticks_before_paratroopers_player']
+game.number_of_paratroopers_to_add_player = hash['number_of_paratroopers_to_add_player']
+game.ticks_before_paratroopers_opponent = hash['ticks_before_paratroopers_opponent']
+game.number_of_paratroopers_to_add_opponent = hash['number_of_paratroopers_to_add_opponent']
+#+END_SRC
+** Figure out an effecient way to do this
+Change this:
+
+#+begin_src ruby
+puts "eighth note before:    #{closest_eighth_note_before(running_t)}"
+puts "eighth note after:     #{closest_eighth_note_after(running_t)}"
+puts "sixteenth note before: #{closest_sixteenth_note_before(running_t)}"
+puts "sixteenth note after:  #{closest_sixteenth_note_after(running_t)}"
+#+end_src
+
+To this:
+
+#+begin_src ruby
+puts "#{closest_eighth_note_before(running_t)}: closest eighth note before"
+puts "#{closest_eighth_note_after(running_t)}: closest eighth note after"
+puts "#{closest_sixteenth_note_before(running_t)}: closest sixteenth note before"
+puts "#{closest_sixteenth_note_after(running_t)}: closest sixteenth note after"
+#+end_src
+** Figure out an effecient way to do this
+#+begin_src
+def dequeue_note
+  return if @teleporting
+  note = @note_queue.dequeue
+
+  return unless note
+
+  @game_stage.play_forward_sound_thread
+
+  return unless note[:meta] && note[:meta][:intent]
+
+  intent = note[:meta][:intent]
+
+  starting_x = @game.circle_x
+  starting_x = @game.target_x if @game.target_x
+
+  starting_y = @game.circle_y
+  starting_y = @game.target_y if @game.target_y
+
+  world_width = (@game.right_boundary - @game.left_boundary)
+  world_height = @game.world_height
+
+  notes_played = note[:total_played_notes]
+
+  if intent == :east_small
+    execute_move(starting_x + (world_width * 0.25).fdiv(notes_played),
+                 starting_y)
+  elsif intent == :east_large
+    execute_move(starting_x + (world_width * 0.50).fdiv(notes_played),
+                 starting_y)
+  elsif intent == :west_small
+    execute_move(starting_x - (world_width * 0.25).fdiv(notes_played),
+                 starting_y)
+  elsif intent == :west_large
+    execute_move(starting_x - (world_width * 0.50).fdiv(notes_played),
+                 starting_y)
+  elsif intent == :north_small
+    execute_move(starting_x,
+                 starting_y + (world_height * 0.25).fdiv(notes_played))
+  elsif intent == :north_large
+    execute_move(starting_x,
+                 starting_y + (world_height * 0.50).fdiv(notes_played))
+  elsif intent == :south_small
+    execute_move(starting_x,
+                 starting_y - (world_height * 0.0666).fdiv(notes_played))
+  elsif intent == :north_east_small
+    execute_move(starting_x + (world_width * 0.3750).fdiv(notes_played),
+                 starting_y + (world_width * 0.3750).fdiv(notes_played))
+  elsif intent == :north_east_large
+    execute_move(starting_x + (world_width * 0.3750).fdiv(notes_played),
+                 starting_y + (world_width * 0.3750).fdiv(notes_played))
+  elsif intent == :north_west_small
+    execute_move(starting_x - (world_width * 0.3750).fdiv(notes_played),
+                 starting_y + (world_width * 0.3750).fdiv(notes_played))
+  elsif intent == :north_west_large
+    execute_move(starting_x - (world_width * 0.3750).fdiv(notes_played),
+                 starting_y + (world_width * 0.3750).fdiv(notes_played))
+  elsif intent == :south_east_small
+    execute_move(starting_x + (world_width * 0.25).fdiv(notes_played),
+                 starting_y - (world_width * 0.25).fdiv(notes_played))
+  elsif intent == :south_west_small
+    execute_move(starting_x - (world_width * 0.25).fdiv(notes_played),
+                 starting_y - (world_width * 0.25).fdiv(notes_played))
+  elsif intent == :up
+    execute_up
+  end
+end
+#+end_src
+#+begin_src
+def dequeue_note
+  return if @teleporting
+
+  note = @note_queue.dequeue
+
+  return unless note
+
+  @game_stage.play_forward_sound_thread
+
+  intent = note[:meta][:intent]
+
+  return execute_up if intent == :up
+
+  world_width = (@game.right_boundary - @game.left_boundary)
+  world_height = @game.world_height
+
+  targets = {
+    east_small:       { full_x:   (world_width * 0.25)  , full_y:                   0        },
+    east_large:       { full_x:   (world_width * 0.50)  , full_y:                   0        },
+    west_small:       { full_x: - (world_width * 0.25)  , full_y:                   0        },
+    west_large:       { full_x: - (world_width * 0.50)  , full_y:                   0        },
+    north_small:      { full_x:                  0      , full_y:   (world_height * 0.25)    },
+    north_large:      { full_x:                  0      , full_y:   (world_height * 0.50)    },
+    south_small:      { full_x:                  0      , full_y: - (world_height * 0.0666)  },
+    north_east_small: { full_x:   (world_width * 0.3750), full_y:   (world_width  * 0.3750)  },
+    north_east_large: { full_x:   (world_width * 0.3750), full_y:   (world_width  * 0.3750)  },
+    north_west_small: { full_x: - (world_width * 0.3750), full_y:   (world_width  * 0.3750)  },
+    north_west_large: { full_x: - (world_width * 0.3750), full_y:   (world_width  * 0.3750)  },
+    south_east_small: { full_x:   (world_width * 0.25)  , full_y: - (world_width  * 0.25)    },
+    south_west_small: { full_x: - (world_width * 0.25)  , full_y: - (world_width  * 0.25)    }
+  }
+
+  starting_x = @game.target_x || @game.circle_x
+
+  starting_y = @game.target_y || @game.circle_y
+
+  notes_played = note[:total_played_notes]
+
+  execute_move(starting_x + targets[intent][:full_x].fdiv(notes_played),
+               starting_y + targets[intent][:full_y].fdiv(notes_played))
+end
+#+end_src
+** v/searchterm
+** ctrl + v, r to line up code:
+Before
+#+begin_src
+@button_north = add_button(center_x, center_y +  55, 75, self)
+@button_east = add_button(center_x + 55, center_y,       75, self)
+@button_south = add_button(center_x, center_y -  55, 75, self)
+@button_west  = add_button(center_x - 55, center_y,       75, self)
+#+end_src
+After
+#+begin_src
+@button_north      =   add_button(center_x,      center_y +  55, 75, self)
+@button_east       =   add_button(center_x + 55, center_y,       75, self)
+@button_south      =   add_button(center_x,      center_y -  55, 75, self)
+@button_west       =   add_button(center_x - 55, center_y,       75, self)
+#+end_src
+** ctrl+v, C, I and A
+surround world_width * 0.25 in parenthesis and add `.fdiv(intent[:total_progression]) to the end of the surrounded term`
+if intent == :east_small
+  execute_move(@game.circle_x + world_width * 0.25,
+               @game.circle_y)
+elsif intent == :east_large
+  execute_move(@game.circle_x + world_width * 0.50,
+               @game.circle_y)
+elsif intent == :west_small
+  execute_move(@game.circle_x - world_width * 0.25,
+               @game.circle_y)
+elsif intent == :west_large
+  execute_move(@game.circle_x - world_width * 0.50,
+               @game.circle_y)
+end
+** demonsterate all of these in the context of code? http://vimdoc.sourceforge.net/htmldoc/pattern.html
+** evil-surround
+** evil-surround ys/searchterm <enter> value (this can be "dotted")
+* repeats
+
+| intent                | example           | repeat | reverse |
+|-----------------------+-------------------+--------+---------|
+| make a change         |                   | .      | u       |
+| scan line for char    | f / t             | ;      | ,       |
+| scan doc              | /pattern          | n      | N       |
+| substitute            | :s/target/replace | &      | u       |
+| a sequence of changes | qx{changes}q      | @x     | u       |
+
+:%s/target/replace/g    <-- replace globally
+
+| * | search for word under cursor |
+|   |                              |
+
 | v | mark       |
 | d | delete/cut |
 | p | paste      |
 | y | yank/copy  |
 |   |            |
 
-* movement
+* mark location
+
+: m {some letter}
+
+return to that location
+
+: ` {some letter}
+
+jump to line with mark
+
+: ' {some letter}
+
+if ~{some letter}~ is uppercase then jump to buffer  
+
 * cut, copy, paste
 
 ** cut

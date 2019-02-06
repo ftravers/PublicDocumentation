@@ -1,0 +1,77 @@
+How to use git to work successfully in a team.
+
+Lets imagine we have a git repo with a master branch that has two
+commits on it:
+
+#+BEGIN_SRC code
+ea6784e * commit 2 on master
+661ad76 * initial commit
+#+END_SRC
+
+Now image two developers, Fenton and Paul both create a new branch
+each for doing their development work on from the master branch above,
+commit: ea6784e.
+
+Now Fenton does his work on the branch and makes a commit, 33cc543.
+He wants to send his work back to master as quickly as possible, and
+notices no one has committed anything new to master since he branched
+at ea6784e.
+
+He can now checkout master and merge his branch into master.  We
+suggest using the --no-ff flag, which stands for 'no fast forward'.
+
+The repository will now look like the following:
+
+#+BEGIN_SRC code
+d4e70ac *   master Merge branch 'ft-br'
+        |\  
+33cc543 | * ft-br ft commit
+        |/  
+ea6784e * commit 2 on master
+661ad76 * initial commit
+#+END_SRC
+
+Now Paul begins work on his branch, so his branch looks like the
+following: 
+
+#+BEGIN_SRC code
+2186068 * paul-br paul commit
+ea6784e * commit 2 on master
+661ad76 * initial commit
+#+END_SRC		
+
+Now paul wants to get his stuff into master so he should REBASE on top
+of master since Fenton has already put more commits into master since
+Paul branched from master.
+
+So the steps are: 
+(1) from inside Pauls branch rebase on top of master
+
+: git rebase master
+
+This rebase may involve merge conflicts, so you'll have to handle
+those. 
+
+(2) Switch to master
+
+: git checkout master
+
+ (3) merge Paul's branch
+
+: git merge paul-br
+
+After this the repo will look like the following:
+
+#+BEGIN_SRC code
+074027f *   master Merge branch 'paul-br'
+        |\  
+2186068 | * paul-br paul commit
+        |/  
+d4e70ac *   Merge branch 'ft-br'
+        |\  
+33cc543 | * ft-br ft commit
+        |/  
+ea6784e * commit 2 on master
+661ad76 * initial commit
+#+END_SRC
+

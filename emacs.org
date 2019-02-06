@@ -711,7 +711,6 @@ Now lets assign it properly with:
    (local-set-key (kbd "M-k") 'kill-whole-sentence)))
 ```
 
-
 * Workgroups
 
 ** Frequent Use
@@ -1369,3 +1368,12 @@ X	evil-org-delete-previous-char	like X but keep tables and tags aligned
 )	org-backward-sentence	previous cell in table
 {	org-backward-paragraph	beginning of table
 }	org-forward-paragraph	end of table
+* project search and replace
+
+|----------------------------+--------------------------------------------|
+| <SPC>-/                    | start helm silver searcher                 |
+| enter your search text     | search results incrementally appear        |
+| C-c C-e                    | edit search results                        |
+| :%s/find/replace/g <ENTER> | run vim global search/replace in that file |
+| C-c C-c                    | save changes                               |
+|----------------------------+--------------------------------------------|

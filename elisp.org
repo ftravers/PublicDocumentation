@@ -20,7 +20,15 @@ Instrument your function with:
 
 : C-u C-A-x
 
+or put ~(debug)~ in the function definition as a breakpoint.
+
 SPC key to next through statements, result displayed in mini-buffer
+
+: v
+Toggle display of local variables
+
+: d
+Step?
 
 : q
 quit
@@ -55,3 +63,35 @@ Set a variable
 | function        | description                |
 | symbol-function | get definition of function |
 |                 |                            |
+* Function Reference
+** positions
+
+: line-beginning-position
+
+the position of the beginning of the current line
+
+: point-max/point-min
+
+the last/first point (position) in the buffer.
+
+: point
+
+current point position
+* IELM
+
+~C-c C-b~
+
+Can select a buffer to bind the IELM to, so that functions such as
+(point) report the point in that buffer and not the ielm buffer.
+* Command Log Mode
+
+With command log mode, it shows which functions are run.
+
+Install:
+: (use-package command-log-mode)
+
+Enable for current buffer:
+: M-x command-log-mode
+
+Show the log:
+: M-x clm/open-command-log-buffer

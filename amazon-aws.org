@@ -1,0 +1,64 @@
+Connect to EC2 instance:
+
+** EC2 Console
+
+https://aws.amazon.com/console/ > Sign Into Console > All Services >
+Compute: EC2
+
+** Get your Access and Secret Access Keys
+
+https://console.aws.amazon.com/iam/home?#home > Users > [your user] >
+Security Credentials > Create access key
+
+** Get your instance region
+
+Go to EC2 Console, then:
+
+Instances > Instances > Availability Zone
+
+us-east-2b -> us-east-2 (drop the final letter)
+
+** Configure:
+
+#+BEGIN_SRC 
+╭─fenton@archlinux ~/.aws  ‹master*› 
+╰─➤  aws configure
+AWS Access Key ID [None]: AKIAIFQXCHOQS5URLIOA
+AWS Secret Access Key [None]: 4/+NTasdfasdfsdafawer3q2w4rfasdf03
+Default region name [None]: us-east-2
+Default output format [None]: json
+╭─fenton@archlinux ~/.aws  ‹master*› 
+╰─➤  cat config                   
+[default]
+region = us-east-2
+output = json
+╭─fenton@archlinux ~/.aws  ‹master*› 
+╰─➤  cat credentials              
+[default]
+aws_access_key_id = AKIAIFQXCHOQS5URLIOA
+aws_secret_access_key = 4/+NTasdfasdfsdafawer3q2w4rfasdf03
+#+END_SRC
+
+** Get Public DNS Hostname
+
+: $ aws ec2 describe-instances | jq '.Reservations | .[0].Instances | .[0].PublicDnsName'
+
+** Generate SSH key
+
+Go to EC2 Console, then:
+
+Network & Security > Key Pairs > Create Key Pair
+
+Save to somewhere with 400 permissions,
+
+#+BEGIN_SRC 
+╭─fenton@archlinux ~/.aws  ‹master*› 
+╰─➤  ls -al /home/fenton/.ssh/for-amazon.pem                                                             
+-r-------- 1 fenton fenton 1.7K Oct 25 14:51 /home/fenton/.ssh/for-amazon.pem
+#+END_SRC
+
+then use that in your ssh call
+
+** SSH in
+
+: $ ssh -i /home/fenton/.ssh/for-amazon.pem ec2-user@ec2-18-222-210-124.us-east-2.compute.amazonaws.com

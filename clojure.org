@@ -1,3 +1,7 @@
+* References:
+https://cljdoc.org/
+https://crossclj.info/
+
 * CIDER REPL
 
 | Keys    | Meaning                          |
@@ -294,3 +298,134 @@ Nothing shows up in the green underline hightlight devtools, but a
 'Paused in Debugger' overlay is on the webpage.
 
 Not sure what I'm doing wrong
+* vinyasa
+  
+  in ~project.clj~:
+
+#+BEGIN_SRC clojure
+  (defproject abc "1.0"
+    :description "FIXME: write description"
+    :profiles
+    {:dev
+     {:source-paths ["src/clj" "dev"]
+      :dependencies [[im.chit/vinyasa "0.4.7"]]
+      :injections
+      [(require '[vinyasa.inject :as inject])
+       (inject/in ;; the default injected namespace is `.`
+        [clojure.pprint pprint]
+        [clojure.repl apropos dir dir-fn doc find-doc pst root-cause source]
+        [clojure.tools.namespace.repl refresh refresh-all]
+        [dev config]
+        [clojure.java.shell sh])]}})
+#+END_SRC
+ 
+Not sure if above works with CLJS, but in CLJ, you can now do
+~(./refresh)~, as default namespace is ~.~  
+* transducers
+
+We have a data structure like so:
+
+#+BEGIN_SRC clojure
+  (def hand1
+    ({:suit :heart, :rank 12}
+     {:suit :heart, :rank 11}
+     {:suit :heart, :rank 10}
+     {:suit :heart, :rank 9}
+     {:suit :heart, :rank 8}))
+#+END_SRC
+
+And we'd like to create a function that can tell us if this is a
+straight or not.  So here is some pseudo code:
+
+1 - Find out the distinct rank, and count that, if it = 5, then there
+are no duplicate cards.
+
+2 - Find the max and min cards, and ensure their difference is =
+to 4. 
+
+So some clojure code to encapsulate this could be:
+
+#+BEGIN_SRC clojure
+  (defn straight? [cards]
+    (let [ranks (map :ranks cards)]
+      (and
+       (= 5 (count (into #{} ranks)))
+       (= 4 (- (apply max ranks) (apply min ranks))))))
+
+#+END_SRC
+
+** Transduce
+#+BEGIN_SRC clojure
+(transduce xform f coll)
+(transduce xform f init coll)
+#+END_SRC
+
+~f~ should be a reducing step function that accepts both 1 and 2 arguments
+
+If ~init~ is not supplied, ~f~ will be called to produce it.
+
+curl -u "fentontravers" https://api.github.com/repos/mojombo/grit/stats/contributors
+* phraser
+
+given the spec: 
+
+#+BEGIN_SRC clojure
+(s/def ::email
+  (s/and #(re-find #"@" %) #(re-find #"\." %)))
+#+END_SRC
+
+when we run explain-data
+
+#+BEGIN_SRC clojure
+(s/explain-data
+ :arenberg.specs.shared/email
+ "abc")
+;; ... (clojure.core/fn [%] (clojure.core/re-find #"@" %)), ...
+#+END_SRC
+
+we get a predicate clause indicating why the failure
+
+Creating a phraser like:
+
+#+BEGIN_SRC clojure
+(defphraser
+  #(re-find re %)
+  {:via [:arenberg.specs.shared/email]}
+  [_ _ re]
+  (str
+   "Email must include "
+   (do
+     (println (str "re: " re))
+     (case (str/replace (str re) #"/" "")
+       "@" "an ampersand symbol, @."
+       "\\." "a period."
+       (str "dunno blah: " re)))))
+#+END_SRC
+
+and calling it like:
+
+#+BEGIN_SRC clojure
+(phrase-first {} :arenberg.specs.shared/email "abc")
+;; => "must include: an ampersand symbol, @." 
+#+END_SRC
+
+because the ~defphraser~ predicate (the first arg) matches the
+predicate of explain-data AND we said this ~defphraser~ is for the
+~:arenberg.specs.shared/email~ spec, it matches.
+
+Here again is the ~explain-data~ predicate 
+
+: (clojure.core/fn [%] (clojure.core/re-find #"@" %))
+
+and here is the phraser predicate:
+
+: #(re-find re %)
+
+So #"@" gets stuffed into ~re~, and we match on it.  here is another
+output of explain-data (it's predicate part):
+
+: (clojure.core/fn [%] (clojure.core/re-find #"\." %))
+
+so ~re~ gets #"\.", which the phraser function case matches on above.
+
+ 

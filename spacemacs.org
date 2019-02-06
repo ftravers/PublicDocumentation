@@ -47,7 +47,6 @@ sp-clone-sexp
 | p p | open project |
 | p f | project file |
 
-
 * Org Mode 
 Leader Key: SPC a
 

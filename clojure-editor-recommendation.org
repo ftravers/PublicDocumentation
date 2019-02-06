@@ -1,0 +1,16 @@
+| feature      | y/n |
+|--------------+-----|
+| slurp        |     |
+| barf         |     |
+| raise        |     |
+| move up/down |     |
+|              |     |
+
+The winding path to getting the BEST Clojure editor
+
+This post is for people looking for the best editor for clojure. This is
+designed for people who intend to be professional clojure programmers. The
+recommendation is NOT for people learning clojure. Trying to achieve two fairly
+challenging things at once is probably not a good idea.
+
+So what is the criteria that is used?  

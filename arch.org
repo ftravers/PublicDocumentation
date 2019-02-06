@@ -1,5 +1,5 @@
+see: arch-install-notes.org for more up-2-date installation notes!!!!
 * Install
-
 ** Boot install media
 
 https://www.archlinux.org/download/
@@ -20,10 +20,11 @@ USE: /dev/sdx instead of /dev/sdx1
     # ping yahoo.com
 
 *** Wireless
-
-# iwconfig
-# ip link set wlan0 up     # <--- optional
-# wifi-menu wlan0
+# ip link set wlp1s0 down
+# systemctl enable netctl-auto@wlp1s0.service
+# systemctl start netctl-auto@wlp1s0.service
+# systemctl status netctl-auto@wlp1s0.service
+# wifi-menu wlp1s0
 
 ** Hard Disks
 *** Layout
@@ -37,7 +38,6 @@ We'll use sgdisk
     # sgdisk -Z /dev/sdb             # zero out the disk
     # sgdisk -n 1:0:+2m /dev/sdb     # format: <partition #>:<start>:<end>
     # sgdisk -n 2:0:0 /dev/sdb     # a 0 means use default
-    # sgdisk -n 1:0:+2m /dev/sdb
 
 Determine how much ram your system has:
 

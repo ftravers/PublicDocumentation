@@ -1,0 +1,9 @@
+
+: Alt-x erc
+: /join SPC #emacs
+
+to quit:
+
+: /quit
+
+ 

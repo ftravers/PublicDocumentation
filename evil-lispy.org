@@ -1,0 +1,20 @@
+Notes on how to use Evil-Lispy mode.
+
+https://github.com/sp3ctum/evil-lispy
+
+To enter Evil Lispy use: ( or ), C-SPC, <i, or >A.
+
+* vim surround 
+
+|hello world
+
+: ys2w"
+
+"|hello world"
+
+i.e. from inside the double quotes do:
+
+: cs"'
+ 
+'|hello world'
+
