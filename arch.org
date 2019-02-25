@@ -1179,7 +1179,6 @@ add the flag: -m=nokernelcrypto to the truecrypt command.
 
 *** fuse: device not found, try 'modprobe fuse' first
 
-
 * pacman
 
 To list files associated with a package:
@@ -1217,7 +1216,6 @@ modes
 | -M N | must use numeral       |
 | -M C | must use capital       |
 | -M L | must use small letters |
-
 
 
 * wake on lan

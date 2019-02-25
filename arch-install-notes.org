@@ -76,22 +76,60 @@ then regenerate grub config with:
  # grub-mkconfig -o /boot/grub/grub.cfg
 
 * copy ssh
+
+** on old machine
+
+#+BEGIN_SRC 
+╭─fenton@archlinux ~  ‹master*› 
+╰─➤  lsblk
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda      8:0    0 167.7G  0 disk 
+├─sda1   8:1    0   150G  0 part /
+└─sda2   8:2    0  17.7G  0 part 
+sdc      8:32   1  14.9G  0 disk 
+└─sdc1   8:33   1  14.9G  0 part 
+╭─fenton@archlinux ~  ‹master*› 
+╰─➤  sudo mount /dev/sdc1 usb
+╭─fenton@archlinux ~  ‹master*› 
+╰─➤  cp -a .ssh usb
+╭─fenton@archlinux ~  ‹master*› 
+╰─➤  cd usb             
+╭─fenton@archlinux ~/usb  
+╰─➤  git clone ~                                            128 ↵
+Cloning into 'fenton'...
+done.
+╭─fenton@archlinux ~/usb  
+╰─➤  cd ..
+╭─fenton@archlinux ~  ‹master*› 
+╰─➤  sudo umount usb
+#+END_SRC
 mount usb install media on old computer
 cp -a .ssh usb
 
-on new computer
+** on new computer
+: sudo mount /dev/sd?1 usb
+
+where ? above is whatever you get back from ~lsblk~ command.
+
+Install oh-my-zsh
+
+#+BEGIN_SRC 
 cp -a usb/.ssh .
 chmod -R 644 .ssh/*
 cd .ssh
 chmod 600 authorized_keys id_rsa
-
-
 git clone git@github.com:ftravers/arch-home.git
 cp -a arch-home/* .
+cd ~/usb
+cp -a fenton/* ~
+mv .zshrc .zshrc-bak
+ln -s .zshrc-lenovo .zshrc
+#+END_SRC
 
-reboot
+* powerline fonts
+to have a nice terminal prompt follow:
 
-
+https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
 
 * timezone
 
