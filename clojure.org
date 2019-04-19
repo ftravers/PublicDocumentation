@@ -428,4 +428,87 @@ output of explain-data (it's predicate part):
 
 so ~re~ gets #"\.", which the phraser function case matches on above.
 
- 
+* atom editor
+apm install proto-repl ink parinfer lisp-paredit rainbow-delimiters atom-beautify atom-file-icons hasklig
+
+* deps.edn
+
+make a new project, we'll call it ~ds-queue~
+
+#+BEGIN_SRC shell
+cd ~/projects
+mkdir -p ds_queue/{src,test}/ds_queue ds_queue/resources/public
+cd ds_queue
+#+END_SRC
+
+: cat > .dir-locals.el 
+
+#+BEGIN_SRC elisp -n
+((nil . ((cider-default-cljs-repl . figwheel-main)
+         (cider-figwheel-main-default-options . "fe_dev")
+         (cider-clojure-cli-global-options . "-A:dev"))))
+#+END_SRC
+
+: cat > fe_dev.cljs.edn 
+
+#+BEGIN_SRC clojure +n
+{:main ds-queue.core}
+#+END_SRC
+
+: cat > deps.edn
+
+#+BEGIN_SRC clojure +n
+  {:paths ["src" "resources" "target"]
+   :deps {rum {:mvn/version "0.11.3"}}
+   :aliases
+   {:dev {:extra-paths ["test"]
+          :extra-deps
+          {com.bhauman/figwheel-main {:mvn/version "0.2.0"}}}
+    :fig {:main-opts ["-m" "figwheel.main"]}}}
+#+END_SRC
+
+: cat > resources/public/index.html
+
+#+BEGIN_SRC html +n
+  <!DOCTYPE html>
+  <html>
+    <body>
+      <div id="app">
+        App Loading...
+      </div>
+      <script src="cljs-out/fe_dev-main.js" type="text/javascript"></script>
+    </body>
+  </html>
+#+END_SRC
+
+Here line 18 is connected to line 2 and the filename
+~fe_dev.cljs.edn~.  (note run org-preview-html-mode to see line
+numbers.)  
+
+Lines 3 & 8 are connected too.
+
+: cat > src/ds_queue/core.cljs
+
+#+BEGIN_SRC clojure 
+  (ns ds-queue.core
+    (:require
+     [rum.core :refer [defc mount] :as rum]))
+
+  (defc hello []
+    [:div "Hello!"])
+
+  (defn main-page [comp]
+    (mount
+     (comp)
+     (js/document.getElementById "app")))
+
+  (main-page hello)
+#+END_SRC
+
+: cat > .gitignore
+
+#+BEGIN_SRC shell
+target/
+.nrepl-port
+.cpcache
+#+END_SRC

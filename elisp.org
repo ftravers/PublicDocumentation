@@ -15,6 +15,7 @@ sequence, the above function can only be called from other functions.
 : ~abc~
 
 * Debugger
+edebug
 
 Instrument your function with:
 
