@@ -1,0 +1,66 @@
+* Front End Database
+
+We use datascript to store all data for the front end.
+
+** When an Input Field is rendered
+
+We write to the database the function that will validate the input
+field. 
+
+* pub-sub
+
+There is a global message queue.  We publish messages on here when
+something happens that needs to be handled by a different part of the
+system. 
+
+** When an Input Field changes
+
+For example, when an input field is updated, we publish that message
+on the queue.  The message has the format:
+
+#+BEGIN_SRC clojure
+  {:component/id id
+   :data/persist :local
+   :component/value value
+   :component/validation-fn validtn-fn
+   :component/validate true}
+#+END_SRC
+
+** Saving input field values
+
+We have a watcher that looks for messages that have the key/value
+pair: 
+
+: :data/persist true
+
+This will save the value into datascript.
+
+** Validating a field
+
+When we see a message that has the key/value pair:
+
+: :component/validate true
+
+We lookup the component by it's ~id~, and then pull out the value for
+the key: ~:component/validation-fn~.
+
+We call this function with the current value of the component.
+
+
+
+
+
+
+
+
+
+We need a different part of the system to listen for messages that
+have the value:
+
+
+That will save the information under the component key.
+
+When modified, we send a message on the queue with the new value and
+the inputs id.
+
+** 

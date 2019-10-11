@@ -1462,3 +1462,22 @@ $ sudo /etc/init.d/nginx start
 ** non-login & interactive
 Non-login means when you just statup a terminal locally.
 .bashrc
+* Printer
+
+╭─fenton@archlinux ~  ‹master*› 
+╰─➤  lp lawyer-annie-letter.txt 
+lp: Error - No default printer.
+╭─fenton@archlinux ~  ‹master*› 
+╰─➤  lpstat -p -d                                                                                                                 1 ↵
+printer Brother_HL-L2320D_series is idle.  enabled since Sun 28 Oct 2018 11:08:03 AM PDT
+no system default destination
+╭─fenton@archlinux ~  ‹master*› 
+╰─➤  lpoptions -d Brother_HL-L2320D_series
+copies=1 device-uri=usb://Brother/HL-L2320D%20series?serial=U63877F7N819431 finishings=3 job-cancel-after=10800 job-hold-until=no-hold job-priority=50 job-sheets=none,none marker-change-time=0 number-up=1 printer-commands=AutoConfigure,Clean,PrintSelfTestPage printer-info='Brother HL-L2320D series' printer-is-accepting-jobs=true printer-is-shared=false printer-is-temporary=false printer-location printer-make-and-model='Brother HL-L2340D for CUPS ' printer-state=3 printer-state-change-time=1540750083 printer-state-reasons=none printer-type=10522644 printer-uri-supported=ipp://localhost/printers/Brother_HL-L2320D_series
+╭─fenton@archlinux ~  ‹master*› 
+╰─➤  lpq
+Brother_HL-L2320D_series is ready
+no entries
+╭─fenton@archlinux ~  ‹master*› 
+╰─➤  lp lawyer-annie-letter.txt           
+request id is Brother_HL-L2320D_series-13 (1 file(s))
