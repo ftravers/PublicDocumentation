@@ -205,3 +205,22 @@ in order to release libraries into clojars need to have dirs:
 
 ~/.gnupg and ~/.lein 
 * more packages
+* Awesome/conky: show battery, disk full, etc...
+  
+Check you have the right link in 
+
+: /home/fenton/.config/awesome/rc.lua
+
+Ensure the following line is actually pointing to something:
+
+: awful.util.spawn_with_shell("conky -c ~/.conky/left")
+
+* sound
+
+: /home/fenton/.config/awesome/rc.lua
+
+#+BEGIN_SRC lua
+     awful.key({  }, "#122",
+--     function (c) awful.util.spawn_with_shell("amixer -D pulse sset Master 10%-") end,
+       function (c) awful.util.spawn_with_shell("pactl set-sink-volume -10%") end,
+#+END_SRC
