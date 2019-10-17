@@ -64,7 +64,9 @@ Set a variable
 | function        | description                |
 | symbol-function | get definition of function |
 |                 |                            |
+
 * Function Reference
+
 ** positions
 
 : line-beginning-position
@@ -78,6 +80,7 @@ the last/first point (position) in the buffer.
 : point
 
 current point position
+
 * IELM
 
 ~C-c C-b~
@@ -96,3 +99,4 @@ Enable for current buffer:
 
 Show the log:
 : M-x clm/open-command-log-buffer
+

@@ -1209,8 +1209,6 @@ for one doc at a time (blech!). :(
     C-h i
 
 
-
-
 * Org Mode
 ** Common
 
@@ -1376,3 +1374,4 @@ X	evil-org-delete-previous-char	like X but keep tables and tags aligned
 | :%s/find/replace/g <ENTER> | run vim global search/replace in that file |
 | C-c C-c                    | save changes                               |
 |----------------------------+--------------------------------------------|
+

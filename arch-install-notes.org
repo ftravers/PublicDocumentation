@@ -164,16 +164,20 @@ download, unzip, drop in /bin
 ** yaourt
 Below might be all you have to do
 
-yaourt brother-hll2340dw
+: yaourt brother-hll2340dw
 
 Ensure cups is installed.
+
+: sudo systemctl enable org.cups.cupsd.service
 
 Go to admin and add printer:
 
 http://localhost:631
 
 ** otherwise
+
 The below may or may not help at all.
+
 : sudo pacman -S rpmextract
 
 download lpr and cups hll2320d rpm wrapped drivers from brothers
