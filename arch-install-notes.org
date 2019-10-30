@@ -151,7 +151,7 @@ it needs.
 
 : ln -s .Xresources-* .Xresources
 
-sudo pacman -S xcape autocutsel conky
+sudo pacman -S xcape autocutsel conky rxvt-unicode
 
 * powerline fonts
 to have a nice terminal prompt follow:
