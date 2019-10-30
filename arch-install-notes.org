@@ -12,7 +12,10 @@ set type with ~t~.  83 = linux, 82 = swap.  1,2 are linux, 3 is swap.
 * mkfs.ext4 /dev/sda1 & /dev/sda2
 * mkswap /dev/sda3; swapon /dev/sda3
 * mount /dev/sda1 /mnt
-* pacstrap /mnt base
+* pacstrap /mnt base linux linux-firmware
+* fstab
+
+: genfstab -U /mnt >> /mnt/etc/fstab
 * arch-chroot /mnt
 * packages
  + add archlinuxfr repo to /etc/pacman.conf
@@ -41,8 +44,9 @@ datomic
 #+END_SRC
 
 * grub
- + grub-mkconfig -o /boot/grub/grub.cfg
+
  + grub-install --target=i386-pc /dev/sda 
+ + grub-mkconfig -o /boot/grub/grub.cfg
  + exit; umount /mnt; reboot
 
 remove USB boot media
@@ -125,6 +129,20 @@ cp -a fenton/* ~
 mv .zshrc .zshrc-bak
 ln -s .zshrc-lenovo .zshrc
 #+END_SRC
+
+* get new home dir
+
+Once computer is connected do:
+
+#+BEGIN_SRC 
+git clone git@github.com:ftravers/home-dir.git
+cd home-dir
+cp * .* ..
+#+END_SRC
+
+Fire up emacs and see that it downloads and installs all the packages
+it needs.
+
 
 * powerline fonts
 to have a nice terminal prompt follow:
