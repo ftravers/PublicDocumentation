@@ -1375,3 +1375,5 @@ X	evil-org-delete-previous-char	like X but keep tables and tags aligned
 | C-c C-c                    | save changes                               |
 |----------------------------+--------------------------------------------|
 
+* Two Window open from ediff session
+Mod-Shift-c while having ediff control window open to kill via awesome.
