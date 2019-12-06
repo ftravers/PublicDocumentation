@@ -1377,3 +1377,18 @@ X	evil-org-delete-previous-char	like X but keep tables and tags aligned
 
 * Two Window open from ediff session
 Mod-Shift-c while having ediff control window open to kill via awesome.
+* Open file as root, (tramp)
+
+using ivy
+
+: /sudo::/ 
+
+(the rest of the path will autocomplete).  You can also tramp to
+another system with: 
+
+: /sudo:root@archlinux:/
+
+or
+
+: /ssh:root@archlinux:/
+
