@@ -367,6 +367,10 @@ If ~init~ is not supplied, ~f~ will be called to produce it.
 curl -u "fentontravers" https://api.github.com/repos/mojombo/grit/stats/contributors
 * phraser
 
+~deps.edn:~ 
+
+: phrase {:mvn/version "0.3-alpha4"}
+  
 given the spec: 
 
 #+BEGIN_SRC clojure
@@ -511,4 +515,27 @@ Lines 3 & 8 are connected too.
 target/
 .nrepl-port
 .cpcache
+#+END_SRC
+* spectre
+
+#+BEGIN_SRC clojure
+  (setval)
+
+(transform ALL inc [1 2 3])
+
+;; path example
+;; begin with following data:
+(def data [{:a 1}
+           {:b 2}])
+
+;; ALL ==>
+{:a 1}
+{:b 2}
+
+;; MAP-VALS ==>
+1 2
+
+;; 
+
+;; (transform [ALL] inc [[1 2 3] [4 5 6]])
 #+END_SRC

@@ -14,42 +14,160 @@ sequence, the above function can only be called from other functions.
 
 : ~abc~
 
-* Debugger
-edebug
+* Debugger EDebug
 
-Instrument your function with:
+Instrument your function with the function
 
-: C-u C-A-x
+: edebug-eval-top-level-form
 
-or put ~(debug)~ in the function definition as a breakpoint.
+| SPC | (step) move through sexp's, result displayed in mini-buffer |
+| n   | (next)                                                      |
+|     |                                                             |
 
-SPC key to next through statements, result displayed in mini-buffer
 
-: v
-Toggle display of local variables
 
-: d
-Step?
 
-: q
-quit
+SPC             edebug-step-mode
+-               negative-argument
+=               edebug-temp-display-freq-count
+?               edebug-help
+B               edebug-next-breakpoint
+C               edebug-Continue-fast-mode
+E               edebug-visit-eval-list
+G               edebug-Go-nonstop-mode
+I               edebug-instrument-callee
+P               edebug-view-outside
+Q               edebug-top-level-nonstop
+S               edebug-stop
+T               edebug-Trace-fast-mode
+W               edebug-toggle-save-windows
+X               edebug-set-global-break-condition
+a               abort-recursive-edit
+b               edebug-set-breakpoint
+c               edebug-continue-mode
+d               edebug-backtrace
+e               edebug-eval-expression
+f               edebug-forward-sexp
+g               edebug-go-mode
+h               edebug-goto-here
+i               edebug-step-in
+n               edebug-next-mode
+o               edebug-step-out
+p               edebug-bounce-point
+q               top-level
+r               edebug-previous-result
+t               edebug-trace-mode
+u               edebug-unset-breakpoint
+v               edebug-view-outside
+w               edebug-where
+x               edebug-set-conditional-breakpoint
+DEL             backward-delete-char-untabify
+<emacs-state>   Prefix Command
+<intercept-state>               all
+<normal-state>                  Prefix Command
+<visual-state>                  Prefix Command
 
-: h - go Here
-here. move to where you want emacs to stop (like breakpoint), press
-'h' and when code hits that spot it will stop there.
+<emacs-state> ,                 hydra-edebug-comma/body
+<emacs-state> i                 edebug-step-in
+<emacs-state> n                 edebug-step-mode
+<emacs-state> o                 edebug-step-out
+<emacs-state> q                 top-level
 
-: g - go
-evaluate to the end of the function without quitting
+<visual-state> ,                hydra-edebug-comma/body
+<visual-state> i                edebug-step-in
+<visual-state> n                edebug-step-mode
+<visual-state> o                edebug-step-out
+<visual-state> q                top-level
 
-: b
-breakpoint
+<normal-state> ,                hydra-edebug-comma/body
+<normal-state> i                edebug-step-in
+<normal-state> n                edebug-step-mode
+<normal-state> o                edebug-step-out
+<normal-state> q                top-level
 
-: G
-go, dont stop at breakpoints
+C-c C-c         edebug-go-mode
+C-c C-d         edebug-unset-breakpoint
+C-c C-l         edebug-where
+C-c C-n         edebug-next-mode
+C-c C-s         edebug-step-mode
+C-c C-t         ??
 
-: i
-go into sub-function. remains instrumented. re-eval func to
-un-instrument.
+C-x C-a         Prefix Command
+C-x C-e         edebug-eval-last-sexp
+C-x SPC         edebug-set-breakpoint
+
+C-M-i           completion-at-point
+C-M-q           indent-pp-sexp
+C-M-x           eval-defun
+
+C-M-q           indent-sexp
+  (that binding is currently shadowed by another mode)
+
+C-M-q           prog-indent-sexp
+  (that binding is currently shadowed by another mode)
+
+C-x C-a C-c     edebug-go-mode
+C-x C-a C-l     edebug-where
+C-x C-a RET     edebug-set-initial-mode
+C-x C-a C-n     edebug-next-mode
+C-x C-a C-s     edebug-step-mode
+
+
+
+Global commands prefixed by ‘global-edebug-prefix’:
+key             binding
+---             -------
+
+SPC             edebug-step-mode
+=               edebug-display-freq-count
+C               edebug-Continue-fast-mode
+G               edebug-Go-nonstop-mode
+Q               edebug-top-level-nonstop
+T               edebug-Trace-fast-mode
+W               edebug-toggle-save-windows
+X               edebug-set-global-break-condition
+a               abort-recursive-edit
+b               edebug-set-breakpoint
+c               edebug-continue-mode
+g               edebug-go-mode
+q               top-level
+t               edebug-trace-mode
+u               edebug-unset-breakpoint
+w               edebug-where
+x               edebug-set-conditional-breakpoint
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+| i (into) | step into function call                              |
+| o        | step out                                             |
+|          |                                                      |
+
+
+| v           | toggle local variables                               |
+| q           | quit                                                 |
+| g (go)      | go to end of func without quitting                   |
+| h (go here) | breakpoint to where cursor is                        |
+| b           | set breakpoint here                                  |
+| G           | go and dont stop at breakpoints                      |
+
+re-eval function to uninstrument it
 
 https://www.youtube.com/watch?v=odkYXXYOxpo
 
@@ -100,3 +218,10 @@ Enable for current buffer:
 Show the log:
 : M-x clm/open-command-log-buffer
 
+* Unit Tests
+can run:
+
+ , t t
+ 
+in either the impl file or test file and should run the tests that are
+loaded

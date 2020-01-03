@@ -1467,3 +1467,12 @@ to something more descriptive if you want.
 ** Rebase on latest master
 
     git rebase master
+* how to create pull request, or work on others repos
+ - Find a project you want to contribute to
+ - Fork it
+ - Clone it to your local system
+ - Make a new branch
+ - Make your changes
+ - Push it back to your repo
+ - Click the Compare & pull request button
+ - Click Create pull request to open a new pull request
