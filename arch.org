@@ -307,6 +307,11 @@ Enable multilib in /etc/pacman.conf
     $ sudo systemctl enable ntpd
     $ sudo systemctl start ntpd
 
+Secure ssh as follows:
+
+: /etc/ssh/sshd_config
+
+
 SSH into the machine from your other machine so have cut and paste,
 etc... 
 

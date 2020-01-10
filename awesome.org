@@ -1,3 +1,11 @@
+* Sigil Meanings
+
+| ▪ | sticky          |
+| ✈ | floating        |
+| ⇔ | maximized horiz |
+| ⇳ | max vert        |
+| ‸ | on top          |
+
 * Basics
 
 All commands below must also use the Windows Key

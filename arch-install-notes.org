@@ -151,22 +151,19 @@ it needs.
 
 : ln -s .Xresources-* .Xresources
 
-sudo pacman -S xcape autocutsel conky rxvt-unicode
+sudo pacman -S xcape autocutsel conky rxvt-unicode ntp pkgfile
 
-* powerline fonts
-to have a nice terminal prompt follow:
+Link one of the .zshrc-* files
 
-https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
-
-* timezone
-
-* copy edit awesome config
+: ln -s .zshrc-dell .zshrc
 
 * copy/edit rc.lua awesome config file.
 ** set terminal to terminator
-**  comment out floating in layouts
-
+** comment out floating in layouts
+* timezone
+: sudo timedatectl set-timezone America/Vancouver
 * locale
+
 sudo vi /etc/locale.gen
 uncomment: 
 
@@ -175,13 +172,22 @@ en_US ISO-8859-1
 en_US.UTF-8 UTF-8
 #+END_SRC
 
+AS ROOT DO:
+
 #+BEGIN_SRC 
 ╭─fenton@archlinux ~  ‹master*› 
-╰─➤  cat /etc/locale.conf
+╰─➤  cat > /etc/locale.conf
 LANG=en_US.UTF-8
 #+END_SRC
 
 : # sudo locale-gen
+# systemctl enable ntpd.service
+
+* --------------------------
+* powerline fonts
+to have a nice terminal prompt follow:
+
+https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
 
 * lumo
 download, unzip, drop in /bin
