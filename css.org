@@ -1,2 +1,34 @@
 * Grid Layout
 
+** grid columns
+
+How columns are numbered.  Start with one (1), and number where the
+columns meet.
+
+  | abc | def | ghi |
+  |     |     |     |
+  ^     ^     ^     ^
+  1     2     3     4
+
+
+To have a column span all three columns, like so:
+ 
+  |       abc       |
+  |     |     |     |
+  ^     ^     ^     ^
+  1     2     3     4
+  
+Lets say the div has a class called title, you would specify:
+
+#+BEGIN_SRC clojure 
+  [:.title
+   {:grid-column-start "1" 
+    :grid-column-end "4"}]
+#+END_SRC
+
+or a shorthand:
+
+#+BEGIN_SRC clojure 
+  [:.title
+   {:grid-column "1 / 4"}]
+#+END_SRC

@@ -1208,7 +1208,6 @@ for one doc at a time (blech!). :(
     A-x info RET
     C-h i
 
-
 * Org Mode
 ** Common
 
