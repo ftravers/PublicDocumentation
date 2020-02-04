@@ -207,6 +207,10 @@ Go to admin and add printer:
 
 http://localhost:631
 
+The above should be sufficient...i got it to work i think without
+downloading the rpm's below..., but i may have installed the rpm's
+months ago...dunno.
+
 ** otherwise
 
 The below may or may not help at all.
