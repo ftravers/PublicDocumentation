@@ -367,6 +367,10 @@ If ~init~ is not supplied, ~f~ will be called to produce it.
 curl -u "fentontravers" https://api.github.com/repos/mojombo/grit/stats/contributors
 * phraser
 
+~deps.edn:~ 
+
+: phrase {:mvn/version "0.3-alpha4"}
+  
 given the spec: 
 
 #+BEGIN_SRC clojure
@@ -512,4 +516,53 @@ target/
 .nrepl-port
 .cpcache
 #+END_SRC
+<<<<<<< HEAD
 * reagent/reframe
+=======
+* spectre
+
+#+BEGIN_SRC clojure
+  (setval)
+
+(transform ALL inc [1 2 3])
+
+;; path example
+;; begin with following data:
+(def data [{:a 1}
+           {:b 2}])
+
+;; ALL ==>
+{:a 1}
+{:b 2}
+
+;; MAP-VALS ==>
+1 2
+
+;; 
+
+;; (transform [ALL] inc [[1 2 3] [4 5 6]])
+#+END_SRC
+* postmodern - logging
+
+#+BEGIN_SRC clojure
+  ;; deps.edn
+  postmortem {:mvn/version "0.2.0"}
+
+  ;; require
+  (:require [postmortem.core :as pm]
+            [postmortem.xforms :as xf])
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  (defn abc [x y]
+    (pm/dump :abc-log (xf/take-last 2))
+    (+ x y))
+
+  (abc 1 2)
+
+  (pm/log-for :abc-log)
+#+END_SRC
+* reframe
+
+
+>>>>>>> 33303d68a1a5e28f3768cf3fd36b3f047f557db0
