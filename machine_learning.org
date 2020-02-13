@@ -1,0 +1,12 @@
+
+* system setup
+
+https://neanderthal.uncomplicate.org/articles/getting_started.html
+
+
+: yaourt aur/intel-mkl-slim
+
+The non-slim variety of above dies, maybe because /tmp 4g drive got
+full with an tgz extraction?
+
+: yaourt intel-opencl-sdk

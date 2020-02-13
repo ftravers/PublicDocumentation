@@ -1,0 +1,172 @@
+clojurescript garden css
+
+** Alignment/Justification
+Justify is right/left <->
+Align is up/down ^v
+
+Then you have: items, contents, self.
+
+When the entire grid is smaller than the space for the grid container,
+use justify-content
+
+Both justify-self and align-self are analogous to the equivalent
+properties available on the container (justify-items and align-items),
+but they apply on specific items that should be positioned differently
+than the rest of the grid items.
+
+The align-items property sets the align-self property for all of the
+child grid items. This means that you can set the property
+individually, by using align-self on a grid item. 
+
+** difficult selectors
+
+You can make selectors a string if you can't figure out how to specify
+them as a keyword.
+
+CSS:
+
+#+BEGIN_SRC css
+::placeholder {
+  color: red;
+}
+#+END_SRC
+
+garden:
+
+#+BEGIN_SRC clojure
+  ["::placeholder"
+   {:color "red"}]
+#+END_SRC
+
+** basic html element
+
+HTML:
+#+BEGIN_SRC html
+<p>ABC</p>
+#+END_SRC
+
+CSS:
+
+#+BEGIN_SRC css
+p {
+  color: red;
+}
+#+END_SRC
+
+garden equivalent:
+
+#+BEGIN_SRC clojure
+  [:p {:color "red"}]
+#+END_SRC
+
+** class selector
+
+HTML:
+
+#+BEGIN_SRC html
+<div class="container">blah</div>
+#+END_SRC
+
+CSS:
+
+#+BEGIN_SRC css
+.container {
+  display: grid | inline-grid;
+}
+#+END_SRC
+
+garden: 
+
+#+BEGIN_SRC clojure
+:.container {:display "grid"}
+#+END_SRC
+
+** class selectors on specific elements
+
+HTML:
+
+#+BEGIN_SRC html
+<input class="invalid" value="blah">
+#+END_SRC
+
+CSS:
+
+#+BEGIN_SRC css
+input.invalid {
+  color: red;
+}
+#+END_SRC
+
+garden:
+
+#+BEGIN_SRC clj
+[:input.invalid {:color "red"}]
+#+END_SRC
+
+
+** Pseudo Class selectors (hover, etc)
+
+HTML:
+
+#+BEGIN_SRC html
+<a>hover over me!</a>
+#+END_SRC
+
+CSS:
+
+#+BEGIN_SRC css
+  a:hover {
+  color: red;
+  }
+#+END_SRC
+
+garden:
+
+#+BEGIN_SRC clj
+[:a:hover {:color "red"}]
+#+END_SRC
+
+
+** 
+
+
+
+** 
+
+HTML:
+
+#+BEGIN_SRC html
+
+#+END_SRC
+
+CSS:
+
+#+BEGIN_SRC css
+
+#+END_SRC
+
+garden:
+
+#+BEGIN_SRC clj
+
+#+END_SRC
+
+** 
+
+HTML:
+
+#+BEGIN_SRC html
+
+#+END_SRC
+
+CSS:
+
+#+BEGIN_SRC css
+
+#+END_SRC
+
+garden:
+
+#+BEGIN_SRC clj
+
+#+END_SRC
