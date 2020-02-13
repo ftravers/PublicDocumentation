@@ -4,9 +4,38 @@
 https://neanderthal.uncomplicate.org/articles/getting_started.html
 
 
-: yaourt aur/intel-mkl-slim
+: yaourt intel-mkl-slim
 
 The non-slim variety of above dies, maybe because /tmp 4g drive got
 full with an tgz extraction?
 
 : yaourt intel-opencl-sdk
+
+* Learning
+
+** Dragan Rocks
+
+** 7 Gate
+
+* Notes
+
+** Linear Regression - AKA least squares
+
+** Linearly Separable
+
+You can draw a line between two sets of data
+
+** KNN - x nearest neighbors
+just save all the data into the database and future queries lookup to
+closest value and k neighbours to figure out what answer should be.
+
+** Cross Validation
+
+Shuffle the dataset randomly.
+Split the dataset into k groups
+For each unique group:
+Take the group as a hold out or test data set
+Take the remaining groups as a training data set
+Fit a model on the training set and evaluate it on the test set
+Retain the evaluation score and discard the model
+Summarize the skill of the model using the sample of model evaluation scores
