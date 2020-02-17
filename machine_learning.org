@@ -11,12 +11,10 @@ full with an tgz extraction?
 
 : yaourt intel-opencl-sdk
 
-* Learning
+* Dragan Rocks
 
-** Dragan Rocks
-
-** 7 Gate
-*** pre-start links
+* 7 Gate
+** pre-start links
 [[https://www.youtube.com/playlist?list=PLAwxTw4SYaPl0N6-e1GvyLp5-MUMUjOKo
 ][youtube 1]]
 [[https://www.youtube.com/playlist?list=PLAwxTw4SYaPl0N6-e1GvyLp5-MUMUjOKo
