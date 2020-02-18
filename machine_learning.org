@@ -9,7 +9,6 @@ dont know about following:
 
 : yaourt intel-opencl-sdk
 
-<<<<<<< HEAD
 ** GPU
 
 https://wiki.archlinux.org/index.php/GPGPU
@@ -57,13 +56,6 @@ mrows
 Returns the number of rows of the matrix `a`.
 
 
-* 7 Gate
-*** pre-start links
-[[https://www.youtube.com/playlist?list=PLAwxTw4SYaPl0N6-e1GvyLp5-MUMUjOKo
-=======
-* Dragan Rocks
-
-https://neanderthal.uncomplicate.org/articles/getting_started.html
 * 7 Gate
 ** pre-start links
 *** TODO [[https://www.youtube.com/playlist?list=PLAwxTw4SYaPl0N6-e1GvyLp5-MUMUjOKo
