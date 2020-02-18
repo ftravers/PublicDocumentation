@@ -31,30 +31,6 @@ https://dragan.rocks/
 
 https://neanderthal.uncomplicate.org/articles/tutorial_native.html
 
-** functions
-*** uncomplicate.neanderthal.native
-    
-dge rows columns
-Creates a GE matrix using double precision floating point native CPU engine
-
-dv
-Creates a vector using double precision floating point native CPU engine
-
-*** uncomplicate.neanderthal.core
-mv! - Matrix-Vector multiplication
-(mv! t (col a i) y)
-Multiplies matrix t, by vector (col a i), and adds it to vector y.
-
-mm! - matrix-matrix multiplication
-(mm! t a b)
-Multiply matrix a by b.  Scale by t.
-
-ncols
-Returns the number of columns of the matrix `a`.
-
-mrows
-Returns the number of rows of the matrix `a`.
-
 
 * 7 Gate
 ** pre-start links
@@ -132,9 +108,48 @@ Fit a model on the training set and evaluate it on the test set
 Retain the evaluation score and discard the model
 Summarize the skill of the model using the sample of model evaluation scores
 ** Bias 
+
 High bias means more error in your predictions.
 
 ** Inference
 For now, though, we are only dealing with inference, the process of
 computing the output using the given structure, input, and whatever
 weights there are.
+
+* functions
+** uncomplicate.neanderthal.native
+    
+dge rows columns
+Creates a GE matrix using double precision floating point native CPU engine
+
+dv
+Creates a vector using double precision floating point native CPU engine
+
+** uncomplicate.neanderthal.core
+(axpy! alpha x y): a times x plus y destructive.
+multiplies elements of vector/matrix ~x~ by scalar ~alpha~, then adds
+the result to vector/matrix ~y~.
+
+mm! - matrix-matrix multiplication
+(mm! t a b)
+(mm! t a b c)
+Multiply matrix a by b.  Scale by t. Put result into one of a/b
+whichever is the GE matrix.  If ~c~ is supplied result is put there.
+
+(mrows a)
+Returns the number of rows of the matrix ~a~.
+
+mv! - Matrix-Vector multiplication
+(mv! m1 x1 y)
+Multiplies matrix ~m1~, by vector ~x1~, and adds it to vector ~y~.
+
+(ncols a)
+Returns the number of columns of the matrix ~a~.
+
+
+** uncomplicate.neanderthal.vect-math
+
+fmax - keep max value of each pair from 2 vectors
+  (let [v1 (dv [1 2 3])
+        v2 (dv [0 2 7])]
+    (fmax v1 v2)) ;; => [1.00 2.00 7.00]
