@@ -26,14 +26,26 @@ Server = http://repo.archlinux.fr/$arch
 
 pacman -Syy
 
+** Bare Bones
+
 #+BEGIN_SRC 
-pacman -S iw wpa_supplicant dialog grub wpa_actiond xorg (maybe
-something slimmer like just xserver) awesome emacs jdk8_openjdk clojure
- xorg-xinit xterm xf86-video-intel chromium firefox zsh sudo
-openssh rxvt-unicode ttf-dejavu alsa-utils conky base-devel git unzip
-autocutsel nodejs npm net-tools pkgfile vlc cups cups-pdf ifplugd slim maven
-the_silver_searcher
+pacman -S iw wpa_supplicant dialog grub xorg awesome emacs 
+pacman -S xorg-xinit xterm xf86-video-intel chromium zsh sudo 
+pacman -S rxvt-unicode base-devel git unzip autocutsel net-tools pkgfile  ifplugd slim
 #+END_SRC
+
+** other packages
+   #+BEGIN_SRC 
+openssh 
+ ttf-dejavu 
+alsa-utils conky 
+firefox 
+jdk8_openjdk clojure
+vlc cups cups-pdf
+nodejs npm 
+maven
+the_silver_searcher
+   #+END_SRC
 
 
 yaourt need signatures...

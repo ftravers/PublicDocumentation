@@ -459,6 +459,8 @@ cd ds_queue
 {:main ds-queue.core}
 #+END_SRC
 
+{:main ml.core}
+
 : cat > deps.edn
 
 #+BEGIN_SRC clojure +n
@@ -486,8 +488,8 @@ cd ds_queue
 #+END_SRC
 
 Here line 18 is connected to line 2 and the filename
-~fe_dev.cljs.edn~.  (note run org-preview-html-mode to see line
-numbers.)  
+~fe_dev.cljs.edn~.  
+(note run org-preview-html-mode to see line numbers.)  
 
 Lines 3 & 8 are connected too.
 
@@ -516,7 +518,11 @@ target/
 .nrepl-port
 .cpcache
 #+END_SRC
-<<<<<<< HEAD
+
+Test with:
+
+: clj -A:dev:fig -b fe_dev -r
+
 * reagent/reframe
 =======
 * spectre
