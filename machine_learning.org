@@ -1,9 +1,5 @@
-
 * system setup
-
-https://neanderthal.uncomplicate.org/articles/getting_started.html
-
-
+  
 : yaourt intel-mkl-slim
 
 The non-slim variety of above dies, maybe because /tmp 4g drive got
@@ -13,6 +9,7 @@ dont know about following:
 
 : yaourt intel-opencl-sdk
 
+<<<<<<< HEAD
 ** GPU
 
 https://wiki.archlinux.org/index.php/GPGPU
@@ -63,38 +60,46 @@ Returns the number of rows of the matrix `a`.
 * 7 Gate
 *** pre-start links
 [[https://www.youtube.com/playlist?list=PLAwxTw4SYaPl0N6-e1GvyLp5-MUMUjOKo
-][youtube 1]]
-[[https://www.youtube.com/playlist?list=PLAwxTw4SYaPl0N6-e1GvyLp5-MUMUjOKo
-][youtube 2 - first 18 videos]]
+=======
+* Dragan Rocks
 
-The Harvard CS109 class of 2015 has [[https://cs109.github.io/2015/pages/videos.html][hands-on examples]] of the above
-concepts. Work on things you may have not fully grasped with the below
-material
+https://neanderthal.uncomplicate.org/articles/getting_started.html
+* 7 Gate
+** pre-start links
+*** TODO [[https://www.youtube.com/playlist?list=PLAwxTw4SYaPl0N6-e1GvyLp5-MUMUjOKo
+>>>>>>> 5d4bf6d1d94ac9490e0226911650eb1ffde92093
+][youtube 1]]
+*** TODO [[https://www.youtube.com/playlist?list=PLAwxTw4SYaPl0N6-e1GvyLp5-MUMUjOKo][youtube 2 - first 18 videos]]
+
+*** TODO The Harvard CS109 class of 2015 
+has [[https://cs109.github.io/2015/pages/videos.html][hands-on examples]] of the above concepts. Work on things you may
+have not fully grasped with the below material
 
 The following sessions address the general tooling such as using the command line,
 Python (NumPy, Matplotlib, Pandas, Seaborn), Jupyter Notebooks, Git (and GitHub),
 and sending HTTP requests. You must be comfortable with these before attending
 the classes. The following sessions may assist that:
 
-a. [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=e15f221c-5275-4f7f-b486-759a7d483bc8][Lab1 about Jupyter and Git]] 
+*** TODO a. [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=e15f221c-5275-4f7f-b486-759a7d483bc8][Lab1 about Jupyter and Git]] 
 
 (Note that Jupyter Notebook has evolved into
 Jupyter Lab since the sessions were recorded and we will be using the latter
-in the class. [[https://nbviewer.jupyter.org/github/johannesgiorgis/school_of_ai_vancouver/blob/master/intro_to_data_science_tools/01_introduction_to_conda_and_jupyter_notebooks.ipynb][A more updated introductory source is available here]])
+in the class.
+*** TODO [[https://nbviewer.jupyter.org/github/johannesgiorgis/school_of_ai_vancouver/blob/master/intro_to_data_science_tools/01_introduction_to_conda_and_jupyter_notebooks.ipynb][A more updated introductory source is available here]])
 
-b. [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=f7ff1893-fbf7-4909-b44e-12e61a98a677][Lecture 2 for Pandas]] (scraping part optional)
+*** TODO b. [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=f7ff1893-fbf7-4909-b44e-12e61a98a677][Lecture 2 for Pandas]] (scraping part optional)
 
-c. [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=f8a832cb-56e7-401b-b485-aec3c9928069][Lecture 4 Databases]]
+*** TODO c. [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=f8a832cb-56e7-401b-b485-aec3c9928069][Lecture 4 Databases]]
 
 2. The following sessions are concept refreshers on cohort prerequisites:
 
-a. [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=8af4418a-7f5b-4738-9c72-6fc2ba1fc499][Lab 3: Probability and distributions]]
+*** TODO a. [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=8af4418a-7f5b-4738-9c72-6fc2ba1fc499][Lab 3: Probability and distributions]]
 
-b. [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=afe70053-b8b7-43d3-9c2f-f482f479baf7][Lecture 7: Bias]]
+*** TODO b. [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=afe70053-b8b7-43d3-9c2f-f482f479baf7][Lecture 7: Bias]]
 
-c. Lab 4 on Regression [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=483c8b93-3700-4ee8-80ed-aad7f3da7ac2][video]] and [[https://github.com/cs109/2015lab][notebook]]
+*** TODO c. Lab 4 on Regression [[https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=483c8b93-3700-4ee8-80ed-aad7f3da7ac2][video]] and [[https://github.com/cs109/2015lab][notebook]]
 
-Step 3: Data Science Presentations
+*** TODO Step 3: Data Science Presentations
 Study [[https://drive.google.com/drive/folders/1e3OYZn_0VAGLEClJYJZ0OoJvy6Qj-dsi][academy’s pre-course presentations]] and make sure you search online for any
 concepts that you are not familiar with.
 
@@ -120,3 +125,19 @@ Take the remaining groups as a training data set
 Fit a model on the training set and evaluate it on the test set
 Retain the evaluation score and discard the model
 Summarize the skill of the model using the sample of model evaluation scores
+** Bias 
+High bias means more error in your predictions.
+* jupyter, python, etc
+
+Start Jupyter Lab:
+
+: jupyter-lab 
+
+** python: numpy, matplotlib, pandas, seaborn
+
+#+BEGIN_SRC python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+#+END_SRC
