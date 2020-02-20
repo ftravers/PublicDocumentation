@@ -131,10 +131,12 @@ multiplies elements of vector/matrix ~x~ by scalar ~alpha~, then adds
 the result to vector/matrix ~y~.
 
 mm! - matrix-matrix multiplication
-(mm! t a b)
-(mm! t a b c)
-Multiply matrix a by b.  Scale by t. Put result into one of a/b
+(mm! alpha a b)
+(mm! alpha a b c)
+(mm! alpha a b beta c)
+Multiply matrix a by b.  Scale by alpha. Put result into one of a/b
 whichever is the GE matrix.  If ~c~ is supplied result is put there.
+If scalar ~beta~ is supplied first scale ~c~ by it. 
 
 (mrows a)
 Returns the number of rows of the matrix ~a~.
@@ -146,6 +148,10 @@ Multiplies matrix ~m1~, by vector ~x1~, and adds it to vector ~y~.
 (ncols a)
 Returns the number of columns of the matrix ~a~.
 
+rk!
+(rk! alpha x y a)
+Multiplies vector ~x~ with transposed vector ~y~, scales resulting matrix
+by ~alpha~, add result to ~a~.
 
 ** uncomplicate.neanderthal.vect-math
 
