@@ -73,6 +73,11 @@ Retain the evaluation score and discard the model
 Summarize the skill of the model using the sample of model evaluation scores
 ** Bias 
 High bias means more error in your predictions.
+** Cost/Loss/Objective function
+how far we are away from the right answer.
+** gradient descent
+*** learning rate
+The size of the step we take is called the learning rate. 
 * jupyter, python, etc
 
 Start Jupyter Lab:
