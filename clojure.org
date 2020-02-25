@@ -459,6 +459,8 @@ cd ds_queue
 {:main ds-queue.core}
 #+END_SRC
 
+{:main ml.core}
+
 : cat > deps.edn
 
 #+BEGIN_SRC clojure +n
@@ -486,8 +488,8 @@ cd ds_queue
 #+END_SRC
 
 Here line 18 is connected to line 2 and the filename
-~fe_dev.cljs.edn~.  (note run org-preview-html-mode to see line
-numbers.)  
+~fe_dev.cljs.edn~.  
+(note run org-preview-html-mode to see line numbers.)  
 
 Lines 3 & 8 are connected too.
 
@@ -516,7 +518,11 @@ target/
 .nrepl-port
 .cpcache
 #+END_SRC
-<<<<<<< HEAD
+
+Test with:
+
+: clj -A:dev:fig -b fe_dev -r
+
 * reagent/reframe
 =======
 * spectre
@@ -566,3 +572,26 @@ target/
 
 
 >>>>>>> 33303d68a1a5e28f3768cf3fd36b3f047f557db0
+* protocols, deftype
+
+first we define a protocol, basically this is a list of methods
+(functions) that an object should implement
+
+#+BEGIN_SRC clojure
+  (defprotocol MyProtocol
+    (foo
+      [this]
+      [this x])
+    (bar [this]))
+
+  (deftype MyClass [a b]
+    MyProtocol
+    (foo [this] (+ 1 a b))
+    (foo [this x] (+ 1 a b x))
+    (bar [this] (+ a b)))
+
+  (foo (MyClass. 1 2)) ;; --> 4
+  (foo (MyClass. 1 2) 3) ;; --> 7
+#+END_SRC
+
+In our ~defprotocol~ we specified two arities for foo function.
