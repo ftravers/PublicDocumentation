@@ -116,9 +116,139 @@ The size of the step we take is called the learning rate.
 
 Start Jupyter Lab:
 
-High bias means more error in your predictions.
+#+BEGIN_SRC python
+import pandas as pd
+# tab separated, column 0 is an index column
+the_data = pd.read_csv("mydata.tsv", sep="\t", index_col=0)
 
-** Inference
+# get min, max, std, mean info about the data
+the_data.describe()
+
+# get the column names (NOTE: property not function):
+the_data.columns
+
+# general info about the data, like how much memory it uses:
+the_data.info()
+
+# retrieve the first rows of the data to have a look at it
+the_data.head()
+#+END_SRC
+
+** Modeling
+
+This is following the kaggle intro to machine learning tutorial
+
+https://www.kaggle.com/dansbecker/your-first-machine-learning-model
+
+First lets select the thing we want to predict
+
+#+BEGIN_SRC python
+y = the_data.hearing_damage
+#+END_SRC
+
+Choosing ~features~ that are considered as inputs to the predictions
+We select multiple features by providing a list of column names inside
+brackets.
+
+#+BEGIN_SRC python
+the_data_features = ['source_intensity', 'horizontal_distance', 'vertical_distance', 'insulation']
+#+END_SRC
+
+Now lets get a pandas dataframe with just these columns:
+
+#+BEGIN_SRC python
+X = the_data[the_data_features]
+
+from sklearn.tree import DecisionTreeRegressor
+
+# Define model. Specify a number for random_state to ensure same results each run
+data_model = DecisionTreeRegressor(random_state=1)
+
+data_model.fit(X, y)
+
+data_model.predict( X.head())
+
+X.head()
+#+END_SRC
+
+Lets check how good the model is:
+
+#+BEGIN_SRC python
+from sklearn.metrics import mean_absolute_error
+
+predicted_home_prices = melbourne_model.predict(X)
+mean_absolute_error(y, predicted_home_prices)
+#+END_SRC
+
+** split up the data
+   
+Its not good to use same data to train AND test with.
+
+#+BEGIN_SRC python
+from sklearn.model_selection import train_test_split
+
+# run this script.
+train_X, val_X, train_y, val_y = train_test_split(X, y, random_state = 0)
+
+# Define model
+data_model = DecisionTreeRegressor()
+
+# Fit model
+data_model.fit(train_X, train_y)
+
+# get predicted prices on validation data
+val_predictions = data_model.predict(val_X)
+
+print(mean_absolute_error(val_y, val_predictions))
+#+END_SRC
+
+** vary decision tree depth
+
+We can adjust the depth of the decision tree with a line like:
+
+#+BEGIN_SRC python
+model = DecisionTreeRegressor(max_leaf_nodes=max_leaf_nodes, random_state=0)
+#+END_SRC
+
+We can test a variety of tree depths and their MAE with:
+
+#+BEGIN_SRC python
+def get_mae(max_leaf_nodes, train_X, val_X, train_y, val_y):
+    model = DecisionTreeRegressor(max_leaf_nodes=max_leaf_nodes, random_state=0)
+    model.fit(train_X, train_y)
+    preds_val = model.predict(val_X)
+    mae = mean_absolute_error(val_y, preds_val)
+    return(mae)
+
+for max_leaf_nodes in [5, 50, 500, 5000]:
+    my_mae = get_mae(max_leaf_nodes, train_X, val_X, train_y, val_y)
+    print("Max leaf nodes: %d  \t\t Mean Absolute Error:  %d" %(max_leaf_nodes, my_mae))
+    
+** random forests
+
+#+BEGIN_SRC python
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error
+
+forest_model = RandomForestRegressor(random_state=1)
+forest_model.fit(train_X, train_y)
+melb_preds = forest_model.predict(val_X)
+print(mean_absolute_error(val_y, melb_preds))
+#+END_SRC
+
+
+#+END_SRC
+* pandas
+** dataframes
+#+BEGIN_SRC python
+# initialize list of lists 
+data = [['tom', 10], ['nick', 15], ['juli', 14]] 
+  
+# Create the pandas DataFrame 
+df = pd.DataFrame(data, columns = ['Name', 'Age']) 
+#+END_SRC
+
+* Inference
 For now, though, we are only dealing with inference, the process of
 computing the output using the given structure, input, and whatever
 weights there are.
@@ -166,3 +296,4 @@ fmax - keep max value of each pair from 2 vectors
   (let [v1 (dv [1 2 3])
         v2 (dv [0 2 7])]
     (fmax v1 v2)) ;; => [1.00 2.00 7.00]
+* kaggle tutorial
