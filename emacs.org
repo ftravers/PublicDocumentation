@@ -1249,11 +1249,49 @@ Agenda View
 |---------+-----------------|
 | C-c RET | Horizontal Rule |
 
+
+To recalculate one of the formulas, go onto the line like: ~#+TBLFM:~
+and press ~C-c C-c~.
+
+: $ = column
+: @ = row 
+
 *** sum a column of numbers:
 
 The following sums the rows 1->10.
 
  : =vsum(@1..@10)
+
+|---+---|
+| 2 | 3 |
+| 2 | 4 |
+|---+---|
+|   | 7 |
+#+TBLFM: $2=vsum(@I..@II)
+
+This means in column 2 ~$2~, vector sum ~vsum~ whats between the first
+divider ~@I~ and second divider ~@II~.
+
+| student | chemistry | physics |   AVG |
+|---------+-----------+---------+-------|
+| joe     |        72 |      83 |  77.5 |
+| bill    |        48 |      94 |    71 |
+|---------+-----------+---------+-------|
+|         |        60 |    88.5 | 74.25 |
+#+TBLFM: @4$2..$4=vmean(@I..@II)
+#+TBLFM: $4=($2+$3)/2
+
+: #+TBLFM: @4$2..$4=vmean(@I..@II)
+
+At row 4, ~@4~, columns 2 through 4, ~$2..$4~, set them to be the
+vector mean, ~vmean~, of what is above between separator 1, ~@I~, and
+separator 2, ~@II~.
+
+: #+TBLFM: $4=($2+$3)/2
+
+Column 4, ~$4~, is equal to columns 2 plus 3 divided by 2.
+
+ 
 
 *** re-calculate formulas: C-c *
 
