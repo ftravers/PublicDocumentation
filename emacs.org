@@ -1256,6 +1256,13 @@ and press ~C-c C-c~.
 : $ = column
 : @ = row 
 
+*** tips
+find the cell coordinates: C-c ?
+recalculate row: C-c *
+recalculate table: C-u C-c *
+
+*** row formula
+
 *** sum a column of numbers:
 
 The following sums the rows 1->10.
@@ -1292,7 +1299,6 @@ separator 2, ~@II~.
 Column 4, ~$4~, is equal to columns 2 plus 3 divided by 2.
 
  
-
 *** re-calculate formulas: C-c *
 
 ** Export as HTML
