@@ -32,3 +32,6 @@ or a shorthand:
   [:.title
    {:grid-column "1 / 4"}]
 #+END_SRC
+* Animation
+
+

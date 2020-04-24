@@ -78,7 +78,7 @@ CSS:
 garden: 
 
 #+BEGIN_SRC clojure
-:.container {:display "grid"}
+  [:.container {:display "grid"}]
 #+END_SRC
 
 ** class selectors on specific elements
