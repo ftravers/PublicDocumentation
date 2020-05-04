@@ -1,3 +1,4 @@
+#+OPTIONS: toc:2
 * References:
 https://cljdoc.org/
 https://crossclj.info/
@@ -437,7 +438,8 @@ apm install proto-repl ink parinfer lisp-paredit rainbow-delimiters atom-beautif
 
 * deps.edn
 
-make a new project, we'll call it ~ds-queue~
+make a new project, we'll call it ~ds-queue~, for your own project,
+replace: ~ds-queue~ with your project name below...
 
 #+BEGIN_SRC shell
 cd ~/projects
