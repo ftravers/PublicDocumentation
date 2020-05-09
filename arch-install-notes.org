@@ -277,3 +277,26 @@ Ensure the following line is actually pointing to something:
 --     function (c) awful.util.spawn_with_shell("amixer -D pulse sset Master 10%-") end,
        function (c) awful.util.spawn_with_shell("pactl set-sink-volume -10%") end,
 #+END_SRC
+* brother dsmobile 620 scanner
+
+Download the Debian package from the manufacturer's website
+
+http://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=ds620_all
+
+ and install it via
+
+: sudo dpkg --force-depends -i libsane-dsseries_1.0.5-1_yourArchitecture.deb
+
+Prior to using a sane frontend, load module sg.
+
+: sudo modprobe sg
+
+#+BEGIN_SRC 
+╭─fenton@dell ~/Downloads ‹master*› 
+╰─$ scanimage -L
+device `dsseries:usb:0x04F9:0x60E0' is a BROTHER DS-620 sheetfed scanner
+╭─fenton@dell ~/Downloads ‹master*› 
+╰─$ scanimage --format=png --output-file test.png --progress
+╭─fenton@dell ~/Downloads ‹master*› 
+╰─$ feh test.png
+#+END_SRC

@@ -1,0 +1,36 @@
+You push your code to heroku.  Heroku then builds your code.  Heroku
+then launches the process, specified in it's ~Procfile~.  The app
+specified in the Procfile is run on a ~Dyno~.
+
+* CLJS buildpack 4 heroku
+  
+Clojure buildpack can be configured to run custom command:
+
+#+BEGIN_SRC 
+heroku config:add BUILD_CONFIG_WHITELIST=BUILD_COMMAND
+heroku config:add BUILD_COMMAND="lein with-profile production do cljsbuild once, compile :all"
+#+END_SRC
+
+Export the BUILD_COMMAND variable to build time environment.
+Set custom BUILD_COMMAND. Here it is cljsbuild followed by the clojure compilation.
+
+** Initially just do cljs with
+
+#+BEGIN_SRC 
+heroku config:add BUILD_CONFIG_WHITELIST=BUILD_COMMAND
+heroku config:add BUILD_COMMAND="lein cljsbuild once"
+#+END_SRC
+
+https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-clojure
+
+** Make it a PHP default app
+
+Heroku wont host simple html-javascript apps, so we need to trick it
+by telling it that it is a PHP app instead. 
+
+#+BEGIN_SRC shell
+$ echo '{}' > composer.json
+$ git add composer.json
+$ git commit -m "add composer.json for PHP app detection"
+$ heroku buildpacks:set heroku/php
+#+END_SRC

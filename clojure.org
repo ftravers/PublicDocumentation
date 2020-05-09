@@ -447,6 +447,11 @@ mkdir -p ds_queue/{src,test}/ds_queue ds_queue/resources/public
 cd ds_queue
 #+END_SRC
 
+
+
+mkdir -p supps/{src,test}/supps supps/resources/public
+
+
 : cat > .dir-locals.el 
 
 #+BEGIN_SRC elisp -n
@@ -458,10 +463,8 @@ cd ds_queue
 : cat > fe_dev.cljs.edn 
 
 #+BEGIN_SRC clojure +n
-{:main ds-queue.core}
+{:main supps.core}
 #+END_SRC
-
-{:main ml.core}
 
 : cat > deps.edn
 
@@ -495,10 +498,10 @@ Here line 18 is connected to line 2 and the filename
 
 Lines 3 & 8 are connected too.
 
-: cat > src/ds_queue/core.cljs
+: cat > src/supps/core.cljs
 
 #+BEGIN_SRC clojure 
-  (ns ds-queue.core
+  (ns supps.core
     (:require
      [rum.core :refer [defc mount] :as rum]))
 
