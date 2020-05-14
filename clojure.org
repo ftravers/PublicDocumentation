@@ -600,3 +600,5 @@ first we define a protocol, basically this is a list of methods
 #+END_SRC
 
 In our ~defprotocol~ we specified two arities for foo function.
+* Ring
+
