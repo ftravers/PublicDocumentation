@@ -602,3 +602,104 @@ first we define a protocol, basically this is a list of methods
 In our ~defprotocol~ we specified two arities for foo function.
 * Ring
 
+Add to deps
+
+#+BEGIN_SRC clojure
+  [ring/ring-core "1.6.3"]
+  [ring/ring-jetty-adapter "1.6.3"]
+#+END_SRC
+
+in ~my_ns/core.clj~ (as an example):
+
+#+BEGIN_SRC clojure
+(ns my-ns.core
+  (:require [ring.adapter.jetty :refer [run-jetty]]))
+
+(defn handler [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body "Hello World"})
+
+;; It's a good idea to set the :join? option is to false in
+;; REPLs. Otherwise the Jetty server will block the thread and the
+;; REPL won't process input anymore.
+(defonce server (run-jetty #'handler {:port 3000 :join? false}))
+
+(defn stop [] (.stop server))
+#+END_SRC
+
+** hot reload
+
+We want the server to auto-reload anytime we change source files.
+
+: deps.edn
+
+#+BEGIN_SRC clojure
+  {ring/ring-devel {:mvn/version "1.6.3"} ; hot-reload ring
+   ;; ...
+   } 
+#+END_SRC
+
+: my-ns/core.clj
+
+#+BEGIN_SRC clojure
+(ns my-ns.core
+  (:require
+   [ring.adapter.jetty :refer [run-jetty]]
+   [ring.middleware.reload :refer [wrap-reload]]))
+
+(defn handler [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body "Hello World"})
+
+(def dev-handler
+  (wrap-reload #'handler))
+
+;; It's a good idea to set the :join? option is to false in
+;; REPLs. Otherwise the Jetty server will block the thread and the
+;; REPL won't process input anymore.
+(comment
+  (run-jetty dev-handler {:port 3000 :join? false}))
+#+END_SRC
+
+Now, the server will automatically reload any modified files in your source directory.
+* compojure
+
+: deps.edn
+
+#+BEGIN_SRC clojure
+  compojure {:mvn/version "1.6.1" }
+#+END_SRC
+
+: my-ns/core.cljc
+
+#+BEGIN_SRC clojure
+(ns my-ns.core
+  (:require
+   [ring.adapter.jetty :refer [run-jetty]]
+   [ring.middleware.reload :refer [wrap-reload]]
+   [compojure.core :refer [defroutes GET]]
+   [compojure.route :as route]))
+
+(defroutes app
+  (GET "/" [] "<h1>Hello World</h1>")
+  (route/not-found "<h1>Page not found</h1>"))
+
+(def dev-handler
+  (wrap-reload #'app))
+
+(defn start
+  ([]
+   (run-jetty #'dev-handler {:port 3000 :join? false}))
+  ([server]
+   (reset! server (start))))
+
+(defonce server (atom (start)))
+
+(defn stop [] (.stop @server))
+
+(comment
+  (stop)
+  (start server))
+#+END_SRC
