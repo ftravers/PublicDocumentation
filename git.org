@@ -1316,6 +1316,27 @@ g  7c94754 * added ring/compojure
 a  938b7de * adding project.clj file to get leiningen to work 4 heroku
 #+END_SRC
 
+Finally, you've rebased your local branch and you need to update the
+remote as well since all your bad commits were already pushed up
+there, so do:
+
+: git push --force-with-lease
+
+and now your remote branch will be the same as your local branch.  
+
+Now you like your commit history.
+
+You are rebased onto master, it's time to merge your branch into
+master.
+
+: gco master
+: git merge fenton
+: ggpush
+
+Now you should have a linear commit history, verify with:
+
+: glo | cat
+
 
 * creating a patch file
 
