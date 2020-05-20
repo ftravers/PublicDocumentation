@@ -1,6 +1,13 @@
-You push your code to heroku.  Heroku then builds your code.  Heroku
-then launches the process, specified in it's ~Procfile~.  The app
-specified in the Procfile is run on a ~Dyno~.
+You push your code to heroku.  
+
+Heroku then builds your code.  Since we want it to build *.cljs files,
+we can supply our own ~bin/build~ executable script to run our desired
+commands.
+
+
+Heroku then launches the process, specified in it's ~Procfile~.
+
+The app specified in the Procfile is run on a ~Dyno~.
 
 * CLJS buildpack 4 heroku
   

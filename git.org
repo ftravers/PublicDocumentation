@@ -1159,7 +1159,164 @@ apply the patch
 : git apply < patch.diff
 
 * branching
-* rebasing/squashing
+* Magit rebasing/squashing
+
+Imagine you are working on your OWN branch that nobody else has
+committed into.  You have a bunch of garbage commits that you'd like
+to get rid of, locally and on the server.  Lets look at a sample
+commit log history:
+
+In the magit status window, do ~l~, ~l~, to get to the git log
+window. 
+
+#+BEGIN_SRC 
+j   5f39730 * fenton origin/fenton Update readme, include custom builder
+i   b70ea83 * now serving site works, see README.org for instructions.
+h   131ce5f * broken. trying to server up index.html
+g   3f44556 * added ring/compojure
+f   9bc6d93 * '.'
+e   969374b * '.'
+d   e2658de * .
+c   6020017 * .
+b   563f36c * we trick heroku into thinking this is a php app
+a   938b7de * adding project.clj file to get leiningen to work 4 heroku
+#+END_SRC 
+
+I've added the first column of a through j, so I can easily refer to
+the rows.  
+
+a is the original commit, and the oldest.  j is the most recent commit.
+
+Commits b through f are junk, so is h.  a, g, i and j are good.  We
+want our final history to look like:
+
+#+BEGIN_SRC 
+j     ?     * fenton Update readme, include custom builder
+i     ?     * now serving site works, see README.org for instructions.
+g     ?     * added ring/compojure
+a   938b7de * adding project.clj file to get leiningen to work 4 heroku
+#+END_SRC
+
+I've put question marks, ?, by j, i and g, because as we squash, new
+commit hashes will be assigned.
+
+First lets get rid of b through f.
+
+We can squash subsequent commits into previous commits...this will
+keep only the latest changes.  
+
+here we can see commits, b, c, d, e, f, are kind of garbage but g is
+okay.  
+
+The last real, good, commit is a.  
+
+Lets squash g -> c into b, thereby only keeping g, and getting rid of
+b -> f.
+
+With cursor on ~b~, the oldest garbage commit,
+
+press ~r i~ for rebase interactive, this gives us the following
+screen.
+
+#+BEGIN_SRC 
+b   pick 563f36c we trick heroku into thinking this is a php app
+c   pick 6020017 .
+d   pick e2658de .
+e   pick 969374b '.'
+f   pick 9bc6d93 '.'
+g   pick 3f44556 added ring/compojure
+h   pick 131ce5f broken. trying to server up index.html
+i   pick b70ea83 now serving site works, see README.org for instructions.
+j   pick 5f39730 Update readme, include custom builder
+#+END_SRC
+
+now what we want to keep is ~g~ and get rid of b -> f.  So a bit
+counter intuitively we ~pick~ b and ~squash~ c -> g.  This looks like:
+
+#+BEGIN_SRC 
+b   pick 563f36c we trick heroku into thinking this is a php app
+c   squash 6020017 .
+d   squash e2658de .
+e   squash 969374b '.'
+f   squash 9bc6d93 '.'
+g   squash 3f44556 added ring/compojure
+h   pick 131ce5f broken. trying to server up index.html
+i   pick b70ea83 now serving site works, see README.org for instructions.
+j   pick 5f39730 Update readme, include custom builder
+#+END_SRC
+
+Since g is the latest commit, b -> f will get discarded and we'll only
+have g left.
+
+Said another way, g, the most recent of the commits we are operating
+on, squashes all previous commits up to and including b.
+
+#+BEGIN_SRC 
+j  8108c2c * fenton Update readme, include custom builder
+i  4cf8c2c * now serving site works, see README.org for instructions.
+h  2063480 * broken. trying to server up index.html
+g  7c94754 * added ring/compojure
+a  938b7de * adding project.clj file to get leiningen to work 4 heroku
+#+END_SRC
+
+So again here is the original log before the squashing, b -> f are
+discarded. 
+
+#+BEGIN_SRC 
+O - j   5f39730 * fenton origin/fenton Update readme, include custom builder
+O - i   b70ea83 * now serving site works, see README.org for instructions.
+O - h   131ce5f * broken. trying to server up index.html
+O - g   3f44556 * added ring/compojure
+X - f   9bc6d93 * '.'
+X - e   969374b * '.'
+X - d   e2658de * .
+X - c   6020017 * .
+X - b   563f36c * we trick heroku into thinking this is a php app
+O - a   938b7de * adding project.clj file to get leiningen to work 4 heroku
+#+END_SRC
+
+So effectively, b through f are collapsed into g, marked with an X.
+The retained ones are marked with an O.
+
+As we can see the commit hash for g through j have changed.  Again the
+resulting log is:
+
+#+BEGIN_SRC 
+j  8108c2c * fenton Update readme, include custom builder
+i  4cf8c2c * now serving site works, see README.org for instructions.
+h  2063480 * broken. trying to server up index.html
+g  7c94754 * added ring/compojure
+a  938b7de * adding project.clj file to get leiningen to work 4 heroku
+#+END_SRC
+
+Commit ~h~ is also junk.  So again, to keep g and i and get rid of h,
+we will squash h into g.  Put cursor on g and do ~r i~.  This gives
+us:
+
+#+BEGIN_SRC 
+h   pick 2063480 broken. trying to server up index.html
+i   pick 4cf8c2c now serving site works, see README.org for instructions.
+j   pick 8108c2c Update readme, include custom builder
+#+END_SRC
+
+Now choose ~i~ to ~squash~. into ~h~.  
+
+#+BEGIN_SRC 
+h   pick 2063480 broken. trying to server up index.html
+i   squash 4cf8c2c now serving site works, see README.org for instructions.
+j   pick 8108c2c Update readme, include custom builder
+#+END_SRC
+
+This will retain i, and discard h, resulting in:
+
+#+BEGIN_SRC 
+j  689625b * fenton Update readme, include custom builder
+i  f9f4f22 * now serving site works, see README.org for instructions.
+g  7c94754 * added ring/compojure
+a  938b7de * adding project.clj file to get leiningen to work 4 heroku
+#+END_SRC
+
+
 * creating a patch file
 
 In short, branching is the process of creating something like a copy
