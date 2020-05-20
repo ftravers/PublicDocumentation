@@ -1316,6 +1316,8 @@ g  7c94754 * added ring/compojure
 a  938b7de * adding project.clj file to get leiningen to work 4 heroku
 #+END_SRC
 
+** push up changes to remote branch
+
 Finally, you've rebased your local branch and you need to update the
 remote as well since all your bad commits were already pushed up
 there, so do:
@@ -1337,6 +1339,26 @@ Now you should have a linear commit history, verify with:
 
 : glo | cat
 
+** delete merged branch
+
+Now delete your old branch since it is merged and you dont need it
+around. 
+
+First list all merged branches with:
+
+: git branch --merged | cat
+
+but we dont want to delete master or anything with dev in it so:
+
+: git branch --merged| egrep -v "(^\*|master|dev)"
+
+now when you are satisfied with the list, go ahead and delete with:
+
+: git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
+
+verify with
+
+: git branch --merged | cat
 
 * creating a patch file
 
