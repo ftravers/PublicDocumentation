@@ -1204,10 +1204,11 @@ Now hit
 To proceed with the squashing!
 
 LOG
-bd919b8 * master good 2
+cb0ca31 * master blah
+bd919b8 * good 2
 d2689eb * good commit
 5ea3c7c * a good commit 2
-c00a1c0 * a good commit 1
+c00a1c0 * a good commit 1  <== r i here
 
 
 ** details
