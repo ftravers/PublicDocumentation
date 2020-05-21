@@ -1203,6 +1203,13 @@ Now hit
 
 To proceed with the squashing!
 
+LOG
+bd919b8 * master good 2
+d2689eb * good commit
+5ea3c7c * a good commit 2
+c00a1c0 * a good commit 1
+
+
 ** details
 
 Imagine you are working on your OWN branch that nobody else has
