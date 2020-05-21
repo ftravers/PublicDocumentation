@@ -1160,6 +1160,50 @@ apply the patch
 
 * branching
 * Magit rebasing/squashing
+** nutshell
+
+(1)
+pull up your magit log
+
+imagine it looks like
+
+| commit ID | comment          | when       |
+| A         | very good commit | 1 days ago |
+| B         | very bad commit  | 2 days ago |
+| C         | bad commit       | 3 days ago |
+| D         | good commit      | 4 days ago |
+
+We are going to squash A over top of B & C, keeping only D and A.
+
+(2)
+put cursor on D, the older good commit, and rebase interactive with: 
+
+: r i
+
+You will now get them flipped around (chronologically)
+
+| action | commit ID | comment          | when       |
+| pick   | D         | good commit      | 4 days ago |
+| pick   | C         | bad commit       | 3 days ago |
+| pick   | B         | very bad commit  | 2 days ago |
+| pick   | A         | very good commit | 1 days ago |
+
+So we want to keep A & D, so we set B, & C to get squashed.
+So the table should now look like:
+
+| action | commit ID | comment          | when       |
+| pick   | D         | good commit      | 4 days ago |
+| squash | C         | bad commit       | 3 days ago |
+| squash | B         | very bad commit  | 2 days ago |
+| pick   | A         | very good commit | 1 days ago |
+
+Now hit 
+
+: C-c C-c
+
+To proceed with the squashing!
+
+** details
 
 Imagine you are working on your OWN branch that nobody else has
 committed into.  You have a bunch of garbage commits that you'd like
