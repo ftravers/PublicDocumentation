@@ -1160,7 +1160,11 @@ apply the patch
 
 * branching
 * Magit rebasing/squashing
-** nutshell
+
+git rebase interactive must be launched with, as argument, the last
+commit you want to retain as-is, not the first one you want to change.
+
+** squashing
 
 (1)
 pull up your magit log
@@ -1171,25 +1175,18 @@ imagine it looks like
 | A         | very good commit | 1 days ago |
 | B         | very bad commit  | 2 days ago |
 | C         | bad commit       | 3 days ago |
-| D         | good commit      | 4 days ago |
+| D         | good commit      | 4 days ago |  <=== r i here
 
-We are going to squash A over top of B & C, keeping only D and A.
+We are going to squash B & C, keeping only D and A.
 
 (2)
-put cursor on D, the older good commit, and rebase interactive with: 
+put cursor on D, the oldest good commit, and rebase interactive from
+there with:
 
 : r i
 
-You will now get them flipped around (chronologically)
-
-| action | commit ID | comment          | when       |
-| pick   | D         | good commit      | 4 days ago |
-| pick   | C         | bad commit       | 3 days ago |
-| pick   | B         | very bad commit  | 2 days ago |
-| pick   | A         | very good commit | 1 days ago |
-
-So we want to keep A & D, so we set B, & C to get squashed.
-So the table should now look like:
+You will now get them flipped around (chronologically), squash (s), B
+& C
 
 | action | commit ID | comment          | when       |
 | pick   | D         | good commit      | 4 days ago |
@@ -1201,14 +1198,50 @@ Now hit
 
 : C-c C-c
 
-To proceed with the squashing!
+To proceed with the squashing!  The top comment is the only one you
+want, delete the others, and ~C-c C-c~ to finish.
 
-LOG
-cb0ca31 * master blah
-bd919b8 * good 2
-d2689eb * good commit
-5ea3c7c * a good commit 2
-c00a1c0 * a good commit 1  <== r i here
+** push updated to remote
+
+: git push --force-with-lease
+
+and now your remote branch will be the same as your local branch.  
+
+You are rebased onto master, it's time to merge your branch into
+master.
+
+: gco master
+: git merge fenton
+: ggpush
+
+** delete your local branch
+
+First list all merged branches with:
+
+: git branch --merged | cat
+
+but we dont want to delete master or anything with dev in it so:
+
+: git branch --merged| egrep -v "(^\*|master|dev)"
+
+now when you are satisfied with the list, go ahead and delete with:
+
+: git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
+
+verify with
+
+: git branch --merged | cat
+
+** Delete a remote tracking branch
+list all remote branches that have been merged into the master
+branch.  Not 100% sure this works?
+: git branch -r --merged master | cat
+
+list remotes
+: git branch -r | cat
+
+delete remote
+: git branch -d -r origin/<remote branch name>
 
 
 ** details

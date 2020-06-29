@@ -1459,3 +1459,75 @@ or
 : /ssh:root@archlinux:/
 
 * Ediff
+* tiny - number ranges
+
+** simple range
+
+: m[range start][separator(s)][range end]
+
+: m1\n5  
+
+m1\n5  
+1
+2
+3
+4
+5
+
+The initial m is mandatory.
+
+Next is the initial value of the range, in this case one. But this is
+optional and will default to zero.
+
+Then comes any separator characters to insert between each number. I
+use \n to add a newline after each number.
+
+And finally is the final value for the range, five in this example.
+
+** formatting 
+
+: m1\n\n4|%d.
+
+This demonstrates that you can have multiple separator characters;
+here I use two \n’s for the extra space. But there is that |%d. at the
+end. Tiny lets you use Emacs Lisp format strings, which you write at
+the end of your expression and delimit with a vertical bar. The
+formatting string %d. prints each number as a digit (%d) with a period
+after it.
+
+** simple lisp
+
+m1, 10*xx
+
+start with 1
+separate with comma space ', '
+end with 10
+
+
+Immediately following the end-range value we can write abbreviated
+Lisp. The current value is bound to x, so for example m1, 10*xx will
+expand to 1, 4, 9, 16, 25, 36, 49, 64, 81, 100. That is, the markup
+loops from one to ten, and at every step executes the Lisp expression
+(* x x) where x is each number in the range.
+
+** combining
+
+Format strings can follow any Lisp expressions, and those strings can
+themselves contain Lisp expressions wrapped in %(…). Here we see Tiny
+at its most complete syntax. One way I’ve found this functionality
+useful is for easily generating numeric data in code, using a
+combination of Lisp to calculate values and format strings to create
+the desired output. For example, consider this:
+
+
+: m1,\n3|    [%d] = %(exp x)
+
+expands to:
+
+#+BEGIN_SRC 
+    [1] = 2.718281828459045,
+    [2] = 7.38905609893065,
+    [3] = 20.085536923187668,
+#+END_SRC
+
+
