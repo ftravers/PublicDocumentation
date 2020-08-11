@@ -1488,6 +1488,14 @@ And finally is the final value for the range, five in this example.
 
 : m1\n\n4|%d.
 
+1.
+
+2.
+
+3.
+
+4. 
+
 This demonstrates that you can have multiple separator characters;
 here I use two \n’s for the extra space. But there is that |%d. at the
 end. Tiny lets you use Emacs Lisp format strings, which you write at

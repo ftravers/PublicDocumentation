@@ -24,9 +24,6 @@ Instrument your function with the function
 | n   | (next)                                                      |
 |     |                                                             |
 
-
-
-
 SPC             edebug-step-mode
 -               negative-argument
 =               edebug-temp-display-freq-count
