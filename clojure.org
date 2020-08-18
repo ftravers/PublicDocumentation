@@ -705,18 +705,11 @@ Now, the server will automatically reload any modified files in your source dire
 #+END_SRC
 * Shadow CLJS
 
-add a dirlocals like:
+add a ~.dir-locals.el~ like:
 
 #+begin_src elisp
 ((nil . ((cider-default-cljs-repl . shadow)
          (cider-shadow-default-options . "browser-repl"))))
 #+end_src
 
-when inside the repl run the elisp command:
-
-: (cider-set-repl-type "cljs")
-
-This is bound to: 
-
-: , c
 
