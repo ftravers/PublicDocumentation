@@ -493,10 +493,15 @@ mkdir -p supps/{src,test}/supps supps/resources/public
 #+END_SRC
 
 Here line 18 is connected to line 2 and the filename
-~fe_dev.cljs.edn~.  
-(note run org-preview-html-mode to see line numbers.)  
+~fe_dev.cljs.edn~. (note run org-preview-html-mode to see line
+numbers.)  The compiled *.js file is created by the
+~cider-figwheel-main-default-options~ parameter, specified in the
+~.dir-locals.el~ file.
 
-Lines 3 & 8 are connected too.
+Lines 3 & 8 are connected too.  That is we specify which aliases clj
+will run by setting the ~cider-clojure-cli-global-options~ in the
+~.dir-locals.el~ file.
+
 
 : cat > src/supps/core.cljs
 
