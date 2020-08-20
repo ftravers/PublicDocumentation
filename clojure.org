@@ -441,15 +441,19 @@ apm install proto-repl ink parinfer lisp-paredit rainbow-delimiters atom-beautif
 make a new project, we'll call it ~ds-queue~, for your own project,
 replace: ~ds-queue~ with your project name below...
 
+** create the necessary folders
+
 #+BEGIN_SRC shell
 cd ~/projects
 mkdir -p ds_queue/{src,test}/ds_queue ds_queue/resources/public
 cd ds_queue
 #+END_SRC
 
-mkdir -p supps/{src,test}/supps supps/resources/public
+** .dir-locals.el
 
-: cat > .dir-locals.el 
+#+begin_src bash
+cat > .dir-locals.el 
+#+end_src
 
 #+BEGIN_SRC elisp -n
 ((nil . ((cider-default-cljs-repl . figwheel-main)
@@ -457,11 +461,28 @@ mkdir -p supps/{src,test}/supps supps/resources/public
          (cider-clojure-cli-global-options . "-A:dev"))))
 #+END_SRC
 
+~cider-figwheel-main-default-options~ specifies what the ~*.cljs.edn~
+file is named, and what the output ~*.js~ will be called.
+
+~cider-clojure-cli-global-options~ indicates which alias ~clj~ should
+run. 
+
+For more detail see:
+
+https://docs.cider.mx/cider/cljs/figwheel.html
+https://github.com/bhauman/figwheel-main/blob/master/src/figwheel/main/api.clj#L9
+
+** build.cljs.edn
+
 : cat > fe_dev.cljs.edn 
 
 #+BEGIN_SRC clojure +n
 {:main supps.core}
 #+END_SRC
+
+This specifies which namespace to load on startup.
+
+** deps.edn
 
 : cat > deps.edn
 
@@ -474,6 +495,8 @@ mkdir -p supps/{src,test}/supps supps/resources/public
           {com.bhauman/figwheel-main {:mvn/version "0.2.0"}}}
     :fig {:main-opts ["-m" "figwheel.main"]}}}
 #+END_SRC
+
+** index.html
 
 : cat > resources/public/index.html
 
@@ -499,6 +522,7 @@ Lines 3 & 8 are connected too.  That is we specify which aliases clj
 will run by setting the ~cider-clojure-cli-global-options~ in the
 ~.dir-locals.el~ file.
 
+** sample starting page for testing
 
 : cat > src/supps/core.cljs
 
@@ -526,12 +550,10 @@ target/
 .cpcache
 #+END_SRC
 
-Test with:
+** Run from command line with:
 
 : clj -A:dev:fig -b fe_dev -r
 
-* reagent/reframe
-=======
 * spectre
 
 #+BEGIN_SRC clojure
