@@ -472,7 +472,7 @@ For more detail see:
 https://docs.cider.mx/cider/cljs/figwheel.html
 https://github.com/bhauman/figwheel-main/blob/master/src/figwheel/main/api.clj#L9
 
-** build.cljs.edn
+** [build].cljs.edn
 
 : cat > fe_dev.cljs.edn 
 
@@ -481,6 +481,15 @@ https://github.com/bhauman/figwheel-main/blob/master/src/figwheel/main/api.clj#L
 #+END_SRC
 
 This specifies which namespace to load on startup.
+
+** figwheel-main.edn
+
+#+begin_src clojure
+{:watch-dirs ["src" "admin-src"]
+ :css-dirs ["resources/public/css"]}
+#+end_src
+
+
 
 ** deps.edn
 
