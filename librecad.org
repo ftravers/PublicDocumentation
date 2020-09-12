@@ -5,7 +5,7 @@ Units will be feet and inches.
 
 * Setting Units
 
-Edit > Current Drawing Preferences > Units (tab) > 
+Options > Current Drawing Preferences > Units (tab) > 
 
 Main Drawing Unit: inches
 Length:
@@ -14,8 +14,26 @@ Length:
 
 * Drawing our first room
 
-
 So we'll draw a room.  First lets draw one wall.
+
+
+
+
+Press 'l' to draw a line.
+Enter first coordinate: 0,0
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ** First Wall
 

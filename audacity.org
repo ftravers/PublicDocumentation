@@ -41,3 +41,6 @@ Then I like to cut and paste this out by:
 Using the `sox` package.
 
     % play test-sound.ogg
+* Trim silence from beginning and endpoint
+
+Select where there is a leading silence, Effects > Truncate Silence
