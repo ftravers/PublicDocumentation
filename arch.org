@@ -1222,7 +1222,6 @@ modes
 | -M C | must use capital       |
 | -M L | must use small letters |
 
-
 * wake on lan
 + setup in bios
 ** servers
@@ -1357,3 +1356,7 @@ DONE!
 * boot splash screen timeout
 
 : /boot/syslinux/syslinux.cfg
+* bluetooth
+  use your android to figure out what the mac address of your
+  bluetooth device is.  "Bluetooth Mac Address Finder" worked for me.
+

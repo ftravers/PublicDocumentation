@@ -1,31 +1,79 @@
-* REPL
 
-: A-x ielm
+# Table of Contents
 
-* Function definition
+1.  [REPL](#org62ff909)
+2.  [Function definition](#org7440f32)
+3.  [Debugger EDebug](#org04a186c)
+4.  [Useful](#orgf3f3717)
+5.  [Function Reference](#org8ad20da)
+    1.  [positions](#orgc16da47)
+6.  [IELM](#org365d91c)
+7.  [Command Log Mode](#org8e801e1)
+8.  [Unit Tests](#org90b8075)
 
-: (defun foo () 5)
-: (foo) => 5
+
+<a id="org62ff909"></a>
+
+# REPL
+
+    A-x ielm
+
+
+<a id="org7440f32"></a>
+
+# Function definition
+
+    (defun foo () 5)
+    (foo) => 5
 
 Functions you'll call interactively, i.e. you can bind to a key
 sequence, the above function can only be called from other functions.
 
-: (defun foo () (interactive "r") 5)
+    (defun foo () (interactive "r") 5)
 
-: ~abc~
+    ~abc~
 
-* Debugger EDebug
+
+<a id="org04a186c"></a>
+
+# Debugger EDebug
 
 Instrument your function with the function
 
-: edebug-eval-top-level-form
+    edebug-eval-top-level-form
 
-| SPC | (step) move through sexp's, result displayed in mini-buffer |
-| n   | (next)                                                      |
-|     |                                                             |
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">SPC</td>
+<td class="org-left">(step) move through sexp's, result displayed in mini-buffer</td>
+</tr>
+
+
+<tr>
+<td class="org-left">n</td>
+<td class="org-left">(next)</td>
+</tr>
+
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
 
 SPC             edebug-step-mode
--               negative-argument
+
+-   negative-argument
+
 =               edebug-temp-display-freq-count
 ?               edebug-help
 B               edebug-next-breakpoint
@@ -109,11 +157,9 @@ C-x C-a RET     edebug-set-initial-mode
 C-x C-a C-n     edebug-next-mode
 C-x C-a C-s     edebug-step-mode
 
-
-
 Global commands prefixed by ‘global-edebug-prefix’:
 key             binding
----             -------
+&#x2014;             --&#x2013;&#x2014;
 
 SPC             edebug-step-mode
 =               edebug-display-freq-count
@@ -133,93 +179,185 @@ u               edebug-unset-breakpoint
 w               edebug-where
 x               edebug-set-conditional-breakpoint
 
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">i (into)</td>
+<td class="org-left">step into function call</td>
+</tr>
 
 
+<tr>
+<td class="org-left">o</td>
+<td class="org-left">step out</td>
+</tr>
 
 
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">v</td>
+<td class="org-left">toggle local variables</td>
+</tr>
 
 
+<tr>
+<td class="org-left">q</td>
+<td class="org-left">quit</td>
+</tr>
 
 
+<tr>
+<td class="org-left">g (go)</td>
+<td class="org-left">go to end of func without quitting</td>
+</tr>
 
 
+<tr>
+<td class="org-left">h (go here)</td>
+<td class="org-left">breakpoint to where cursor is</td>
+</tr>
 
 
+<tr>
+<td class="org-left">b</td>
+<td class="org-left">set breakpoint here</td>
+</tr>
 
 
-
-| i (into) | step into function call                              |
-| o        | step out                                             |
-|          |                                                      |
-
-
-| v           | toggle local variables                               |
-| q           | quit                                                 |
-| g (go)      | go to end of func without quitting                   |
-| h (go here) | breakpoint to where cursor is                        |
-| b           | set breakpoint here                                  |
-| G           | go and dont stop at breakpoints                      |
+<tr>
+<td class="org-left">G</td>
+<td class="org-left">go and dont stop at breakpoints</td>
+</tr>
+</tbody>
+</table>
 
 re-eval function to uninstrument it
 
-https://www.youtube.com/watch?v=odkYXXYOxpo
+<https://www.youtube.com/watch?v=odkYXXYOxpo>
 
 for macros use macrostep
-* Useful
+
+
+<a id="orgf3f3717"></a>
+
+# Useful
 
 Set a variable
 
 :(setq a 123)
 
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
-| function        | description                |
-| symbol-function | get definition of function |
-|                 |                            |
 
-* Function Reference
+<colgroup>
+<col  class="org-left" />
 
-** positions
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">function</td>
+<td class="org-left">description</td>
+</tr>
 
-: line-beginning-position
+
+<tr>
+<td class="org-left">symbol-function</td>
+<td class="org-left">get definition of function</td>
+</tr>
+
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+
+<a id="org8ad20da"></a>
+
+# Function Reference
+
+
+<a id="orgc16da47"></a>
+
+## positions
+
+    line-beginning-position
 
 the position of the beginning of the current line
 
-: point-max/point-min
+    point-max/point-min
 
 the last/first point (position) in the buffer.
 
-: point
+    point
 
 current point position
 
-* IELM
 
-~C-c C-b~
+<a id="org365d91c"></a>
+
+# IELM
+
+`C-c C-b`
 
 Can select a buffer to bind the IELM to, so that functions such as
 (point) report the point in that buffer and not the ielm buffer.
-* Command Log Mode
-  Trace
+
+
+<a id="org8e801e1"></a>
+
+# Command Log Mode
+
+Trace
 
 With command log mode, it shows which functions are run.
 
 Install:
-: (use-package command-log-mode)
+
+    (use-package command-log-mode)
 
 Enable for current buffer:
-: M-x command-log-mode
+
+    M-x command-log-mode
 
 Show the log:
-: M-x clm/open-command-log-buffer
 
-* Unit Tests
+    M-x clm/open-command-log-buffer
+
+
+<a id="org90b8075"></a>
+
+# Unit Tests
+
 can run:
 
- , t t
- 
+, t t
+
 in either the impl file or test file and should run the tests that are
 loaded
+

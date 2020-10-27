@@ -1,6 +1,7 @@
 clojurescript garden css
 
 ** Alignment/Justification
+
 Justify is right/left <->
 Align is up/down ^v
 

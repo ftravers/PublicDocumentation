@@ -751,3 +751,45 @@ Example ~/.shadow-cljs/config.edn
 {:dependencies
  [[cider/cider-nrepl "0.25.0snapshot"]]}
 #+end_src
+* heroku deployment
+** overview
+
+We are going to do a standard clojure side project that will serve up
+the clojurescript.  So we aren't going to try to deploy a front end
+without a backend.
+
+** setup the project
+
+*** procfile
+
+have a ~<project>/Procfile~ file with:
+
+#+begin_src 
+╭─fenton@ss9 ~/projects/supps ‹heroku-work*› 
+╰─$ cat Procfile 
+web: clj -m supps.core -p$PORT
+#+end_src
+
+*** build file
+
+The build file is what is run after a deployment.
+
+#+begin_src 
+╭─fenton@ss9 ~/projects/supps ‹heroku-work*› 
+╰─$ cat bin/build                                       1 ↵
+#!/usr/bin/env bash
+
+echo "Starting to build cljs application"
+echo "----------------------------------"
+clojure -m cljs.main -O advanced -o resources/public/cljs-out/fe_dev-main.js -c supps.core
+
+FILE=resources/public/cljs-out/fe_dev-main.js
+
+if [ -f "$FILE" ]; then
+    echo "Finished building file: $FILE"
+    exit 0
+else
+    echo "Build of $FILE failed!"
+    exit 1
+fi
+#+end_src
