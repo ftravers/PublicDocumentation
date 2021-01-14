@@ -73,3 +73,5 @@ After the last paren of your function, to instrument it for debugging
 Un-instrument
 
 : C-A-x
+** Documentation
+

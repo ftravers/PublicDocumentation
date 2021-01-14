@@ -1419,7 +1419,13 @@ X	evil-org-delete-previous-char	like X but keep tables and tags aligned
 |----------------------------+--------------------------------------------|
 
 * clomacs
+
 running clojure from elisp and vice versa
+
+A normal use case of this would be to have a single restart key in
+emacs that first shutsdown your server.  Then calls cider-restart.
+Then a call is made to your clojure server code to startup the server
+again. 
 
 ** To call clojure from elisp
 
@@ -1539,3 +1545,28 @@ expands to:
 #+END_SRC
 
 
+* EXWM
+
+Install Packages:
+
+#+begin_src 
+sudo pacman -S gdm
+
+#+end_src
+
+Create a Desktop File
+
+#+begin_src shell :tangle ~/.emacs.d/exwm/EXWM.desktop1 :mkdirp yes
+
+  [Desktop Entry]
+  Name=EXWM
+  Comment=Emacs Window Manager
+  Exec=sh /home/fenton/.emacs.d/exwm/start-exwm.sh
+  TryExec=sh
+  Type=Application
+  X-LightDM-DesktopName=exwm
+  DesktopNames=exwm
+
+#+end_src
+
+: sudo ln -f ~/.emacs.d/exwm/EXWM.desktop /usr/share/xsessions/EXWM.desktop

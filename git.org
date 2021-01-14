@@ -1,69 +1,322 @@
-* merging, rebasing, pull requests
+* Finished your work, merge back to master WORKFLOW
+
+** merging, rebasing, pull requests
 
 So you have a branch you want to merge into master.  First check to
 see if master has moved on from where you branched off it.
 
 In these examples the branch name is: *ft-auto*
 
-#+BEGIN_SRC shell
-╭─fenton@ss9 ~/projects/pcbe-web  ‹ft-auto› 
-╰─➤  git merge-base ft-auto master
-f9529b36cab341f283d556b54c2a178eaebdff2a
-╭─fenton@ss9 ~/projects/pcbe-web  ‹ft-auto› 
-╰─➤  
-#+END_SRC
+#+begin_src 
+git merge-base ft-auto master
+git checkout master
+gl | head -1
+#+end_src
 
-lets check where master is at
+** Magit rebasing/squashing
 
-#+BEGIN_SRC 
-╭─fenton@ss9 ~/projects/pcbe-web  ‹ft-auto› 
-╰─➤  git checkout master
-Switched to branch 'master'
-Your branch is up-to-date with 'origin/master'.
-╭─fenton@ss9 ~/projects/pcbe-web  ‹master› 
-╰─➤  gl
-f9529b3 Alexander Eberts  4 days ago Preliminary DataTables code.
-...
-╭─fenton@ss9 ~/projects/pcbe-web  ‹master› 
-╰─➤  
-#+END_SRC
+git rebase interactive must be launched with, as argument, the last
+commit you want to retain as-is, not the first one you want to change.
 
-Here we can see the last commit on master is the same as our
-merge-base between the two branches, so there is no need to rebase on
-master, but we can do anyway, but it will have no effect.
+(1)
+pull up your magit log
 
-#+BEGIN_SRC 
-╭─fenton@ss9 ~/projects/pcbe-web  ‹master› 
-╰─➤  git checkout ft-auto
-Switched to branch 'ft-auto'
-Your branch is up-to-date with 'origin/ft-auto'.
-╭─fenton@ss9 ~/projects/pcbe-web  ‹ft-auto› 
-╰─➤  git rebase master
-Current branch ft-auto is up to date.
-╭─fenton@ss9 ~/projects/pcbe-web  ‹ft-auto› 
-╰─➤  
-#+END_SRC
+imagine it looks like
+
+| commit ID | comment          | when       |
+| A         | very good commit | 1 days ago |
+| B         | very bad commit  | 2 days ago |
+| C         | bad commit       | 3 days ago |
+| D         | good commit      | 4 days ago |  <=== r i here
+
+We are going to squash B & C, keeping only D and A.
+
+(2)
+put cursor on D, the oldest good commit, and rebase interactive from
+there with:
+
+: r i
+
+You will now get them flipped around (chronologically), squash (s), B
+& C
+
+| action | commit ID | comment          | when       |
+| pick   | D         | good commit      | 4 days ago |
+| squash | C         | bad commit       | 3 days ago |
+| squash | B         | very bad commit  | 2 days ago |
+| pick   | A         | very good commit | 1 days ago |
+
+Now hit 
+
+: C-c C-c
+
+To proceed with the squashing!  The top comment is the only one you
+want, delete the others, and ~C-c C-c~ to finish.
+
+** rebase over master again
+
+: git rebase master
 
 Now lets checkout master and merge in the *ft-auto* branch
 
+#+begin_src 
+git checkout master
+git merge ft-auto
+gl
+ggpush
+#+end_src
+
+** push updated to remote
+
+: git push --force-with-lease
+
+and now your remote branch will be the same as your local branch.  
+
+You are rebased onto master, it's time to merge your branch into
+master.
+
+: gco master
+: git merge fenton
+: ggpush
+
+** delete your local branch
+
+First list all merged branches with:
+
+: git branch --merged | cat
+
+but we dont want to delete master or anything with dev in it so:
+
+: git branch --merged| egrep -v "(^\*|master|dev)"
+
+now when you are satisfied with the list, go ahead and delete with:
+
+: git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
+
+verify with
+
+: git branch --merged | cat
+
+** Delete a remote tracking branch
+
+list all remote branches that have been merged into the master
+branch.  Not 100% sure this works?
+
+: git branch -r --merged master | egrep -v "(^\*|master|dev)" | cat
+
+list remotes
+: git branch -r | cat
+
+delete remote
+: git branch -d -r origin/<remote branch name>
+
+** details
+
+Imagine you are working on your OWN branch that nobody else has
+committed into.  You have a bunch of garbage commits that you'd like
+to get rid of, locally and on the server.  Lets look at a sample
+commit log history:
+
+In the magit status window, do ~l~, ~l~, to get to the git log
+window. 
+
 #+BEGIN_SRC 
-╭─fenton@ss9 ~/projects/pcbe-web  ‹ft-auto› 
-╰─➤  git checkout master
-Switched to branch 'master'
-Your branch is up-to-date with 'origin/master'.
-╭─fenton@ss9 ~/projects/pcbe-web  ‹master› 
-╰─➤  git merge ft-auto
-Updating f9529b3..15c375f
-Fast-forward
- resources/index.html      | 8 ++++----
- resources/js/app.cljs.edn | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
-╭─fenton@ss9 ~/projects/pcbe-web  ‹master› 
-╰─➤  gl
-15c375f Fenton Travers  30 minutes ago Make URIs absolute so deep linking works
-╭─fenton@ss9 ~/projects/pcbe-web  ‹master› 
-╰─➤  
+j   5f39730 * fenton origin/fenton Update readme, include custom builder
+i   b70ea83 * now serving site works, see README.org for instructions.
+h   131ce5f * broken. trying to server up index.html
+g   3f44556 * added ring/compojure
+f   9bc6d93 * '.'
+e   969374b * '.'
+d   e2658de * .
+c   6020017 * .
+b   563f36c * we trick heroku into thinking this is a php app
+a   938b7de * adding project.clj file to get leiningen to work 4 heroku
+#+END_SRC 
+
+I've added the first column of a through j, so I can easily refer to
+the rows.  
+
+a is the original commit, and the oldest.  j is the most recent commit.
+
+Commits b through f are junk, so is h.  a, g, i and j are good.  We
+want our final history to look like:
+
+#+BEGIN_SRC 
+j     ?     * fenton Update readme, include custom builder
+i     ?     * now serving site works, see README.org for instructions.
+g     ?     * added ring/compojure
+a   938b7de * adding project.clj file to get leiningen to work 4 heroku
 #+END_SRC
+
+I've put question marks, ?, by j, i and g, because as we squash, new
+commit hashes will be assigned.
+
+First lets get rid of b through f.
+
+We can squash subsequent commits into previous commits...this will
+keep only the latest changes.  
+
+here we can see commits, b, c, d, e, f, are kind of garbage but g is
+okay.  
+
+The last real, good, commit is a.  
+
+Lets squash g -> c into b, thereby only keeping g, and getting rid of
+b -> f.
+
+With cursor on ~b~, the oldest garbage commit,
+
+press ~r i~ for rebase interactive, this gives us the following
+screen.
+
+#+BEGIN_SRC 
+b   pick 563f36c we trick heroku into thinking this is a php app
+c   pick 6020017 .
+d   pick e2658de .
+e   pick 969374b '.'
+f   pick 9bc6d93 '.'
+g   pick 3f44556 added ring/compojure
+h   pick 131ce5f broken. trying to server up index.html
+i   pick b70ea83 now serving site works, see README.org for instructions.
+j   pick 5f39730 Update readme, include custom builder
+#+END_SRC
+
+now what we want to keep is ~g~ and get rid of b -> f.  So a bit
+counter intuitively we ~pick~ b and ~squash~ c -> g.  This looks like:
+
+#+BEGIN_SRC 
+b   pick 563f36c we trick heroku into thinking this is a php app
+c   squash 6020017 .
+d   squash e2658de .
+e   squash 969374b '.'
+f   squash 9bc6d93 '.'
+g   squash 3f44556 added ring/compojure
+h   pick 131ce5f broken. trying to server up index.html
+i   pick b70ea83 now serving site works, see README.org for instructions.
+j   pick 5f39730 Update readme, include custom builder
+#+END_SRC
+
+Since g is the latest commit, b -> f will get discarded and we'll only
+have g left.
+
+Said another way, g, the most recent of the commits we are operating
+on, squashes all previous commits up to and including b.
+
+#+BEGIN_SRC 
+j  8108c2c * fenton Update readme, include custom builder
+i  4cf8c2c * now serving site works, see README.org for instructions.
+h  2063480 * broken. trying to server up index.html
+g  7c94754 * added ring/compojure
+a  938b7de * adding project.clj file to get leiningen to work 4 heroku
+#+END_SRC
+
+So again here is the original log before the squashing, b -> f are
+discarded. 
+
+#+BEGIN_SRC 
+O - j   5f39730 * fenton origin/fenton Update readme, include custom builder
+O - i   b70ea83 * now serving site works, see README.org for instructions.
+O - h   131ce5f * broken. trying to server up index.html
+O - g   3f44556 * added ring/compojure
+X - f   9bc6d93 * '.'
+X - e   969374b * '.'
+X - d   e2658de * .
+X - c   6020017 * .
+X - b   563f36c * we trick heroku into thinking this is a php app
+O - a   938b7de * adding project.clj file to get leiningen to work 4 heroku
+#+END_SRC
+
+So effectively, b through f are collapsed into g, marked with an X.
+The retained ones are marked with an O.
+
+As we can see the commit hash for g through j have changed.  Again the
+resulting log is:
+
+#+BEGIN_SRC 
+j  8108c2c * fenton Update readme, include custom builder
+i  4cf8c2c * now serving site works, see README.org for instructions.
+h  2063480 * broken. trying to server up index.html
+g  7c94754 * added ring/compojure
+a  938b7de * adding project.clj file to get leiningen to work 4 heroku
+#+END_SRC
+
+Commit ~h~ is also junk.  So again, to keep g and i and get rid of h,
+we will squash h into g.  Put cursor on g and do ~r i~.  This gives
+us:
+
+#+BEGIN_SRC 
+h   pick 2063480 broken. trying to server up index.html
+i   pick 4cf8c2c now serving site works, see README.org for instructions.
+j   pick 8108c2c Update readme, include custom builder
+#+END_SRC
+
+Now choose ~i~ to ~squash~. into ~h~.  
+
+#+BEGIN_SRC 
+h   pick 2063480 broken. trying to server up index.html
+i   squash 4cf8c2c now serving site works, see README.org for instructions.
+j   pick 8108c2c Update readme, include custom builder
+#+END_SRC
+
+This will retain i, and discard h, resulting in:
+
+#+BEGIN_SRC 
+j  689625b * fenton Update readme, include custom builder
+i  f9f4f22 * now serving site works, see README.org for instructions.
+g  7c94754 * added ring/compojure
+a  938b7de * adding project.clj file to get leiningen to work 4 heroku
+#+END_SRC
+
+** push up changes to remote branch
+
+Finally, you've rebased your local branch and you need to update the
+remote as well since all your bad commits were already pushed up
+there, so do:
+
+: git push --force-with-lease
+
+and now your remote branch will be the same as your local branch.  
+
+Now you like your commit history.
+
+You are rebased onto master, it's time to merge your branch into
+master.
+
+: gco master
+: git merge fenton
+: ggpush
+
+Now you should have a linear commit history, verify with:
+
+: glo | cat
+
+** delete merged branch
+
+Now delete your old branch since it is merged and you dont need it
+around. 
+
+First list all merged branches with:
+
+: git branch --merged | cat
+
+but we dont want to delete master or anything with dev in it so:
+
+: git branch --merged| egrep -v "(^\*|master|dev)"
+
+now when you are satisfied with the list, go ahead and delete with:
+
+: git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
+
+verify with
+
+: git branch --merged | cat
+
+Delete your working branch locally and remotely.
+
+: list all branches
+: git branch -d ft-auto
+: git branch -d -r origin/ft-auto
+
 
 * squashing old commits
 
@@ -1159,292 +1412,6 @@ apply the patch
 : git apply < patch.diff
 
 * branching
-* Magit rebasing/squashing
-
-git rebase interactive must be launched with, as argument, the last
-commit you want to retain as-is, not the first one you want to change.
-
-** squashing
-
-(1)
-pull up your magit log
-
-imagine it looks like
-
-| commit ID | comment          | when       |
-| A         | very good commit | 1 days ago |
-| B         | very bad commit  | 2 days ago |
-| C         | bad commit       | 3 days ago |
-| D         | good commit      | 4 days ago |  <=== r i here
-
-We are going to squash B & C, keeping only D and A.
-
-(2)
-put cursor on D, the oldest good commit, and rebase interactive from
-there with:
-
-: r i
-
-You will now get them flipped around (chronologically), squash (s), B
-& C
-
-| action | commit ID | comment          | when       |
-| pick   | D         | good commit      | 4 days ago |
-| squash | C         | bad commit       | 3 days ago |
-| squash | B         | very bad commit  | 2 days ago |
-| pick   | A         | very good commit | 1 days ago |
-
-Now hit 
-
-: C-c C-c
-
-To proceed with the squashing!  The top comment is the only one you
-want, delete the others, and ~C-c C-c~ to finish.
-
-** push updated to remote
-
-: git push --force-with-lease
-
-and now your remote branch will be the same as your local branch.  
-
-You are rebased onto master, it's time to merge your branch into
-master.
-
-: gco master
-: git merge fenton
-: ggpush
-
-** delete your local branch
-
-First list all merged branches with:
-
-: git branch --merged | cat
-
-but we dont want to delete master or anything with dev in it so:
-
-: git branch --merged| egrep -v "(^\*|master|dev)"
-
-now when you are satisfied with the list, go ahead and delete with:
-
-: git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
-
-verify with
-
-: git branch --merged | cat
-
-** Delete a remote tracking branch
-list all remote branches that have been merged into the master
-branch.  Not 100% sure this works?
-: git branch -r --merged master | cat
-
-list remotes
-: git branch -r | cat
-
-delete remote
-: git branch -d -r origin/<remote branch name>
-
-
-** details
-
-Imagine you are working on your OWN branch that nobody else has
-committed into.  You have a bunch of garbage commits that you'd like
-to get rid of, locally and on the server.  Lets look at a sample
-commit log history:
-
-In the magit status window, do ~l~, ~l~, to get to the git log
-window. 
-
-#+BEGIN_SRC 
-j   5f39730 * fenton origin/fenton Update readme, include custom builder
-i   b70ea83 * now serving site works, see README.org for instructions.
-h   131ce5f * broken. trying to server up index.html
-g   3f44556 * added ring/compojure
-f   9bc6d93 * '.'
-e   969374b * '.'
-d   e2658de * .
-c   6020017 * .
-b   563f36c * we trick heroku into thinking this is a php app
-a   938b7de * adding project.clj file to get leiningen to work 4 heroku
-#+END_SRC 
-
-I've added the first column of a through j, so I can easily refer to
-the rows.  
-
-a is the original commit, and the oldest.  j is the most recent commit.
-
-Commits b through f are junk, so is h.  a, g, i and j are good.  We
-want our final history to look like:
-
-#+BEGIN_SRC 
-j     ?     * fenton Update readme, include custom builder
-i     ?     * now serving site works, see README.org for instructions.
-g     ?     * added ring/compojure
-a   938b7de * adding project.clj file to get leiningen to work 4 heroku
-#+END_SRC
-
-I've put question marks, ?, by j, i and g, because as we squash, new
-commit hashes will be assigned.
-
-First lets get rid of b through f.
-
-We can squash subsequent commits into previous commits...this will
-keep only the latest changes.  
-
-here we can see commits, b, c, d, e, f, are kind of garbage but g is
-okay.  
-
-The last real, good, commit is a.  
-
-Lets squash g -> c into b, thereby only keeping g, and getting rid of
-b -> f.
-
-With cursor on ~b~, the oldest garbage commit,
-
-press ~r i~ for rebase interactive, this gives us the following
-screen.
-
-#+BEGIN_SRC 
-b   pick 563f36c we trick heroku into thinking this is a php app
-c   pick 6020017 .
-d   pick e2658de .
-e   pick 969374b '.'
-f   pick 9bc6d93 '.'
-g   pick 3f44556 added ring/compojure
-h   pick 131ce5f broken. trying to server up index.html
-i   pick b70ea83 now serving site works, see README.org for instructions.
-j   pick 5f39730 Update readme, include custom builder
-#+END_SRC
-
-now what we want to keep is ~g~ and get rid of b -> f.  So a bit
-counter intuitively we ~pick~ b and ~squash~ c -> g.  This looks like:
-
-#+BEGIN_SRC 
-b   pick 563f36c we trick heroku into thinking this is a php app
-c   squash 6020017 .
-d   squash e2658de .
-e   squash 969374b '.'
-f   squash 9bc6d93 '.'
-g   squash 3f44556 added ring/compojure
-h   pick 131ce5f broken. trying to server up index.html
-i   pick b70ea83 now serving site works, see README.org for instructions.
-j   pick 5f39730 Update readme, include custom builder
-#+END_SRC
-
-Since g is the latest commit, b -> f will get discarded and we'll only
-have g left.
-
-Said another way, g, the most recent of the commits we are operating
-on, squashes all previous commits up to and including b.
-
-#+BEGIN_SRC 
-j  8108c2c * fenton Update readme, include custom builder
-i  4cf8c2c * now serving site works, see README.org for instructions.
-h  2063480 * broken. trying to server up index.html
-g  7c94754 * added ring/compojure
-a  938b7de * adding project.clj file to get leiningen to work 4 heroku
-#+END_SRC
-
-So again here is the original log before the squashing, b -> f are
-discarded. 
-
-#+BEGIN_SRC 
-O - j   5f39730 * fenton origin/fenton Update readme, include custom builder
-O - i   b70ea83 * now serving site works, see README.org for instructions.
-O - h   131ce5f * broken. trying to server up index.html
-O - g   3f44556 * added ring/compojure
-X - f   9bc6d93 * '.'
-X - e   969374b * '.'
-X - d   e2658de * .
-X - c   6020017 * .
-X - b   563f36c * we trick heroku into thinking this is a php app
-O - a   938b7de * adding project.clj file to get leiningen to work 4 heroku
-#+END_SRC
-
-So effectively, b through f are collapsed into g, marked with an X.
-The retained ones are marked with an O.
-
-As we can see the commit hash for g through j have changed.  Again the
-resulting log is:
-
-#+BEGIN_SRC 
-j  8108c2c * fenton Update readme, include custom builder
-i  4cf8c2c * now serving site works, see README.org for instructions.
-h  2063480 * broken. trying to server up index.html
-g  7c94754 * added ring/compojure
-a  938b7de * adding project.clj file to get leiningen to work 4 heroku
-#+END_SRC
-
-Commit ~h~ is also junk.  So again, to keep g and i and get rid of h,
-we will squash h into g.  Put cursor on g and do ~r i~.  This gives
-us:
-
-#+BEGIN_SRC 
-h   pick 2063480 broken. trying to server up index.html
-i   pick 4cf8c2c now serving site works, see README.org for instructions.
-j   pick 8108c2c Update readme, include custom builder
-#+END_SRC
-
-Now choose ~i~ to ~squash~. into ~h~.  
-
-#+BEGIN_SRC 
-h   pick 2063480 broken. trying to server up index.html
-i   squash 4cf8c2c now serving site works, see README.org for instructions.
-j   pick 8108c2c Update readme, include custom builder
-#+END_SRC
-
-This will retain i, and discard h, resulting in:
-
-#+BEGIN_SRC 
-j  689625b * fenton Update readme, include custom builder
-i  f9f4f22 * now serving site works, see README.org for instructions.
-g  7c94754 * added ring/compojure
-a  938b7de * adding project.clj file to get leiningen to work 4 heroku
-#+END_SRC
-
-** push up changes to remote branch
-
-Finally, you've rebased your local branch and you need to update the
-remote as well since all your bad commits were already pushed up
-there, so do:
-
-: git push --force-with-lease
-
-and now your remote branch will be the same as your local branch.  
-
-Now you like your commit history.
-
-You are rebased onto master, it's time to merge your branch into
-master.
-
-: gco master
-: git merge fenton
-: ggpush
-
-Now you should have a linear commit history, verify with:
-
-: glo | cat
-
-** delete merged branch
-
-Now delete your old branch since it is merged and you dont need it
-around. 
-
-First list all merged branches with:
-
-: git branch --merged | cat
-
-but we dont want to delete master or anything with dev in it so:
-
-: git branch --merged| egrep -v "(^\*|master|dev)"
-
-now when you are satisfied with the list, go ahead and delete with:
-
-: git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
-
-verify with
-
-: git branch --merged | cat
-
 * creating a patch file
 
 In short, branching is the process of creating something like a copy

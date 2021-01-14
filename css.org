@@ -41,16 +41,104 @@ src/xxx/views/css.cljs:
 (update-page-css (css website-css))
 #+end_src
 
+* References
+
+https://grid.malven.co/
 
 * basics
 #+begin_src clojure
-(def website-css
-  [[:body {:font-size "25px"
-           :color "blue"}]])
-(css [:body {:font-size "16px"}])
+  (def website-css
+    [[:body {:font-size "25px"
+             :color "blue"}]])
+  (css [:body {:font-size "16px"}])
 #+end_src
 
 * Grid Layout
+** two columns
+
+|---+---|
+| A | B |
+|---+---|
+
+hiccup:
+
+#+begin_src clojure
+[:div {:class "wrapper"}
+   [:div "A"]
+   [:div "B"]]
+#+end_src
+
+garden:
+
+#+begin_src clojure
+  [:.wrapper {:display "grid"
+              :grid-template-columns "1fr 1fr"
+              :grid-gap "10px"}]
+#+end_src
+** example: 2 rows, 2 columns
+
+|---+---|
+| A | B |
+|---+---|
+| C | D |
+|---+---|
+
+hiccup:
+
+#+begin_src clojure
+[:div {:class "wrapper"}
+   [:div "A"]
+   [:div "B"]
+   [:div "C"]
+   [:div "D"]]
+#+end_src
+
+garden:
+
+#+begin_src clojure
+[:.wrapper {:display "grid"
+               :grid-template-columns "1fr 1fr"
+               :grid-template-rows "1fr 1fr"
+               :grid-gap "10px"}]
+#+end_src
+
+
+** row1 - one col, row2 - two cols
+
+|---+---|
+|   a   |
+|---+---|
+| b | c |
+|---+---|
+
+This grid has two rows first.  The second row is split in half, so
+technically we define the table like so:
+
+|---+---|
+|   |   |
+|---+---|
+|   |   |
+|---+---|
+
+but instruct the first element to span 2 columns by specifying it's
+column-start/end lines.
+
+#+begin_src clojure
+  [[:.container {:display "grid"
+                 :grid-template-rows "1fr 1fr"
+                 :grid-template-columns "1fr 1fr"}]
+   [:.banner {:grid-column-start 1
+              :grid-column-end 3}]]
+#+end_src
+
+hiccup
+
+#+begin_src clojure
+[:div {:class "container"}
+   [:div {:class "banner"} "A"]
+   [:div "B"]
+   [:div "C"]]
+#+end_src
 
 ** grid columns
 
