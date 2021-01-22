@@ -1544,7 +1544,6 @@ expands to:
     [3] = 20.085536923187668,
 #+END_SRC
 
-
 * EXWM
 
 Install Packages:

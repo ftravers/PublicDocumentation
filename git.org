@@ -317,7 +317,6 @@ Delete your working branch locally and remotely.
 : git branch -d ft-auto
 : git branch -d -r origin/ft-auto
 
-
 * squashing old commits
 
 You are working on a branch, and have many not so clean commits you'd
@@ -571,7 +570,10 @@ switched to master do the following:
 
 * Then do the steps from above.
 
-* Finding when a problem was introduced
+* git bisect - automating/scripting
+
+  
+* Finding when a problem was introduced - git bisect
 
 Sometimes a problem gets introduced into the code and you want to find
 out when it got introduced.  You can use the `git bisect` command to

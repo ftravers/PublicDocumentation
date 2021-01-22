@@ -783,6 +783,37 @@ Example ~/.shadow-cljs/config.edn
 {:dependencies
  [[cider/cider-nrepl "0.25.0snapshot"]]}
 #+end_src
+
+* Daily Shadow CLJS
+** Startup
+*** start REPLs (CLJS & CLJ)
+
+Open: ~src/dev/user.clj~ so you'll be in clojure-mode and can run the
+clojure commands:
+
+: , b                   ; start both cljs & clj REPLs.
+
+wait 30s zzzzzzzzz
+
+*** Start the shadow compiler watcher
+
+Open the shadow dashboard: http://localhost:9630/builds
+
+Click: *force compile*
+
+*** Start backend
+
+: , g s
+
+Open the webapp: http://localhost:3000/index.html
+
+** Refresh REPL
+
+: , g r
+
+** Stop HTTP
+
+: , g t
 * heroku deployment
 ** overview
 
@@ -824,4 +855,81 @@ else
     echo "Build of $FILE failed!"
     exit 1
 fi
+#+end_src
+* babashka scripting
+** tutorial
+
+src: 
+
+Meetup: Writing Clojure on the Command Line with Babashka
+youtube.com/watch?v=RogyxI-GaGQ&t=2806s
+
+*** one liner
+
+#+begin_src 
+╭─fenton@ss9 ~ ‹master*› 
+╰─$ bb '(+ 1 2)'                                                                                                                               
+3
+#+end_src
+
+*** input/output
+Babashka inputs and outputs
+
+    -i : `*input*` is a lazy sequence of strings from stdin
+    -I : `*input*` is a lazy sequence of parsed EDN from stdin
+
+    -o : result of calculation will be printed, one entry per line
+    -O : result of calculation will be printed as EDN, one entry per line
+
+Filename lengths:
+
+    ls | bb -i '(map (juxt identity count) *input*)'
+    ls | bb -i -o '(map (juxt identity count) *input*)'
+    ls | bb -i -O '(map (juxt identity count) *input*)'
+    
+
+
+
+** use with git bisect (IN PROGRESS)
+Lets create a babashka script that tests for the presence of a string
+in a file that we can use with magit bisect.
+
+The file is:
+
+: ~/.emacs.d/lisp/key-defs-hydras.el
+
+~ is the git project root, so lets put the following file there:
+
+: ~/contains_string.clj
+
+#+begin_src clojure
+#!/usr/bin/env bb
+
+(def file ".emacs.d/lisp/key-defs-hydras.el")
+(
+(def now (java.time.ZonedDateTime/now))
+(def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
+(def LA-time (.withZoneSameInstant now LA-timezone))
+(def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
+(println (.format LA-time pattern))
+  #+end_src
+* inline testing
+
+#+begin_src clojure
+  (ns supps.scraper
+    (:require
+     [clojure.string :as str]
+     [clojure.test :refer [deftest is] :as t]))
+
+  (defn to-str-lst
+    "helper"
+    {:test
+     (fn []
+       (is (= ["html" "body" "div[3]" "div" "div"]
+              (to-str-lst "/html/body/div[3]/div/div"))))}
+    [sel-1]
+    (as-> sel-1 $
+      (str/split $ #"/")
+      (remove (comp str/blank? str) $)
+      (into [] $)))
 #+end_src

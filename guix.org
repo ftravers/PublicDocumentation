@@ -1,0 +1,107 @@
+: guix pull
+
+
+* Install a package
+
+: guix install emacs
+
+* Remove a package
+
+: guix remove emacs
+
+| command (preceeded by guix) | descriptions                         |
+|-----------------------------+--------------------------------------|
+| install emacs               | install the emacs package            |
+| remove emacs                | remove emacs package                 |
+| pull                        | downloads latest Guix, deploys it    |
+| package --list-generations  | show all generations of packages     |
+| package --roll-back         | rollback to prev generation          |
+| describe                    | show guix version and channels using |
+|                             |                                      |
+
+* Install manifest (multiple packages declaratively)
+
+: guix package --manifest=my-packages.scm
+
+Where ~my-packages.scm~ may contain something like:
+
+#+begin_src guile
+(specifications->manifest
+ '("emacs" "cowsay"))
+#+end_src
+
+This will install emacs and cowsay.
+
+* Replicating exact environment
+
+1. Get the current hash version of guix you are using with ~guix
+   describe~.  Say it is: ~cabba9e~.  
+2. You can now get the same version somewhere else with: ~guix pull
+   --commit=cabba9e~. 
+
+** installing packages from that commit version of guix 
+
+: guix time-machine --commit=cabba9e -- install emacs
+
+The above will install the emacs that was current at the guix commit
+~cabba9e~.
+
+* Create a temporary setup with ~environment~ command
+
+: guix environment --ad-hoc python python-numpy python-scipy -- python3
+
+The above will create a temporary environment with python,
+python-numpy & python-scipy installed and run the ~python3~ command. 
+
+* Create temporary setup with ~container~ command
+
+: guix environment --ad-hoc coreutils --container
+
+The above command will only have the package ~coreutils~ AND the
+current directory.
+
+* guix pack
+
+The guix pack command creates a shrink-wrapped pack or software
+bundle: it creates a tarball or some other archive containing the
+binaries of the software you’re interested in, and all its
+dependencies.
+
+: guix pack python python-numpy
+
+** super portable version
+
+: guix pack --relocatable python python-numpy
+
+When you unpack you can type: 
+
+: ./bin/python
+
+and it will just work.
+
+** docker variant
+
+: guix pack --format=docker python python-numpy
+
+hint: After setting `PATH', run `hash guix' to make sure your shell
+refers to `/home/fenton/.config/guix/current/bin/guix'.
+
+
+
+* Add Guix to Arch
+
+1. Install with shell script.
+
+2. Run ~guix pull~.
+
+3. Add /home/fenton/.config/guix/current/bin to path in ~/.zshrc.
+
+4. add it to your current shell too:
+
+╭─fenton@ss9 ~/.config/guix/current 
+╰─$ export PATH=$PATH:~/.config/guix/current/bin       
+
+5. Try installing emacs with:
+
+: guix install emacs
+
