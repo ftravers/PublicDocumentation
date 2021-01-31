@@ -588,7 +588,6 @@ target/
 #+END_SRC
 
 * logging
-** 
 ** postmodern - logging
 
  #+BEGIN_SRC clojure
@@ -770,18 +769,48 @@ Now, the server will automatically reload any modified files in your source dire
 #+END_SRC
 * Shadow CLJS
 
-add a ~.dir-locals.el~ like:
+: .dir-locals.el
 
 #+begin_src elisp
-((nil . ((cider-default-cljs-repl . shadow)
-         (cider-shadow-default-options . "browser-repl"))))
+((nil . ((cider-clojure-cli-global-options . "-A:dev")
+         (cider-default-cljs-repl . custom)
+         (cider-custom-cljs-repl-init-form . "(do (user/cljs-repl))")
+         (eval . (progn
+                   (make-variable-buffer-local 'cider-jack-in-nrepl-middlewares)
+                   (add-to-list 'cider-jack-in-nrepl-middlewares "shadow.cljs.devtools.server.nrepl/middleware"))))))
 #+end_src
 
-Example ~/.shadow-cljs/config.edn
+: deps.edn
 
 #+begin_src clojure
-{:dependencies
- [[cider/cider-nrepl "0.25.0snapshot"]]}
+ :aliases {:dev
+           {:extra-paths ["src/dev" "test/main"]
+            :extra-deps
+            {org.clojure/clojurescript {:mvn/version "1.10.742"}
+             cider/piggieback {:mvn/version "0.4.2"}
+             thheller/shadow-cljs {:mvn/version "2.8.107"}
+             binaryage/devtools {:mvn/version "0.9.11"}
+             org.clojure/tools.namespace {:mvn/version "0.2.11"}}}}
+#+end_src
+
+: ./src/dev/user.clj
+
+#+begin_src clojure
+  (ns user
+    (:require
+     [shadow.cljs.devtools.api :as shadow]
+     [shadow.cljs.devtools.server :as cljs-srv]))
+
+  (defmacro jit [sym]
+    `(requiring-resolve '~sym))
+
+  (defn cljs-repl
+    ([]
+     (cljs-repl :main))
+    ([build-id]
+     (cljs-srv/start!)
+     (shadow/watch build-id)
+     (shadow/nrepl-select build-id)))
 #+end_src
 
 * Daily Shadow CLJS
@@ -889,7 +918,6 @@ Filename lengths:
     
 
 
-
 ** use with git bisect (IN PROGRESS)
 Lets create a babashka script that tests for the presence of a string
 in a file that we can use with magit bisect.
@@ -914,7 +942,6 @@ The file is:
 (println (.format LA-time pattern))
   #+end_src
 * inline testing
-
 #+begin_src clojure
   (ns supps.scraper
     (:require

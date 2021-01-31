@@ -92,9 +92,31 @@ then regenerate grub config with:
  # grub-mkconfig -o /boot/grub/grub.cfg
 
 * copy ssh
+**  enable being able to ssh into new machine, 
+(1) Copy 
+
+~/.ssh/id_rsa
+~/.ssh/id_rsa.pub
+
+into home folder of new machine.  Then while in home folder of new
+machine do:
+
+  #+begin_src shell
+mkdir .ssh
+chmod 700 .ssh
+mv id_rsa* .ssh
+cd .ssh
+cat id_rsa.pub > authorized_keys
+chmod 600 authorized_keys
+  #+end_src
+  
+now you should be able to ssh into the new machine from the old one.
+
+: ssh fenton@new-machine-ip
+
+it shouldn't prompt for a password.
 
 ** on old machine
-
 #+BEGIN_SRC 
 ╭─fenton@archlinux ~  ‹master*› 
 ╰─➤  lsblk
