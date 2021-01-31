@@ -1546,26 +1546,7 @@ expands to:
 
 * EXWM
 
-Install Packages:
+See file 
 
-#+begin_src 
-sudo pacman -S gdm
+: ~/dotfiles/emacs/.emacs.d/exwm/exwm.org
 
-#+end_src
-
-Create a Desktop File
-
-#+begin_src shell :tangle ~/.emacs.d/exwm/EXWM.desktop1 :mkdirp yes
-
-  [Desktop Entry]
-  Name=EXWM
-  Comment=Emacs Window Manager
-  Exec=sh /home/fenton/.emacs.d/exwm/start-exwm.sh
-  TryExec=sh
-  Type=Application
-  X-LightDM-DesktopName=exwm
-  DesktopNames=exwm
-
-#+end_src
-
-: sudo ln -f ~/.emacs.d/exwm/EXWM.desktop /usr/share/xsessions/EXWM.desktop
