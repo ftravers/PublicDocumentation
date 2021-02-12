@@ -572,7 +572,6 @@ switched to master do the following:
 
 * git bisect - automating/scripting
 
-  
 * Finding when a problem was introduced - git bisect
 
 Sometimes a problem gets introduced into the code and you want to find
@@ -1730,3 +1729,9 @@ to something more descriptive if you want.
  - Push it back to your repo
  - Click the Compare & pull request button
  - Click Create pull request to open a new pull request
+* creating a BARE github for local private repos
+
+: git clone --bare <repo-url>
+
+When you want to create a local (non-internet) repository for
+privately hosting git repo, you can use an 

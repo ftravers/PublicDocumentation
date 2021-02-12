@@ -1550,3 +1550,21 @@ See file
 
 : ~/dotfiles/emacs/.emacs.d/exwm/exwm.org
 
+* speedup load
+
+Use use-package.  Defer installation with one of the following methods.
+
+package loaded 
+
+:hook - after one of the hooks is invoked
+:bind - when bound key pressed
+:command - when command used
+:mode - a mode is invoked
+:after - another package is loaded
+:defer - catch-all load after init process
+
+#+begin_src elisp
+(use-package highlight-parentheses :after evil)
+(use-package highlight-parentheses :after (evil general))
+  
+#+end_src
