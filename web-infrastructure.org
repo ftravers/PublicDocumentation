@@ -35,6 +35,16 @@ click on 'direct URL' to get the updater url
 v9b
 http://freedns.afraid.org/dynamic/update.php?RU5IYUp6NFFhc0Fvc2F2dGdudng6MTA5OTM3NjI=
 
+** url format
+
+24.80.25.163
+
+http://[USERNAME]:[PASSWORD]@freedns.afraid.org/nic/update?hostname=[DOMAIN]&myip=[IP]
+
+http://ftravers:Gumnuts8@freedns.afraid.org/nic/update?hostname=fenton.page&myip=24.80.25.163
+https://freedns.afraid.org/dynamic/update.php?OGhQMnlyam9VMWlZUGdST1Y3OGg6MTk1OTgzOTQ=
+
+
 
 ** ddns updater
 
@@ -64,6 +74,38 @@ all host might as well be git repositories as well right!
 
 can write applications others can use that will act like photo
 libraries etc and that they can access over the network.
+
+* DNS Help
+
+here the domain is: fenton.page
+
+** find out the authoritative nameservers for a domain:
+
+#+begin_src 
+$ dig +short NS fenton.page          
+ns4.afraid.org.
+ns2.afraid.org.
+ns3.afraid.org.
+ns1.afraid.org.
+#+end_src
+
+** to get the authoritative ip for a domain
+
+#+begin_src 
+$ nslookup fenton.page ns1.afraid.org
+Server:		ns1.afraid.org
+Address:	50.23.197.94#53
+
+Name:	fenton.page
+Address: 24.80.25.163
+#+end_src
+
+** cache out of sync
+
+after you update the authoritative NS you can sometimes need to wait
+72 hours for other DNS servers to update their cache for the domain
+name. 
+
 
 * FUTURE networked peer servers
 

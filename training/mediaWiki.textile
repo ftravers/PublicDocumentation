@@ -1,5 +1,0 @@
-"home":/index.html > Media Wiki 
-
-p(toc). Table of Contents
-
-{toc}

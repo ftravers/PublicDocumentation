@@ -1,5 +1,0 @@
-"home":../index.html > docs
-
-p(toc). Navigation
-
-* !(icon)/images/file.gif! "Environments":Environments/index.html

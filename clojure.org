@@ -902,6 +902,7 @@ youtube.com/watch?v=RogyxI-GaGQ&t=2806s
 #+end_src
 
 *** input/output
+
 Babashka inputs and outputs
 
     -i : `*input*` is a lazy sequence of strings from stdin
@@ -915,10 +916,9 @@ Filename lengths:
     ls | bb -i '(map (juxt identity count) *input*)'
     ls | bb -i -o '(map (juxt identity count) *input*)'
     ls | bb -i -O '(map (juxt identity count) *input*)'
-    
-
 
 ** use with git bisect (IN PROGRESS)
+
 Lets create a babashka script that tests for the presence of a string
 in a file that we can use with magit bisect.
 
@@ -941,6 +941,7 @@ The file is:
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 (println (.format LA-time pattern))
   #+end_src
+
 * inline testing
 #+begin_src clojure
   (ns supps.scraper

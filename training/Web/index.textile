@@ -1,6 +1,0 @@
-"home":../../index.html > "training":../index.html > Web
-
-p(toc). Navigation
-
-!(icon)/images/file.gif! "CSS":css.html
-!(icon)/images/file.gif! "Developer / Designer Collaboration":workingWithDesigners.html

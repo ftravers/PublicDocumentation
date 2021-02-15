@@ -1,6 +1,0 @@
-Need to create a root photogallery directory with virtual folders
-
-need to deploy FetchChildFolders component
-
-Update web.xml with root photogallery folder id
-

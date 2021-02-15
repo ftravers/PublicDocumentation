@@ -1,9 +1,0 @@
-Whenever you want to FTP (File Transfer Protocol), i.e. send a digital file to an FTP Server you typically need three pieces of information at a minimum.  The FTP servers URL, your username and password.  
-
-The second step you need is an FTP client program.  If you are running Mac, I suggest Cyber Duck.  For windows, FileZilla.  For Ubuntu, it's builtin functionality of Nautilus, the default file manager.
-
-For my personal FTP server, the URL is:
-
-ftp://files.spicevan.com/
-
-please contact me directly for a username and password! ;)

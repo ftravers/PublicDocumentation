@@ -1,8 +1,0 @@
-"home":../../index.html > "docs":../index.html > Environments
-
-p(toc). Navigation
-
-* !(icon)/images/folder.gif! "Design":Design
-* !(icon)/images/file.gif! "Software To Install":software_to_install.html
-* !(icon)/images/file.gif! "Photo Gallery Deployment":PhotoGallery_deployment.html
-* !(icon)/images/file.gif! "Workflow Setup":workflow_setup.html
