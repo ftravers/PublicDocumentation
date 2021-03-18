@@ -1027,8 +1027,50 @@ NOTE: login to word press to be able to see drafts etc...
 |-------+--------------------------------------|
 
 * Keymaps & Function bindings
+Function:
 
-All bindings:
+: describe-bindings
+
+will list all keys, what they are bound to, and which mode bound it.
+
+Variables: 
+
+: global-map            
+holds in play regardless of mode                              
+
+: minor-mode-map-alist 
+the preferred means of specifying the keymaps for minor modes
+
+Functions:
+
+: (current-local-map) 
+: (current-global-map)
+: (current-minor-mode-maps)
+Emacs mode-map search order:
+
+(i) the keymap specified by the keymap property
+(ii) the keymaps of enabled minor modes 
+(iii) the current buffer’s local keymap 
+(iv) the global keymap, in that order.
+
+These keymaps, if any, are specified by the variables
+
+emulation-mode-map-alists
+minor-mode-overriding-map-alist
+minor-mode-map-alist
+
+#+begin_src elisp
+overriding-terminal-local-map
+overriding-local-map
+(get-char-property (point) 'keymap)
+emulation-mode-map-alists
+minor-mode-overriding-map-alist
+minor-mode-map-alist
+(get-text-property (point) 'local-map)
+(current-local-map)
+(current-global-map)
+#+end_src
+
 
     C-h b
 
@@ -1045,7 +1087,7 @@ If you type this Emacs will give you an apropos buffer with all the
 known mode maps that follow the major mode naming scheme:
 
     C-u M-x apropos-variable RET -mode-map$ RET
-
+    
 ** Define for a given mode map
 
     (define-key paredit-mode-map (kbd "C-<left>") 'windmove-left)

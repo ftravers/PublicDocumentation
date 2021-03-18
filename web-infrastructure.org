@@ -106,7 +106,6 @@ after you update the authoritative NS you can sometimes need to wait
 72 hours for other DNS servers to update their cache for the domain
 name. 
 
-
 * FUTURE networked peer servers
 
 ** get photos from phone to sync up to servers
@@ -504,17 +503,10 @@ IP: 192.168.1.1
 username/password: admin/admin
 
 * Dynamic DNS (MISSING INFO)
-
-
 ** linux box setup
-
 + 
 username: ftravers
-
 see: [[file:arch.org::*Get%20Dyn%20DNS%20URL][Get Dyn DNS URL]]
-
-
-
 ** Name servers
 
 ns1-ns4.afraid.org
