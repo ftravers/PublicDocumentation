@@ -1357,6 +1357,30 @@ DONE!
 
 : /boot/syslinux/syslinux.cfg
 * bluetooth
+
   use your android to figure out what the mac address of your
   bluetooth device is.  "Bluetooth Mac Address Finder" worked for me.
 
+* bluetoothctl
+
+> bluetoothctl
+
+| command            | description                       |
+|--------------------+-----------------------------------|
+| list               | show BT controllers (mac address) |
+| show <mac-address> | show status of BT controller      |
+
+Show will show if power is on or off
+
+| command       | description                         |
+|---------------+-------------------------------------|
+| power on      | turn on controller                  |
+| scan on       | see which devices you can pair with |
+| pair <dev>    |                                     |
+| trust <dev>   |                                     |
+| connect <dev> |                                     |
+
+The issue with 'scan on' is that it will mostly just list mac
+addresses of BT devices and not their names.
+
+A8:91:3D:D8:D5:26

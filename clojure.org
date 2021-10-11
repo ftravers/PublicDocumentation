@@ -437,10 +437,8 @@ so ~re~ gets #"\.", which the phraser function case matches on above.
 apm install proto-repl ink parinfer lisp-paredit rainbow-delimiters atom-beautify atom-file-icons hasklig
 
 * deps.edn
-
 make a new project, we'll call it ~ds-queue~, for your own project,
 replace: ~ds-queue~ with your project name below...
-
 ** create the necessary folders
 
 #+BEGIN_SRC shell
@@ -488,7 +486,6 @@ This specifies which namespace to load on startup.
 {:watch-dirs ["src" "admin-src"]
  :css-dirs ["resources/public/css"]}
 #+end_src
-
 
 
 ** deps.edn

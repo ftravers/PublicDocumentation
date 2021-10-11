@@ -1490,6 +1490,7 @@ should be loaded via cider and have a function called `the-clj-fn`.
 we just change
 
 * Two Window open from ediff session
+
 Mod-Shift-c while having ediff control window open to kill via awesome.
 * Open file as root, (tramp)
 

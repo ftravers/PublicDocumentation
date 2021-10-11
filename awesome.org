@@ -10,6 +10,7 @@
 * Two monitors
 
 mod key + 
+
 | o   | focus_relative | put focus on other screen            |
 | S-o | move_to_screen | move current window to other monitor |
 
